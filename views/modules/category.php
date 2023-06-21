@@ -1,0 +1,192 @@
+ <!-- Content Wrapper. Contains page content -->
+ <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Categories</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Categories</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-4">
+          <!-- /.col-md-6 -->
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="m-0">Add Category</h5>
+              </div>
+              <div class="card-body">
+                <div class="col-md-12">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Category</label>
+                                <input type="text" class="form-control" name="newCategory" id="newCategory" placeholder="Add Category" required>
+                            </div>  
+                        </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-primary" name="addCat">Add Category</button>
+                      </div>
+                    </div>
+                            <?php
+                            $add= new categoriesController();
+                            $add->ctrCreateCategory();
+                            ?>
+                    </form>
+                </div>
+                    <!-- end of col-md-12 -->
+              </div>
+            </div>
+    
+          </div>
+          <!-- /.col-md-4 -->
+          <div class="col-lg-8">
+          <!-- /.col-md-6 -->
+            <div class="card card-danger card-outline">
+              <div class="card-header">
+                <h5 class="m-0">Categories</h5>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped tables">
+                  <thead>
+           
+                    <tr>
+                      
+                      <th>#</th>
+                      <th>Category</th>
+                      <?php
+
+                        if (isset($_SESSION['role']) && ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Store")) {
+
+                          echo '<th>Actions</th>';
+
+                        }
+
+                      ?>
+                    </tr> 
+
+                    </thead>
+  
+                  <tbody>
+                  <?php
+
+                $item = null; 
+                $value = null;
+
+                $categories = categoriesController::ctrShowCategories($item, $value);
+
+
+                // var_dump($categories);
+
+                foreach ($categories as $key => $value) {
+
+                  echo '<tr>
+                          <td>'.($key+1).'</td>
+                          <td class="text-uppercase">'.$value['Category'].'</td>
+                          <td>
+
+                            <div class="btn-group">
+
+                            <button class="btn btn-warning btnEditCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#editCategories"><i class="fa fa-edit"></i></button>';
+
+                            }
+
+                                
+
+                              if ($_SESSION['role'] == "Administrator") {
+                                echo '<button class="btn btn-danger btnDeleteCategory" idCategory="'.$value["id"].'"><i class="fa fa-times"></i></button>';
+                              }
+                              
+
+                  echo '      </div>  
+
+                          </td>
+
+                        </tr>';
+
+              ?>
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+    
+          </div>
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!--=====================================
+=            module edit Categories            =
+======================================-->
+
+<!-- Modal -->
+<div id="editCategories" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <form role="form" method="POST">
+        <div class="modal-header">
+            <h4 class="modal-title">Edit Categories</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+         
+        </div>
+        <div class="modal-body">
+          <div class="box-body">
+
+            <!--Input name -->
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                <input class="form-control input-lg" type="text" id="editCategory" name="editCategory" required>
+                <input type="hidden" name="idCategory" id="idCategory" required>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+
+        <?php
+  
+          $editCategory = new categoriesController();
+          $editCategory -> ctrEditCategory();
+        ?>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<?php
+  
+  $deleteCategory = new categoriesController();
+  $deleteCategory -> ctrDeleteCategory();
+?>
