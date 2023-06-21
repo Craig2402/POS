@@ -45,6 +45,7 @@ require_once 'models/connection.php';
                       <th>Date</th>
                       <th>Actions</th>
 
+                      
                     </tr> 
 
                     </thead>
