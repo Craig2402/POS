@@ -124,66 +124,60 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4 col-md-6">
-                    <a href="category" class="no-link-style">
-                        <div class="card card-custom">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa-solid fa-users fa-2x mr-3"></i>
-                                    <h5 class="card-title mb-0 custom-heading">Payments</h5>
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-users fa-2x mr-3"></i>
+                                <h5 class="card-title mb-0 custom-heading">Payments</h5>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <p class="card-text">Ksh <?php echo number_format($totalAmount,2); ?></p>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <p class="card-text">Ksh <?php echo number_format($totalAmount,2); ?></p>
-                                    </div>
-                                    <div class="col-6">
-                                        <p class="card-text text-right"><?php echo $paymentCount; ?></p>
-                                    </div>
+                                <div class="col-6">
+                                    <p class="card-text text-right"><?php echo $paymentCount; ?></p>
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <!-- ./col -->
                 <div class="col-lg-4 col-md-6">
-                    <a href="category" class="no-link-style">
-                        <div class="card card-custom">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa-solid fa-users fa-2x mr-3"></i>
-                                    <h5 class="card-title mb-0 custom-heading">Invoices</h5>
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-users fa-2x mr-3"></i>
+                                <h5 class="card-title mb-0 custom-heading">Invoices</h5>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <p class="card-text">Ksh <?php echo number_format($totalInvoiceAmount,2); ?></p>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <p class="card-text">Ksh <?php echo number_format($totalInvoiceAmount,2); ?></p>
-                                    </div>
-                                    <div class="col-6">
-                                        <p class="card-text text-right"><?php echo $invoicePaymentCount; ?></p>
-                                    </div>
+                                <div class="col-6">
+                                    <p class="card-text text-right"><?php echo $invoicePaymentCount; ?></p>
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <!-- ./col -->
                 <div class="col-lg-4 col-md-6">
-                    <a href="category" class="no-link-style">
-                        <div class="card card-custom">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa-solid fa-users fa-2x mr-3"></i>
-                                    <h5 class="card-title mb-0 custom-heading">Paid Invoices</h5>
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-users fa-2x mr-3"></i>
+                                <h5 class="card-title mb-0 custom-heading">Paid Invoices</h5>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <p class="card-text">Ksh <?php echo number_format($totalPaidInvoiceAmount,2); ?></p>
                                 </div>
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <p class="card-text">Ksh <?php echo number_format($totalPaidInvoiceAmount,2); ?></p>
-                                    </div>
-                                    <div class="col-6">
-                                        <p class="card-text text-right"><?php echo $invoicePaidCount; ?></p>
-                                    </div>
+                                <div class="col-6">
+                                    <p class="card-text text-right"><?php echo $invoicePaidCount; ?></p>
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <!-- ./col -->
             </div>

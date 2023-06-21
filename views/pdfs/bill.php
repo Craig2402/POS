@@ -19,30 +19,30 @@ public function getBillPrinting(){
 
 //WE BRING THE INFORMATION OF THE SALE
 
-$itemSale = "invoiceId";
-$valueSale = $this->code;
+// $itemSale = "invoiceId";
+// $valueSale = $this->code;
 
-$answerSale = PaymentController::ctrShowInvoices($itemSale, $valueSale);
+// $answerSale = PaymentController::ctrShowInvoices($itemSale, $valueSale);
 
-$saledate = $answerSale["startdate"];
-// $products = json_decode($answerSale["products"], true);
-$netPrice = number_format($answerSale["subtotal"],2);
-$tax = number_format($answerSale["totaltax"],2);
-$totalPrice = number_format($answerSale["total"],2);
+// $saledate = $answerSale["startdate"];
+// // $products = json_decode($answerSale["products"], true);
+// $netPrice = number_format($answerSale["subtotal"],2);
+// $tax = number_format($answerSale["totaltax"],2);
+// $totalPrice = number_format($answerSale["total"],2);
 
-//TRAEMOS LA INFORMACIÓN DEL Customer
+// //TRAEMOS LA INFORMACIÓN DEL Customer
 
-// $itemCustomer = "id";
-// $valueCustomer = $answerSale["idCustomer"];
+// // $itemCustomer = "id";
+// // $valueCustomer = $answerSale["idCustomer"];
 
-// $answerCustomer = ControllerCustomers::ctrShowCustomers($itemCustomer, $valueCustomer);
+// // $answerCustomer = ControllerCustomers::ctrShowCustomers($itemCustomer, $valueCustomer);
 
-//TRAEMOS LA INFORMACIÓN DEL Seller
+// //TRAEMOS LA INFORMACIÓN DEL Seller
 
-$itemSeller = $_SESSION["userId"];
-$valueSeller = $answerSale["userId"];
+// $itemSeller = $_SESSION["userId"];
+// $valueSeller = $answerSale["userId"];
 
-$answerSeller = userController::ctrShowUsers($itemSeller, $valueSeller);
+// $answerSeller = userController::ctrShowUsers($itemSeller, $valueSeller);
 
 //REQUERIMOS LA CLASE TCPDF
 
@@ -67,7 +67,7 @@ $block1 = <<<EOF
 	
 			<div>
 			
-				Date: $saledate
+				Date: 
 
 				<br><br>
 				Inventory System

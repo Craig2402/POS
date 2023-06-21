@@ -88,6 +88,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "viewproduct" ||
             $_GET['route'] == "taxdis" ||
             $_GET['route'] == "pos" ||
+            $_GET['route']=="transactions" ||
             $_GET['route'] == "discount" ||
             $_GET['route'] == "invoices" ||
             $_GET['route'] == "payment" ||

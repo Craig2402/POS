@@ -101,6 +101,14 @@ $colors = array(
     'rgba(128, 0, 128, 0.5)'    // Purple
     // Add more colors as needed
 );
+$bcolors = array(
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(255, 165, 0, 1)',   // Orange
+    'rgba(128, 0, 128, 1)'    // Purple
+    // Add more colors as needed
+);
 
 // Generate the datasets for the current month's chart
 $currentMonthDatasets = [];
@@ -108,6 +116,7 @@ foreach ($paymentMethods as $index => $paymentMethod) {
     $dataset = [
         'label' => $paymentMethod,
         'backgroundColor' => $colors[$index % count($colors)], // Assign a color from the array based on the index
+        'bordercolor' => $bcolors[$index % count($bcolors)],
         'data' => []
     ];
     foreach ($xLabels as $day) {
@@ -206,6 +215,7 @@ function previousMonth() {
         data: {
             labels: <?php echo json_encode($xLabels); ?>,
             datasets: <?php echo json_encode($lastMonthDatasets); ?>
+
         },
         options: {
             responsive: true,

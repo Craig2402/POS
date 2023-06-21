@@ -145,3 +145,26 @@ $(".tables tbody").on("click", "button.downloadinvoice", function(){
     
 });
 
+
+
+/*=============================================
+view invoices
+=============================================*/
+
+$(".tables tbody").on("click", "button.view-receipt", function(){
+
+    var receipt = $(this).attr("receipt");
+
+    window.open('views/pdfs/bill.php?receipt=' + receipt, '_blank');
+
+
+
+});
+
+$(".tables tbody").on("click", "button.download-reciept", function(){
+    var receipt = $(this).attr("receipt");
+    window.open('views/pdfs/download-receipt.php?receipt=' + receipt, '_blank');
+    
+});
+
+

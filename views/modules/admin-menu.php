@@ -110,7 +110,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="transactions" class="nav-link">
                                 <i class="fa-solid fa-circle nav-icon"></i>
                                 <p>Transactions</p>
                             </a>

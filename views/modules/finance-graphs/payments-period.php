@@ -43,6 +43,16 @@ $colors = array(
     // Add more colors as needed
 );
 
+$bcolors = array(
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(255, 165, 0, 1)',   // Orange
+    'rgba(128, 0, 128, 1)'    // Purple
+    // Add more colors as needed
+);
+
+
 $datasets = array();
 
 // Iterate over the payment methods
@@ -65,7 +75,8 @@ foreach ($paymentMethods as $index => $paymentMethod) {
     $dataset = array(
         'label' => $paymentMethod,
         'data' => $data,
-        'backgroundColor' => $colors[$index % count($colors)] // Assign a color from the array based on the index
+        'backgroundColor' => $colors[$index % count($colors)], // Assign a color from the array based on the index
+        'bordercolor' => $bcolors[$index % count($bcolors)]
     );
 
     // Add the dataset to the datasets array
