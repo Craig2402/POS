@@ -45,7 +45,7 @@ require_once 'models/connection.php';
                       <th>Date</th>
                       <th>Actions</th>
 
-                      
+
                     </tr> 
 
                     </thead>
@@ -57,6 +57,7 @@ require_once 'models/connection.php';
                         $paymentResult = $select->fetchAll();
                         foreach ($paymentResult as $paymentKey => $paymentVal) {
                             if ($paymentVal['amount'] > 0) {
+
                                 echo '<tr>
                                         <td>' . ($paymentKey + 1) . '</td>
                                         <td>' . $paymentVal["paymentid"] . '</td>
@@ -65,7 +66,7 @@ require_once 'models/connection.php';
                                         <td>' . $paymentVal["date"] . '</td>
                                         <td><button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s download-reciept"><i class="fa-solid fa-file-pdf"></i></button>
                                         <button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s view-receipt"><i class="fa-solid fa-eye"></i></button>
-                                        <button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s"><i class="fa-solid fa-trash"></i></button></td>
+                                        <button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s delete-Transaction"><i class="fa-solid fa-trash"></i></button></td>
                                     </tr>';
                             }
                         }
@@ -84,3 +85,11 @@ require_once 'models/connection.php';
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <?php
+
+    $deleteTransaction = new PaymentController();
+    $deleteTransaction -> ctrDeleteTransaction();
+
+    var_dump($deleteTransaction);
+
+  ?>

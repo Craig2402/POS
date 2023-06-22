@@ -167,4 +167,32 @@ $(".tables tbody").on("click", "button.download-reciept", function(){
     
 });
 
+/*=============================================
+DELETE TRANSACTION
+=============================================*/
+
+$(".tables tbody").on("click", "button.delete-Transaction", function(){
+
+	var reciept = $(this).attr("receipt");
+	
+	Swal.fire({
+
+		title: 'Are you sure you want to delete the transaction?',
+		text: "If you're not sure you can cancel this action!",
+		icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Yes, delete transaction!'
+        }).then(function(result){
+        if (result.value) {
+
+        	window.location = "index.php?route=transactions&reciept="+reciept;
+
+        }
+
+	})
+
+})
 

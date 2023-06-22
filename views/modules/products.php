@@ -262,7 +262,4 @@
         $deleteProduct = new productController();
         $deleteProduct -> ctrDeleteProduct();
 
-        // $deleteProduct = new productController();
-        // $deleteProduct -> ctrViewProduct();
-
       ?>

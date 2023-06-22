@@ -393,6 +393,45 @@ public function ctrDownloadReport(){
         
         }
           
-         }
+    }
+
+    /*=============================================
+	DELETE PRODUCT
+	=============================================*/
+	static public function ctrDeleteTransaction(){
+
+		if(isset($_GET["reciept"])){
+
+			$table ="payments";
+			$data = $_GET["reciept"];
+
+            return $table;
+
+            // $answer = productModel::mdlDeleteProduct($table, $data);
+
+			// if($answer == "ok"){
+
+			// 	echo'<script>
+
+			// 	Swal.fire({
+			// 		  icon: "success",
+			// 		  title: "The transaction has been successfully deleted",
+			// 		  showConfirmButton: true,
+			// 		  confirmButtonText: "Close"
+			// 		  }).then(function(result){
+			// 					if (result.value) {
+
+			// 					    window.location = "transactions";
+
+			// 					}
+			// 				})
+
+			// 	</script>';
+
+			// }	
+
+        }
+
+    }
 
 }
