@@ -8,12 +8,12 @@ require_once 'models/connection.php';
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Products</h1>
+            <h1 class="m-0">Transactions</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
-              <li class="breadcrumb-item active">Product List</li>
+              <li class="breadcrumb-item active">Transaction List</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -30,7 +30,7 @@ require_once 'models/connection.php';
 
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h5 class="m-0">Product List</h5>
+                <h5 class="m-0">Transaction List</h5>
               </div>
               <div class="card-body">
               <table id="example1" class="table table-bordered table-striped tables">
@@ -87,9 +87,14 @@ require_once 'models/connection.php';
   <!-- /.content-wrapper -->
   <?php
 
-    $deleteTransaction = new PaymentController();
-    $deleteTransaction -> ctrDeleteTransaction();
+$deleteTransaction = new PaymentController();
+$reciept = $deleteTransaction->ctrDeleteTransaction();
 
-    var_dump($deleteTransaction);
+var_dump($reciept);
+
+    // $deleteTransaction = new PaymentController();
+    // $deleteTransaction -> ctrDeleteTransaction();
+
+    // var_dump($deleteTransaction)
 
   ?>

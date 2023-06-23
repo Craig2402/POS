@@ -22,9 +22,13 @@ $(".tables tbody").on("click", "button.addPayment", function(){
         dataType:"json",
         success:function(answer){
 
+            const productList = answer['products']
+            
+            const productNames = productList.flatMap(({ productName }) => productName);
+
             localStorage.setItem('customerName', answer['customername']);
 
-            localStorage.setItem('Products', answer['products']);
+            localStorage.setItem('Products', productNames);
 
             localStorage.setItem('Total', answer['total']);
 

@@ -405,30 +405,28 @@ public function ctrDownloadReport(){
 			$table ="payments";
 			$data = $_GET["reciept"];
 
-            return $table;
+            $answer = PaymentModel::mdlDeleteTransaction($table, $data);
 
-            // $answer = productModel::mdlDeleteProduct($table, $data);
+			if($answer == "ok"){
 
-			// if($answer == "ok"){
+				echo'<script>
 
-			// 	echo'<script>
+				Swal.fire({
+					  icon: "success",
+					  title: "The transaction has been successfully deleted",
+					  showConfirmButton: true,
+					  confirmButtonText: "Close"
+					  }).then(function(result){
+								if (result.value) {
 
-			// 	Swal.fire({
-			// 		  icon: "success",
-			// 		  title: "The transaction has been successfully deleted",
-			// 		  showConfirmButton: true,
-			// 		  confirmButtonText: "Close"
-			// 		  }).then(function(result){
-			// 					if (result.value) {
+								    window.location = "transactions";
 
-			// 					    window.location = "transactions";
+								}
+							})
 
-			// 					}
-			// 				})
+				</script>';
 
-			// 	</script>';
-
-			// }	
+			}	
 
         }
 

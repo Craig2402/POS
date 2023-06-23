@@ -64,6 +64,32 @@ class PaymentModel{
 
     }
     
+	/*=============================================
+	DELETING TRANSACTION
+	=============================================*/
+
+	static public function mdlDeleteTransaction($table, $data){
+
+		$stmt = connection::connect()->prepare("DELETE FROM $table WHERE paymentid = :id");
+
+		$stmt -> bindParam(":id", $data, PDO::PARAM_STRING);
+
+		if($stmt -> execute()){
+
+			return "ok";
+		
+		}else{
+
+			return "error";	
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+    
 }
 class InvoiceModel{
 
