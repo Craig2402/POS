@@ -92,6 +92,29 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-cart-shopping nav-icon"></i>
+                                <p>
+                                    Supply
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="suppliers" class="nav-link">
+                                        <i class="fa-solid fa-circle nav-icon"></i>
+                                        <p>Supliers</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa-solid fa-circle nav-icon"></i>
+                                        <p>Supplier Invoices</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -140,12 +163,6 @@
                                     <a href="invoices" class="nav-link">
                                         <i class="fa-solid fa-circle nav-icon"></i>
                                         <p>Client Invoices</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa-solid fa-circle nav-icon"></i>
-                                        <p>Supplier Invoices</p>
                                     </a>
                                 </li>
                             </ul>

@@ -94,6 +94,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "payment" ||
             $_GET['route'] == "sales" ||
             $_GET['route'] == "stock" ||
+            $_GET['route'] == "suppliers" ||
             $_GET['route'] == "finance-dashboard" ||
             $_GET['route'] == "logout"
         ) {
