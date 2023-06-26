@@ -67,13 +67,17 @@ class ExpenseModel {
             return false;
         }
     }
+
+    /*=============================================
+    SHOW EXPENSES
+    =============================================*/
  
     static public function mdlShowExpenses($table,$item, $value) {
         if($item != null){
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 
-			$stmt -> bindParam(":".$item, $value, PDO::PARAM_INT);
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
 
 			$stmt -> execute();
 
@@ -81,6 +85,7 @@ class ExpenseModel {
 
 		}
 		else{
+
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
 
 			$stmt -> execute();

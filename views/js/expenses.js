@@ -18,6 +18,7 @@ $(".tables").on("click", "button.btnEditExpense", function(){
 		processData: false,
 		dataType: "json",
 		success: function(answer){
+			
 			console.log("answer", answer);
 			// $("#editExpenseId").val(answer["id"]);
 			// $("#expenseId").val(answer["expense"]);

@@ -75,20 +75,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <div class="col-md-12" id="searchContainer">
-                  <div>
-                    <button class="btn btn-outline-secondary compact-btn">Copy</button>
-                    <button class="btn btn-outline-secondary compact-btn">CSV</button>
-                    <button class="btn btn-outline-secondary compact-btn">Excel</button>
-                    <button class="btn btn-outline-secondary compact-btn">PDF</button>
-                    <button class="btn btn-outline-secondary compact-btn">Print</button>
-                    <button class="btn btn-outline-secondary compact-btn">Column visibility▼</button>
-                  </div>
-                  <div class="search-input-container">
-                    <input type="text" class="form-control" id="searchInput" onkeyup="searchTable()" placeholder="Search...">
-                  </div>
-                </div>
-                <table class="table table-bordered table-striped tables">
+                <table id="example1" class="table table-bordered table-striped tables responsive">
                   <thead>
                     <tr>
                       <th>#</th>

@@ -44,6 +44,7 @@
   <!-- pdf generator -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.10.2/jspdf.umd.min.js"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -82,6 +83,18 @@
       flex-grow: 1;
       margin-left: 10px;
       max-width: 250px; /* Adjust the value as per your preference */
+    }
+    .copy-message {
+        position: fixed;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #fff;
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
     }
 </style>
 
@@ -186,6 +199,9 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 </div>
 <!-- ./wrapper -->
 
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+
  <!-- Include the Inputmask library CSS file -->
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.css">
 
@@ -253,52 +269,23 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 
 <!-- datatable js -->
 <script>
-//   $(function () {
-//       //DataTable initialization
-//       $("#example1").DataTable({
-//           "responsive": true,
-//           "lengthChange": false,
-//           "autoWidth": false,
-//           "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-//       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-//   });  
+  $(function () {
+      //DataTable initialization
+      $("#example1").DataTable({
+          "responsive": true,
+          "lengthChange": false,
+          "autoWidth": false,
+          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+  });  
   
-//     //Initialize Select2 Elements
-//     $('.select2').select2()
+    //Initialize Select2 Elements
+    $('.select2').select2()
 
-//     //Initialize Select2 Elements
-//     $('.select2bs4').select2({
-//       theme: 'bootstrap4'
-//     })
-
-
-
-</script>
-<script>
-    function searchTable() {
-        // Get user input
-        var input = document.getElementById('searchInput').value.toUpperCase();
-
-        // Get the table and rows
-        var table = document.getElementById('tables');
-        var rows = table.getElementsByTagName('tr');
-
-        // Loop through all rows and hide those that don't match the search input
-        for (var i = 0; i < rows.length; i++) {
-            var rowData = rows[i].getElementsByTagName('td');
-            var rowMatch = false;
-
-            for (var j = 0; j < rowData.length; j++) {
-                var cellData = rowData[j].innerText || rowData[j].textContent;
-                if (cellData.toUpperCase().indexOf(input) > -1) {
-                    rowMatch = true;
-                    break;
-                }
-            }
-
-            rows[i].style.display = rowMatch ? '' : 'none';
-        }
-    }
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
 </script>
 </body>
 </html>
