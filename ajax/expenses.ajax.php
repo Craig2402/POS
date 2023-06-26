@@ -16,6 +16,7 @@ class AjaxExpenses{
 
 		$answer = expenseController::ctrShowExpenses($item, $value);
 		echo json_encode($answer);
+		echo '<script>console.log(answer)</script>';
 
 	}
 }
@@ -28,7 +29,7 @@ if(isset($_POST["expenseId"])){
 	$expenses = new AjaxExpenses();
 	$expenses -> expenseId = $_POST["expenseId"];
 	$expenses -> ajaxEditExpenses();
-	
+
 }
 
 ?>

@@ -5,7 +5,6 @@ EDIT EXPENSES
 $(".tables").on("click", "button.btnEditExpense", function(){
 	
 	var expenseId = $(this).attr("expenseId");
-	console.log(expenseId);
 
 	var data = new FormData();
 	data.append("expenseId", expenseId);

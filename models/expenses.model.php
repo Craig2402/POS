@@ -73,7 +73,7 @@ class ExpenseModel {
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 
-			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_INT);
 
 			$stmt -> execute();
 
@@ -91,5 +91,5 @@ class ExpenseModel {
 		}
 
     }
-    
+
 }

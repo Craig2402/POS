@@ -12,13 +12,12 @@ class expenseController{
         
             $expenseName = $_POST["expense"];
             $date = $_POST["date"];
-            $insertexpenseType = $_POST["expenseType"];
             $fileExtension = pathinfo($_FILES['reciept']['name'], PATHINFO_EXTENSION);
-            $fileName = $targetDirectory.$expenseName . '_' . $insertexpenseType . '_' . $date . '_' . time() . '.' . $fileExtension;
+            $fileName = $targetDirectory . $expenseName . '_' . $date . '_' . time() . '.' . $fileExtension;
         
             $data = array(
                 "expense" => $expenseName,
-                "expense_type" => $insertexpenseType,
+                "expense_type" => $_POST["expenseType"],
                 "date" => $date,
                 "amount" => $_POST["amount"],
                 "receipt" => $fileName
@@ -29,10 +28,8 @@ class expenseController{
             if ($answer == "ok") {
                 // Check if a file was uploaded
                 if (!empty($_FILES['reciept']['tmp_name'])) {
-                    $destination = $targetDirectory . $fileName;
-        
                     // Move the uploaded file to the destination path
-                    if (move_uploaded_file($_FILES['reciept']['tmp_name'], $destination)) {
+                    if (move_uploaded_file($_FILES['reciept']['tmp_name'], $fileName)) {
                         // File upload successful
                         echo '<script>
                             Swal.fire({
@@ -52,11 +49,11 @@ class expenseController{
                     }
 
                 }
-
+                
             } else {
                 echo '<div class="alert alert-danger">Error saving the expense. Please try again.</div>';
             }
-            
+
         }
         
     }
