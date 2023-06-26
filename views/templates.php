@@ -66,6 +66,23 @@
     th{
         background: #eee;
     }
+    
+    #searchContainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .compact-btn {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .search-input-container {
+      flex-grow: 1;
+      margin-left: 10px;
+      max-width: 250px; /* Adjust the value as per your preference */
+    }
 </style>
 
 </head>
@@ -95,6 +112,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "sales" ||
             $_GET['route'] == "stock" ||
             $_GET['route'] == "suppliers" ||
+            $_GET['route'] == "expenses" ||
             $_GET['route'] == "finance-dashboard" ||
             $_GET['route'] == "logout"
         ) {
@@ -230,6 +248,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/invoices.js"></script>
 <script src="views/js/payment.js"></script>
 <script src="views/js/sales.js"></script>
+<script src="views/js/supplier.js"></script>
 
 <!-- datatable js -->
 <script>
@@ -253,6 +272,32 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 
 
 
+</script>
+<script>
+    function searchTable() {
+        // Get user input
+        var input = document.getElementById('searchInput').value.toUpperCase();
+
+        // Get the table and rows
+        var table = document.getElementById('tables');
+        var rows = table.getElementsByTagName('tr');
+
+        // Loop through all rows and hide those that don't match the search input
+        for (var i = 0; i < rows.length; i++) {
+            var rowData = rows[i].getElementsByTagName('td');
+            var rowMatch = false;
+
+            for (var j = 0; j < rowData.length; j++) {
+                var cellData = rowData[j].innerText || rowData[j].textContent;
+                if (cellData.toUpperCase().indexOf(input) > -1) {
+                    rowMatch = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = rowMatch ? '' : 'none';
+        }
+    }
 </script>
 </body>
 </html>

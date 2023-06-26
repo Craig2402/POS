@@ -3,7 +3,7 @@ require_once 'connection.php';
 
 class supplierModel{
     /*=============================================
-	ADDING PRODUCT
+	ADDING SUPPLIERS
 	=============================================*/
 	static public function mdlAddsSupplier($table, $data){
 
@@ -49,6 +49,52 @@ class supplierModel{
 
 			return $stmt -> fetchAll();
 			
+		}
+
+	}
+	/*=============================================
+	EDITING SUPPLIERS
+	=============================================*/
+	static public function mdlEditSupplier($table, $data){
+
+		$stmt = connection::connect()->prepare("UPDATE $table SET name = :name, address= :address, email = :email, contact = :contact WHERE supplierid = :id");
+
+		$stmt->bindParam(":name", $data["name"], PDO::PARAM_STR);
+		$stmt->bindParam(":address", $data["address"], PDO::PARAM_STR);
+		$stmt->bindParam(":email", $data["email"],PDO::PARAM_STR);
+        $stmt->bindParam(":contact", $data["contact"],PDO::PARAM_STR);
+        $stmt->bindParam(":id", $data["supplierid"],PDO::PARAM_INT);
+
+		if($stmt->execute()){
+
+			return "ok";
+
+		}else{
+
+			return "error";
+		
+		}
+
+	}
+
+	/*=============================================
+	DELETING SUPPLIERS
+	=============================================*/
+
+	static public function mdlDeleteSupplier($table, $data){
+
+		$stmt = connection::connect()->prepare("DELETE FROM $table WHERE supplierid = :id");
+
+		$stmt -> bindParam(":id", $data, PDO::PARAM_INT);
+
+		if($stmt -> execute()){
+
+			return "ok";
+		
+		}else{
+
+			return "error";	
+
 		}
 
 	}

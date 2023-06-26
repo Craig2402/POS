@@ -27,34 +27,34 @@
 
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h5 class="m-0">Supplier </h5>
+                <h5 class="m-0">Add Supplier </h5>
               </div>
                 <div class="card-body">
                     <div class="col-md-12">
-                        <form action="" method="post" enctype="multipart/form-data">
+                        <form action="" method="post" enctype="multipart/form-data"  onsubmit="return validateAddedSupplier()">
                             <div class="card-body">
-                                <div class="form-group">
-                                    <label for="newSupplier">Supplier name</label>
-                                    <input type="text" class="form-control" name="newSupplier" id="newSupplier" placeholder="Supplier name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="newAddress">Address</label>
-                                    <input type="text" class="form-control" name="newAddress" id="newAddress" placeholder="Supplier address" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="newAddress">Email</label>
-                                    <input type="email" class="form-control" name="newEmail" id="newEmail" placeholder="Supplier email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="newAddress">Contact</label>
-                                    <input type="text" class="form-control" name="newContact" id="newContact" placeholder="Supplier contact" required>
-                                </div>
+                              <div class="form-group">
+                                  <label for="newSupplier">Supplier name</label>
+                                  <input type="text" class="form-control" name="Supplier" id="Supplier" placeholder="Supplier name" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="newAddress">Address</label>
+                                  <input type="text" class="form-control" name="Address" id="Address" placeholder="Supplier address" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="newAddress">Email</label>
+                                  <input type="email" class="form-control" name="Email" id="Email" placeholder="Supplier email" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="newAddress">Contact</label>
+                                  <input type="text" class="form-control" name="Contact" id="Contact" placeholder="Supplier contact" required>
+                              </div>
                             </div>
                         <!-- /.card-body -->
 
                             <div class="card-footer">
                               <div class="text-center">
-                                  <button type="submit" class="btn btn-primary" name="addSupplier">Add Suplier</button>
+                                  <button type="submit" class="btn btn-primary" name="addSupplier" >Add Suplier</button>
                               </div>
                             </div>
                                 <?php
@@ -71,15 +71,26 @@
           <!-- /.col-md-6 -->
             <div class="card card-danger card-outline">
               <div class="card-header">
-                <h5 class="m-0">Categories</h5>
+                <h5 class="m-0">Supplier</h5>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped tables">
+                <div class="col-md-12" id="searchContainer">
+                  <div>
+                    <button class="btn btn-outline-secondary compact-btn">Copy</button>
+                    <button class="btn btn-outline-secondary compact-btn">CSV</button>
+                    <button class="btn btn-outline-secondary compact-btn">Excel</button>
+                    <button class="btn btn-outline-secondary compact-btn">PDF</button>
+                    <button class="btn btn-outline-secondary compact-btn">Print</button>
+                    <button class="btn btn-outline-secondary compact-btn">Column visibility▼</button>
+                  </div>
+                  <div class="search-input-container">
+                    <input type="text" class="form-control" id="searchInput" onkeyup="searchTable()" placeholder="Search...">
+                  </div>
+                </div>
+                <table class="table table-bordered table-striped tables">
                   <thead>
-           
                     <tr>
-                      
                       <th>#</th>
                       <th>Supplier</th>
                       <th>Address</th>
@@ -90,7 +101,7 @@
 
                     </thead>
   
-                  <tbody>
+                  <tbody id="tables">
                       <?php
 
                         $item = null; 
@@ -129,3 +140,62 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+  <div class="modal fade" id="modalEditSupplier">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Edit supplier</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>         
+            <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateEdittedSupplier()">
+              <div class="card-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="newSupplier">Supplier name</label>
+                            <input type="text" class="form-control" name="newSupplier" id="newSupplier" placeholder="Supplier name" required>
+                            <input type="hidden" name="supplierId" id="supplierId">
+                        </div>
+                        <div class="form-group">
+                            <label for="newAddress">Address</label>
+                            <input type="text" class="form-control" name="newAddress" id="newAddress" placeholder="Supplier address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newAddress">Email</label>
+                            <input type="email" class="form-control" name="newEmail" id="newEmail" placeholder="Supplier email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newAddress">Contact</label>
+                            <input type="text" class="form-control" name="newContact" id="newContact" placeholder="Supplier contact" required>
+                        </div>
+                      </div>               
+                  </div>
+              </div>
+                <!-- /.card-body -->
+              <div class="modal-footer justify-content-between">
+                  <button type="submit" class="btn btn-default" data-dismiss="modal" name="editsupplier">Close</button>
+                  <button type="submit" class="btn btn-primary" name="editsupplier">Save</button>
+              </div>
+                <?php
+
+                  $editSupplier = new supplierController();
+                  $editSupplier -> ctrEditSupplier();
+
+                ?>   
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+      <?php
+
+        $deleteSupplier = new supplierController();
+        $deleteSupplier -> ctrDeleteSupplier();
+
+      ?>  

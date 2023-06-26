@@ -162,7 +162,6 @@
                           <div class="form-group">
                               <label for="exampleInputEmail1">Barcode</label>
                               <input type="text" class="form-control" name="editbarcode" id="editbarcode" readonly>
-                              <!-- <input type="hidden" name="productId" id="productId"> -->
                           </div>
                           <div class="form-group">
                               <label for="exampleInputEmail1">Product Name</label>
@@ -171,8 +170,6 @@
                           <div class="form-group">
                             <label for="exampleSelectBorder">Category</label>
                             <select class="form-control" name="editcategory">
-                              <!-- <option value="" id="editcategory"></option> -->
-                              <!-- <option value="">Select a Tax type</option> -->
                               <?php
 
                                 $item = null;
@@ -181,7 +178,6 @@
                                 $categories = categoriesController::ctrShowCategories($item, $value1);
 
                                 foreach ($categories as $key => $value) {
-                                  // $selected = ($value["id"] == $category["id"]) ? "selected" : ""; // Check if current category is the selected one
                                   echo '<option value="'.$value["id"].'" '.$selected.'>'.$value["Category"].'</option>';
                                 }
                                 
@@ -193,7 +189,6 @@
                             <label for="txttaxcat">Tax type</label>
                             <select name="edittaxcat" id="edittaxcat" class="form-control">
                               <option value="">Select a Tax type</option>
-                              <!-- <option id="edittaxcat" value=""></option> -->
                               <?php
                               
                                 $item = null;
