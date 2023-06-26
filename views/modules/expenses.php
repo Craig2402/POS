@@ -78,7 +78,7 @@
                               </div>
                               <div class="form-group">
                                   <label for="reciept">Reciept</label>
-                                  <input type="file" class="form-control" name="reciept" id="reciept" placeholder="Upload Reciept" required>
+                                  <input type="file" class="form-control addReciept" name="reciept" id="reciept" placeholder="Upload Reciept" required>
                               </div>
                             </div>
                         <!-- /.card-body -->
@@ -206,6 +206,12 @@
                     <button type="submit" class="btn btn-primary" name="updateExpense">Save Changes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
+                <?php
+
+                  $editExpense = new expenseController ();
+                  $editExpense -> ctrEditExpense();
+
+                ?>
             </form>
         </div>
     </div>

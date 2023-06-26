@@ -3,7 +3,9 @@ EDIT EXPENSES
 =============================================*/
 
 $(".tables").on("click", "button.btnEditExpense", function(){
+	
 	var expenseId = $(this).attr("expenseId");
+	console.log(expenseId);
 
 	var data = new FormData();
 	data.append("expenseId", expenseId);
@@ -18,8 +20,8 @@ $(".tables").on("click", "button.btnEditExpense", function(){
 		dataType: "json",
 		success: function(answer){
 			console.log("answer", answer);
-			$("#editExpenseId").val(answer["id"]);
-			$("#expenseId").val(answer["expense"]);
+			// $("#editExpenseId").val(answer["id"]);
+			// $("#expenseId").val(answer["expense"]);
 		}
 	});
 });
@@ -32,8 +34,6 @@ DELETE PRODUCT
 $(".tables tbody").on("click", "button.btnDeleteExpense", function(){
 
 	var expenseId = $(this).attr("expenseId");
-	// var code = $(this).attr("code");
-	// var image = $(this).attr("image");
 	
 	Swal.fire({
 

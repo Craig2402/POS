@@ -12,7 +12,7 @@ class AjaxSupplier{
   	public $Supplier;
 	
 	public function ajaxEditSupplier(){
-		// Get product by id
+		
 		$item = "supplierid";
 		$value = $this->Supplier;
 		$answer = supplierController::ctrShowSuppliers($item, $value);

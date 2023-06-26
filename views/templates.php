@@ -249,26 +249,27 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/payment.js"></script>
 <script src="views/js/sales.js"></script>
 <script src="views/js/supplier.js"></script>
+<script src="views/js/expenses.js"></script>
 
 <!-- datatable js -->
 <script>
-  $(function () {
-      //DataTable initialization
-      $("#example1").DataTable({
-          "responsive": true,
-          "lengthChange": false,
-          "autoWidth": false,
-          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-  });  
+//   $(function () {
+//       //DataTable initialization
+//       $("#example1").DataTable({
+//           "responsive": true,
+//           "lengthChange": false,
+//           "autoWidth": false,
+//           "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+//       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+//   });  
   
-    //Initialize Select2 Elements
-    $('.select2').select2()
+//     //Initialize Select2 Elements
+//     $('.select2').select2()
 
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
+//     //Initialize Select2 Elements
+//     $('.select2bs4').select2({
+//       theme: 'bootstrap4'
+//     })
 
 
 

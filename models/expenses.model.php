@@ -90,9 +90,6 @@ class ExpenseModel {
 			
 		}
 
-		$stmt -> close();
-
-		$stmt = null;
-      }
-
+    }
+    
 }
