@@ -51,7 +51,7 @@
             <div class="card card-primary card-outline">
               <div class="card-header">
                 <h5 class="m-0">Expense</h5>
-                <button class="btn btn-primary float-right btnEditExpense" data-toggle="modal" data-target="#addExpenseType">Add Expense Type</i></button>
+                <button class="btn btn-primary float-right btnAddExpenseType" data-toggle="modal" data-target="#addExpenseType">Add Expense Type</button>
               </div>
                 <div class="card-body">
                     <div class="col-md-12">
@@ -132,7 +132,6 @@
 
                         $expenses= expenseController::ctrShowExpenses($item, $value);
                         foreach ($expenses as $key => $val) {
-
                           echo '<tr>
                           <td>'.($key+1).'</td>
                           <td>'.$val["expense"].'</td>
@@ -151,7 +150,6 @@
                           <button class="btn btn-danger btnDeleteExpense" expenseId="'.$val["id"].'" name="btnDeleteExpense"><i class="fa fa-times"></i></button>
                         </td>
                         </tr>';
-                  
 
                         }
 
@@ -186,8 +184,8 @@
             <div class="modal-body">
                 <div class="form-group">
                   <label for="editExpense">Expense</label>
+                  <input type="text" class="form-control" name="editExpenseId" id="editExpenseId" hidden>
                   <input type="text" class="form-control" name="editExpense" id="editExpense">
-                  <input type="hidden" class="form-control" name="editExpenseId" id="editExpenseId" readonly>
                 </div>
                 <div class="form-group">
                   <label for="editExpenseType">Expense Type</label>  
@@ -230,3 +228,35 @@
   $delete=new expenseController();
   $delete->ctrDeleteExpense();
 ?>
+
+<!-- Add Expense Type Modal -->
+<div class="modal fade" id="addExpenseType" tabindex="-1" role="dialog" aria-labelledby="addExpenseTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addExpenseTypeModalLabel">Add Expense Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+            <div class="modal-body">
+                <div class="form-group">
+                  <label for="expenseType">Expense Type</label>
+            
+                  <input type="text" class="form-control" name="expenseType" id="expenseType" placeholder="Add Expense Type">
+                </div>
+              </div>
+
+                <?php
+                  $add= new expenseController();
+                   $add->ctrAddExpenseType();
+                ?>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" name="addExpenseType">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
