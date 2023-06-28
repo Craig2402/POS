@@ -92,6 +92,7 @@ class DiscountModel{
 		}
 
 		$stmt->close();
+
 		$stmt = null;
 
 	}
@@ -121,4 +122,5 @@ class DiscountModel{
 		$stmt = null;
 
 	}
+	
 }

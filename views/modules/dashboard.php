@@ -64,7 +64,7 @@
   $products = productController::ctrShowProducts($item, $value,$order);
   $totalProducts = count($products);
 
-  $totalSales = PaymentController::ctrAddingTotalSales($month);
+  $totalSales = PaymentController::ctrAddingTotalPayments($month);
 
   $invoices = PaymentController::ctrShowInvoices($item, $value);
   $totalQuantity = 0;

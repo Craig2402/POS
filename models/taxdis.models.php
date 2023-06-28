@@ -86,6 +86,7 @@ class TaxdisModel{
 		}
 
 		$stmt->close();
+		
 		$stmt = null;
 
 	}

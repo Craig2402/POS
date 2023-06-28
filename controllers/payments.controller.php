@@ -285,7 +285,19 @@ public function ctrDownloadReport(){
     }
 }
 
+	/*=============================================
+	Adding TOTAL sales
+	=============================================*/
 
+	public static function ctrAddingTotalPayments($month){
+
+		$table = "payments";
+
+		$answer = PaymentModel::mdlAddingTotalPayments($table, $month);
+
+		return $answer;
+
+	}
 
 
 	/*=============================================

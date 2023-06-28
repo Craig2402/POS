@@ -24,6 +24,10 @@ class supplierModel{
 		
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
 	}
     	
 	/*=============================================
@@ -51,6 +55,10 @@ class supplierModel{
 			
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
 	}
 	/*=============================================
 	EDITING SUPPLIERS
@@ -75,6 +83,10 @@ class supplierModel{
 		
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
 	}
 
 	/*=============================================
@@ -96,6 +108,10 @@ class supplierModel{
 			return "error";	
 
 		}
+
+		$stmt -> close();
+
+		$stmt = null;
 
 	}
 

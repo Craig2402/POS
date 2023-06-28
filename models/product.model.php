@@ -29,6 +29,10 @@ class productModel{
 		
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
 	}
 	
 	/*=============================================
@@ -57,6 +61,10 @@ class productModel{
 			
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
 	}
 	/*=============================================
 	EDITING PRODUCT
@@ -84,6 +92,10 @@ class productModel{
 		
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
 	}
 
 	/*=============================================
@@ -105,6 +117,10 @@ class productModel{
 			return "error";	
 
 		}
+
+		$stmt -> close();
+
+		$stmt = null;
 
 	}
 		
@@ -129,6 +145,10 @@ class productModel{
 
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
 	}
 	/*=============================================
 	SHOW ADDING OF THE SALES
@@ -141,6 +161,10 @@ class productModel{
 		$stmt -> execute();
 
 		return $stmt -> fetch();
+
+		$stmt -> close();
+
+		$stmt = null;
 
 	}
 
@@ -164,6 +188,10 @@ class productModel{
 			return "error";	
 
 		}
+
+		$stmt -> close();
+
+		$stmt = null;
 
 	}
 	

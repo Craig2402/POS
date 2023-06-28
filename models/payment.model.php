@@ -62,6 +62,10 @@ class PaymentModel{
             return 1;
         }
 
+		$stmt -> close();
+
+		$stmt = null;
+
     }
     
 	/*=============================================
@@ -72,7 +76,7 @@ class PaymentModel{
 
 		$stmt = connection::connect()->prepare("DELETE FROM $table WHERE paymentid = :id");
 
-		$stmt -> bindParam(":id", $data, PDO::PARAM_STRING);
+		$stmt -> bindParam(":id", $data, PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 
@@ -83,6 +87,25 @@ class PaymentModel{
 			return "error";	
 
 		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+	/*=============================================
+	Adding TOTAL sales
+	=============================================*/
+
+	static public function mdlAddingTotalPayments($table, $month){	
+
+		$stmt = connection::connect()->prepare("SELECT SUM(amount) as total FROM $table where MONTH(date) =:month");
+
+        $stmt->bindParam(':month',$month,PDO::PARAM_INT);
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
 
 		$stmt -> close();
 
@@ -133,6 +156,10 @@ class InvoiceModel{
         } else {
             return false;
         }
+
+		$stmt -> close();
+
+		$stmt = null;
     }
 
  	/*=============================================
@@ -158,6 +185,10 @@ class InvoiceModel{
         } else {
             return 1;
         }
+
+		$stmt -> close();
+
+		$stmt = null;
     }
 
  	/*=============================================
@@ -186,6 +217,10 @@ class InvoiceModel{
 
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
 	}
     
  	/*=============================================
@@ -207,6 +242,10 @@ class InvoiceModel{
 			return "error";
 		
 		}
+
+		$stmt -> close();
+
+		$stmt = null;
 
 	}
 
@@ -263,9 +302,13 @@ class InvoiceModel{
 
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
 	}
 
-    	/*=============================================
+	/*=============================================
 	Adding TOTAL sales
 	=============================================*/
 
@@ -278,6 +321,10 @@ class InvoiceModel{
 		$stmt -> execute();
 
 		return $stmt -> fetch();
+
+		$stmt -> close();
+
+		$stmt = null;
 
 	}
 }

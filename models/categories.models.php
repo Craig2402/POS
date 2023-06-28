@@ -24,10 +24,11 @@ class CategoriesModel{
 			return 'error';
 
 		}
-		
+
 		$stmt -> close();
 
 		$stmt = null;
+		
 	}
 
 	/*=============================================
@@ -83,7 +84,8 @@ class CategoriesModel{
 		
 		}
 
-		$stmt->close();
+		$stmt -> close();
+
 		$stmt = null;
 
 	}
@@ -113,4 +115,5 @@ class CategoriesModel{
 		$stmt = null;
 
 	}
+
 }

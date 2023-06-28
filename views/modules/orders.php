@@ -32,57 +32,79 @@
                     <h5 class="m-0">Place Orders</h5>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="product" class="control-label">Product</label>
-                                <select class="form-control" name="product" id="product">
-                                    <option value="">--Select a product--</option>
-                                    <?php
-                                        $item = null;
-                                        $value = null;
-                                        $order = "id";
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="product" class="control-label">Product</label>
+                                    <select class="form-control" name="product" id="product">
+                                        <option value="">--Select a product--</option>
+                                        <?php
+                                            $item = null;
+                                            $value = null;
+                                            $order = "id";
 
-                                        $products = productController::ctrShowProducts($item, $value, $order);
+                                            $products = productController::ctrShowProducts($item, $value, $order);
 
-                                        foreach ($products as $key => $value) {
-                                            echo '<option value="'.$value["barcode"].'">'.$value["product"].'</option>';
-                                        }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" class="form-control" name="quantity" id="quantity" min="1">
-                            </div>
-                            <div class="form-group">
-                                <label for="supplier">Supplier</label>
-                                <select name="supplier" id="supplier" class="form-control">
-                                    <option value="">--Select a supplier--</option>
-                                    <?php
-                                        $item = null;
-                                        $value = null;
+                                            foreach ($products as $key => $value) {
+                                                echo '<option value="'.$value["barcode"].'">'.$value["product"].'</option>';
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for=""></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplier">Supplier</label>
+                                    <select name="supplier" id="supplier" class="form-control" required>
+                                        <option value="">--Select a supplier--</option>
+                                        <?php
+                                            $item = null;
+                                            $value = null;
 
-                                        $supplier = supplierController::ctrShowSuppliers($item, $value);
-                                        foreach ($supplier as $key => $value) {
-                                            echo '<option value="'.$value["supplierid"].'">'.$value["name"].'</option>';
-                                        }
-                                    ?>
-                                </select>
+                                            $supplier = supplierController::ctrShowSuppliers($item, $value);
+                                            foreach ($supplier as $key => $value) {
+                                                echo '<option value="'.$value["supplierid"].'">'.$value["name"].'</option>';
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary" name="addproduct">Add to list</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-footer">
+                            <div class="col-lg-6">
+                                <div class="tableFixHead">
+                                    <table id="producttable" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Price</th>
+                                                <th>Qty</th>
+                                                <th>Total</th>
+                                                <th>Del</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="orders" id="itemtable">
+                                            <input type="hidden" name="productsList" id="productsList">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
                             <div class="text-center">
-                                <button type="button" class="btn btn-primary" name="addproduct">Add to list</button>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="products" class="control-label">Products and descriptions</label>
-                                <textarea class="form-control" placeholder= "Enter description" name="products" id="products" rows="25"></textarea>
+                                <button type="submit" class="btn btn-primary" name="addproducts">Make order</button>
                             </div>
                         </div>
-                    </div>
+                        <?php
+                          $addorder= new orderController();
+                          $addorder->ctrCreateOrder();
+                        ?>
+                    </form>
                 </div>
             </div>
     

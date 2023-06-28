@@ -18,6 +18,10 @@ class ExpenseModel {
         } else {
             return "error";
         }
+
+		$stmt -> close();
+
+		$stmt = null;
     }
      /*=============================================
     EDITING EXPENSES
@@ -38,6 +42,10 @@ class ExpenseModel {
         } else {
             return "error";
         }
+
+		$stmt -> close();
+
+		$stmt = null;
     }
     /*=============================================
     DELETING EXPENSES
@@ -52,6 +60,10 @@ class ExpenseModel {
         } else {
             return "error";
         }
+
+		$stmt -> close();
+
+		$stmt = null;
     }
 
         /*=============================================
@@ -64,6 +76,10 @@ class ExpenseModel {
             
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result['receipt'];
+
+            $stmt -> close();
+    
+            $stmt = null;
         }
 
  
@@ -92,6 +108,10 @@ class ExpenseModel {
 			
 		}
 
+		$stmt -> close();
+
+		$stmt = null;
+
     }
 
     /*=============================================
@@ -108,6 +128,10 @@ class ExpenseModel {
         } else {
             return "error";
         }
+        
+		$stmt -> close();
+
+		$stmt = null;
     }
 
 }
