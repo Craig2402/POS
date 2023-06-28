@@ -78,8 +78,11 @@ class ExpenseModel {
         $stmt->bindParam(":expenseId", $expenseId, PDO::PARAM_INT);
 
         $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $stmt->fetch();
+        return $result['receipt'];
+        
     }
 
  
