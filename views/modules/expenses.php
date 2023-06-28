@@ -77,8 +77,10 @@
                                   <input type="number" class="form-control" min="1" name="amount" id="amount" placeholder="Amount Spent" required>
                               </div>
                               <div class="form-group">
-                                  <label for="reciept">Reciept</label>
-                                  <input type="file" class="form-control addReciept" name="reciept" id="reciept" placeholder="Upload Reciept" required>
+                                  <div class="panel"><label for="reciept">Reciept</label></div>
+                                  <input type="file" class="reciept" name="reciept" id="reciept" >
+                                  <p class="help-block">Maximum file size 2mb</p>
+                                  <img src="views/expenses/defaults/reciept.png" class="thumbnail recieptthumb" width="100px">
                               </div>
                             </div>
                         <!-- /.card-body -->
@@ -131,17 +133,25 @@
                         $expenses= expenseController::ctrShowExpenses($item, $value);
                         foreach ($expenses as $key => $val) {
 
-                          echo '
-                            <tr>
-                            <td>'.($key+1).'</td>
-                            <td>'.$val["expense"].'</td>
-                            <td>'.$val["expense_type"].'</td>
-                            <td>'.$val["date"].'</td>
-                            <td>'.$val["amount"].'</td>
-                            <td><img src="'.$val["receipt"].'" class="img-thumbnail" width="40px"></td>
-                            <td><button class="btn btn-warning btnEditExpense" expenseId="'.$val["id"].'" data-toggle="modal" data-target="#editExpenseModal"><i class="fa fa-edit"></i></button>
-                            <button class="btn btn-danger btnDeleteExpense"  expenseId="'.$val["id"].'"><i class="fa fa-times"></i></button></td>
-                          </tr>';
+                          echo '<tr>
+                          <td>'.($key+1).'</td>
+                          <td>'.$val["expense"].'</td>
+                          <td>'.$val["expense_type"].'</td>
+                          <td>'.$val["date"].'</td>
+                          <td>'.$val["amount"].'</td>';
+                  
+                          if (strtolower(pathinfo($val["receipt"], PATHINFO_EXTENSION)) === 'pdf') {
+                            echo '<td><img src="views/expenses/defaults/pdf.png" class="img-thumbnail" width="40px"></td>';
+                          } else {
+                            echo '<td><img src="'.$val["receipt"].'" class="img-thumbnail" width="40px"></td>';
+                          }
+                          
+                          echo '<td>
+                          <button class="btn btn-warning btnEditExpense" expenseId="'.$val["id"].'" data-toggle="modal" data-target="#editExpenseModal"><i class="fa fa-edit"></i></button>
+                          <button class="btn btn-danger btnDeleteExpense" expenseId="'.$val["id"].'" name="btnDeleteExpense"><i class="fa fa-times"></i></button>
+                        </td>
+                        </tr>';
+                  
 
                         }
 
@@ -173,46 +183,50 @@
                 </button>
             </div>
             <form action="" method="post" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="editExpenseId">ID</label>
-                        <input type="text" class="form-control" name="editExpenseId" id="editExpenseId" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="editExpense">Expense</label>
-                        <input type="text" class="form-control" name="editExpense" class="editExpense" id="editExpense">
-                    </div>
-                    <div class="form-group">
-                        <label for="editExpenseType">Expense Type</label>
-                        <select class="form-control" name="editExpenseType" id="editExpenseType">
-                            <option value="">Select or search</option>
-                            <!-- Add options dynamically if needed -->
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="editDate">Date</label>
-                        <input type="date" class="form-control" name="editDate" id="editDate">
-                    </div>
-                    <div class="form-group">
-                        <label for="editAmount">Amount</label>
-                        <input type="number" class="form-control" min="1" name="editAmount" id="editAmount">
-                    </div>
-                    <div class="form-group">
-                        <label for="editReceipt">Receipt</label>
-                        <input type="file" class="form-control" name="editReceipt" id="editReceipt">
-                    </div>
+            <div class="modal-body">
+                <div class="form-group">
+                  <label for="editExpense">Expense</label>
+                  <input type="text" class="form-control" name="editExpense" id="editExpense">
+                  <input type="hidden" class="form-control" name="editExpenseId" id="editExpenseId" readonly>
                 </div>
+                <div class="form-group">
+                  <label for="editExpenseType">Expense Type</label>  
+                  <select class="form-control" name="editExpenseType" id="editExpenseType">
+                    <option value="">Select</option><?php echo fillType($pdo);?>
+                    
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="editDate">Date</label>
+                  <input type="date" class="form-control" name="editDate" id="editDate">
+                </div>
+                <div class="form-group">
+                  <label for="editAmount">Amount</label>
+                  <input type="number" class="form-control" min="1" name="editAmount" id="editAmount">
+                </div>
+                <div class="form-group">
+                    <div class="panel"><label for="editReceipt">Reciept</label></div>
+                    <input type="file" class="editReceipt" name="editReceipt" id="editReceipt" >
+                    <p class="help-block">Maximum file size 2mb</p>
+                    <img src="views/expenses/defaults/reciept.png" class="thumbnail editrecieptthumb" width="100px">
+                    <input type="hidden" name="existingFilePath" value="<?php echo $existingFilePath; ?>">
+                </div>
+              </div>
+
+                <?php
+                  $edit= new expenseController();
+                  $edit->ctrEditExpense();
+                ?>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" name="updateExpense">Save Changes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
-                <?php
-
-                  $editExpense = new expenseController ();
-                  $editExpense -> ctrEditExpense();
-
-                ?>
             </form>
         </div>
     </div>
 </div>
+
+<?php
+  $delete=new expenseController();
+  $delete->ctrDeleteExpense();
+?>

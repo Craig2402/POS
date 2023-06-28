@@ -30,6 +30,7 @@ $('.productsTable').DataTable({
 	"processing": true,
 	"responsive": true,
 });
+
 /*=============================================
 UPLOADING PRODUCT IMAGE
 =============================================*/
@@ -79,6 +80,7 @@ $(".txtproductimage").change(function(){
 
   	}
 });
+
 /*=============================================
 EDIT PRODUCT
 =============================================*/
