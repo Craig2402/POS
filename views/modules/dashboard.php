@@ -190,7 +190,7 @@
                 <!-- ./col -->
                 <div class="col-md-12">
                   <?php
-                    include 'reports/sales-graphs.php';
+                    include 'finance-graphs/revenue-expense.php';
                   ?>
                 </div>
                 <div class="col-md-6 col-xs-12">

@@ -96,6 +96,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "stock" ||
             $_GET['route'] == "suppliers" ||
             $_GET['route'] == "expenses" ||
+            $_GET['route'] == "orders" ||
             $_GET['route'] == "finance-dashboard" ||
             $_GET['route'] == "logout"
         ) {
@@ -233,6 +234,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/sales.js"></script>
 <script src="views/js/supplier.js"></script>
 <script src="views/js/expenses.js"></script>
+<script src="views/js/orders.js"></script>
 
 <!-- datatable js -->
 <script>

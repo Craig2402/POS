@@ -113,6 +113,12 @@
                                         <p>Supplier Invoices</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="orders" class="nav-link">
+                                        <i class="fa-solid fa-circle nav-icon"></i>
+                                        <p>Orders</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

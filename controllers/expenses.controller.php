@@ -1,8 +1,6 @@
 <?php
-
 class expenseController{
-
-    /*=============================================
+/*=============================================
     ADD EXPENSE
     =============================================*/
 
@@ -194,6 +192,39 @@ class expenseController{
 
 		return $expenses;
 	}
+    
+        public function ctrAddExpenseType() {
+            if (isset($_POST['addExpenseType'])) {
+                $table = "expensecat";
+                $expenseType = $_POST["expenseType"];
+    
+                // Validate and sanitize the input as needed
+    
+                $data = array(
+                    "expensetype" => $expenseType
+                );
+    
+                $answer = ExpenseModel::mdlAddExpenseType($table, $data);
+    
+                if ($answer == "ok") {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Expense type added successfully!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                        }).then(function(result) {
+                            if (result.value) {
+                                window.location = "expenses";
+                            }
+                        });
+                    </script>';
+                } else {
+                    echo '<div class="alert alert-danger">Error adding the expense type. Please try again.</div>';
+                }
+            }
+        }
+    
 
 }
 
