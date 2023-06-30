@@ -66,6 +66,28 @@
     th{
         background: #eee;
     }
+    .breadcrumb-item a {
+        position: relative;
+        display: inline-block;
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    .breadcrumb-item a::after {
+        content: "";
+        position: absolute;
+        bottom: -0.5px;
+        left: 50%;
+        width: 0;
+        height: 1px;
+        background-color: #007bff;
+        transition: width 0.3s ease;
+        transform: translateX(-50%);
+    }
+    
+    .breadcrumb-item a:hover::after {
+        width: 100%;
+    }
 </style>
 
 </head>
@@ -97,6 +119,8 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "suppliers" ||
             $_GET['route'] == "expenses" ||
             $_GET['route'] == "orders" ||
+            $_GET['route'] == "returns" ||
+            $_GET['route'] == "view-returned" ||
             $_GET['route'] == "vieworders" ||
             $_GET['route'] == "finance-dashboard" ||
             $_GET['route'] == "logout"
@@ -236,6 +260,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/supplier.js"></script>
 <script src="views/js/expenses.js"></script>
 <script src="views/js/orders.js"></script>
+<script src="views/js/returns.js"></script>
 
 <!-- datatable js -->
 <script>

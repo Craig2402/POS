@@ -66,59 +66,67 @@ $('#product').on('change', function() {
 
 // Removing a product from the order list
 $(document).on('click', '.btnremove', function() {
-    var removed = $(this).attr("data-id")
-    orderarr = jQuery.grep(orderarr, function(value){
-      return value != removed;
-    })
+    var id = $(this).data('id'); // Get the product ID from the data attribute
   
+    // Remove the product ID from the orderarr array
+    var index = orderarr.indexOf(id);
+    if (index !== -1) {
+      orderarr.splice(index, 1);
+    }
+  
+    // Remove the product details from the products array
+    products = products.filter(function(product) {
+      return product.id !== id;
+    });
+  
+    // Remove the row from the table
     $(this).closest('tr').remove();
-    console.log(orderarr);
-
+  
+    // Update the products input field
+    updateProducts();
+  
+    // Recalculate the total price
+    calculateTotal();
 });
 
 // increase or change the quantity of a product in the order list 
-$(document).on("keyup change", ".qty", function() {
+$(document).on('keyup change', '.qty', function() {
     var quantity = $(this).val();
-    var tr = $(this).closest("tr");
-    var id = tr.find(".btnremove").data("id");
-  
-    // Assume the dynamically created array is stored in the variable 'productArray'
+    var tr = $(this).closest('tr');
+    var id = tr.find('.btnremove').data('id');
   
     // Find the index of the object with a specific id
-    const productId = id; // Integer value
-    const productIndex = products.findIndex(obj => obj.id === productId.toString());
+    const productIndex = products.findIndex(obj => obj.id === id);
   
     // Check if the object with the specified id exists in the array
     if (productIndex !== -1) {
-      // Access and update the Quantity property
-      products[productIndex].Quantity = quantity;
-  
+      // Update the Quantity property
+      products[productIndex].Quantity = parseInt(quantity);
     }
-    
+  
     updateProducts();
   
-    tr.find(".totalamt").text(quantity * tr.find(".price").text());
-    tr.find(".purchaseprice").val(quantity * tr.find(".price").text());
-    calculateTotal()
+    tr.find('.totalamt').text(quantity * tr.find('.price').text());
+    tr.find('.saleprice').val(quantity * tr.find('.price').text());
+    calculateTotal();
 });
-
-function calculateTotal() {
-    total = 0;
-    
-    $(".orders tr").each(function() {
-
-        var tr = $(this);
-        var price = parseFloat(tr.find(".price").text());
-        total += price
-
-    });
-    
-    $('#total').val(total.toFixed(2));
-
-}
   
 // Function to update the array and set it to the productsList input
 function updateProducts() {
     const updatedArrayJSON = JSON.stringify(products);
     $('#products').val(updatedArrayJSON);
+}
+
+// calculate totals for all the products on the list
+function calculateTotal() {
+    total = 0;
+
+    $(".orders tr").each(function() {
+        var tr = $(this);
+        var price = parseFloat(tr.find(".price").text());
+        var quantity = parseInt(tr.find(".qty").val());
+        total += price * quantity;
+    });
+
+    $('#total').val(total.toFixed(2));
 }

@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="total">Total price</label>
-                                    <input type="text" class="form-control" name="total" id="total"readonly>
+                                    <input type="text" class="form-control" name="total" id="total"readonly required>
                                 </div>
                                 <div class="form-group">
                                     <label for="supplier">Supplier</label>
@@ -87,7 +87,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="orders" id="itemtable">
-                                            <input type="text" name="products" id="products">
+                                            <input type="hidden" name="products" id="products">
                                         </tbody>
                                     </table>
                                 </div>

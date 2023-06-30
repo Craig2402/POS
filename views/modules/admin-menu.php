@@ -121,6 +121,29 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa-solid fa-boxes-packing"></i>
+                                <p>
+                                    Returne products
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="returns" class="nav-link">
+                                        <i class="fa-solid fa-circle nav-icon"></i>
+                                        <p>Make return</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="view-returned" class="nav-link">
+                                        <i class="fa-solid fa-circle nav-icon"></i>
+                                        <p>View returns</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
