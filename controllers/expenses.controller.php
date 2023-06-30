@@ -79,7 +79,7 @@ class expenseController{
     =============================================*/
     static public function ctrEditExpense(){
 
-        if (isset($_POST['editExpense'])) {
+        if (isset($_POST['updateExpense'])) {
 
             $targetDirectory = "views/expenses/reciepts/";
             $table = "expenses";
@@ -92,22 +92,21 @@ class expenseController{
             $filename= $targetDirectory.$expenseName . '_' . $date . '_' . time() . '.' . $fileExtension;
 
             $existingFilePath = ExpenseModel::mdlGetExpenseFilename($table, $expenseId); // The existing file path from the database
-
-            // Update the data in the database
-            $data = array(
-                "expense" => $expenseName,
-                "expense_type" => $expenseType,
-                "date" => $date,
-                "amount" => $amount,
-                "receipt" => $filename
-            );
-
-
         
             // Check if a file was uploaded
             if (!empty($_FILES['editReceipt']['tmp_name'])) {
                 // Move the uploaded file to the destination path
                 if (move_uploaded_file($_FILES['editReceipt']['tmp_name'], $filename)) {
+
+                    // Update the data in the database
+                    $data = array(
+                        "expense" => $expenseName,
+                        "expense_type" => $expenseType,
+                        "date" => $date,
+                        "amount" => $amount,
+                        "receipt" => $filename
+                    );
+
                     // File upload successful
                     $answer = ExpenseModel::mdlEditExpense($table, $data, $expenseId);
 
@@ -134,6 +133,35 @@ class expenseController{
 
                 }
 
+            }else {
+
+                // Update the data in the database
+                $data = array(
+                    "expense" => $expenseName,
+                    "expense_type" => $expenseType,
+                    "date" => $date,
+                    "amount" => $amount,
+                    "receipt" => $existingFilePath
+                );
+
+                // File upload successful
+                $answer = ExpenseModel::mdlEditExpense($table, $data, $expenseId);
+
+                if ($answer == "ok") {
+
+                    echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Expense updated successfully!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                        }).then(function(result) {
+                            if (result.value) {
+                                window.location = "expenses";
+                            }
+                        });
+                    </script>';
+                }
             }
 
         }

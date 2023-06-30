@@ -26,10 +26,12 @@
         <div class="row">
           <div class="col-lg-12">
           <!-- /.col-md-6 -->
-
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="m-0">Place Orders</h5>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="m-0">Place Orders</h5>
+                        <a href="vieworders"><button type="button" class="btn btn-primary btn-sm" id="viewOrder">View orders</button></a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <form action="" method="post" enctype="multipart/form-data">
@@ -53,7 +55,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for=""></label>
+                                    <label for="total">Total price</label>
+                                    <input type="text" class="form-control" name="total" id="total"readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="supplier">Supplier</label>
@@ -70,11 +73,6 @@
                                         ?>
                                     </select>
                                 </div>
-                                <div class="card-footer">
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-primary" name="addproduct">Add to list</button>
-                                    </div>
-                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="tableFixHead">
@@ -89,7 +87,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="orders" id="itemtable">
-                                            <input type="hidden" name="productsList" id="productsList">
+                                            <input type="text" name="products" id="products">
                                         </tbody>
                                     </table>
                                 </div>

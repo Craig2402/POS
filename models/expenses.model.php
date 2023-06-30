@@ -28,7 +28,6 @@ class ExpenseModel {
     =============================================*/
     static public function mdlEditExpense($table, $data, $expenseId) {
         $stmt = connection::connect()->prepare("UPDATE $table SET expense = :expense, expense_type = :expense_type, date = :date, amount = :amount, receipt = :receipt WHERE id = :expenseId");
-
         
         $stmt->bindParam(":expense", $data["expense"], PDO::PARAM_STR);
         $stmt->bindParam(":expense_type", $data["expense_type"], PDO::PARAM_STR);

@@ -50,8 +50,10 @@
 
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h5 class="m-0">Expense</h5>
-                <button class="btn btn-primary float-right btnAddExpenseType" data-toggle="modal" data-target="#addExpenseType">Add Expense Type</button>
+                <div class="d-flex justify-content-between">
+                  <h5 class="m-0">Expense</h5>
+                  <button class="btn btn-primary float-right btnAddExpenseType" data-toggle="modal" data-target="#addExpenseType">Add Expense Type</button>
+                </div>
               </div>
                 <div class="card-body">
                     <div class="col-md-12">
@@ -181,7 +183,7 @@
                 </button>
             </div>
             <form action="" method="post" enctype="multipart/form-data">
-            <div class="modal-body">
+              <div class="modal-body">
                 <div class="form-group">
                   <label for="editExpense">Expense</label>
                   <input type="text" class="form-control" name="editExpenseId" id="editExpenseId" hidden>
@@ -210,15 +212,15 @@
                     <input type="hidden" name="existingFilePath" value="<?php echo $existingFilePath; ?>">
                 </div>
               </div>
-
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary" name="updateExpense">Save Changes</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+                
                 <?php
                   $edit= new expenseController();
                   $edit->ctrEditExpense();
                 ?>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" name="updateExpense">Save Changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
             </form>
         </div>
     </div>
