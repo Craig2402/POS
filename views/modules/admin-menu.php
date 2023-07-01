@@ -48,7 +48,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="fa-solid fa-cart-shopping nav-icon"></i>
+                        <i class="fa-solid fa-boxes-stacked"></i>
                         <p>
                             Inventory
                             <i class="right fas fa-angle-left"></i>
@@ -123,9 +123,9 @@
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fa-solid fa-boxes-packing"></i>
+                                <i class="fa-solid fa-right-left"></i>
                                 <p>
-                                    Returne products
+                                    Return Products
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -139,7 +139,7 @@
                                 <li class="nav-item">
                                     <a href="view-returned" class="nav-link">
                                         <i class="fa-solid fa-circle nav-icon"></i>
-                                        <p>View returns</p>
+                                        <p>View returned</p>
                                     </a>
                                 </li>
                             </ul>

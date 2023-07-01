@@ -52,17 +52,26 @@
 
 </style>
 <?php
+$pdo=connection::connect();
   $month=date('m');
   
   $item = null;
   $value = null;
   $order='id';
  
-  $categories = categoriesController::ctrShowCategories($item, $value);
-  $totalCategories = count($categories);
+//   $categories = categoriesController::ctrShowCategories($item, $value);
+//   $totalCategories = count($categories);
+
+
 
   $products = productController::ctrShowProducts($item, $value,$order);
   $totalProducts = count($products);
+
+  $merch=$pdo->prepare( 'SELECT SUM(stock * purchaseprice) AS total_value
+  FROM products');
+  $merch->execute();
+  $result=$merch->fetch();
+ 
 
   $totalSales = PaymentController::ctrAddingTotalPayments($month);
 
@@ -131,14 +140,14 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <i class="fa-solid fa-sitemap fa-2x mr-3"></i>
-                                    <h5 class="card-title mb-0 custom-heading">Categories</h5>
+                                    <h5 class="card-title mb-0 custom-heading">Merchandise Value</h5>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-6">
                                         <p class="card-text">View</p>
                                     </div>
                                     <div class="col-6">
-                                        <p class="card-text text-right"><?php echo number_format($totalCategories); ?></p>
+                                        <p class="card-text text-right">Ksh <?php echo number_format($result['total_value'],2); ?></p>
                                     </div>
                                 </div>
                             </div>

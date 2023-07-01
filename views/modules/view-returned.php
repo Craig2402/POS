@@ -57,24 +57,24 @@
                       $value = $val['supplier'];
 
                       $supplier = supplierController::ctrShowSuppliers($item, $value);
-
-                      $item2 = "barcode";
-                      $value2 = $val['product'];
-                      $order = "id";
-
-                      $product = productController::ctrShowProducts($item2, $value2, $order);
-
+                      
+                      $item2="barcode";
+                      $value2=$val["product"];
+                      $order='id';
+                      $product=productController::ctrShowProducts($item2, $value2, $order);
+                      
                       echo '
 
-                          <tr>
-                          <td>'.($return+1).'</td>
-                          <td>'.$product["product"].'</td>
-                          <td>'.$val["quantity"].'</td>
-                          <td>'.$supplier["name"].'</td>
-                          <td>'.$val["return_date"].'</td>
-                          <td>'.$val["reason"].'</td>
-                          <td>'.$val["return_type"].'</td>';
-                      
+                            <tr>
+                            <td>'.($return+1).'</td>
+                            <td>'.$product["product"].'</td>
+                            <td>'.$val["quantity"].'</td>
+                            <td>'.$supplier["name"].'</td>
+                            <td>'.$val["return_date"].'</td>
+                            <td>'.$val["reason"].'</td>
+                            <td>'.$val["return_type"].'</td>
+                            
+                            ';
 
                     }
                   ?>

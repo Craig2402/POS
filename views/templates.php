@@ -120,8 +120,8 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "expenses" ||
             $_GET['route'] == "orders" ||
             $_GET['route'] == "returns" ||
-            $_GET['route'] == "view-returned" ||
             $_GET['route'] == "vieworders" ||
+            $_GET['route'] == "view-returned" ||
             $_GET['route'] == "finance-dashboard" ||
             $_GET['route'] == "logout"
         ) {

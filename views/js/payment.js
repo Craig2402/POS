@@ -137,7 +137,7 @@ $(".tables tbody").on("click", "button.viewInvoice", function(){
 
     var invoiceId = $(this).attr("idInvoice");
 
-    window.open('views/pdfs/view-invoice.php?invoiceId=' + invoiceId, '_blank');
+    window.open('views/pdfs/receipt.php?invoiceId=' + invoiceId, '_blank');
 
 
 
@@ -159,7 +159,7 @@ $(".tables tbody").on("click", "button.view-receipt", function(){
 
     var receipt = $(this).attr("receipt");
 
-    window.open('views/pdfs/bill.php?receipt=' + receipt, '_blank');
+    window.open('views/pdfs/receipt.php?receipt=' + receipt, '_blank');
 
 
 

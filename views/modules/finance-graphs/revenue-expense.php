@@ -1,9 +1,7 @@
 <?php
 $pdo = connection::connect();
-// Get the current year
 $currentYear = date('Y');
 
-// Prepare the query to fetch payments for the current year
 $paymentsQuery = $pdo->prepare("
   SELECT COALESCE(SUM(amount), 0) AS total_amount, MONTH(date) AS month
   FROM payments
@@ -11,10 +9,16 @@ $paymentsQuery = $pdo->prepare("
   GROUP BY MONTH(date)
 ");
 
-// Prepare the query to fetch expenses for the current year
 $expensesQuery = $pdo->prepare("
   SELECT COALESCE(SUM(amount), 0) AS total_expenses, MONTH(date) AS month
   FROM expenses
+  WHERE YEAR(date) = :year
+  GROUP BY MONTH(date)
+");
+
+$ordersQuery = $pdo->prepare("
+  SELECT COALESCE(SUM(total), 0) AS total_expenses, MONTH(date) AS month
+  FROM orders
   WHERE YEAR(date) = :year
   GROUP BY MONTH(date)
 ");
@@ -27,17 +31,18 @@ $expensesQuery->bindParam(':year', $currentYear, PDO::PARAM_STR);
 $expensesQuery->execute();
 $expenseData = $expensesQuery->fetchAll(PDO::FETCH_ASSOC);
 
-// Create an array with all months of the year
+$ordersQuery->bindParam(':year', $currentYear, PDO::PARAM_STR);
+$ordersQuery->execute();
+$orderData = $ordersQuery->fetchAll(PDO::FETCH_ASSOC);
+
 $months = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-// Initialize arrays to store the monthly payment and expense data
 $monthlyPaymentData = [];
 $monthlyExpenseData = [];
 
-// Loop through all months and populate the payment and expense data
 foreach ($months as $month) {
   $monthData = [
     'month' => $month,
@@ -62,7 +67,14 @@ foreach ($months as $month) {
 
   foreach ($expenseData as $data) {
     if (intval($data['month']) === array_search($month, $months) + 1) {
-      $monthData['total_expenses'] = $data['total_expenses'];
+      $monthData['total_expenses'] += $data['total_expenses']; // Accumulate expenses
+      break;
+    }
+  }
+
+  foreach ($orderData as $data) {
+    if (intval($data['month']) === array_search($month, $months) + 1) {
+      $monthData['total_expenses'] += $data['total_expenses']; // Accumulate orders
       break;
     }
   }
@@ -70,7 +82,6 @@ foreach ($months as $month) {
   $monthlyExpenseData[] = $monthData;
 }
 ?>
-
 
 <!-- BAR CHART -->
 <div class="card">
@@ -95,13 +106,10 @@ foreach ($months as $month) {
 </div>
 <!-- /.card -->
 
-
 <script>
-  // Retrieve the payment and expense data from the server-side
   const paymentData = <?php echo json_encode($monthlyPaymentData); ?>;
   const expenseData = <?php echo json_encode($monthlyExpenseData); ?>;
 
-  // Extract labels and dataset values from payment data
   const labels = paymentData.map(data => data.month);
   const paymentDataset = {
     label: 'Revenue',
@@ -110,7 +118,6 @@ foreach ($months as $month) {
     fill: false
   };
 
-  // Extract dataset values from expense data
   const expenseDataset = {
     label: 'Expenses',
     data: expenseData.map(data => data.total_expenses),
@@ -118,7 +125,6 @@ foreach ($months as $month) {
     fill: false
   };
 
-  // Create the line chart
   const ctx = document.getElementById('monthlyLineGraph').getContext('2d');
   new Chart(ctx, {
     type: 'line',
