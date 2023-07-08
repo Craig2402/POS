@@ -89,6 +89,14 @@ class productController{
 				$answer = productModel::mdlAddProduct($table, $data);
 
 				if($answer == "ok"){
+					// Create an array with the data for the activity log entry
+					$data = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Product Add',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added product ' .$data['product']. '.'
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($data);
 
 					echo'<script>
 
@@ -252,6 +260,15 @@ class productController{
 				$answer = productModel::mdlEditProduct($table, $data);
 
 				if($answer == "ok"){
+					
+					// Create an array with the data for the activity log entry
+					$data = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Product Edit',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' edited product ' .$data['product']. '.'
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($data);
 
 					echo'<script>
 
@@ -313,10 +330,24 @@ class productController{
 				rmdir('views/img/products/'.$_GET["barcodeProduct"]);
 
 			}
+			
+			$item = "barcode";
+			$value = $data;
+			$order = "id";
+			$loganswer = productModel::mdlShowProducts($table, $item, $value, $order);
+			$product = $loganswer['product'];
 
 			$answer = productModel::mdlDeleteProduct($table, $data);
 
 			if($answer == "ok"){
+				// Create an array with the data for the activity log entry
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Product Delete',
+					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted product ' .$product. '.'
+				);
+				// Call the ctrCreateActivityLog() function
+				activitylogController::ctrCreateActivityLog($logdata);
 
 				echo'<script>
 

@@ -50,6 +50,6 @@
 <!-- /.login-box -->
 
 <?php
-    $login= new userController();
-    $login->ctrUserLogin();
+  $login= new userController();
+  $login->ctrUserLogin();
 ?>

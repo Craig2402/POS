@@ -55,6 +55,15 @@ class userController{
 						$lastlogin = userModel::mdlUpdateUser($table, $item1, $value1, $item2, $value2);
 						
 						if ($lastlogin == "ok") {
+							// Create an array with the data for the activity log entry
+							$data = array(
+								'UserID' => $_SESSION['userId'],
+								'ActivityType' => 'Login',
+								'ActivityDescription' => 'User ' . $_SESSION['username'] . ' logged in.'
+							);
+							// Call the ctrCreateActivityLog() function
+							activitylogController::ctrCreateActivityLog($data);
+
 							if ($_SESSION["role"] == "Administrator") {
 								echo '<script>
 									window.location = "dashboard"; // Set the route for the Administrator

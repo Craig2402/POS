@@ -96,6 +96,19 @@ class PaymentController {
                 
                 // Insert payment data into the payments table
                 $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId);
+
+                // create an activitylog of the payment
+                if($paymentModel == true){
+
+                    // Create an array with the data for the activity log entry
+                    $data = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Sale',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$invoiceId.'.'
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($data);
+                }
                 
                 // Redirect or display success message
                 // echo "Payment and invoice added successfully!";
@@ -212,6 +225,15 @@ class PaymentController {
                     $answer = InvoiceModel::mdlEditInvoice($table, $data);
 
                     if($answer == "ok"){
+                        
+                        // Create an array with the data for the activity log entry
+                        $data = array(
+                            'UserID' => $_SESSION['userId'],
+                            'ActivityType' => 'Sale',
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$data['invoiceid'].'.'
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($data);
 
                         echo'<script>
 
