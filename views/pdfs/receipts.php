@@ -1,78 +1,109 @@
-<!-- // Print receipt -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Naivas Supermarket Receipt</title>
     <style>
         @page {
             size: A7;
             margin: 0;
         }
+
         body {
             font-family: Arial, sans-serif;
-            margin: 5mm;
+            margin: 10px;
         }
-        .receipt-container {
-            max-width: 100%;
+
+        .container {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-        .receipt-header {
+
+        h1 {
             text-align: center;
+            font-size: 18px;
+            margin-top: 0;
         }
-        .receipt-items {
-            width: 100%;
+
+        .info {
             margin-bottom: 10px;
         }
-        .receipt-items th, .receipt-items td {
+
+        .info p {
+            margin: 5px 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        .table th,
+        .table td {
             padding: 5px;
             text-align: left;
+            border-bottom: 1px solid #ddd;
         }
-        .receipt-total {
+
+        .table th {
+            background-color: #f5f5f5;
+        }
+
+        .total {
             text-align: right;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class='receipt-container'>
-        <div class='receipt-header'>
-            <h2>NAIVAS SUPERMARKET</h2>
-            <p>Nairobi, Kenya - Tel: 123456789</p>
+    <div class="container">
+        <h1>Receipt</h1>
+
+        <div class="info">
+            <p>Customer: John Doe</p>
+            <p>Date: <?php echo "hello world"; ?></p>
         </div>
-        <hr>
-        <div>
-            <p><strong>Receipt No:</strong> $receiptNumber</p>
-            <p><strong>Date:</strong> $date</p>
-            <p><strong>Cashier:</strong> $cashierName</p>
-        </div>
-        <hr>
-        <table class='receipt-items'>
-            <tr>
-                <th>Item</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Total</th>
-            </tr>
-            <tr>
-                <td>{$product['name']}</td>
-                <td>{$product['quantity']}</td>
-                <td>{$product['price']}</td>
-                <td>{$product['quantity']}</td>
-            </tr>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Item 1</td>
+                    <td>2</td>
+                    <td>$10</td>
+                </tr>
+                <tr>
+                    <td>Item 2</td>
+                    <td>1</td>
+                    <td>$20</td>
+                </tr>
+                <tr>
+                    <td>Item 3</td>
+                    <td>3</td>
+                    <td>$15</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="total">Total:</td>
+                    <td>$85</td>
+                </tr>
+            </tfoot>
         </table>
-        <hr>
-        <div class='receipt-total'>
-            <p><strong>Subtotal:</strong> $subTotal</p>
-            <p><strong>VAT (16%):</strong> $vat</p>
-            <p><strong>Total:</strong> $total</p>
-        </div>
-        <hr>
-        <div>
-            <p><strong>Payment Method:</strong> Cash</p>
-            <p><strong>Change:</strong> 100</p>
-        </div>
-        <hr>
-        <div>
-            <p>Thank you for shopping at Naivas!</p>
-            <p>Visit us again soon.</p>
+
+        <div class="footer">
+            Thank you for your purchase!
         </div>
     </div>
 </body>

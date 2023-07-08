@@ -121,6 +121,8 @@
 
                                     echo'<button class="btn btn-danger btnDeleteProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-times"></i></button>';
 
+                                  }else{
+                                    echo '<button class="btn btn-danger askDeleteProduct" idProduct="'.$val["barcode"].'" data-toggle="modal" data-target="#askDeleteProduct" ><i class="fa fa-times"></i></button>';
                                   }
 
 
@@ -252,9 +254,50 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
-      <?php
 
-        $deleteProduct = new productController();
-        $deleteProduct -> ctrDeleteProduct();
-
-      ?>
+<!--======================================
+module make request
+=======================================-->
+<!--Request Modal -->
+<div class="modal fade" id="askDeleteProduct">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Make request</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+          <!-- Delete reason -->
+          <div class="form-group">
+              <label for="reason">Reason for deletion:</label>
+              <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+              <input type="hidden" name="id" id="id" required>
+              <input type="hidden" name="type" value="Product deletion">
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="makeRequest">Send request</button>
+        </div>
+        <?php
+          $makeRequest = new notificationController();
+          $makeRequest -> ctrMakeRequest();
+        ?>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<?php
+  $deleteProduct = new productController();
+  $deleteProduct -> ctrDeleteProduct();
+?>
+<?php
+    $markRead = new notificationController();
+    $markRead -> ctrMarkNotificationsRead();
+?>

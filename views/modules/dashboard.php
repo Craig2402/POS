@@ -114,7 +114,7 @@ $pdo=connection::connect();
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <a href="category" class="no-link-style">
+                    <a href="sales" class="no-link-style">
                         <div class="card card-custom">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -135,7 +135,7 @@ $pdo=connection::connect();
                 </div>
                 <!-- ./col -->
                 <div class="col-lg-3 col-md-6">
-                    <a href="category" class="no-link-style">
+                    <a href="sales" class="no-link-style">
                         <div class="card card-custom">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -156,7 +156,7 @@ $pdo=connection::connect();
                 </div>
                 <!-- ./col -->
                 <div class="col-lg-3 col-md-6">
-                    <a href="category" class="no-link-style">
+                    <a href="sales" class="no-link-style">
                         <div class="card card-custom">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -177,7 +177,7 @@ $pdo=connection::connect();
                 </div>
                 <!-- ./col -->
                 <div class="col-lg-3 col-md-6">
-                    <a href="category" class="no-link-style">
+                    <a href="products" class="no-link-style">
                         <div class="card card-custom">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -219,3 +219,7 @@ $pdo=connection::connect();
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+<?php
+    $markRead = new notificationController();
+    $markRead -> ctrMarkNotificationsRead();
+?>

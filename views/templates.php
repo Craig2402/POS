@@ -46,7 +46,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+   <!-- printJS library -->
+  <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+  <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
 <style>
     .tableFixHead{
         overflow: scroll;
@@ -88,6 +90,35 @@
     .breadcrumb-item a:hover::after {
         width: 100%;
     }
+    .dropdown-menu-lg {
+    min-width: 25%;
+    max-width: 25%;
+    height: calc(100vh - 56px); /* Adjusted height to subtract the navbar height */
+    top: 56px; /* Set the top position to the navbar height */
+    left: auto;
+    right: 0;
+    bottom: auto;
+    transform: translateX(0);
+    border-radius: 0;
+    overflow-y: auto; /* Added overflow-y property to enable vertical scrolling */
+  }
+
+  /* Added CSS to set a maximum height for the notification items */
+  .dropdown-menu-lg .dropdown-item {
+    max-height: 70px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  /* Added CSS to make the header permanent at the top */
+  .dropdown-menu-lg .dropdown-header {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    padding: 8px 16px;
+    font-weight: bold;
+  }
 </style>
 
 </head>
@@ -261,6 +292,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/expenses.js"></script>
 <script src="views/js/orders.js"></script>
 <script src="views/js/returns.js"></script>
+<script src="views/js/notifications.js"></script>
 
 <!-- datatable js -->
 <script>

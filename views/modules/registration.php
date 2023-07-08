@@ -241,3 +241,7 @@
       $delUser= new userController();
       $delUser->ctrDeleteUser();
       ?>
+      <?php
+          $markRead = new notificationController();
+          $markRead -> ctrMarkNotificationsRead();
+      ?>

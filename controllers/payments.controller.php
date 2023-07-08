@@ -40,7 +40,23 @@ class PaymentController {
                     $value1b = $getProduct["stock"] - $value["Quantity"];
     
                     $newStock = productModel::mdlUpdateProduct($tableProducts, $item1b, $value1b, $valueProductId);
-    
+                    if ($newStock == "ok") {
+                        
+                        $order = null;
+                        $table = "products";
+                        $stock = productModel::mdlShowProducts($table, $item, $valueProductId, $order);
+                        if ($stock && $stock["stock"] <= 15) {
+                            date_default_timezone_set('africa/nairobi');
+                            $currentDateTime = date('Y-m-d H:i:s');
+                            $data = array(
+                                "message" => $stock["product"] . " is running low on stock",
+                                "datetime" => $currentDateTime,
+                                "name" => "System",
+                                "type" => "Stock notification,".$getProduct["barcode"]
+                            );
+                            $notification = notificationController::ctrCreateNotification($data);
+                        }
+                    }
                 }
                 
                 $currentDate = date('Y-m-d');
@@ -83,7 +99,77 @@ class PaymentController {
                 
                 // Redirect or display success message
                 // echo "Payment and invoice added successfully!";
+            //     echo "<script>
+            //     var invoiceId = " . json_encode($invoiceId) . ";
+			// 	window.open('views/pdfs/receipt.php?invoiceId=' + invoiceId, '_blank');
+			// </script>";
+            echo "
+            <script>
+            var invoiceId = " . json_encode($invoiceId) . ";
 
+            Swal.fire({
+                title: 'Generating Receipt',
+                text: 'Please wait while the receipt is being generated...',
+                allowOutsideClick: false,
+                showConfirmButton:false,
+                onBeforeOpen: function() {
+                Swal.showLoading();
+                }
+            });
+
+            fetch('views/pdfs/receipt.php?invoiceId=' + invoiceId)
+                .then(response => response.blob())
+                .then(blob => {
+                var fileURL = URL.createObjectURL(blob);
+                var iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                iframe.src = fileURL;
+                iframe.onload = function() {
+                    try {
+                    // Try printing the content
+                    iframe.contentWindow.print();
+                    document.body.removeChild(iframe);
+
+                    Swal.close();
+
+                    Swal.fire({
+                        title: 'Print Complete',
+                        icon: 'success',
+                        text: 'The receipt has been printed successfully!',
+                        timer:2000,
+                        showConfirmButton:false,
+                    });
+                    } catch (error) {
+                    document.body.removeChild(iframe);
+
+                    Swal.close();
+
+                    Swal.fire({
+                        title: 'Print Failed',
+                        icon: 'error',
+                        text: 'Failed to print the receipt. Please try again.',
+                        timer:2000,
+                         showConfirmButton:false,
+                    });
+                    }
+                };
+                })
+                .catch(error => {
+                Swal.close();
+                Swal.fire({
+                    title: 'Print Failed',
+                    icon: 'error',
+                    text: 'Failed to generate the receipt. Please try again.',
+                    timer:2000,
+                    showConfirmButton:false,
+                });
+                });
+            </script>
+            ";
+
+            
+            
             }
         }
     }
@@ -179,7 +265,18 @@ class PaymentController {
 	}   
 
 
+    /*=============================================
+	SHOW INVOICES
+	=============================================*/
 
+	public static function ctrShowPayments($item, $value){
+
+		$table = "payments";
+
+		$answer = PaymentModel::mdlShowPayments($table, $item, $value);
+
+		return $answer;
+	}
 
     /*=============================================
 	DATES RANGE

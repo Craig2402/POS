@@ -93,6 +93,37 @@ class PaymentModel{
 		$stmt = null;
 
 	}
+		/*=============================================
+	SHOW Payments
+	=============================================*/
+    public static function mdlShowPayments($table, $item, $value){
+
+		if($item != null){
+
+            $stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+            $stmt -> bindParam(":".$item, $value);
+
+            $stmt -> execute();
+
+            return $stmt -> fetch(PDO::FETCH_ASSOC);
+
+		}
+		else{
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table");
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
 	/*=============================================
 	Adding TOTAL sales
 	=============================================*/
@@ -153,6 +184,7 @@ class InvoiceModel{
         // Execute the query
         if ($stmt->execute()) {
             return true;
+			
         } else {
             return false;
         }

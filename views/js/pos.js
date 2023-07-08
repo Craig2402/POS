@@ -42,14 +42,18 @@ $(function() {
                 dataType: 'json',
                 data: { barcode: barcode },
                 success: function(data) {
-                  var status = data["status"];
+                  console.log(data);
+                  // var status = data["status"];
+                  var start = new Date(data["startdate"]);
+                  var end = new Date(data["enddate"]);
+                  var current = new Date();
 
                   // Validate the discount status
-                  if (status == 0) {
-                    var discount = 0;
+                  if (current >= start && current <= end) {
+                    var discount = data["amount"] ? data["amount"] : 0;
                   }
                   else{
-                    var discount = data["amount"] ? data["amount"] : 0;
+                    var discount = 0;
                   }
                   
                   var qty = 1; // Default quantity
@@ -193,14 +197,17 @@ $(function() {
                 dataType: 'json',
                 data: { barcode: barcode },
                 success: function(data) {
-                  var status = data["status"];
-
+                  // var status = data["status"];
+                  var start = new Date(data["startdate"]);
+                  var end = new Date(data["enddate"]);
+                  var current = new Date();
+                   
                   // Validate the discount status
-                  if (status == 0) {
-                    var discount = 0;
+                  if (current >= start && current <= end) {
+                    var discount = data["amount"] ? data["amount"] : 0;
                   }
                   else{
-                    var discount = data["amount"] ? data["amount"] : 0;
+                    var discount = 0;
                   }
                   
                   var qty = 1; // Default quantity
@@ -402,6 +409,8 @@ function validateForm() {
         icon: "warning",
         title: "Empty Fields",
         text: "Please fill in all the required fields.",
+        timer:2000,
+        showConfirmButton:false,
       });
       return false; // Prevent form submission
     }
@@ -414,6 +423,8 @@ function validateForm() {
           icon: "warning",
           title: "Invalid Phone Number",
           text: "Phone number should have exactly 12 digits when starting with 254.",
+          timer:2000,
+          showConfirmButton:false,
         });
         return false; // Prevent form submission
       }
@@ -424,6 +435,8 @@ function validateForm() {
           icon: "warning",
           title: "Invalid Phone Number",
           text: "Phone number should have exactly 10 digits when starting with 01 or 07.",
+          timer:2000,
+          showConfirmButton:false,
         });
         return false; // Prevent form submission
       }
@@ -433,6 +446,8 @@ function validateForm() {
         icon: "warning",
         title: "Invalid Phone Number",
         text: "Phone number should start with 254, 01, or 07.",
+        timer:2000,
+        showConfirmButton:false,
       });
       return false; // Prevent form submission
     }
@@ -443,11 +458,27 @@ function validateForm() {
         icon: "warning",
         title: "Invalid Identification Number",
         text: "Identification number should have exactly 8 characters.",
+        timer:2000,
+        showConfirmButton:false,
       });
       return false; // Prevent form submission
     }
   }
 
+  // Check if any item is added to the cart
+  var cartItems = productinfo.length;
+  if (cartItems === 0) {
+    Swal.fire({
+      icon: "error",
+      title: "No Items in Cart",
+      text: "Please add at least one item to the cart before saving the order.",
+      timer:2000,
+      showConfirmButton:false,
+    });
+    return false; // Prevent form submission
+  }
+
   // If all validations pass, allow form submission
   return true;
 }
+

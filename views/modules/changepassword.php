@@ -143,3 +143,7 @@ unset($_SESSION['status']);
 }
 
 ?>
+<?php
+    $markRead = new notificationController();
+    $markRead -> ctrMarkNotificationsRead();
+?>

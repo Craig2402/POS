@@ -1,4 +1,3 @@
-   
  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -36,7 +35,7 @@
                         <form action="" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                             <label>Product name</label>
-                                <select class="form-control select2bs4" name="product" id="product" data-dropdown-css-class="select2-blue" style="width: 100%;">
+                                <select class="form-control select2bs4" name="discountproduct" id="discountproduct" data-dropdown-css-class="select2-blue" style="width: 100%;">
                                     <option value="">Select or search</option>
                                     <?php 
                                     
@@ -46,7 +45,6 @@
                                         
 
                                         $product = productController::ctrShowProducts($item, $value, $order);
-
                                         foreach ($product as $key => $value) {
 
                                           echo '<option value="'.$value["barcode"].'">'.$value["product"].'</option>';
@@ -200,4 +198,8 @@
   <?php
     $deletediscount= new discountController();
     $deletediscount->ctrDeleteDiscount();
+  ?>
+  <?php
+      $markRead = new notificationController();
+      $markRead -> ctrMarkNotificationsRead();
   ?>

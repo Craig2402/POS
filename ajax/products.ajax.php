@@ -28,6 +28,7 @@ class AjaxProducts{
   	=============================================*/ 
 
   	public $barcodeProduct;
+	public $data;
 	
 	public function ajaxEditProduct(){
 		// Get product by id
@@ -38,31 +39,44 @@ class AjaxProducts{
 	
 		echo json_encode($answer);
 	}
+	public function ajaxShowproducts(){
+		// Get product by id
+        $item = $this->data['item'];
+        $value = $this->data['value'];
+        $order= $this->data['order'];
+        $answer = productController::ctrShowProducts($item, $value, $order);
+    
+        echo json_encode($answer);
+	}
 
 }
-
-/*=============================================
-GENERATE CODE FROM ID CATEGORY
-=============================================*/	
-
-// if(isset($_POST["idCategory"])){
-
-// 	$productCode = new AjaxProducts();
-// 	$productCode -> idCategory = $_POST["idCategory"];
-// 	$productCode -> ajaxCreateProductCode();
-
-// }
 
 /*=============================================
 EDIT PRODUCT
 =============================================*/ 
 
-if(isset($_POST["barcodeProduct"])){
+if (count($_POST) == 3) {
 
-  $editProduct = new AjaxProducts();
-  $editProduct -> barcodeProduct = $_POST["barcodeProduct"];
-  $editProduct -> ajaxEditProduct();
+    if (isset($_POST["item"]) && isset($_POST["value"]) && isset($_POST["order"])) {
 
+        $products = new AjaxProducts();
+        $products->data = array(
+            'item' => $_POST["item"],
+            'value' => $_POST["value"],
+            'order' => $_POST["order"]
+        );
+        $products->ajaxShowproducts();
+    }
+
+}else {
+	
+	if(isset($_POST["barcodeProduct"])){
+
+		$editProduct = new AjaxProducts();
+		$editProduct -> barcodeProduct = $_POST["barcodeProduct"];
+		$editProduct -> ajaxEditProduct();
+	
+	}
 }
 
 

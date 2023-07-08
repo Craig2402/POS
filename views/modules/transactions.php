@@ -90,11 +90,14 @@ require_once 'models/connection.php';
 $deleteTransaction = new PaymentController();
 $reciept = $deleteTransaction->ctrDeleteTransaction();
 
-var_dump($reciept);
 
     // $deleteTransaction = new PaymentController();
     // $deleteTransaction -> ctrDeleteTransaction();
 
     // var_dump($deleteTransaction)
 
+  ?>
+  <?php
+      $markRead = new notificationController();
+      $markRead -> ctrMarkNotificationsRead();
   ?>

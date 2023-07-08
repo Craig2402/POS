@@ -200,3 +200,8 @@ $(".tables tbody").on("click", "button.delete-Transaction", function(){
 
 })
 
+    function printReceipt() {
+        // Open the generated receipt in a new window or tab
+        window.open('views/pdfs/bill-a4.php', '_blank');
+    }
+

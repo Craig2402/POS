@@ -174,3 +174,7 @@ require_once 'models/connection.php';
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<?php
+    $markRead = new notificationController();
+    $markRead -> ctrMarkNotificationsRead();
+?>

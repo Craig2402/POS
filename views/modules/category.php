@@ -107,12 +107,13 @@
 
                             <button class="btn btn-warning btnEditCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#editCategories"><i class="fa fa-edit"></i></button>';
 
-                            }
 
                                 
 
                               if ($_SESSION['role'] == "Administrator") {
                                 echo '<button class="btn btn-danger btnDeleteCategory" idCategory="'.$value["id"].'"><i class="fa fa-times"></i></button>';
+                              }else{
+                                echo '<button class="btn btn-danger askDeleteCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#askDeleteCategory" ><i class="fa fa-times"></i></button>';
                               }
                               
 
@@ -122,6 +123,7 @@
 
                         </tr>';
 
+                      }
               ?>
 
                   </tbody>
@@ -139,11 +141,11 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <!--=====================================
-=            module edit Categories            =
-======================================-->
+<!--======================================
+module edit Categories            
+=======================================-->
 
-<!-- Modal -->
+<!--Edit Modal -->
 <div id="editCategories" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -153,40 +155,75 @@
         <div class="modal-header">
             <h4 class="modal-title">Edit Categories</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-         
         </div>
         <div class="modal-body">
           <div class="box-body">
-
             <!--Input name -->
             <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-th"></i></span>
                 <input class="form-control input-lg" type="text" id="editCategory" name="editCategory" required>
                 <input type="hidden" name="idCategory" id="idCategory" required>
-              </div>
+              <input type="hidden" name="type" value="Category deletion">
             </div>
-
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
-
         <?php
-  
           $editCategory = new categoriesController();
           $editCategory -> ctrEditCategory();
         ?>
       </form>
     </div>
-
   </div>
 </div>
+
+<!--======================================
+module make request
+=======================================-->
+<!--Request Modal -->
+<div class="modal fade" id="askDeleteCategory">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Make request</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+          <!-- Delete reason -->
+          <div class="form-group">
+              <label for="reason">Reason for deletion:</label>
+              <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+              <input type="hidden" name="id" id="id" required>
+              <input type="hidden" name="type" id="type" value="Category deletion">
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="makeRequest">Send request</button>
+        </div>
+        <?php
+          $makeRequest = new notificationController();
+          $makeRequest -> ctrMakeRequest();
+        ?>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <?php
   
   $deleteCategory = new categoriesController();
   $deleteCategory -> ctrDeleteCategory();
+?>
+<?php
+    $markRead = new notificationController();
+    $markRead -> ctrMarkNotificationsRead();
 ?>

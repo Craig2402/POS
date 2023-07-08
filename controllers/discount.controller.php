@@ -13,7 +13,7 @@
 
             $table = 'discount';
 
-			$data = array("product" => $_POST["product"],
+			$data = array("product" => $_POST["discountproduct"],
                             "discount" => $_POST["discountname"],
                             "amount" => $_POST["discountamount"],
                             "startdate" => $_POST["startdate"],

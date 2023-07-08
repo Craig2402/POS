@@ -179,7 +179,10 @@
 </div>
 
 <?php
-  
   $deleteTaxdis = new taxdisController();
   $deleteTaxdis -> ctrDeleteTaxdis();
+?>
+<?php
+    $markRead = new notificationController();
+    $markRead -> ctrMarkNotificationsRead();
 ?>
