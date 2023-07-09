@@ -96,7 +96,7 @@ class CategoriesModel{
 
 	static public function mdlDeleteCategory($table, $data){
 
-		$stmt = connection::connect()->prepare("DELETE FROM $table WHERE Id = :Id");
+		$stmt = connection::connect()->prepare("DELETE FROM $table WHERE id = :Id");
 
 		$stmt -> bindParam(":Id", $data, PDO::PARAM_INT);
 

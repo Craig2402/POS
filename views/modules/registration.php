@@ -210,7 +210,8 @@
                                 <select class="form-control" name="editRoleOptions">
                                     <option value="" id="editRoleOptions"></option>
                                     <option value="Administrator">Administrator</option>
-                                    <option value="User">User</option>
+                                    <option value="Seller">Seller</option>
+                                    <option value="Store">Store keeper</option>
                                 </select>
                             </div>
                             <div class="form-group">

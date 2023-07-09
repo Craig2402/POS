@@ -14,12 +14,25 @@ class orderController{
 
             $data = array("supplier" => $_POST["supplier"],
                             "products" => $_POST["products"],
-                            "status" => 1,
+                            "status" => 0,
                             "total" => $_POST["total"]);
             
             $answer = OrdersModel::mdlAddOrder($table, $data);
+        
+            $suppliertable = "suppliers";
+            $item = "supplierid";
+            $value = $data['supplier'];
+		    $supplier = supplierModel::mdlShowSuppliers($suppliertable, $item, $value);
             
             if($answer == 'ok'){
+                // Create an array with the data for the activity log entry
+                $logdata = array(
+                    'UserID' => $_SESSION['userId'],
+                    'ActivityType' => 'Order',
+                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created an order to supplier ' .$supplier['name']. ' for the following products; ' . $data['products'] . '.'
+                );
+                // Call the ctrCreateActivityLog() function
+                activitylogController::ctrCreateActivityLog($logdata);
 
                 echo '<script>
                     
@@ -67,11 +80,25 @@ class orderController{
 
             $data = array("status" => $_POST["status"],
                             "id" => $_POST["order_id"]);
+            
+            if ($data["status"] == 1) {
+                $status = "Delivered";
+            }elseif ($data["status"] == 2) {
+                $status = "Canceled";
+            }
     
             $answer = OrdersModel::mdlEditOrder($table, $data);
             
     
             if($answer == "ok"){
+                // Create an array with the data for the activity log entry
+                $logdata = array(
+                    'UserID' => $_SESSION['userId'],
+                    'ActivityType' => 'Order',
+                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed the status of order ' .$data['id']. ' to ' . $status . '.'
+                );
+                // Call the ctrCreateActivityLog() function
+                activitylogController::ctrCreateActivityLog($logdata);
     
                 echo'<script>
     

@@ -104,7 +104,8 @@ class PaymentController {
                     $data = array(
                         'UserID' => $_SESSION['userId'],
                         'ActivityType' => 'Sale',
-                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$invoiceId.'.'
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$invoiceId.'.',
+                        'itemID' => $invoiceId
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($data);
@@ -230,7 +231,8 @@ class PaymentController {
                         $data = array(
                             'UserID' => $_SESSION['userId'],
                             'ActivityType' => 'Sale',
-                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$data['invoiceid'].'.'
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$data['invoiceid'].'.',
+                            'itemID' => $invoiceId
                         );
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($data);
@@ -538,7 +540,17 @@ public function ctrDownloadReport(){
 
             $answer = PaymentModel::mdlDeleteTransaction($table, $data);
 
-			if($answer == "ok"){
+            if($answer == "ok"){
+                
+                // // Create an array with the data for the activity log entry
+                // $data = array(
+                //     'UserID' => $_SESSION['userId'],
+                //     'ActivityType' => 'Sale',
+                //     'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted transaction '.$data['invoiceid'].'.',
+                //     'itemID' => $invoiceId
+                // );
+                // // Call the ctrCreateActivityLog() function
+                // activitylogController::ctrCreateActivityLog($data);
 
 				echo'<script>
 

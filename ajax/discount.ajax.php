@@ -3,7 +3,7 @@
 require_once "../controllers/discount.controller.php";
 require_once "../models/discount.models.php";
 
-class AjaxCategories{
+class AjaxDiscountd{
 
 	/*=============================================
 	EDIT Discount
@@ -45,14 +45,14 @@ EDIT Discount
 =============================================*/	
 if(isset($_POST["idDiscount"])){
 
-	$Discount = new AjaxCategories();
+	$Discount = new AjaxDiscountd();
 	$Discount -> idDiscount = $_POST["idDiscount"];
 	$Discount -> ajaxEditDiscount();
 }
 
 if(isset($_GET["barcode"])){
 
-	$getDiscount = new AjaxCategories();
+	$getDiscount = new AjaxDiscountd();
 	$getDiscount -> barcode = $_GET["barcode"];
 	$getDiscount -> ajaxEditDiscount();
 }

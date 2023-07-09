@@ -92,7 +92,7 @@ class productController{
 					// Create an array with the data for the activity log entry
 					$data = array(
 						'UserID' => $_SESSION['userId'],
-						'ActivityType' => 'Product Add',
+						'ActivityType' => 'Product',
 						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added product ' .$data['product']. '.'
 					);
 					// Call the ctrCreateActivityLog() function
@@ -256,6 +256,26 @@ class productController{
 							   "purchaseprice" => $_POST["editpurchaseprice"],
 							   "saleprice" => $_POST["editsaleprice"],
 							   "image" => $route);
+							   
+				$item = "barcode";
+				$barcode = $data['barcode'];
+				$order = "id";
+				$oldItem = productModel::mdlShowProducts($table, $item, $barcode, $order);
+
+				$changedInfo = ''; // Initialize the changed information string
+
+				foreach ($data as $property => $value) {
+					if ($property !== 'barcode' && $oldItem[$property] !== $value) {
+						$changedInfo .= "Property $property changed from {$oldItem[$property]} to $value. ";
+					}
+				}
+				
+				// If any properties were changed, use the changed information as the log message
+				if (!empty($changedInfo)) {
+					$logMessage = $changedInfo;
+				} else {
+					$logMessage = "Product has been edited.";
+				}
 
 				$answer = productModel::mdlEditProduct($table, $data);
 
@@ -264,26 +284,27 @@ class productController{
 					// Create an array with the data for the activity log entry
 					$data = array(
 						'UserID' => $_SESSION['userId'],
-						'ActivityType' => 'Product Edit',
-						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' edited product ' .$data['product']. '.'
+						'ActivityType' => 'Product',
+						'ActivityDescription' => $logMessage,
+                        'itemID' => $barcode
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($data);
 
 					echo'<script>
 
-					Swal.fire({
-							  icon: "success",
-							  title: "The product has been edited",
-							  showConfirmButton: true,
-							  confirmButtonText: "Close"
-							  }).then(function(result){
-										if (result.value) {
+							Swal.fire({
+									icon: "success",
+									title: "The product has been edited",
+									showConfirmButton: true,
+									confirmButtonText: "Close"
+									}).then(function(result){
+												if (result.value) {
 
-										window.location = "products";
+												window.location = "products";
 
-										}
-									})
+												}
+											})
 
 						</script>';
 
@@ -296,7 +317,7 @@ class productController{
 
 				Swal.fire({
 						  icon: "error",
-						  title: "The Product cannot be empty or have special characters!",
+						  title: "Invalid parameters. Please check your values",
 						  showConfirmButton: true,
 						  confirmButtonText: "Close"
 						  }).then(function(result){
@@ -343,8 +364,9 @@ class productController{
 				// Create an array with the data for the activity log entry
 				$logdata = array(
 					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Product Delete',
-					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted product ' .$product. '.'
+					'ActivityType' => 'Product',
+					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted product ' .$product. '.',
+					'itemID' => $value
 				);
 				// Call the ctrCreateActivityLog() function
 				activitylogController::ctrCreateActivityLog($logdata);
@@ -414,6 +436,16 @@ class productController{
 			$answer = productModel::mdlAddingStock($table, $quantity, $barcode);
 	
 			if ($answer == "ok"){
+                // Create an array with the data for the activity log entry
+                $logdata = array(
+                    'UserID' => $_SESSION['userId'],
+                    'ActivityType' => 'Product',
+                    'ActivityDescription' =>  'User ' . $_SESSION['username'] . ' added ' .$quantity. ' units to a product\'s stock.',
+                    'itemID' => $barcode
+                );
+                // Call the ctrCreateActivityLog() function
+                activitylogController::ctrCreateActivityLog($logdata);
+
 				echo '<script>
 				Swal.fire({
 					icon: "success",

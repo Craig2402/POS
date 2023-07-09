@@ -163,6 +163,7 @@
             <label>Product name</label>
             <input type="text" class="form-control" name="editproduct" id="editproduct" readonly>
             <input type="hidden" name="barcode" id="barcode" >
+            <input type="hidden" name="discountid" id="discountid" >
             </div>
             <div class="form-group">
                 <label for="">Discount name</label>

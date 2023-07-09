@@ -10,25 +10,50 @@ class AjaxCategories{
 	=============================================*/	
 
 	public $idCategory;
+	public $data;
 
 	public function ajaxEditCategory(){
 
 		$item = "id";
-		$valor = $this->idCategory;
+		$value = $this->idCategory;
 
-		$answer = categoriesController::ctrShowCategories($item, $valor);
+		$answer = categoriesController::ctrShowCategories($item, $value);
 
 		echo json_encode($answer);
 
+	}
+	public function ajaxShowCategories(){
+		$item = $this->data['item'];
+        $value = $this->data['value'];
+
+		$answer = categoriesController::ctrShowCategories($item, $value);
+
+		echo json_encode($answer);
 	}
 }
 
 /*=============================================
 EDITAR CATEGORÍA
 =============================================*/	
-if(isset($_POST["idCategory"])){
 
-	$category = new AjaxCategories();
-	$category -> idCategory = $_POST["idCategory"];
-	$category -> ajaxEditCategory();
+if (count($_POST) == 2) {
+
+    if (isset($_POST["item"]) && isset($_POST["value"])) {
+
+        $categories = new AjaxCategories();
+        $categories->data = array(
+            'item' => $_POST["item"],
+            'value' => $_POST["value"]
+        );
+        $categories->ajaxShowCategories();
+    }
+
+}else {
+	
+	if(isset($_POST["idCategory"])){
+
+		$category = new AjaxCategories();
+		$category -> idCategory = $_POST["idCategory"];
+		$category -> ajaxEditCategory();
+	}
 }

@@ -109,7 +109,7 @@
 
                                   <a href="index.php?route=printbarcode&barcode='.$val["barcode"].'&image='.$val["image"].'" class="nav-link"><button class="btn btn-primary btnPrintProductBarcode"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-barcode"></i></button></a>
 
-                                  <a href="index.php?route=viewproduct&barcode='.$val["barcode"].'&image='.$val["image"].'" class="nav-link"><button class="btn btn-success btnViewProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-eye"></i></button></a>';
+                                  <button class="btn btn-success btnViewProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-eye"></i></button>';
 
                                   if (isset($_SESSION['role']) && ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Store")) {
 

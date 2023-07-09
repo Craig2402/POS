@@ -31,6 +31,15 @@ class expenseController{
                     $answer = ExpenseModel::mdlAddExpense($table, $data);
     
                     if ($answer == "ok") {
+                        // Create an array with the data for the activity log entry
+                        $logdata = array(
+                        	'UserID' => $_SESSION['userId'],
+                        	'ActivityType' => 'Expense',
+                        	'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense ' .$data['expense']. '.'
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($logdata);
+
                         echo '<script>
                             Swal.fire({
                                 icon: "success",
@@ -93,6 +102,11 @@ class expenseController{
 
             $existingFilePath = ExpenseModel::mdlGetExpenseFilename($table, $expenseId); // The existing file path from the database
         
+                    
+            $item = "id";
+            $value = $expenseId;
+            $oldItem = ExpenseModel::mdlShowExpenses($table, $item, $value);
+
             // Check if a file was uploaded
             if (!empty($_FILES['editReceipt']['tmp_name'])) {
                 // Move the uploaded file to the destination path
@@ -107,10 +121,33 @@ class expenseController{
                         "receipt" => $filename
                     );
 
+                    $changedInfo = ''; // Initialize the changed information string
+
+                    foreach ($data as $property => $value) {
+                        if ($property !== $expenseId && $oldItem[$property] !== $value) {
+                            $changedInfo .= "Property $property changed from {$oldItem[$property]} to $value. ";
+                        }
+                    }
+                    
+                    // If any properties were changed, use the changed information as the log message
+                    if (!empty($changedInfo)) {
+                        $logMessage = $changedInfo;
+                    } else {
+                        $logMessage = "Expense has been edited."; 
+                    }
+
                     // File upload successful
                     $answer = ExpenseModel::mdlEditExpense($table, $data, $expenseId);
 
                     if ($answer == "ok") {
+                        // Create an array with the data for the activity log entry
+                        $logdata = array(
+                        	'UserID' => $_SESSION['userId'],
+                        	'ActivityType' => 'Expense',
+                        	'ActivityDescription' => $logMessage
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($logdata);
                         
                         // Delete the file
                         if (file_exists($existingFilePath)) {
@@ -144,10 +181,35 @@ class expenseController{
                     "receipt" => $existingFilePath
                 );
 
+
+                $changedInfo = ''; // Initialize the changed information string
+
+                foreach ($data as $property => $value) {
+                    if ($property !== 'discountid' && $oldItem[$property] !== $value) {
+                        $changedInfo .= "Property '$property' changed from '{$oldItem[$property]}' to '$value'. ";
+                    }
+                }
+                
+                // If any properties were changed, use the changed information as the log message
+                if (!empty($changedInfo)) {
+                    $logMessage =$changedInfo;
+                } else {
+                    $logMessage = "Expense has been edited."; 
+                }
+
                 // File upload successful
                 $answer = ExpenseModel::mdlEditExpense($table, $data, $expenseId);
 
                 if ($answer == "ok") {
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Expense',
+                        'ActivityDescription' => $logMessage,
+                        'itemID' => $expenseId
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
 
                     echo '<script>
                         Swal.fire({
@@ -177,6 +239,10 @@ class expenseController{
         if (isset($_GET["deleteExpenseId"])) {
             $table = "expenses";
             $expenseId = $_GET["deleteExpenseId"];
+            
+            $item = "id";
+            $value = $expenseId;
+		    $expenses = ExpenseModel::mdlShowExpenses($table, $item, $value);
 
             // Get the filename of the expense
             $filename = ExpenseModel::mdlGetExpenseFilename($table, $expenseId);
@@ -184,6 +250,16 @@ class expenseController{
             $answer = ExpenseModel::mdlDeleteExpense($table, $expenseId);
 
             if ($answer == "ok") {
+                // Create an array with the data for the activity log entry
+                $logdata = array(
+                    'UserID' => $_SESSION['userId'],
+                    'ActivityType' => 'Expense',
+                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted expense ' .$expenses['expense']. ' of type ' . $expenses['expense_type'] . '.',
+                    'itemID' => $value
+                );
+                // Call the ctrCreateActivityLog() function
+                activitylogController::ctrCreateActivityLog($logdata);
+
                 // Delete the file
                 if (file_exists($filename)) {
                     unlink($filename);
@@ -193,7 +269,7 @@ class expenseController{
                 echo '<script>
                     Swal.fire({
                         icon: "success",
-                        title: "'.$filename.'The expense has been successfully deleted",
+                        title: "The expense has been successfully deleted",
                         showConfirmButton: true,
                         confirmButtonText: "Close"
                     }).then(function(result) {

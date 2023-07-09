@@ -200,6 +200,15 @@ class userController{
 				$answer = userModel::mdlCreateUser($table, $data);
 
 				if ($answer == 'ok') {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'User',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' creates user ' .$data['username']. '.',
+						'itemID' => $data['username']
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
 
 						echo '<script>
 						
@@ -388,10 +397,52 @@ class userController{
 								'userpassword' => $encryptpass,
 								'role' => $_POST["editRoleOptions"],
 								'userphoto' => $photo);
+            
+				$item = "username";
+				$userid = $data["username"];
+				$oldItem = userModel::mdlShowUser($table, $item, $userid);
+				$d = var_dump($oldItem);
+				
+					
+				echo '<script>
+					
+				Swal.fire({
+					icon: "success",
+					title: '.$d.',
+					showConfirmButton: true,
+					confirmButtonText: "Close"
+
+				 })
+			
+			</script>';
+	
+				$changedInfo = ''; // Initialize the changed information string
+
+				foreach ($data as $property => $value) {
+					if ($oldItem[$property] !== $value) {
+						$changedInfo .= "Property $property changed from {$oldItem[$property]} to $value. ";
+					}
+				}
+				
+				// If any properties were changed, use the changed information as the log message
+				if (!empty($changedInfo)) {
+					$logMessage = $changedInfo;
+				} else {
+					$logMessage = "User details have been edited.";
+				}
 
 				$answer = userModel::mdlEditUser($table, $data);
 
 				if ($answer == 'ok') {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'User',
+						'ActivityDescription' => $logMessage,
+						'itemID' => $data['username']
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
 					
 					echo '<script>
 					
@@ -457,9 +508,21 @@ class userController{
 
 			}
 
+			$item = "userId";
+			$user = userModel::mdlShowUser($table, $item, $data);
+
 			$answer = userModel::mdlDeleteUser($table, $data);
 
 			if($answer == "ok"){
+                // Create an array with the data for the activity log entry
+                $logdata = array(
+                    'UserID' => $_SESSION['userId'],
+                    'ActivityType' => 'User',
+                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted user ' .$user['username']. '.',
+                    'itemID' => $data
+                );
+                // Call the ctrCreateActivityLog() function
+                activitylogController::ctrCreateActivityLog($logdata);
 
 				echo'<script>
 

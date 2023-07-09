@@ -18,11 +18,9 @@ $(".tables").on("click", ".btnEditCategory", function(){
      	processData: false,
      	dataType:"json",
      	success: function(answer){
-     		
-     		console.log("answer", answer);
 
      		 $("#editCategory").val(answer["Category"]);
-     		 $("#idCategory").val(answer["Id"]);
+     		 $("#idCategory").val(answer["id"]);
 
      	}
 

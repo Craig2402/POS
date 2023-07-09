@@ -100,7 +100,7 @@
 
                   echo '<tr>
                           <td>'.($key+1).'</td>
-                          <td class="text-uppercase">'.$value['Category'].'</td>
+                          <td>'.$value['Category'].'</td>
                           <td>
 
                             <div class="btn-group">
@@ -161,7 +161,7 @@ module edit Categories
             <!--Input name -->
             <div class="form-group">
                 <input class="form-control input-lg" type="text" id="editCategory" name="editCategory" required>
-                <input type="hidden" name="idCategory" id="idCategory" required>
+                <input type="text" name="idCategory" id="idCategory" required>
               <input type="hidden" name="type" value="Category deletion">
             </div>
           </div>

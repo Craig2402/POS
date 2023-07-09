@@ -102,8 +102,6 @@ $(".tables tbody").on("click", "button.btnEditProduct", function(){
       processData: false,
       dataType:"json",
       success:function(answer){
-        
-        //  console.log("answer", answer);
           
         var categoryData = new FormData();
         categoryData.append("idCategory",answer["idCategory"]);
@@ -189,6 +187,33 @@ $(".tables tbody").on("click", "button.btnDeleteProduct", function(){
 	})
 
 })
+
+/*=============================================
+DELETE PRODUCT
+=============================================*/
+
+$(".tables tbody").on("click", "button.btnViewProduct", function(){
+	
+	var image = $(this).attr("image");
+	var barcodeProduct = $(this).attr("idProduct");
+	
+	var datum = new FormData();
+    datum.append("barcodeProduct", barcodeProduct);
+	console.log("FormData barcodeProduct: " + datum.get('barcodeProduct'));
+
+	$.ajax({
+		url: "ajax/activitylog.ajax.php",
+		method: "POST",
+		data: datum,
+		success: function(answer){
+			console.log(answer);
+			window.location = "index.php?route=viewproduct&barcode=" + barcodeProduct + "&image=" + image;
+		}
+
+	});
+
+});
+  
 
 $(document).ready(function() {
 	$('#stock').change(function() {

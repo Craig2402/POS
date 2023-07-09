@@ -69,11 +69,11 @@ class TaxdisModel{
 
 	static public function mdlEditTaxdis($table, $data){
 
-		$stmt = connection::connect()->prepare("UPDATE $table SET VAT = :VAT, VATName = :discount  WHERE taxId = :taxId");
+		$stmt = connection::connect()->prepare("UPDATE $table SET VAT = :VAT, VATName = :VATName  WHERE taxId = :taxId");
 
 		$stmt->bindparam("taxId", $data["taxId"], PDO::PARAM_STR);
 		$stmt->bindParam(":VAT", $data["VAT"],PDO::PARAM_STR);
-		$stmt->bindParam(":discount", $data["discount"],PDO::PARAM_STR);
+		$stmt->bindParam(":VATName", $data["VATName"],PDO::PARAM_STR);
 
 		if($stmt->execute()){
 

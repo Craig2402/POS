@@ -25,6 +25,14 @@
             // var_dump($answer);
 
             if($answer == 'ok'){
+				// Create an array with the data for the activity log entry
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Discount',
+					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created discount ' .$data['discount']. ' with sum ' .$data['amount']. ' for product ' .$data['product']. '.'
+				);
+				// Call the ctrCreateActivityLog() function
+				activitylogController::ctrCreateActivityLog($logdata);
 
                 echo '<script>
                     
@@ -62,48 +70,65 @@
 	}
 
 	/*=============================================
-	EDIT CATEGORY
+	EDIT DISCOUNT
 	=============================================*/
 
 	static public function ctrEditDiscount(){
 
-		if(isset($_POST["editdiscount"])){
-
+		if (isset($_POST["editdiscount"])) {
 			$table = "discount";
+			$discountId = $_POST["discountid"];
+			$oldItem = DiscountModel::mdlShowDiscount($table, "disId", $discountId); // Get the old discount details
+			$data = array(
+				"product" => $_POST["barcode"],
+				"discountid" => $discountId,
+				"discount" => $_POST["editdiscountname"],
+				"amount" => $_POST["editdiscountamount"],
+				"startdate" => $_POST["editstartdate"],
+				"enddate" => $_POST["editenddate"],
+			);
+			
+			$changedInfo = ''; // Initialize the changed information string
 
-			$data = array("product" => $_POST["barcode"],
-							"discount" => $_POST["editdiscountname"],
-                            "amount" => $_POST["editdiscountamount"],
-                            "startdate" => $_POST["editstartdate"],
-                            "enddate" => $_POST["editenddate"],
-                            "status" => 0);
-
+			foreach ($data as $property => $value) {
+				if ($property !== 'discountid' && $oldItem[$property] !== $value) {
+					$changedInfo .= "Property '$property' changed from '{$oldItem[$property]}' to '$value'. ";
+				}
+			}
+			
+			// If any properties were changed, use the changed information as the log message
+			if (!empty($changedInfo)) {
+				$logMessage = $changedInfo;
+			} else {
+				$logMessage = "Discount has been edited.";
+			}
+			
+			// Update the item in the database
 			$answer = DiscountModel::mdlEditDiscount($table, $data);
-			// var_dump($answer);
-
-			if($answer == "ok"){
-
-				echo'<script>
-
-				Swal.fire({
+			
+			if ($answer == "ok") {
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Discounts',
+					'ActivityDescription' => $logMessage,
+                    'itemID' => $discountId
+				);
+				// Call the method to create the activity log in the model or any other appropriate function
+				activitylogController::ctrCreateActivityLog($logdata);
+				echo '<script>
+					Swal.fire({
 						icon: "success",
 						title: "Discount has been successfully saved",
 						showConfirmButton: true,
 						confirmButtonText: "Close"
-						}).then(function(result){
-								if (result.value) {
-
-								window.location = "discount";
-
-								}
-							})
-
+					}).then(function(result){
+						if (result.value) {
+							window.location = "discount";
+						}
+					});
 				</script>';
-
 			}
-
 		}
-
 	}
 
 	/*=============================================
@@ -117,10 +142,24 @@
 			$table ="discount";
 			$data = $_GET["idDiscount"];
 
+			$item = 'disId';
+			$value = $data;
+			$loganswer = DiscountModel::mdlShowDiscount($table, $item, $value);
+
+			$discountname = $loganswer['discount'];
+			$discountproductcode = $loganswer['product'];
+
 			$answer = DiscountModel::mdlDeleteDiscount($table, $data);
-			var_dump($answer);
 
 			if($answer == "ok"){
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Discounts',
+					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted discount ' .$discountname.' for product ' .$discountproductcode. '.'. '.',
+                    'itemID' => $value
+				);
+				// Call the ctrCreateActivityLog() function
+				activitylogController::ctrCreateActivityLog($logdata);
 
 				echo'<script>
 

@@ -20,6 +20,14 @@
 				// var_dump($answer);
 
 				if($answer == 'ok'){
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Category',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' .$data. '.'
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
 
 					echo '<script>
 						
@@ -85,56 +93,47 @@
 
 		if(isset($_POST["editCategory"])){
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editCategory"])){
+			$table = "categories";
 
-				$table = "categories";
+			$data = array("Category"=>$_POST["editCategory"],
+							"id"=>$_POST["id"]);
+			
+			// $item = "id";
+			// $value = $data['id'];
+			// $loganswer = CategoriesModel::mdlShowCategories($table, $item, $value);
 
-				$data = array("Category"=>$_POST["editCategory"],
-							   "Id"=>$_POST["id"]);
+			// $category = $loganswer['Category'];
 
-				$answer = CategoriesModel::mdlEditCategory($table, $data);
-				// var_dump($answer);
+			$answer = CategoriesModel::mdlEditCategory($table, $data);
+			// var_dump($answer);
 
-				if($answer == "ok"){
-
-					echo'<script>
-
-					Swal.fire({
-						  icon: "success",
-						  title: "Category has been successfully saved ",
-						  showConfirmButton: true,
-						  confirmButtonText: "Close"
-						  }).then(function(result){
-									if (result.value) {
-
-									window.location = "category";
-
-									}
-								})
-
-					</script>';
-
-				}
-
-
-			}else{
+			if($answer == "ok"){
+				// // Create an array with the data for the activity log entry
+				// $logdata = array(
+				// 	'UserID' => $_SESSION['userId'],
+				// 	'ActivityType' => 'Category',
+				// 	'ActivityDescription' => 'User ' . $_SESSION['username'] . ' edited category ' .$category. ' to ' .$data['Category']. '.'
+                // 	'itemID' => $value
+				// );
+				// // Call the ctrCreateActivityLog() function
+				// activitylogController::ctrCreateActivityLog($logdata);
 
 				echo'<script>
 
-                Swal.fire({
-						  icon: "error",
-						  title: "No especial characters or blank fields",
-						  showConfirmButton: true,
-						  confirmButtonText: "Close"
-						  }).then(function(result){
-							if (result.value) {
+				Swal.fire({
+						icon: "success",
+						title: "Category has been successfully saved ",
+						showConfirmButton: true,
+						confirmButtonText: "Close"
+						}).then(function(result){
+								if (result.value) {
 
-							window.location = "category";
+								window.location = "category";
 
-							}
-						})
+								}
+							})
 
-			  	</script>';
+				</script>';
 
 			}
 
@@ -153,10 +152,25 @@
 			$table ="categories";
 			$data = $_GET["idCategory"];
 
+			$item = "id";
+			$value = $data;
+			$loganswer = CategoriesModel::mdlShowCategories($table, $item, $value);
+
+			$category = $loganswer['Category'];
+
 			$answer = CategoriesModel::mdlDeleteCategory($table, $data);
-			// var_dump($answer);
 
 			if($answer == "ok"){
+				
+				// Create an array with the data for the activity log entry
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Category',
+					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted category ' .$category. '.',
+                    'itemID' => $value
+				);
+				// Call the ctrCreateActivityLog() function
+				activitylogController::ctrCreateActivityLog($logdata);
 
 				echo'<script>
 

@@ -72,14 +72,13 @@ class DiscountModel{
 
 	static public function mdlEditDiscount($table, $data){
 
-		$stmt = connection::connect()->prepare("UPDATE $table SET discount = :discount, amount = :amount, status = :status, startdate = :startdate, enddate = :enddate WHERE product = :barcode");
+		$stmt = connection::connect()->prepare("UPDATE $table SET discount = :discount, amount = :amount, startdate = :startdate, enddate = :enddate WHERE product = :barcode");
 
 		$stmt -> bindParam(":barcode", $data["product"], PDO::PARAM_STR);
 		$stmt -> bindParam(":discount", $data["discount"], PDO::PARAM_STR);
 		$stmt -> bindParam(":amount", $data["amount"], PDO::PARAM_STR);
 		$stmt -> bindParam(":startdate", $data["startdate"], PDO::PARAM_STR);
 		$stmt -> bindParam(":enddate", $data["enddate"], PDO::PARAM_STR);
-		$stmt -> bindParam(":status", $data["status"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 

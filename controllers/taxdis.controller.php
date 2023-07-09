@@ -39,7 +39,16 @@
 
 				$answer = TaxdisModel::mdlAddTaxdis($table, $data);
 
-				if($answer == 'ok'){
+				if($answer == "ok"){
+					
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Taxes',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created tax type '.$data['discount'].'.'
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
 
 					echo '<script>
 						
@@ -112,12 +121,41 @@
 
 				$data = array("VAT" => $_POST["editVAT"],
 								"taxId" => $_POST["actualtaxId"],
-							   "discount" => $_POST["editdiscount"]);
+							   "VATName" => $_POST["editdiscount"]);
+			
+				$item = "taxId";
+				$taxid = $_POST["actualtaxId"];
+				$oldItem = TaxdisModel::mdlShowTaxdis($table, $item, $taxid);
+
+				$changedInfo = ''; // Initialize the changed information string
+	
+				foreach ($data as $property => $value) {
+					if ($property !== 'taxId' && $oldItem[$property] !== $value) {
+						$changedInfo .= "Property $property changed from {$oldItem[$property]} to $value. ";
+					}
+				}
+				
+				// If any properties were changed, use the changed information as the log message
+				if (!empty($changedInfo)) {
+					$logMessage = $changedInfo;
+				} else {
+					$logMessage = "Tax has been edited.";
+				}
+							   
 
 				$answer = TaxdisModel::mdlEditTaxdis($table, $data);
-				var_dump($answer);
 
 				if($answer == "ok"){
+					
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Taxes',
+						'ActivityDescription' => $logMessage,
+						'itemID' => $taxid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
 
 					echo'<script>
 
@@ -155,10 +193,23 @@
 			$table ="taxes";
 			$data = $_GET["idTaxdis"];
 
+			$item = "taxId";
+			$tax = TaxdisModel::mdlShowTaxdis($table, $item, $data);
+
 			$answer = TaxdisModel::mdlDeleteTaxdis($table, $data);
 			// var_dump($answer);
 
 			if($answer == "ok"){
+					
+				// Create an array with the data for the activity log entry
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Taxes',
+					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted tax type '.$tax['VATName'].'.',
+					'itemID' => $data
+				);
+				// Call the ctrCreateActivityLog() function
+				activitylogController::ctrCreateActivityLog($logdata);
 
 				echo'<script>
 

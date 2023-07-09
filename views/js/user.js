@@ -74,16 +74,14 @@ $(document).on("click", ".btnEditUser", function(){
  		processData: false,
  		dataType: "json",
  		success: function(answer){
- 			
- 			console.log("answer", answer);
 
  			$("#editName").val(answer["name"]);
 
  			$("#editUsername").val(answer["username"]);
 
- 			$("#editRoleOptions").html(answer["role"]);
+			$("#editRoleOptions").html(answer["role"]);
 
- 			$("editRoleOptions").val(answer["role"]);
+			$("#editRoleOptions").val(answer["role"]);
 
  			$("#actualPassword").val(answer["userpassword"]);
 

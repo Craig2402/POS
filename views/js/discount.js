@@ -51,6 +51,8 @@ $(".tables").on("click", ".btnEditDiscount", function(){
 
         $("#barcode").val(answer["product"]);
 
+        $("#discountid").val(answer["disId"]);
+
      	}
 
 	});
