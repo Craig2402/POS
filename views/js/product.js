@@ -2,26 +2,6 @@
 LOAD DYNAMIC PRODUCTS TABLE
 =============================================*/
 
-// $.ajax({
-
-// 	url: "ajax/datatable-products.ajax.php",
-// 	success:function(answer){
-// 		console.log("answer", answer);
-
-// 	}
-
-// })
-// $(".productsTable").DataTable({
-// 	"ajax": "ajax/datatable-products.ajax.php", 
-// 	"deferRender": true,
-// 	"retrieve": true,
-// 	"processing": true,
-// 	"responsive": true,
-// 	"lengthChange": false,
-// 	"autoWidth": false,
-// 	"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-// }).buttons().container().appendTo('#productsTable .col-md-6:eq(0)');
-
 
 $('.productsTable').DataTable({
 	"ajax": "ajax/datatable-products.ajax.php", 
@@ -189,7 +169,7 @@ $(".tables tbody").on("click", "button.btnDeleteProduct", function(){
 })
 
 /*=============================================
-DELETE PRODUCT
+VIEW PRODUCT
 =============================================*/
 
 $(".tables tbody").on("click", "button.btnViewProduct", function(){
@@ -199,17 +179,20 @@ $(".tables tbody").on("click", "button.btnViewProduct", function(){
 	
 	var datum = new FormData();
     datum.append("barcodeProduct", barcodeProduct);
-	console.log("FormData barcodeProduct: " + datum.get('barcodeProduct'));
+
 
 	$.ajax({
-		url: "ajax/activitylog.ajax.php",
+		url: 'ajax/activitylog.ajax.php',
 		method: "POST",
 		data: datum,
-		success: function(answer){
-			console.log(answer);
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType:"json",
+		success: function(response) {
+			console.log(response);
 			window.location = "index.php?route=viewproduct&barcode=" + barcodeProduct + "&image=" + image;
 		}
-
 	});
 
 });

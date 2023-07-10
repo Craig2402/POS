@@ -10,7 +10,6 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
-                        <li class="breadcrumb-item"><a href="orders">Orders</a></li>
                         <li class="breadcrumb-item active">Order list</li>
                     </ol>
                 </div><!-- /.col -->
@@ -117,7 +116,7 @@
                             <option value="2">Canceled</option>
                         </select>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer justify-content-between">
                         <button type="submit" class="btn btn-primary" name="editStatus">Save Changes</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>

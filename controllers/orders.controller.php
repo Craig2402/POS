@@ -95,7 +95,8 @@ class orderController{
                 $logdata = array(
                     'UserID' => $_SESSION['userId'],
                     'ActivityType' => 'Order',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed the status of order ' .$data['id']. ' to ' . $status . '.'
+                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed the status of order ' .$data['id']. ' to ' . $status . '.',
+                    'itemID' => $data['id']
                 );
                 // Call the ctrCreateActivityLog() function
                 activitylogController::ctrCreateActivityLog($logdata);

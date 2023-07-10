@@ -1,7 +1,7 @@
 <?php
     session_start();
     require_once "../controllers/activitylog.controller.php";
-    require_once "../models/activitylog.models.php";
+    require_once "../models/activitylog.model.php";
 
     class AjaxActivityLog{
 
@@ -15,10 +15,14 @@
             $logdata = array(
                 'UserID' => $_SESSION['userId'],
                 'ActivityType' => 'Product',
-                'ActivityDescription' => 'User ' . $_SESSION['username'] . ' viewed product ' .$barcode. '.'
+                'ActivityDescription' => 'User ' . $_SESSION['username'] . ' viewed product.',
+                'itemID' => $barcode
             );
             // Call the ctrCreateActivityLog() function
-            activitylogController::ctrCreateActivityLog($logdata);
+            $answer = activitylogController::ctrCreateActivityLog($logdata);
+
+            echo json_encode($answer);
+
 
         }
 

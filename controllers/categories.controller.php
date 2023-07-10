@@ -1,5 +1,4 @@
 <?php
-
  class categoriesController{
 
  	/*=============================================
@@ -20,12 +19,14 @@
 				// var_dump($answer);
 
 				if($answer == 'ok'){
+	
 					// Create an array with the data for the activity log entry
 					$logdata = array(
 						'UserID' => $_SESSION['userId'],
 						'ActivityType' => 'Category',
-						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' .$data. '.'
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' . $data . '.'
 					);
+	
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);
 
@@ -96,27 +97,39 @@
 			$table = "categories";
 
 			$data = array("Category"=>$_POST["editCategory"],
-							"id"=>$_POST["id"]);
+							"id"=>$_POST["idCategory"]);
 			
-			// $item = "id";
-			// $value = $data['id'];
-			// $loganswer = CategoriesModel::mdlShowCategories($table, $item, $value);
+			$item = "id";
+			$value = $data['id'];
+			$oldItem = CategoriesModel::mdlShowCategories($table, $item, $value);
 
-			// $category = $loganswer['Category'];
+            $changedInfo = ''; // Initialize the changed information string
+
+            foreach ($data as $property => $value) {
+                if ($property !== 'id' && $oldItem[$property] !== $value) {
+                    $changedInfo .= "Property $property changed from {$oldItem[$property]} to $value. ";
+                }
+            }
+            
+            // If any properties were changed, use the changed information as the log message
+            if (!empty($changedInfo)) {
+                $logMessage = $changedInfo;
+            } else {
+                $logMessage = "Category has been edited.";
+            }
 
 			$answer = CategoriesModel::mdlEditCategory($table, $data);
-			// var_dump($answer);
 
 			if($answer == "ok"){
-				// // Create an array with the data for the activity log entry
-				// $logdata = array(
-				// 	'UserID' => $_SESSION['userId'],
-				// 	'ActivityType' => 'Category',
-				// 	'ActivityDescription' => 'User ' . $_SESSION['username'] . ' edited category ' .$category. ' to ' .$data['Category']. '.'
-                // 	'itemID' => $value
-				// );
-				// // Call the ctrCreateActivityLog() function
-				// activitylogController::ctrCreateActivityLog($logdata);
+				// Create an array with the data for the activity log entry
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Category',
+					'ActivityDescription' => $logMessage,
+                	'itemID' => $value
+				);
+				// Call the ctrCreateActivityLog() function
+				activitylogController::ctrCreateActivityLog($logdata);
 
 				echo'<script>
 

@@ -35,8 +35,22 @@ class AjaxNotifications {
         // Handle the notification creation as needed
     }
 
+    public function ajaxShowNotifications() {
+        
+        $item = null;
+        $value = null;
+        $notifications = notificationController::ctrShowNotifications($item, $value);
+        
+		echo json_encode($notifications);
+
+    }
+
 }
 if (empty($_POST)) {
+
+    $notification = new AjaxNotifications();
+    
+    $notification->ajaxShowNotifications();
     
 }
 if (count($_POST) == 2) {

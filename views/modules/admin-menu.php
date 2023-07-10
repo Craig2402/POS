@@ -114,10 +114,27 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="orders" class="nav-link">
-                                        <i class="fa-solid fa-circle nav-icon"></i>
-                                        <p>Orders</p>
+                                    <a href="#" class="nav-link">
+                                        <i class="fa-solid fa-boxes-packing"></i>
+                                        <p>
+                                        Orders
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
                                     </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="orders" class="nav-link">
+                                                <i class="fa-solid fa-circle nav-icon"></i>
+                                                <p>Make order</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="vieworders" class="nav-link">
+                                                <i class="fa-solid fa-circle nav-icon"></i>
+                                                <p>View orders</p>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>

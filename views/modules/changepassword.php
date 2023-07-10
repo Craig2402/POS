@@ -28,6 +28,15 @@
         $update->bindParam(':pass',$newpassword,PDO::PARAM_STR);
         $update->bindParam(':username',$username,PDO::PARAM_STR);
         if($update->execute()){
+          // Create an array with the data for the activity log entry
+          $logdata = array(
+              'UserID' => $_SESSION['userId'],
+              'ActivityType' => 'Password Change',
+              'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed password.'
+          );
+          // Call the ctrCreateActivityLog() function
+          activitylogController::ctrCreateActivityLog($logdata);
+
             $_SESSION['status']="Password changed successfully";
             $_SESSION['status_code']="success";
             session_destroy();

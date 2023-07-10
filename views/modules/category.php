@@ -161,8 +161,7 @@ module edit Categories
             <!--Input name -->
             <div class="form-group">
                 <input class="form-control input-lg" type="text" id="editCategory" name="editCategory" required>
-                <input type="text" name="idCategory" id="idCategory" required>
-              <input type="hidden" name="type" value="Category deletion">
+                <input type="hidden" name="idCategory" id="idCategory" required>
             </div>
           </div>
         </div>

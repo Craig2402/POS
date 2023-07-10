@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require_once 'controllers/activitylog.controller.php';
 ?>
 
 <!DOCTYPE html>
@@ -155,10 +156,22 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "view-returned" ||
             $_GET['route'] == "finance-dashboard" ||
             $_GET['route'] == "logout"
-        ) {
-        include "modules/" . $_GET['route'] . ".php";
+        ) { 
+            // Log the route
+            $logMessage = $_SESSION['username']. " accessed route: " . $_GET['route'];
+	
+            // Create an array with the data for the activity log entry
+            $logdata = array(
+                'UserID' => $_SESSION['userId'],
+                'ActivityType' => 'Route access',
+                'ActivityDescription' => $logMessage
+            );
+
+            // Call the ctrCreateActivityLog() function
+            activitylogController::ctrCreateActivityLog($logdata);
+            include "modules/" . $_GET['route'] . ".php";
         } else {
-        include "modules/404.php";
+            include "modules/404.php";
         }
     } else {
         include "modules/dashboard.php"; // Default page for Administrator
@@ -166,8 +179,8 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
     include 'modules/footer.php';
     echo '</div>';
     } elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Seller") {
-    include 'modules/header.php';
-    include 'modules/seller-menu.php';
+        include 'modules/header.php';
+        include 'modules/seller-menu.php';
 
     if (isset($_GET['route'])) {
         // Check if the requested route is valid for the Seller role

@@ -11,6 +11,9 @@ class activitylogController {
             $table = "UserActivityLog";
 
             $answer = activitylogModel::mdlCreateActivityLog($table, $data);
+
+            return $answer;
+            
         }
     }
 }
