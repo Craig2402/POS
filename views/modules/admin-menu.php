@@ -1,7 +1,7 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #282828;">
+<aside class="main-sidebar custom-sidebar">
     <a href="#" class="brand-link">
         <img src="./dist/img/AdminLTELogo.png" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light" style="color: #FFFFFF;">POS</span>
+        <span class="brand-text font-weight-light" >POS</span>
     </a>
 
     <div class="sidebar">
@@ -10,7 +10,7 @@
                 <img src="<?php echo $_SESSION['userphoto']; ?>" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block" style="color: #FFFFFF;"><?php echo $_SESSION['username']; ?></a>
+                <a href="#" class="d-block" ><?php echo $_SESSION['username']; ?></a>
             </div>
         </div>
 

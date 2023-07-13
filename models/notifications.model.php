@@ -52,10 +52,10 @@ class notificationModel{
 	=============================================*/
     static public function mdlMarkNotificationsRead($table, $data){
 
-        $stmt = connection::connect()->prepare("UPDATE $table SET viewed_by = CONCAT_WS(',', viewed_by, :viewed_by) WHERE notification_type = :notification_type_value");
+        $stmt = connection::connect()->prepare("UPDATE $table SET viewed_by = CONCAT_WS(',', viewed_by, :viewed_by) WHERE id = :notificationId");
 
-        $stmt->bindParam(":viewed_by", $data["id"], PDO::PARAM_INT); // Bind as integer
-        $stmt->bindParam(":notification_type_value", $data["type"], PDO::PARAM_STR);
+        $stmt->bindParam(":viewed_by", $data["sessionid"], PDO::PARAM_INT); // Bind as integer
+        $stmt->bindParam(":notificationId", $data["notificationId"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 

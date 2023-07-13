@@ -53,19 +53,19 @@ if (empty($_POST)) {
     $notification->ajaxShowNotifications();
     
 }
-if (count($_POST) == 2) {
+// if (count($_POST) == 2) {
 
-    if (isset($_POST["session"]) && isset($_POST["type"])) {
+    if (isset($_POST["sessionid"]) && isset($_POST["notificationId"])) {
 
         $notification = new AjaxNotifications();
         $notification->data = array(
-            'id' => $_POST["session"],
-            'type' => $_POST["type"]
+            'sessionid' => $_POST["sessionid"],
+            'notificationId' => $_POST["notificationId"]
         );
         $notification->ajaxMarkReadNotification();
     }
 
-} else {
+// } else {
 
     if (isset($_POST["session"]) && isset($_POST["type"]) && isset($_POST["status"]) && isset($_POST["name"]) && isset($_POST["user"])) {
 
@@ -81,4 +81,4 @@ if (count($_POST) == 2) {
 
     }
 
-}
+// }

@@ -50,77 +50,7 @@
    <!-- printJS library -->
   <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
   <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
-<style>
-    .tableFixHead{
-        overflow: scroll;
-        height:520px;
-    }
-    .tableFixHead thead h{
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
-    table{
-        border-collapse: collapse;
-    }
-    th,td{
-        padding: 8px 16px;
-    }
-    th{
-        background: #eee;
-    }
-    .breadcrumb-item a {
-        position: relative;
-        display: inline-block;
-        color: #007bff;
-        text-decoration: none;
-    }
-    
-    .breadcrumb-item a::after {
-        content: "";
-        position: absolute;
-        bottom: -0.5px;
-        left: 50%;
-        width: 0;
-        height: 1px;
-        background-color: #007bff;
-        transition: width 0.3s ease;
-        transform: translateX(-50%);
-    }
-    
-    .breadcrumb-item a:hover::after {
-        width: 100%;
-    }
-    .dropdown-menu-lg {
-    min-width: 25%;
-    max-width: 25%;
-    height: calc(100vh - 56px); /* Adjusted height to subtract the navbar height */
-    top: 56px; /* Set the top position to the navbar height */
-    left: auto;
-    right: 0;
-    bottom: auto;
-    transform: translateX(0);
-    border-radius: 0;
-    overflow-y: auto; /* Added overflow-y property to enable vertical scrolling */
-  }
-
-  /* Added CSS to set a maximum height for the notification items */
-  .dropdown-menu-lg .dropdown-item {
-    max-height: 70px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-  
-  /* Added CSS to make the header permanent at the top */
-  .dropdown-menu-lg .dropdown-header {
-    position: sticky;
-    top: 0;
-    background-color: #f8f9fa;
-    padding: 8px 16px;
-    font-weight: bold;
-  }
-</style>
+  <link rel="stylesheet" href="views/css/custom.css">
 
 </head>
 <body class="hold-transition sidebar-mini">

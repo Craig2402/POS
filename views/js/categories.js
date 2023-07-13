@@ -18,9 +18,11 @@ $(".tables").on("click", ".btnEditCategory", function(){
      	processData: false,
      	dataType:"json",
      	success: function(answer){
+     		
+     		console.log("answer", answer);
 
-     		 $("#editCategory").val(answer["Category"]);
-     		 $("#idCategory").val(answer["id"]);
+			$("#editCategory").val(answer["Category"]);
+			$("#idCategory").val(answer["id"]);
 
      	}
 
@@ -53,5 +55,33 @@ $(".tables").on("click", ".btnDeleteCategory", function(){
 	 	}
 
 	 })
+
+})
+/*=============================================
+ASK FOR CATEGORY DELETION
+=============================================*/
+
+$(".tables").on("click", ".askDeleteCategory", function(){
+
+	var idCategory = $(this).attr("idCategory");
+
+	var datum = new FormData();
+	datum.append("idCategory", idCategory);
+
+	$.ajax({
+		url: "ajax/categories.ajax.php",
+		method: "POST",
+      	data: datum,
+      	cache: false,
+     	contentType: false,
+     	processData: false,
+     	dataType:"json",
+     	success: function(answer){
+
+			$("#id").val(answer["id"]);
+
+     	}
+
+	})
 
 })

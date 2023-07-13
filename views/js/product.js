@@ -176,23 +176,42 @@ $(".tables tbody").on("click", "button.btnViewProduct", function(){
 	
 	var image = $(this).attr("image");
 	var barcodeProduct = $(this).attr("idProduct");
-	
+
 	var datum = new FormData();
-    datum.append("barcodeProduct", barcodeProduct);
-
-
+	datum.append("barcodeProduct", barcodeProduct);
+	
 	$.ajax({
-		url: 'ajax/activitylog.ajax.php',
+
+		url:"ajax/products.ajax.php",
 		method: "POST",
 		data: datum,
 		cache: false,
 		contentType: false,
 		processData: false,
 		dataType:"json",
-		success: function(response) {
-			console.log(response);
-			window.location = "index.php?route=viewproduct&barcode=" + barcodeProduct + "&image=" + image;
+		success:function(answer){
+			
+			var datum = new FormData();
+			datum.append("barcodeProduct", barcodeProduct);
+			datum.append("productname", answer.product);
+
+
+			$.ajax({
+				url: 'ajax/activitylog.ajax.php',
+				method: "POST",
+				data: datum,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType:"json",
+				success: function(response) {
+					window.location = "index.php?route=viewproduct&barcode=" + barcodeProduct + "&image=" + image;
+				}
+
+			});
+
 		}
+
 	});
 
 });

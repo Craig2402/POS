@@ -2,6 +2,7 @@
     "require": {
         "tecnickcom/tcpdf": "^6.6",
         "dompdf/dompdf": "^2.0",
-        "zendframework/zend-barcode": "^2.8"
+        "zendframework/zend-barcode": "^2.8",
+        "swiftmailer/swiftmailer": "^6.0"
     }
 }
