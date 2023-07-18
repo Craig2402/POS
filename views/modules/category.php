@@ -59,7 +59,7 @@
           <!-- /.col-md-4 -->
           <div class="col-lg-8">
           <!-- /.col-md-6 -->
-            <div class="card card-danger card-outline">
+            <div class="card card-primary card-outline">
               <div class="card-header">
                 <h5 class="m-0">Categories</h5>
               </div>
@@ -105,15 +105,15 @@
 
                             <div class="btn-group">
 
-                            <button class="btn btn-warning btnEditCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#editCategories"><i class="fa fa-edit"></i></button>';
+                            <button class="btn btnEditCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#editCategories"><i class="fa fa-edit"></i></button>';
 
 
                                 
 
                               if ($_SESSION['role'] == "Administrator") {
-                                echo '<button class="btn btn-danger btnDeleteCategory" idCategory="'.$value["id"].'"><i class="fa fa-times"></i></button>';
+                                echo '<button class="btn  btnDeleteCategory" idCategory="'.$value["id"].'"><i class="fa fa-times"></i></button>';
                               }else{
-                                echo '<button class="btn btn-danger askDeleteCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#askDeleteCategory" ><i class="fa fa-times"></i></button>';
+                                echo '<button class="btn askDeleteCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#askDeleteCategory" ><i class="fa fa-times"></i></button>';
                               }
                               
 

@@ -84,7 +84,7 @@
 
 
             <!-- Horizontal Form -->
-            <div class="card card-info">
+            <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">Change password</h3>
               </div>
@@ -113,7 +113,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info" name="btnupdate">Update password</button>
+                  <button type="submit" class="btn btn-primary" name="btnupdate">Update password</button>
                 </div>
                 <!-- /.card-footer -->
               </form>

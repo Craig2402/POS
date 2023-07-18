@@ -63,7 +63,7 @@
           <!-- /.col-md-4 -->
           <div class="col-lg-8">
           <!-- /.col-md-6 -->
-            <div class="card card-danger card-outline">
+            <div class="card card-primary card-outline">
               <div class="card-header">
                 <h5 class="m-0">Taxes And Discounts</h5>
               </div>
@@ -102,9 +102,9 @@
 
                             <div class="btn-group">
                                 
-                              <button class="btn btn-warning btnEditTaxdis" taxId="'.$value["taxId"].'" data-toggle="modal" data-target="#editTaxdis"><i class="fa fa-edit"></i></button>
+                              <button class="btn btnEditTaxdis" taxId="'.$value["taxId"].'" data-toggle="modal" data-target="#editTaxdis"><i class="fa fa-edit"></i></button>
 
-                              <button class="btn btn-danger btnDeleteTaxdis" taxId="'.$value["taxId"].'"><i class="fa fa-times"></i></button>
+                              <button class="btn btnDeleteTaxdis" taxId="'.$value["taxId"].'"><i class="fa fa-times"></i></button>
 
                             </div>  
 

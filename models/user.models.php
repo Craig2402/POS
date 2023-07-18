@@ -11,7 +11,7 @@ class userModel{
 
 		if($item != null){
 
-			$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item");
+			$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item and deleted = 0");
 
 			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
 
@@ -21,7 +21,7 @@ class userModel{
 
 		}
 		else{
-			$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers");
+			$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE deleted = 0");
 
 			$stmt -> execute();
 
@@ -33,6 +33,17 @@ class userModel{
 		$stmt -> close();
 
 		$stmt = null;
+
+	}
+	static public function mdlShowAllUser($tableUsers, $item, $value){
+
+		$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item");
+
+		$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
 
 	}
 
@@ -72,13 +83,14 @@ class userModel{
 
 	static public function mdlEditUser($table, $data){
 
-		$stmt = connection::connect()->prepare("UPDATE $table set name = :name, userpassword = :userpassword, role = :role, userphoto = :userphoto WHERE username = :username");
+		$stmt = connection::connect()->prepare("UPDATE $table set name = :name, userpassword = :userpassword, role = :role, userphoto = :userphoto, deleted = :deleted WHERE username = :username");
 
 		$stmt -> bindParam(":name", $data["name"], PDO::PARAM_STR);
 		$stmt -> bindParam(":username", $data["username"], PDO::PARAM_STR);
 		$stmt -> bindParam(":userpassword", $data["userpassword"], PDO::PARAM_STR);
 		$stmt -> bindParam(":role", $data["role"], PDO::PARAM_STR);
 		$stmt -> bindParam(":userphoto", $data["userphoto"], PDO::PARAM_STR);
+		$stmt -> bindParam(":deleted", $data["deleted"], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 			
@@ -128,10 +140,15 @@ class userModel{
 
 	static public function mdlDeleteUser($table, $data){
 
-		$stmt = connection::connect()->prepare("DELETE FROM $table WHERE userId = :userId");
+		// $stmt = connection::connect()->prepare("DELETE FROM $table WHERE userId = :userId");
 
-		$stmt -> bindParam(":userId", $data, PDO::PARAM_STR);
+		// $stmt -> bindParam(":userId", $data, PDO::PARAM_STR);
+		
+		$stmt = connection::connect()->prepare("UPDATE $table SET deleted = :status WHERE userId = :userId");
 
+		$stmt -> bindParam(":status", $data['status'], PDO::PARAM_INT);
+		$stmt -> bindParam(":userId", $data['userId'], PDO::PARAM_STR);
+		
 		if ($stmt->execute()) {
 			
 			return 'ok';

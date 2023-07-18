@@ -148,8 +148,8 @@
                           }
                           
                           echo '<td>
-                          <button class="btn btn-warning btnEditExpense" expenseId="'.$val["id"].'" data-toggle="modal" data-target="#editExpenseModal"><i class="fa fa-edit"></i></button>
-                          <button class="btn btn-danger btnDeleteExpense" expenseId="'.$val["id"].'" name="btnDeleteExpense"><i class="fa fa-times"></i></button>
+                          <button class="btn btnEditExpense" expenseId="'.$val["id"].'" data-toggle="modal" data-target="#editExpenseModal"><i class="fa fa-edit"></i></button>
+                          <button class="btn btnDeleteExpense" expenseId="'.$val["id"].'" name="btnDeleteExpense"><i class="fa fa-times"></i></button>
                         </td>
                         </tr>';
 

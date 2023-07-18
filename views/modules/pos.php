@@ -44,7 +44,7 @@
     function fillProducts($pdo){
         $pdo = connection::connect();
         $output="";
-        $select=$pdo->prepare('select * from products order by product ASC');
+        $select=$pdo->prepare('select * from products where status = 0 order by product ASC');
 
         $select->execute();
         

@@ -2,18 +2,20 @@
 
 class productController{
     static public function ctrCreateProducts(){
+
         if(isset($_POST['addproduct'])){
+
             if(preg_match('/^[0-9]+$/', $_POST["txtstock"]) &&	
 			   preg_match('/^[0-9.]+$/', $_POST["txtpurchase"]) &&
 			   preg_match('/^[0-9.]+$/', $_POST["txtsale"])){
 
-		   		/*=============================================
+				/*=============================================
 				VALIDATE IMAGE
 				=============================================*/
 
-			   	$route = "views/img/products/default/anonymous.png";
+				$route = "views/img/products/default/anonymous.png";
 
-			   	if(isset($_FILES["txtproductimage"]["tmp_name"])){
+				if(isset($_FILES["txtproductimage"]["tmp_name"])){
 
 					list($width, $height) = getimagesize($_FILES["txtproductimage"]["tmp_name"]);
 
@@ -74,20 +76,28 @@ class productController{
 
 				}
 
-				$table = "products";
-
 				$data = array("barcode" => $_POST["txtbarcode"],
-							   "product" => $_POST["txtproductname"],
-							   "idCategory" => $_POST["txtcategory"],
-                               "description" => $_POST["txtdescription"],
-							   "stock" => $_POST["txtstock"],
-							   "purchaseprice" => $_POST["txtpurchase"],
-							   "saleprice" => $_POST["txtsale"],
-							   "image" => $route,
-							   "taxId" => $_POST["txttaxcat"]);
+								"product" => $_POST["txtproductname"],
+								"idCategory" => $_POST["txtcategory"],
+								"description" => $_POST["txtdescription"],
+								"stock" => $_POST["txtstock"],
+								"purchaseprice" => $_POST["txtpurchase"],
+								"saleprice" => $_POST["txtsale"],
+								"image" => $route,
+								"taxId" => $_POST["txttaxcat"],
+								"status" => 0);
 
-				$answer = productModel::mdlAddProduct($table, $data);
+			
+				$table = "products";
+				$item = "barcode";
+				$value = $_POST["txtbarcode"];
+				$SelectedProducts = productModel::mdlShowAllProducts($table, $item, $value);
 
+				if ($SelectedProducts && $SelectedProducts['status'] == 1 ) {
+					$answer = productModel::mdlEditProduct($table, $data);
+				} else {
+					$answer = productModel::mdlAddProduct($table, $data);
+				}
 				if($answer == "ok"){
 					// Create an array with the data for the activity log entry
 					$data = array(
@@ -101,11 +111,11 @@ class productController{
 					echo'<script>
 
 					Swal.fire({
-							  icon: "success",
-							  title: "Product added succesfully!",
-							  showConfirmButton: true,
-							  confirmButtonText: "Close"
-							  }).then(function(result){
+							icon: "success",
+							title: "Product added succesfully!",
+							showConfirmButton: true,
+							confirmButtonText: "Close"
+							}).then(function(result){
 										if (result.value) {
 
 										window.location = "products";
@@ -116,7 +126,6 @@ class productController{
 						</script>';
 
 				}
-
 
 			}else{
 
@@ -255,7 +264,8 @@ class productController{
 							   "stock" => $_POST["editstock"],
 							   "purchaseprice" => $_POST["editpurchaseprice"],
 							   "saleprice" => $_POST["editsaleprice"],
-							   "image" => $route);
+							   "image" => $route,
+							   "status" => 0);
 							   
 				$item = "barcode";
 				$barcode = $data['barcode'];
@@ -343,8 +353,11 @@ class productController{
 		if(isset($_GET["barcodeProduct"])){
 
 			$table ="products";
-			$data = $_GET["barcodeProduct"];
-
+			$barcode = $_GET['barcodeProduct'];
+			$data = array(
+				'status' => 1,
+				'barcode' => $barcode
+			);
 			if($_GET["image"] != "" && $_GET["image"] != "views/img/products/default/anonymous.png"){
 
 				unlink($_GET["image"]);
@@ -353,11 +366,12 @@ class productController{
 			}
 			
 			$item = "barcode";
-			$value = $data;
+			$value = $_GET["barcodeProduct"];
 			$order = "id";
 			$loganswer = productModel::mdlShowProducts($table, $item, $value, $order);
 			$product = $loganswer['product'];
 
+			// $answer = productModel::mdlDeleteProduct($table, $data);
 			$answer = productModel::mdlDeleteProduct($table, $data);
 
 			if($answer == "ok"){

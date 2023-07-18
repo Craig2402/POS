@@ -12,14 +12,21 @@ require_once "../../controllers/user.controller.php";
 require_once "../../models/user.models.php";
 require_once '../../controllers/taxdis.controller.php';
 require_once '../../models/taxdis.models.php';
+require_once '../../models/connection.php';
 
 require_once '../../vendor/autoload.php';
 
-$item = 'invoiceId';
-$value = $_GET['invoiceId'];
+$item='paymentid';
+$value=$_GET['paymentId'];
+$paymentData=PaymentController::ctrShowPayments($item, $value);
+
+$item2 = 'invoiceId';
+$value2 = $paymentData['invoiceId'];
 $order = 'id';
-$product = productController::ctrShowProducts($item, $value, $order);
-$invoices = PaymentController::ctrShowInvoices($item, $value);
+$invoices = PaymentController::ctrShowInvoices($item2, $value2);
+// $product = productController::ctrShowProducts($item2, $value2, $order);
+
+
 
 
 $item2 = 'null';
@@ -57,12 +64,17 @@ $pdf->SetFont('helvetica', '', 10);
 $pdf->AddPage();
 
 $invoiceNumber = $invoices['invoiceId'];
-// Get the human-readable date from the "datecreated" field
-$datecreated = $invoices['datecreated'];
-$humanDate = date('Ymd', strtotime($datecreated));
+// Set your timezone
+date_default_timezone_set('Africa/Nairobi');
 
-// Generate the receipt number without the "INVC-" prefix
-$receiptNumber = $humanDate.substr($invoiceNumber, 5);
+// Get the current timestamp in your timezone
+$timestamp = time();
+
+// Generate a random 4-digit number
+$randomNumber = mt_rand(1000, 9999);
+
+// Generate the receipt number based on the current timestamp and random number
+$receiptNumber = date('YmdHis', $timestamp) . $randomNumber;
 
 
 // Set content
@@ -141,9 +153,9 @@ foreach ($data as $item) {
 $html .= '</tbody>
     </table>
     ';
-$item3 = 'invoiceId';
-$value3 = $_GET['invoiceId'];
-$paymentData = PaymentController::ctrShowPayments($item3, $value3);
+// $item3 = 'invoiceId';
+// $value3 = $_GET['invoiceId'];
+// $paymentData = PaymentController::ctrShowPayments($item3, $value3);
 
 $cashPaid = 0;
 $mpesaPay = 0;
@@ -373,6 +385,15 @@ file_put_contents($pdfFilePath, $pdfContent);
 // Set the response headers for inline display
 header('Content-Type: application/pdf');
 header('Content-Disposition: inline; filename='. $receiptNumber .'.pdf');
+
+
+//Update the receipt number on the server
+$pdo = connection::connect();
+
+$select = $pdo->prepare("UPDATE payments set receiptNumber = :receiptNumber where paymentid=:paymentid");
+$select->bindParam(':receiptNumber', $receiptNumber);
+$select->bindParam(':paymentid', $paymentData['paymentid']);
+$select->execute();
 
 // Output the PDF content
 echo $pdfContent;

@@ -26,7 +26,7 @@ class userController{
 
 				if($answer["username"] == $_POST["txt_user"] && $answer["userpassword"] == $encryptpass ){
 
-					if($answer["status"] == 1){
+					if($answer["status"] == 1 && $answer["deleted"] == 0){
 
 						$_SESSION["beginSession"] = "ok";
 						$_SESSION["userId"] = $answer["userId"];
@@ -34,6 +34,7 @@ class userController{
 						$_SESSION["username"] = $answer["username"];
 						$_SESSION["userphoto"] = $answer["userphoto"];
 						$_SESSION["role"] = $answer["role"];
+						$_SESSION["storeid"] = $answer["store_id"];
 
 						/*=============================================
 						Register date to know last_login
@@ -195,9 +196,19 @@ class userController{
 							  'username' => $_POST["username"],
 								'userpassword' => $encryptpass,
 								'role' => $_POST["roleOptions"],
-								'userphoto' => $photo);
+								'userphoto' => $photo,
+								'deleted' => 0);
 
-				$answer = userModel::mdlCreateUser($table, $data);
+
+				$item = 'username';
+				$value = $_POST["username"];
+
+				$SelectedUser = userModel::mdlShowAllUser($table, $item, $value);
+				if ($SelectedUser && $SelectedUser['deleted'] == 1) {
+					$answer = userModel::mdlEditUser($table, $data);
+				}else {
+					$answer = userModel::mdlCreateUser($table, $data);
+				}
 
 				if ($answer == 'ok') {
 					// Create an array with the data for the activity log entry
@@ -499,7 +510,11 @@ class userController{
 		if(isset($_GET["userId"])){
 
 			$table ="users";
-			$data = $_GET["userId"];
+			$userid = $_GET["userId"];
+			$data = array(
+				"userId" => $userid,
+				"status" => 1
+			);
 
 			if($_GET["userphoto"] != ""){
 
@@ -519,7 +534,7 @@ class userController{
                     'UserID' => $_SESSION['userId'],
                     'ActivityType' => 'User',
                     'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted user ' .$user['username']. '.',
-                    'itemID' => $data
+                    'itemID' => $userid
                 );
                 // Call the ctrCreateActivityLog() function
                 activitylogController::ctrCreateActivityLog($logdata);

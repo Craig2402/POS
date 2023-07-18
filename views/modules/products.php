@@ -107,17 +107,17 @@
 
                                 <div class="btn-group">
 
-                                  <a href="index.php?route=printbarcode&barcode='.$val["barcode"].'&image='.$val["image"].'" class="nav-link"><button class="btn btn-primary btnPrintProductBarcode"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-barcode"></i></button></a>
+                                  <button class="btn btnPrintProductBarcode"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-barcode"></i></button>
 
-                                  <button class="btn btn-success btnViewProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-eye"></i></button>';
+                                  <button class="btn btnViewProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-eye"></i></button>';
 
                                   if (isset($_SESSION['role']) && ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Store")) {
 
-                                    echo '<button class="btn btn-warning btnEditProduct" idProduct="'.$val["barcode"].'" data-toggle="modal" data-target="#modalEditProduct"><i class="fa fa-edit"></i></button>';
+                                    echo '<button class="btn btnEditProduct" idProduct="'.$val["barcode"].'" data-toggle="modal" data-target="#modalEditProduct"><i class="fa fa-edit"></i></button>';
 
                                   }
 
-                                    echo'<button class="btn btn-danger btnDeleteProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-times"></i></button>
+                                    echo'<button class="btn btnDeleteProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-times"></i></button>
                                </div>  
 
                             </td>

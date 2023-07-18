@@ -69,7 +69,7 @@
           </div>
           <div class="col-lg-8">
           <!-- /.col-md-6 -->
-            <div class="card card-danger card-outline">
+            <div class="card card-primary card-outline">
               <div class="card-header">
                 <h5 class="m-0">Supplier</h5>
               </div>
@@ -105,8 +105,8 @@
                             <td>'.$val["address"].'</td>
                             <td>'.$val["email"].'</td>
                             <td>'.$val["contact"].'</td>
-                            <td><button class="btn btn-warning btnEditSupplier" idSupplier="'.$val["supplierid"].'" data-toggle="modal" data-target="#modalEditSupplier"><i class="fa fa-edit"></i></button>
-                            <button class="btn btn-danger btnDeleteSupplier"  idSupplier="'.$val["supplierid"].'"><i class="fa fa-times"></i></button></td>
+                            <td><button class="btn btnEditSupplier" idSupplier="'.$val["supplierid"].'" data-toggle="modal" data-target="#modalEditSupplier"><i class="fa fa-edit"></i></button>
+                            <button class="btn btnDeleteSupplier"  idSupplier="'.$val["supplierid"].'"><i class="fa fa-times"></i></button></td>
                           </tr>';
 
                         }

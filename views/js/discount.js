@@ -1,5 +1,5 @@
 /*=============================================
-EDIT CATEGORY
+EDIT DISCOUNT
 =============================================*/
 
 $(".tables").on("click", ".btnEditDiscount", function(){
@@ -156,3 +156,6 @@ $(".tables").on("click", ".btnDeleteDiscount", function(){
         }
     });
 
+$(".tables").on("change keyup", ".btnEditDiscount", function(){
+
+});

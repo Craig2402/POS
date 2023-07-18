@@ -129,7 +129,7 @@ $(".tables tbody").on("click", "button.btnEditProduct", function(){
 
 			  $(".preview").attr("src",  answer["image"]);
 
-         }
+		}
 
       }
 
@@ -215,7 +215,17 @@ $(".tables tbody").on("click", "button.btnViewProduct", function(){
 	});
 
 });
-  
+
+$(".tables tbody").on("click", "button.btnPrintProductBarcode", function(){
+
+	var barcodeProduct = $(this).attr("idProduct");
+	// var code = $(this).attr("code");
+	var image = $(this).attr("image");
+
+        	window.location = "index.php?route=printbarcode&barcode="+barcodeProduct+"&image="+image;
+
+})
+
 
 $(document).ready(function() {
 	$('#stock').change(function() {
@@ -242,4 +252,44 @@ $(document).ready(function() {
 		}
 	});
 });
+});
+
+
+// check if the product exista in the db
+$('#txtbarcode').change(function() {
+
+	var item = "barcode"
+	var order = "id"
+	var value = $(this).val();
+	
+	var datum = new FormData();
+    datum.append("item", item);
+    datum.append("order", order);
+    datum.append("value", value);
+
+		$.ajax({
+
+		url:"ajax/products.ajax.php",
+		method: "POST",
+		data: datum,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType:"json",
+		success:function(answer){
+			if (answer) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Product already exists!',
+                    showConfirmButton: false,
+                    timer: 2000, // 2 seconds
+                    willClose: function() {
+                        $('#txtbarcode').val(''); // Reset the text field
+                    }
+                });
+			}
+		}
+
+  	})
+
 });

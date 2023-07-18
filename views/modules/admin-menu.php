@@ -90,6 +90,12 @@
                                         <p>Add stock</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="discount" class="nav-link">
+                                        <i class="fa-solid fa-circle nav-icon"></i>
+                                        <p>Discounts</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -185,12 +191,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="discount" class="nav-link">
-                                <i class="fa-solid fa-circle nav-icon"></i>
-                                <p>Discounts</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="taxdis" class="nav-link">
                                 <i class="fa-solid fa-circle nav-icon"></i>
                                 <p>Tax</p>
@@ -228,6 +228,28 @@
                             <a href="#" class="nav-link">
                                 <i class="fa-solid fa-circle nav-icon"></i>
                                 <p>Sales report</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-warehouse"></i>
+                        <p>Stores
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="stores" class="nav-link">
+                                <i class="fa-solid fa-circle nav-icon"></i>
+                                <p>Add stores</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="manage-stores" class="nav-link">
+                                <i class="fa-solid fa-circle nav-icon"></i>
+                                <p>Manage stores</p>
                             </a>
                         </li>
                     </ul>

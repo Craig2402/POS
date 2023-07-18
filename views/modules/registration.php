@@ -83,7 +83,7 @@
           <!-- /.col-md-4 -->
           <div class="col-lg-8">
           <!-- /.col-md-6 -->
-            <div class="card card-danger card-outline">
+            <div class="card card-primary card-outline">
               <div class="card-header">
                 <h5 class="m-0">Users</h5>
               </div>
@@ -140,11 +140,11 @@
 
                             if($value["status"] != 0){
 
-                                echo '<td><button class="btn btn-success btnActivate btn-xs" userId="'.$value["userId"].'" status="0">Activated</button></td>';
+                                echo '<td><button class="btn btnActivate btn-xs" userId="'.$value["userId"].'" status="0">Activated</button></td>';
 
                             }else{
 
-                                echo '<td><button class="btn btn-danger btnActivate btn-xs" userId="'.$value["userId"].'" status="1">Deactivated</button></td>';
+                                echo '<td><button class="btn btnActivate btn-xs" userId="'.$value["userId"].'" status="1">Deactivated</button></td>';
                             }
                             
                             echo '<td>'.$value["lastlogin"].'</td>
@@ -153,9 +153,9 @@
 
                                 <div class="btn-group">
                                     
-                                <button class="btn btn-warning btnEditUser" userId="'.$value["userId"].'" data-toggle="modal" data-target="#editUser"><i class="fa fa-edit"></i></button>
+                                <button class="btn btnEditUser" userId="'.$value["userId"].'" data-toggle="modal" data-target="#editUser"><i class="fa fa-edit"></i></button>
 
-                                <button class="btn btn-danger btnDeleteUser" userId="'.$value["userId"].'" username="'.$value["username"].'" userPhoto="'.$value["userphoto"].'"><i class="fa fa-times"></i></button>
+                                <button class="btn btnDeleteUser" userId="'.$value["userId"].'" username="'.$value["username"].'" userPhoto="'.$value["userphoto"].'"><i class="fa fa-times"></i></button>
 
                                 </div>  
 

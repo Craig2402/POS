@@ -171,25 +171,19 @@
 
 			$category = $loganswer['Category'];
 
-			$answer = CategoriesModel::mdlDeleteCategory($table, $data);
-
-			if($answer == "ok"){
+			$table2 = "products";
+			$item2 = "idCategory";
+			$value2 = $data;
+			$order = "id";
+			$products = productModel::mdlShowProducts($table2, $item2, $value2, $order);
 				
-				// Create an array with the data for the activity log entry
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Category',
-					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted category ' .$category. '.',
-                    'itemID' => $value
-				);
-				// Call the ctrCreateActivityLog() function
-				activitylogController::ctrCreateActivityLog($logdata);
+			if($products){
 
 				echo'<script>
 
                 Swal.fire({
-						  icon: "success",
-						  title: "The category has been successfully deleted",
+						  icon: "warning",
+						  title: "The category has existing products. Please delete all products in this category first.",
 						  showConfirmButton: true,
 						  confirmButtonText: "Close"
 						  }).then(function(result){
@@ -201,6 +195,40 @@
 								})
 
 					</script>';
+
+			}else {
+				
+				$answer = CategoriesModel::mdlDeleteCategory($table, $data);
+
+				if($answer == "ok"){
+					
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Category',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted category ' .$category. '.',
+						'itemID' => $value
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+
+					echo'<script>
+
+					Swal.fire({
+							icon: "success",
+							title: "The category has been successfully deleted",
+							showConfirmButton: true,
+							confirmButtonText: "Close"
+							}).then(function(result){
+										if (result.value) {
+
+										window.location = "category";
+
+										}
+									})
+
+						</script>';
+				}
 			}
 		
 		}

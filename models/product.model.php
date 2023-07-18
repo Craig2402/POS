@@ -7,7 +7,7 @@ class productModel{
 	=============================================*/
 	static public function mdlAddProduct($table, $data){
 
-		$stmt = connection::connect()->prepare("INSERT INTO $table(barcode,idCategory, product, description, stock, purchaseprice, saleprice, image ,taxId) VALUES(:barcode, :idCategory, :product,  :description, :stock, :purchaseprice, :saleprice, :image , :taxId)");
+		$stmt = connection::connect()->prepare("INSERT INTO $table(barcode,idCategory, product, description, stock, purchaseprice, saleprice, image ,taxId, status) VALUES(:barcode, :idCategory, :product,  :description, :stock, :purchaseprice, :saleprice, :image , :taxId, :status)");
 
 		$stmt->bindParam(":barcode", $data["barcode"],PDO::PARAM_STR);
 		$stmt->bindParam(":idCategory", $data["idCategory"],PDO::PARAM_STR);
@@ -18,6 +18,7 @@ class productModel{
         $stmt->bindParam(":saleprice", $data["saleprice"],PDO::PARAM_STR);
         $stmt->bindParam(":image", $data["image"],PDO::PARAM_STR);
         $stmt->bindParam(":taxId", $data["taxId"],PDO::PARAM_STR);
+        $stmt->bindParam(":status", $data["status"],PDO::PARAM_INT);
 
 		if($stmt->execute()){
 
@@ -42,7 +43,7 @@ class productModel{
 
 		if($item != null){
 
-			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item AND status = 0");
 
 			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
 
@@ -52,7 +53,7 @@ class productModel{
 
 		}
 		else{
-			$stmt = connection::connect()->prepare("SELECT * FROM $table order by $order desc");
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE status = 0 order by $order desc");
 
 			$stmt -> execute();
 
@@ -66,12 +67,28 @@ class productModel{
 		$stmt = null;
 
 	}
+	
+	static public function mdlShowAllProducts($table, $item, $value){
+
+		$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+		$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
+		
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
 	/*=============================================
 	EDITING PRODUCT
 	=============================================*/
 	static public function mdlEditProduct($table, $data){
 
-		$stmt = connection::connect()->prepare("UPDATE $table SET idCategory = :idCategory, product= :product, description = :description, image = :image, stock = :stock, purchaseprice = :purchaseprice, saleprice = :saleprice WHERE barcode = :barcode");
+		$stmt = connection::connect()->prepare("UPDATE $table SET idCategory = :idCategory, product= :product, description = :description, image = :image, stock = :stock, purchaseprice = :purchaseprice, saleprice = :saleprice, status = :status WHERE barcode = :barcode");
 
 		$stmt->bindParam(":idCategory", $data["idCategory"], PDO::PARAM_INT);
 		$stmt->bindParam(":barcode", $data["barcode"], PDO::PARAM_STR);
@@ -81,6 +98,7 @@ class productModel{
         $stmt->bindParam(":purchaseprice", $data["purchaseprice"],PDO::PARAM_STR);
         $stmt->bindParam(":saleprice", $data["saleprice"],PDO::PARAM_STR);
         $stmt->bindParam(":image", $data["image"],PDO::PARAM_STR);
+        $stmt->bindParam(":status", $data["status"],PDO::PARAM_INT);
 
 		if($stmt->execute()){
 
@@ -104,9 +122,14 @@ class productModel{
 
 	static public function mdlDeleteProduct($table, $data){
 
-		$stmt = connection::connect()->prepare("DELETE FROM $table WHERE barcode = :id");
+		// $stmt = connection::connect()->prepare("DELETE FROM $table WHERE barcode = :id");
 
-		$stmt -> bindParam(":id", $data, PDO::PARAM_INT);
+		// $stmt -> bindParam(":id", $data, PDO::PARAM_INT);
+
+		$stmt = connection::connect()->prepare("UPDATE $table SET status = :status WHERE barcode = :barcode");
+
+		$stmt -> bindParam(":status", $data['status'], PDO::PARAM_INT);
+		$stmt -> bindParam(":barcode", $data['barcode'], PDO::PARAM_INT);
 
 		if($stmt -> execute()){
 

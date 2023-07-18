@@ -6,7 +6,7 @@
 
     $pdo = connection::connect();
 
-    $select = $pdo->prepare("SELECT * FROM $table WHERE barcode = :barcode");
+    $select = $pdo->prepare("SELECT * FROM $table WHERE barcode = :barcode AND status = 0");
     $select->bindParam(':barcode', $barcode);
     $select->execute();
 
