@@ -20,19 +20,25 @@ class OrdersModel{
 		$stmt->bindParam(":status", $data["status"],PDO::PARAM_INT);
 		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 		
 	}
 
@@ -62,6 +68,10 @@ class OrdersModel{
 
 			return $stmt -> fetch();
 
+			$stmt->closeCursor();
+
+			$stmt = null;
+			
 		}
 		else{
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
@@ -70,11 +80,11 @@ class OrdersModel{
 
 			return $stmt -> fetchAll();
 
+			$stmt->closeCursor();
+
+			$stmt = null;
+			
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 	}
 
     /*=============================================
@@ -87,21 +97,26 @@ class OrdersModel{
 
 		$stmt->bindParam(":status", $data["status"], PDO::PARAM_STR);
 		$stmt->bindParam(":id", $data["id"],PDO::PARAM_STR);
-		
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 

@@ -22,19 +22,25 @@ class productModel{
         $stmt->bindParam(":status", $data["status"],PDO::PARAM_INT);
 		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 	
@@ -53,6 +59,10 @@ class productModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+		
+			$stmt -> closeCursor();
+	
+			$stmt = null;
 			
 		} elseif($item !== null ){
 
@@ -65,6 +75,10 @@ class productModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+		
+			$stmt -> closeCursor();
+	
+			$stmt = null;
 
 		} elseif ($item === 'status') {
 			// $products3 = productModel::mdlShowProducts('products_table', 'status', 0);
@@ -76,6 +90,10 @@ class productModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+		
+			$stmt -> closeCursor();
+	
+			$stmt = null;
 			
 		}
 		
@@ -94,6 +112,10 @@ class productModel{
 			$stmt->execute();
 
 			return $stmt->fetch();
+		
+			$stmt -> closeCursor();
+	
+			$stmt = null;
 				
 		} else {
 			
@@ -104,8 +126,13 @@ class productModel{
 			$stmt -> execute();
 
 			return $stmt -> fetch();
+		
+			$stmt -> closeCursor();
+	
+			$stmt = null;
 
 		}
+		
 	}
 
 
@@ -183,19 +210,25 @@ class productModel{
         $stmt->bindParam(":status", $data["status"],PDO::PARAM_INT);
 		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 
@@ -215,19 +248,25 @@ class productModel{
 		$stmt -> bindParam(":barcode", $data['barcode'], PDO::PARAM_INT);
 		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
-		
-		}else{
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-			return "error";	
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
 
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 		
@@ -242,19 +281,25 @@ class productModel{
 		$stmt -> bindParam(":".$item1, $value1, PDO::PARAM_STR);
 		$stmt -> bindParam(":id", $value, PDO::PARAM_STR);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
-		
-		}else{
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-			return "error";	
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
 
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 	/*=============================================
@@ -269,7 +314,7 @@ class productModel{
 
 		return $stmt -> fetch();
 
-		$stmt -> close();
+		$stmt -> closeCursor();
 
 		$stmt = null;
 
@@ -285,20 +330,26 @@ class productModel{
 		
 		$stmt -> bindParam(":quantity", $quantity, PDO::PARAM_INT);
 		$stmt -> bindParam(":barcode", $barcode, PDO::PARAM_INT);
-		
-		if($stmt -> execute()){
 
-			return "ok";
+		if ($stmt->execute()) {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'ok';
 			
-		}else{
+		} else {
 
-			return "error";	
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
 
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 	

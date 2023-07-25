@@ -42,6 +42,8 @@ $(".tables").on("click", ".btnDeleteCategory", function(){
 		text: "If you're not sure you can cancel!",
 		icon: 'warning',
 		showCancelButton: true,
+		confirmButtonColor: '#0069d9',
+		cancelButtonColor: '#d33',
 		cancelButtonText: 'Cancel',
 		confirmButtonText: 'Yes, delete category!'
 	 }).then(function(result){

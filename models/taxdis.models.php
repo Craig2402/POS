@@ -1,6 +1,5 @@
 <?php
 
-
 require_once "connection.php";
 
 class TaxModel{
@@ -20,17 +19,24 @@ class TaxModel{
 
 		if ($stmt->execute()) {
 
-			return 'ok';
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
+			$stmt = null;
+
+			return 'ok';
+			
 		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
 
 			return 'error';
 
 		}
-		
-		$stmt -> close();
 
-		$stmt = null;
 	}
 
 	/*=============================================
@@ -48,6 +54,10 @@ class TaxModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
 			
 		} elseif($item != null){
 
@@ -59,6 +69,10 @@ class TaxModel{
 
 			return $stmt -> fetch();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
 		else{
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
@@ -67,11 +81,11 @@ class TaxModel{
 
 			return $stmt -> fetchAll();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 
@@ -87,19 +101,25 @@ class TaxModel{
 		$stmt->bindParam(":VAT", $data["VAT"],PDO::PARAM_STR);
 		$stmt->bindParam(":VATName", $data["VATName"],PDO::PARAM_STR);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt->close();
-		
-		$stmt = null;
 
 	}
 
@@ -113,19 +133,26 @@ class TaxModel{
 
 		$stmt -> bindParam(":Id", $data, PDO::PARAM_INT);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
-		
-		}else{
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-			return "error";	
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
 
 		}
 
-		$stmt -> close();
-
-		$stmt = null;
-
 	}
+
 }

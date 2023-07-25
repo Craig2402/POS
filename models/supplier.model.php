@@ -15,19 +15,25 @@ class supplierModel{
         $stmt->bindParam(":contact", $data["contact"],PDO::PARAM_STR);
 		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
     	
@@ -45,6 +51,10 @@ class supplierModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
 			
 		} elseif($item != null){
 
@@ -56,6 +66,10 @@ class supplierModel{
 
 			return $stmt -> fetch();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
 		else{
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
@@ -64,11 +78,11 @@ class supplierModel{
 
 			return $stmt -> fetchAll();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 	/*=============================================
@@ -84,19 +98,25 @@ class supplierModel{
         $stmt->bindParam(":contact", $data["contact"],PDO::PARAM_STR);
         $stmt->bindParam(":id", $data["supplierid"],PDO::PARAM_INT);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 
@@ -110,19 +130,25 @@ class supplierModel{
 
 		$stmt -> bindParam(":id", $data, PDO::PARAM_INT);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
-		
-		}else{
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-			return "error";	
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
 
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 

@@ -19,6 +19,7 @@ $(".userphoto").change(function(){
 			title: "Error uploading image",
 			text: "Image has to be JPEG or PNG!",
 			showConfirmButton: true,
+			confirmButtonColor: '#0069d9',
 			confirmButtonText: "Close"
 		});
 
@@ -31,6 +32,7 @@ $(".userphoto").change(function(){
 			title: "Error uploading image",
 			text: "Image too big. It has to be less than 2Mb!",
 			showConfirmButton: true,
+			confirmButtonColor: '#0069d9',
 			confirmButtonText: "Close"
 		});
 
@@ -139,6 +141,7 @@ $(document).on("click", ".btnActivate", function(){
 			Swal.fire({
 				title: "The user status has been updated",
 				icon: "success",
+				confirmButtonColor: '#0069d9',
 				confirmButtonText: "Close"	
 			}).then(function(result) {
 
@@ -227,7 +230,7 @@ $(document).on("click", ".btnDeleteUser", function(){
 		text: "if you're not sure you can cancel!",
 		icon: 'warning',
 		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
+		confirmButtonColor: '#0069d9',
 		  cancelButtonColor: '#d33',
 		  cancelButtonText: 'Cancel',
 		  confirmButtonText: 'Yes, delete user!'

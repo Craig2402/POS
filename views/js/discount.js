@@ -71,7 +71,7 @@ $(".tables").on("click", ".btnDeleteDiscount", function(){
 		text: "If you're not sure you can cancel!",
 		icon: 'warning',
 		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
+		confirmButtonColor: '#0069d9',
 		cancelButtonColor: '#d33',
 		cancelButtonText: 'Cancel',
 		confirmButtonText: 'Yes, delete discount!'

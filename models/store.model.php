@@ -20,19 +20,25 @@ class storeModel{
         $stmt->bindParam(":logo", $data["logo"],PDO::PARAM_STR);
         $stmt->bindParam(":created_at", $data["created_at"],PDO::PARAM_STR);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 
@@ -53,19 +59,25 @@ class storeModel{
         $stmt->bindParam(":closing", $data["closing"],PDO::PARAM_STR);
         $stmt->bindParam(":logo", $data["logo"],PDO::PARAM_STR);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 	
@@ -84,6 +96,10 @@ class storeModel{
 
 			return $stmt -> fetch();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
 		else{
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
@@ -92,12 +108,12 @@ class storeModel{
 
 			return $stmt -> fetchAll();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 			
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 	
@@ -112,19 +128,25 @@ class storeModel{
 
 		$stmt -> bindParam(":id", $data, PDO::PARAM_STR);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
-		
-		}else{
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-			return "error";	
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
 
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 

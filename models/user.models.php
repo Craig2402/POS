@@ -18,6 +18,10 @@ class userModel{
 			$stmt -> execute();
 
 			return $stmt -> fetch();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
 	
 		} else{
 
@@ -26,12 +30,12 @@ class userModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
 			
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 	static public function mdlShowAllUser($tableUsers, $item, $value){
@@ -43,6 +47,10 @@ class userModel{
 		$stmt -> execute();
 
 		return $stmt -> fetchAll();
+
+		$stmt -> closeCursor();
+
+		$stmt = null;
 
 	}
 
@@ -63,17 +71,24 @@ class userModel{
 		$stmt -> bindParam(":store_id", $data["store_id"], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
-			
-			return 'ok';
-		
-		} else {
-			
-			return 'error';
-		}
-		
-		$stmt -> close();
 
-		$stmt = null;
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
+		}
 	}
 
 
@@ -94,18 +109,24 @@ class userModel{
 		$stmt -> bindParam(":deleted", $data["deleted"], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
-			
-			return 'ok';
-		
-		} else {
-			
-			return 'error';
-		
-		}
-		
-		$stmt -> close();
 
-		$stmt = null;
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
+		}
 	}
 
 
@@ -121,18 +142,24 @@ class userModel{
 		$stmt -> bindParam(":".$item2, $value2, PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
-			
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
 			return 'ok';
-		
+			
 		} else {
 
-			return 'error';
-		
-		}
-		
-		$stmt -> close();
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		$stmt = null;
+			$stmt = null;
+
+			return 'error';
+
+		}
 	}
 
 	/*=============================================
@@ -149,20 +176,27 @@ class userModel{
 
 		$stmt -> bindParam(":status", $data['status'], PDO::PARAM_INT);
 		$stmt -> bindParam(":userId", $data['userId'], PDO::PARAM_STR);
-		
+
 		if ($stmt->execute()) {
-			
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
 			return 'ok';
-		
+			
 		} else {
 
-			return 'error';
-		
-		}
-		
-		$stmt -> close();
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		$stmt = null;
+			$stmt = null;
+
+			return 'error';
+
+		}
+
 	}
 
 }

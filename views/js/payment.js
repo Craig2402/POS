@@ -101,6 +101,7 @@ $("#paymentForm").submit(function() {
                 icon: "warning",
                 title: "Select a payment method to proceed",
                 showConfirmButton: true,
+                confirmButtonColor: '#0069d9',
                 confirmButtonText: "Close"
                 })
 
@@ -120,6 +121,7 @@ $(document).on("keyup change", "#payment", function() {
                 icon: "warning",
                 title: "The payment cannot be 0 or less than 0!",
                 showConfirmButton: true,
+                confirmButtonColor: '#0069d9',
                 confirmButtonText: "Close"
                 })
         $(this).val(due);
@@ -185,7 +187,7 @@ $(".tables tbody").on("click", "button.delete-Transaction", function(){
 		text: "If you're not sure you can cancel this action!",
 		icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#0069d9',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Yes, delete transaction!'

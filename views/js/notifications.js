@@ -248,6 +248,8 @@ function createNotification(notification) {
                   html: `Reason: ${message}<br>Are you sure you want to delete the ${answer} category?<br>All the products in this category will also be deleted.<br>Changes made cannot be reverted.`,
                   icon: 'warning',
                   showCancelButton: true,
+                  confirmButtonColor: '#0069d9',
+                  cancelButtonColor: '#d33',
                   confirmButtonText: 'Confirm',
                   cancelButtonText: 'Cancel'
                 }).then((result) => {

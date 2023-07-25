@@ -1,10 +1,43 @@
 <?php
 class expenseController{
-/*=============================================
+
+	/*=============================================
+   SET THE STORE ID
+   =============================================*/
+	
+    static private $storeid;
+
+	public static function initialize() {
+		if ($_SESSION['role'] == "Administrator") {
+			if (isset($_GET['store-id'])) {
+				self::$storeid = $_GET['store-id'];
+			} else {
+				echo "<script>
+					window.onload = function() {
+						Swal.fire({
+							title: 'No store is selected',
+							text: 'Redirecting to Dashboard',
+							icon: 'error',
+							showConfirmButton: false,
+							timer: 2000 // Display alert for 2 seconds
+						}).then(function() {
+							// After the alert is closed, redirect to the dashboard
+							window.location= 'dashboard';
+						});
+					};
+					</script>";
+				exit; // Adding exit to stop further execution after the redirection
+			}
+		} else {
+			self::$storeid = $_SESSION['storeid'];
+		}
+	}
+    /*=============================================
     ADD EXPENSE
     =============================================*/
 
     static public function ctrAddExpense(){
+        self::initialize();
 
         if (isset($_POST['addExpense'])) {
             $table = "expenses";
@@ -14,13 +47,20 @@ class expenseController{
             $date = $_POST["date"];
             $fileExtension = pathinfo($_FILES['reciept']['name'], PATHINFO_EXTENSION);
             $fileName = $targetDirectory . $expenseName . '' . $date . '' . time() . '.' . $fileExtension;
+				
+            $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
+            $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+            $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+            $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+            $expenseid = "EXP-" .$randomNumber . "-" . $current_time_formatted;
     
-            $data = array(
+            $data = array("expenseID" => $expenseid,
                 "expense" => $expenseName,
                 "expense_type" => $_POST["expenseType"],
                 "date" => $date,
                 "amount" => $_POST["amount"],
-                "receipt" => $fileName
+                "receipt" => $fileName,
+                "storeid" => self::$storeid
             );
     
             // Check if a file was uploaded
@@ -35,7 +75,8 @@ class expenseController{
                         $logdata = array(
                         	'UserID' => $_SESSION['userId'],
                         	'ActivityType' => 'Expense',
-                        	'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense ' .$data['expense']. '.'
+                        	'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense ' .$data['expense']. '.',
+                            'storeid' => self::$storeid
                         );
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($logdata);
@@ -43,14 +84,13 @@ class expenseController{
                         echo '<script>
                             Swal.fire({
                                 icon: "success",
-                                title: "Expense added successfully!",
-                                showConfirmButton: true,
-                                confirmButtonText: "Close"
-                            }).then(function(result) {
-                                if (result.value) {
-                                    window.location = "expenses";
-                                }
-                            });
+                                title: "Expense added successfully.",
+                                showConfirmButton: false,
+                                timer: 2000 // Auto close after 2 seconds
+                              }).then(function () {
+                                // Code to execute after the alert is closed
+                                window.location = "expenses";
+                              });
                         </script>';
                     } 
 
@@ -66,14 +106,13 @@ class expenseController{
                     echo '<script>
                         Swal.fire({
                             icon: "success",
-                            title: "Expense added successfully!",
-                            showConfirmButton: true,
-                            confirmButtonText: "Close"
-                        }).then(function(result) {
-                            if (result.value) {
-                                window.location = "expenses";
-                            }
-                        });
+                            title: "Expense added successfully.",
+                            showConfirmButton: false,
+                            timer: 2000 // Auto close after 2 seconds
+                          }).then(function () {
+                            // Code to execute after the alert is closed
+                            window.location = "expenses";
+                          });
                     </script>';
                 } 
 
@@ -87,6 +126,7 @@ class expenseController{
     EDIT EXPENSE
     =============================================*/
     static public function ctrEditExpense(){
+        self::initialize();
 
         if (isset($_POST['updateExpense'])) {
 
@@ -144,7 +184,8 @@ class expenseController{
                         $logdata = array(
                         	'UserID' => $_SESSION['userId'],
                         	'ActivityType' => 'Expense',
-                        	'ActivityDescription' => $logMessage
+                        	'ActivityDescription' => $logMessage,
+                            'storeid' => self::$storeid
                         );
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($logdata);
@@ -157,14 +198,13 @@ class expenseController{
                         echo '<script>
                             Swal.fire({
                                 icon: "success",
-                                title: "Expense updated successfully!",
-                                showConfirmButton: true,
-                                confirmButtonText: "Close"
-                            }).then(function(result) {
-                                if (result.value) {
-                                    window.location = "expenses";
-                                }
-                            });
+                                title: "Expense updated successfully.",
+                                showConfirmButton: false,
+                                timer: 2000 // Auto close after 2 seconds
+                              }).then(function () {
+                                // Code to execute after the alert is closed
+                                window.location = "expenses";
+                              });
                         </script>';
                     }
 
@@ -206,7 +246,8 @@ class expenseController{
                         'UserID' => $_SESSION['userId'],
                         'ActivityType' => 'Expense',
                         'ActivityDescription' => $logMessage,
-                        'itemID' => $expenseId
+                        'itemID' => $expenseId,
+						'storeid' => self::$storeid
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);
@@ -214,14 +255,13 @@ class expenseController{
                     echo '<script>
                         Swal.fire({
                             icon: "success",
-                            title: "Expense updated successfully!",
-                            showConfirmButton: true,
-                            confirmButtonText: "Close"
-                        }).then(function(result) {
-                            if (result.value) {
-                                window.location = "expenses";
-                            }
-                        });
+                            title: "Expense updated successfully.",
+                            showConfirmButton: false,
+                            timer: 2000 // Auto close after 2 seconds
+                          }).then(function () {
+                            // Code to execute after the alert is closed
+                            window.location = "expenses";
+                          });
                     </script>';
                 }
             }
@@ -235,6 +275,7 @@ class expenseController{
     =============================================*/
     
     static public function ctrDeleteExpense(){
+        self::initialize();
 
         if (isset($_GET["deleteExpenseId"])) {
             $table = "expenses";
@@ -255,7 +296,8 @@ class expenseController{
                     'UserID' => $_SESSION['userId'],
                     'ActivityType' => 'Expense',
                     'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted expense ' .$expenses['expense']. ' of type ' . $expenses['expense_type'] . '.',
-                    'itemID' => $value
+                    'itemID' => $value,
+                    'storeid' => self::$storeid
                 );
                 // Call the ctrCreateActivityLog() function
                 activitylogController::ctrCreateActivityLog($logdata);
@@ -269,14 +311,13 @@ class expenseController{
                 echo '<script>
                     Swal.fire({
                         icon: "success",
-                        title: "The expense has been successfully deleted",
-                        showConfirmButton: true,
-                        confirmButtonText: "Close"
-                    }).then(function(result) {
-                        if (result.value) {
-                            window.location = "expenses";
-                        }
-                    });
+                        title: "The expense has been successfully deleted.",
+                        showConfirmButton: false,
+                        timer: 2000 // Auto close after 2 seconds
+                      }).then(function () {
+                        // Code to execute after the alert is closed
+                        window.location = "expenses";
+                      });
                 </script>';
             }
 
@@ -297,38 +338,50 @@ class expenseController{
 		return $expenses;
 	}
     
-        public function ctrAddExpenseType() {
-            if (isset($_POST['addExpenseType'])) {
-                $table = "expensecat";
-                $expenseType = $_POST["expenseType"];
-    
-                // Validate and sanitize the input as needed
-    
-                $data = array(
-                    "expensetype" => $expenseType
+    public function ctrAddExpenseType() {
+
+        if (isset($_POST['addExpenseType'])) {
+
+            $table = "expensecat";
+            $expenseType = $_POST["expenseType"];
+
+            // Validate and sanitize the input as needed
+
+            $data = array(
+                "expensetype" => $expenseType
+            );
+
+            $answer = ExpenseModel::mdlAddExpenseType($table, $data);
+
+            if ($answer == "ok") {
+
+                // Create an array with the data for the activity log entry
+                $logdata = array(
+                    'UserID' => $_SESSION['userId'],
+                    'ActivityType' => 'Expense',
+                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense type ' .$expenseType. '.'
                 );
-    
-                $answer = ExpenseModel::mdlAddExpenseType($table, $data);
-    
-                if ($answer == "ok") {
-                    echo '<script>
-                        Swal.fire({
-                            icon: "success",
-                            title: "Expense type added successfully!",
-                            showConfirmButton: true,
-                            confirmButtonText: "Close"
-                        }).then(function(result) {
-                            if (result.value) {
-                                window.location = "expenses";
-                            }
-                        });
-                    </script>';
-                } else {
-                    echo '<div class="alert alert-danger">Error adding the expense type. Please try again.</div>';
-                }
+                // Call the ctrCreateActivityLog() function
+                activitylogController::ctrCreateActivityLog($logdata);
+
+                echo '<script>
+                    Swal.fire({
+                        icon: "success",
+                        title: "Expense type added successfully.",
+                        showConfirmButton: false,
+                        timer: 2000 // Auto close after 2 seconds
+                      }).then(function () {
+                        // Code to execute after the alert is closed
+                        window.location = "expenses";
+                      });
+                </script>';
+            } else {
+                echo '<div class="alert alert-danger">Error adding the expense type. Please try again.</div>';
             }
+
         }
-    
+
+    }
 
 }
 

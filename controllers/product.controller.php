@@ -324,7 +324,7 @@ class productController {
 				$item = "barcode";
 				$barcode = $data['barcode'];
 				$order = "id";
-				$oldItem = productModel::mdlShowProducts($table, $item, $barcode, $order);
+				$oldItem = productModel::mdlFetchProducts($table, $item, $barcode, $order);
 
 				$changedInfo = ''; // Initialize the changed information string
 
@@ -452,7 +452,7 @@ class productController {
 			$item = "barcode";
 			$value = $_GET["barcodeProduct"];
 			$order = "id";
-			$loganswer = productModel::mdlShowProducts($table, $item, $value, $order);
+			$loganswer = productModel::mdlFetchProducts($table, $item, $value, $order);
 			$product = $loganswer['product'];
 
 			// $answer = productModel::mdlDeleteProduct($table, $data);

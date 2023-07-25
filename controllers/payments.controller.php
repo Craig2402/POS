@@ -153,7 +153,7 @@ class PaymentController {
 			// </script>";
             echo "
             <script>
-            var invoiceId = " . json_encode($invoiceId) . ";
+            var paymentId = " . json_encode($paymentId) . ";
 
             Swal.fire({
                 title: 'Generating Receipt',
@@ -165,7 +165,7 @@ class PaymentController {
                 }
             });
 
-            fetch('views/pdfs/receipt.php?invoiceId=' + invoiceId)
+            fetch('views/pdfs/receipt.php?paymentId=' + paymentId)
                 .then(response => response.blob())
                 .then(blob => {
                 var fileURL = URL.createObjectURL(blob);

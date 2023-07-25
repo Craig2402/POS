@@ -5,23 +5,34 @@ class ExpenseModel {
     ADDING EXPENSES
     =============================================*/
     static public function mdlAddExpense($table, $data) {
-        $stmt = connection::connect()->prepare("INSERT INTO $table (expense, expense_type, date, amount, receipt) VALUES (:expense, :expense_type, :date, :amount, :receipt)");
+        $stmt = connection::connect()->prepare("INSERT INTO $table (store_id, expense, expense_type, date, amount, receipt) VALUES (:store_id, :expense, :expense_type, :date, :amount, :receipt)");
 
         $stmt->bindParam(":expense", $data["expense"], PDO::PARAM_STR);
         $stmt->bindParam(":expense_type", $data["expense_type"], PDO::PARAM_STR);
         $stmt->bindParam(":date", $data["date"], PDO::PARAM_STR);
         $stmt->bindParam(":amount", $data["amount"], PDO::PARAM_STR);
         $stmt->bindParam(":receipt", $data["receipt"], PDO::PARAM_STR);
+		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
-        if ($stmt->execute()) {
-            return "ok";
-        } else {
-            return "error";
-        }
+		if ($stmt->execute()) {
 
-		$stmt -> close();
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		$stmt = null;
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
+		}
     }
      /*=============================================
     EDITING EXPENSES
@@ -36,57 +47,94 @@ class ExpenseModel {
         $stmt->bindParam(":receipt", $data["receipt"], PDO::PARAM_STR);
         $stmt->bindParam(":expenseId", $expenseId, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
-            return "ok";
-        } else {
-            return "error";
-        }
+		if ($stmt->execute()) {
 
-		$stmt -> close();
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		$stmt = null;
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
+		}
     }
     /*=============================================
     DELETING EXPENSES
     =============================================*/
     static public function mdlDeleteExpense($table, $expenseId) {
+
         $stmt = connection::connect()->prepare("DELETE FROM $table WHERE id = :expenseId");
 
         $stmt->bindParam(":expenseId", $expenseId, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
-            return "ok";
-        } else {
-            return "error";
-        }
+		if ($stmt->execute()) {
 
-		$stmt -> close();
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		$stmt = null;
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
+		}
+
     }
 
-        /*=============================================
-        GETTING EXPENSE FILENAME
-        =============================================*/
-        static public function mdlGetExpenseFilename($table, $expenseId) {
-            $stmt = connection::connect()->prepare("SELECT receipt FROM $table WHERE id = :expenseId");
-            $stmt->bindParam(":expenseId", $expenseId, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result['receipt'];
+    /*=============================================
+    GETTING EXPENSE FILENAME
+    =============================================*/
+    static public function mdlGetExpenseFilename($table, $expenseId) {
+        $stmt = connection::connect()->prepare("SELECT receipt FROM $table WHERE id = :expenseId");
+        $stmt->bindParam(":expenseId", $expenseId, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['receipt'];
 
-            $stmt -> close();
-    
-            $stmt = null;
-        }
+        $stmt -> closeCursor();
+
+        $stmt = null;
+    }
 
  
     /*=============================================
     SHOW EXPENSES
     =============================================*/
     static public function mdlShowExpenses($table,$item, $value) {
-        if($item != null){
+
+		if ($item == "store_id"){ 
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
+			
+		} elseif($item != null){
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 
@@ -96,6 +144,10 @@ class ExpenseModel {
 
 			return $stmt -> fetch();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
 		else{
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
@@ -104,12 +156,11 @@ class ExpenseModel {
 
 			return $stmt -> fetchAll();
 
-			
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
     }
 
@@ -122,15 +173,26 @@ class ExpenseModel {
 
         $stmt->bindParam(":expensetype", $data["expensetype"], PDO::PARAM_STR);
 
-        if ($stmt->execute()) {
-            return "ok";
-        } else {
-            return "error";
-        }
-        
-		$stmt -> close();
+		if ($stmt->execute()) {
 
-		$stmt = null;
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
+		}
+        
     }
 
 }

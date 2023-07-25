@@ -57,15 +57,25 @@ class notificationModel{
         $stmt->bindParam(":viewed_by", $data["sessionid"], PDO::PARAM_INT); // Bind as integer
         $stmt->bindParam(":notificationId", $data["notificationId"], PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
+		if ($stmt->execute()) {
 
-            return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-        } else {
+			$stmt = null;
 
-            return "error";
-            
-        }
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
+		}
 
     }
 	/*=============================================
@@ -83,20 +93,23 @@ class notificationModel{
 
 			return $stmt -> fetch();
 
+            $stmt -> closeCursor();
+
+            $stmt = null;
+
 		}
 		else{
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
 
 			$stmt -> execute();
 
-			return $stmt -> fetchAll();
+            return $stmt -> fetchAll();
 
-			
+            $stmt -> closeCursor();
+
+            $stmt = null;
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 

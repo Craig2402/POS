@@ -12,6 +12,8 @@ require_once "../../controllers/user.controller.php";
 require_once "../../models/user.models.php";
 require_once '../../controllers/taxdis.controller.php';
 require_once '../../models/taxdis.models.php';
+require_once '../../controllers/store.controller.php';
+require_once '../../models/store.model.php';
 require_once '../../models/connection.php';
 
 require_once '../../vendor/autoload.php';
@@ -24,9 +26,10 @@ $item2 = 'invoiceId';
 $value2 = $paymentData['invoiceId'];
 $order = 'id';
 $invoices = PaymentController::ctrShowInvoices($item2, $value2);
-// $product = productController::ctrShowProducts($item2, $value2, $order);
 
-
+$item3 = "store_id";
+$value3 = $paymentData['store_id'];
+$stores = storeController::ctrShowStores($item3, $value3);
 
 
 $item2 = 'null';
@@ -85,7 +88,7 @@ $html = '
     </div>
     <p>Receipt Number: ' .$receiptNumber. '</p>
     <p>Date: ' . $invoices['datecreated'] . '</p>
-    <p>Store: Store Name</p>
+    <p>Store: '.$stores['store_name'].'</p>
 
     <hr style="border: none; border-top: 1px dashed #000;">
 

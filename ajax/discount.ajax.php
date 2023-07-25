@@ -9,30 +9,30 @@ class AjaxDiscountd{
 	EDIT Discount
 	=============================================*/	
 
-	public $idDiscount;
+	public $productid;
 	public $barcode;
 
 	public function ajaxEditDiscount(){
 
-		if ($this->idDiscount != "") {
+		// if ($this->productid != "") {
 			
-			$item = "disId";
-			$value = $this->idDiscount;
-	
-			$answer = discountController::ctrShowDiscount($item, $value);
-	
-			echo json_encode($answer);
-
-		} else {
-
 			$item = "product";
-			$value = $this->barcode;
+			$value = $this->productid;
 	
 			$answer = discountController::ctrShowDiscount($item, $value);
 	
 			echo json_encode($answer);
+
+		// } else {
+
+		// 	$item = "product";
+		// 	$value = $this->barcode;
+	
+		// 	$answer = discountController::ctrShowDiscount($item, $value);
+	
+		// 	echo json_encode($answer);
 			
-		}
+		// }
 		
 
 
@@ -43,16 +43,16 @@ class AjaxDiscountd{
 /*=============================================
 EDIT Discount
 =============================================*/	
-if(isset($_POST["idDiscount"])){
+if(isset($_POST["productid"])){
 
 	$Discount = new AjaxDiscountd();
-	$Discount -> idDiscount = $_POST["idDiscount"];
+	$Discount -> productid = $_POST["productid"];
 	$Discount -> ajaxEditDiscount();
 }
 
-if(isset($_GET["barcode"])){
+// if(isset($_GET["barcode"])){
 
-	$getDiscount = new AjaxDiscountd();
-	$getDiscount -> barcode = $_GET["barcode"];
-	$getDiscount -> ajaxEditDiscount();
-}
+// 	$getDiscount = new AjaxDiscountd();
+// 	$getDiscount -> barcode = $_GET["barcode"];
+// 	$getDiscount -> ajaxEditDiscount();
+// }

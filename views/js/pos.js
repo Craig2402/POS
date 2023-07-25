@@ -35,12 +35,19 @@ $(function() {
             }
             function addRow(id, product, saleprice, stock, taxId, barcode) {
 
+
+              var datum = new FormData();
+              datum.append("productid", id);
+
               // Make the AJAX request
               $.ajax({
                 url: 'ajax/discount.ajax.php',
-                method: 'get',
-                dataType: 'json',
-                data: { barcode: barcode },
+                method: "POST",
+                data: datum,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType:"json",
                 success: function(data) {
                   console.log(data);
                   // var status = data["status"];
@@ -139,7 +146,7 @@ $(document).on("keyup change", ".qty", function() {
   }
   
   updateArray();
-
+  calculateSubtotal()
   // }
 
 
@@ -150,7 +157,7 @@ $(document).on("keyup change", ".qty", function() {
 
   tr.find(".totalamt").text(quantity * tr.find(".price").text());
   tr.find(".saleprice").val(quantity * tr.find(".price").text());
-  calculateSubtotal();
+  // calculateSubtotal();
 });
 
 
@@ -190,12 +197,19 @@ $(function() {
             }
             function addRow(id, product, saleprice, stock, taxId, barcode) {
 
+
+              var datum = new FormData();
+              datum.append("productid", id);
+
               // Make the AJAX request
               $.ajax({
                 url: 'ajax/discount.ajax.php',
-                method: 'get',
-                dataType: 'json',
-                data: { barcode: barcode },
+                method: "POST",
+                data: datum,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType:"json",
                 success: function(data) {
                   // var status = data["status"];
                   var start = new Date(data["startdate"]);

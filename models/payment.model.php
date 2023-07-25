@@ -27,12 +27,25 @@ class PaymentModel{
         $stmt->bindParam(':invoiceId', $invoiceId);
 		$stmt -> bindParam(":store_id", $storeid);
 
-        // Execute the query
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+		if ($stmt->execute()) {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return true;
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return false;
+
+		}
     }
 
  	/*=============================================
@@ -60,7 +73,7 @@ class PaymentModel{
             return 1;
         }
 
-		$stmt -> close();
+		$stmt -> closeCursor();
 
 		$stmt = null;
 
@@ -76,19 +89,25 @@ class PaymentModel{
 
 		$stmt -> bindParam(":id", $data, PDO::PARAM_STR);
 
-		if($stmt -> execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
-		
-		}else{
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-			return "error";	
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
 
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 	/*=============================================
@@ -105,6 +124,10 @@ class PaymentModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+
+			$stmt->closeCursor();
+
+			$stmt = null;
 			
 		} elseif($item != null){
 
@@ -115,6 +138,10 @@ class PaymentModel{
 			$stmt -> execute();
 
 			return $stmt -> fetch();
+			
+			$stmt->closeCursor();
+
+			$stmt = null;
 
 		}
 		else{
@@ -123,12 +150,12 @@ class PaymentModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+			
+			$stmt->closeCursor();
+
+			$stmt = null;
 
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 	/*=============================================
@@ -145,7 +172,7 @@ class PaymentModel{
 
 		return $stmt -> fetch();
 
-		$stmt -> close();
+		$stmt -> closeCursor();
 
 		$stmt = null;
 
@@ -188,17 +215,25 @@ class InvoiceModel{
         $stmt->bindParam(':userId', $invoiceUserId);
 		$stmt -> bindParam(":store_id", $storeid);
 
-        // Execute the query
-        if ($stmt->execute()) {
-            return true;
+		if ($stmt->execute()) {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return true;
 			
-        } else {
-            return false;
-        }
+		} else {
 
-		$stmt -> close();
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		$stmt = null;
+			$stmt = null;
+
+			return false;
+
+		}
     }
 
  	/*=============================================
@@ -225,7 +260,7 @@ class InvoiceModel{
             return 1;
         }
 
-		$stmt -> close();
+		$stmt -> closeCursor();
 
 		$stmt = null;
     }
@@ -244,6 +279,10 @@ class InvoiceModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
 			
 		} elseif($item != null){
 
@@ -255,6 +294,10 @@ class InvoiceModel{
 
 			return $stmt -> fetch();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
 		else{
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
@@ -263,11 +306,11 @@ class InvoiceModel{
 
 			return $stmt -> fetchAll();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
     
@@ -281,19 +324,25 @@ class InvoiceModel{
 		$stmt->bindParam(":due", $data['newdue'], PDO::PARAM_INT);
 		$stmt->bindParam(":invoiceId", $data['invoiceid'], PDO::PARAM_STR);
 
-		if($stmt->execute()){
+		if ($stmt->execute()) {
 
-			return "ok";
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
-		}else{
+			$stmt = null;
 
-			return "error";
-		
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 
@@ -313,6 +362,10 @@ class InvoiceModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();	
+			
+			$stmt->closeCursor();
+
+			$stmt = null;
 
 
 		}else if($initialDate == $finalDate){
@@ -325,6 +378,10 @@ class InvoiceModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+			
+			$stmt->closeCursor();
+
+			$stmt = null;
 
 		}else{
 
@@ -351,12 +408,12 @@ class InvoiceModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+			
+			$stmt->closeCursor();
+
+			$stmt = null;
 
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
 	}
 
@@ -374,7 +431,7 @@ class InvoiceModel{
 
 		return $stmt -> fetch();
 
-		$stmt -> close();
+		$stmt->closeCursor();
 
 		$stmt = null;
 

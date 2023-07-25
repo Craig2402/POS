@@ -52,7 +52,11 @@
               <div class="card-header">
                 <div class="d-flex justify-content-between">
                   <h5 class="m-0">Expense</h5>
-                  <button class="btn btn-primary float-right btnAddExpenseType" data-toggle="modal" data-target="#addExpenseType">Add Expense Type</button>
+                  <?php
+                    if ($_SESSION['role'] == "Administrator") {
+                      echo '<button class="btn btn-primary float-right btnAddExpenseType" data-toggle="modal" data-target="#addExpenseType">Add Expense Type</button>';
+                    }
+                  ?>
                 </div>
               </div>
                 <div class="card-body">
@@ -131,6 +135,16 @@
 
                         $item = null; 
                         $value = null;
+
+                        if ($_SESSION['role'] == "Administrator") {
+                          $item = "store_id";
+                          if (isset($_GET['store-id'])) {
+                            $value = $_GET['store-id'];
+                          }
+                        }else {
+                          $item = "store_id";
+                          $value = $_SESSION['storeid'];
+                        }
 
                         $expenses= expenseController::ctrShowExpenses($item, $value);
                         foreach ($expenses as $key => $val) {

@@ -11,6 +11,7 @@ $(".reciept").change(function(){
 		      title: "Error uploading image",
 		      text: "Invalid file type. Please choose a PDF or an image file.",
 		      icon: "error",
+			  confirmButtonColor: '#0069d9',
 		      confirmButtonText: "Close!"
 		    });
 		this.value = ""; // Clear the file input
@@ -23,6 +24,7 @@ $(".reciept").change(function(){
 			title: "Error uploading file",
 			text: "File size exceeds the maximum limit of 2MB. Please choose a smaller file.",
 			icon: "error",
+			confirmButtonColor: '#0069d9',
 			confirmButtonText: "Close!"
 		  });
 		this.value = ""; // Clear the file input
@@ -63,6 +65,7 @@ $(".editReceipt").change(function(){
 		      title: "Error uploading image",
 		      text: "Invalid file type. Please choose a PDF or an image file.",
 		      icon: "error",
+			  confirmButtonColor: '#0069d9',
 		      confirmButtonText: "Close!"
 		    });
 		this.value = ""; // Clear the file input
@@ -75,6 +78,7 @@ $(".editReceipt").change(function(){
 			title: "Error uploading file",
 			text: "File size exceeds the maximum limit of 2MB. Please choose a smaller file.",
 			icon: "error",
+			confirmButtonColor: '#0069d9',
 			confirmButtonText: "Close!"
 		  });
 		this.value = ""; // Clear the file input
@@ -155,7 +159,7 @@ $(".tables tbody").on("click", "button.btnDeleteExpense", function(){
 		text: "If you're not sure you can cancel this action!",
 		icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#0069d9',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Yes, delete expense!'

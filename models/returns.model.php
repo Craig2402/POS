@@ -14,14 +14,25 @@ class ReturnProductModel {
         $stmt->bindParam(":return_type", $data["return_type"], PDO::PARAM_STR);
 		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
-        if ($stmt->execute()) {
-            return "ok";
-        } else {
-            return "error";
-        }
+		if ($stmt->execute()) {
 
-        $stmt->closeCursor();
-        $stmt = null;
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'ok';
+			
+		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
+
+			return 'error';
+
+		}
     }
     
     /*=============================================
@@ -38,6 +49,10 @@ class ReturnProductModel {
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
 			
 		} elseif($item != null){
 
@@ -49,6 +64,10 @@ class ReturnProductModel {
 
 			return $stmt -> fetch();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
 		else{
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
@@ -57,11 +76,11 @@ class ReturnProductModel {
 
 			return $stmt -> fetchAll();
 
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
     }
     

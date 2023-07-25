@@ -18,17 +18,23 @@ class activitylogModel{
 
 		if ($stmt->execute()) {
 
-			return 'ok';
+			// Close the statement and set it to null
+			$stmt->closeCursor();
 
+			$stmt = null;
+
+			return 'ok';
+			
 		} else {
+
+			// Close the statement and set it to null
+			$stmt->closeCursor();
+
+			$stmt = null;
 
 			return 'error';
 
 		}
-
-		$stmt -> close();
-
-		$stmt = null;
 
     }
 

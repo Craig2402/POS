@@ -31,6 +31,7 @@ $(".txtproductimage").change(function(){
 		      title: "Error uploading image",
 		      text: "The image should be in JPG or PNG format!",
 		      icon: "error",
+			  confirmButtonColor: '#0069d9',
 		      confirmButtonText: "Close!"
 		    });
 
@@ -42,6 +43,7 @@ $(".txtproductimage").change(function(){
 		      title: "Error uploading image",
 		      text: "The image shouldn't be more than 2MB!",
 		      icon: "error",
+			  confirmButtonColor: '#0069d9',
 		      confirmButtonText: "Close!"
 		    });
 
@@ -153,6 +155,8 @@ $(".tables tbody").on("click", "button.btnDeleteProduct", function(){
 		text: "If you're not sure you can cancel this action!",
 		icon: 'warning',
         showCancelButton: true,
+		confirmButtonColor: '#0069d9',
+		cancelButtonColor: '#d33',
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Yes, delete product!'
         }).then(function(result){

@@ -54,6 +54,8 @@ $(".tables tbody").on("click", "button.btnDeleteSupplier", function(){
 		text: "If you're not sure you can cancel this action!",
 		icon: 'warning',
         showCancelButton: true,
+		confirmButtonColor: '#0069d9',
+		cancelButtonColor: '#d33',
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Yes, delete supplier!'
         }).then(function(result){
@@ -79,6 +81,7 @@ function validateAddedSupplier() {
             icon: "warning",
             title: "Invalid Phone Number",
             text: "Phone number should have exactly 12 digits when starting with 254.",
+            confirmButtonColor: '#0069d9',
             });
             return false; // Prevent form submission
         }
@@ -89,6 +92,7 @@ function validateAddedSupplier() {
             icon: "warning",
             title: "Invalid Phone Number",
             text: "Phone number should have exactly 10 digits when starting with 01 or 07.",
+            confirmButtonColor: '#0069d9',
             });
             return false; // Prevent form submission
         }
@@ -98,6 +102,7 @@ function validateAddedSupplier() {
             icon: "warning",
             title: "Invalid Phone Number",
             text: "Phone number should start with 254, 01, or 07.",
+            confirmButtonColor: '#0069d9',
         });
         return false; // Prevent form submission
     }
@@ -130,6 +135,7 @@ function validateEdittedSupplier() {
             icon: "warning",
             title: "Invalid Phone Number",
             text: "Phone number should have exactly 12 digits when starting with 254.",
+            confirmButtonColor: '#0069d9',
             });
             return false; // Prevent form submission
         }
@@ -140,6 +146,7 @@ function validateEdittedSupplier() {
             icon: "warning",
             title: "Invalid Phone Number",
             text: "Phone number should have exactly 10 digits when starting with 01 or 07.",
+            confirmButtonColor: '#0069d9',
             });
             return false; // Prevent form submission
         }
@@ -149,6 +156,7 @@ function validateEdittedSupplier() {
             icon: "warning",
             title: "Invalid Phone Number",
             text: "Phone number should start with 254, 01, or 07.",
+            confirmButtonColor: '#0069d9',
         });
         return false; // Prevent form submission
     }
