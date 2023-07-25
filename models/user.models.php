@@ -11,22 +11,21 @@ class userModel{
 
 		if($item != null){
 
-			$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item and deleted = 0");
+			$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :value AND deleted = 0");
 
-			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+			$stmt -> bindParam(":value", $value, PDO::PARAM_STR);
 
 			$stmt -> execute();
 
 			return $stmt -> fetch();
+	
+		} else{
 
-		}
-		else{
 			$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE deleted = 0");
 
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
-
 			
 		}
 
@@ -43,7 +42,7 @@ class userModel{
 
 		$stmt -> execute();
 
-		return $stmt -> fetch();
+		return $stmt -> fetchAll();
 
 	}
 
@@ -54,13 +53,14 @@ class userModel{
 
 	static public function mdlCreateUser($table, $data){
 
-		$stmt = connection::connect()->prepare("INSERT INTO $table(name, username, userpassword, role, userphoto) VALUES (:name, :username, :userpassword, :role, :userphoto)");
+		$stmt = connection::connect()->prepare("INSERT INTO $table(name, username, userpassword, role, userphoto, store_id) VALUES (:name, :username, :userpassword, :role, :userphoto, :store_id)");
 
 		$stmt -> bindParam(":name", $data["name"], PDO::PARAM_STR);
 		$stmt -> bindParam(":username", $data["username"], PDO::PARAM_STR);
 		$stmt -> bindParam(":userpassword", $data["userpassword"], PDO::PARAM_STR);
 		$stmt -> bindParam(":role", $data["role"], PDO::PARAM_STR);
 		$stmt -> bindParam(":userphoto", $data["userphoto"], PDO::PARAM_STR);
+		$stmt -> bindParam(":store_id", $data["store_id"], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 			
@@ -83,12 +83,13 @@ class userModel{
 
 	static public function mdlEditUser($table, $data){
 
-		$stmt = connection::connect()->prepare("UPDATE $table set name = :name, userpassword = :userpassword, role = :role, userphoto = :userphoto, deleted = :deleted WHERE username = :username");
+		$stmt = connection::connect()->prepare("UPDATE $table set name = :name, userpassword = :userpassword, role = :role, store_id = :store_id, userphoto = :userphoto, deleted = :deleted WHERE username = :username");
 
 		$stmt -> bindParam(":name", $data["name"], PDO::PARAM_STR);
 		$stmt -> bindParam(":username", $data["username"], PDO::PARAM_STR);
 		$stmt -> bindParam(":userpassword", $data["userpassword"], PDO::PARAM_STR);
 		$stmt -> bindParam(":role", $data["role"], PDO::PARAM_STR);
+		$stmt -> bindParam(":store_id", $data["store_id"], PDO::PARAM_STR);
 		$stmt -> bindParam(":userphoto", $data["userphoto"], PDO::PARAM_STR);
 		$stmt -> bindParam(":deleted", $data["deleted"], PDO::PARAM_STR);
 

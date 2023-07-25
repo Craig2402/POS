@@ -57,18 +57,22 @@ $pdo=connection::connect();
   
   $item = null;
   $value = null;
+
+  if ($_SESSION['role'] == "Administrator") {
+    $item = "store_id";
+    if (isset($_GET['store-id'])) {
+      $value = $_GET['store-id'];
+    }
+  }else {
+    $item = "store_id";
+    $value = $_SESSION['storeid'];
+  }
   $order='id';
- 
-//   $categories = categoriesController::ctrShowCategories($item, $value);
-//   $totalCategories = count($categories);
-
-
-
-  $products = productController::ctrShowProducts($item, $value,$order);
+  $products = productController::ctrShowProducts($item, $value, $order, true);
   $totalProducts = count($products);
 
-  $merch=$pdo->prepare( 'SELECT SUM(stock * purchaseprice) AS total_value
-  FROM products');
+  $merch=$pdo->prepare( 'SELECT SUM(stock * purchaseprice) AS total_value FROM products WHERE store_id = :store_id');
+  $merch -> bindParam(":store_id", $value, PDO::PARAM_STR);
   $merch->execute();
   $result=$merch->fetch();
  
@@ -76,6 +80,7 @@ $pdo=connection::connect();
   $totalSales = PaymentController::ctrAddingTotalPayments($month);
 
   $invoices = PaymentController::ctrShowInvoices($item, $value);
+//   var_dump($invoices);
   $totalQuantity = 0;
   $currentMonth = date('m'); // Get the current month
   

@@ -1,15 +1,17 @@
 <?php
 
     $pdo = connection::connect();
+    $storeid = $_SESSION['storeid'];
 
     // Get the current month and year
     $currentMonth = date('m');
     $currentYear = date('Y');
 
     // Prepare the SQL statement
-    $payments = $pdo->prepare('SELECT COUNT(*) AS paymentCount, SUM(amount) AS totalAmount FROM payments WHERE MONTH(date) = :month AND YEAR(date) = :year');
+    $payments = $pdo->prepare('SELECT COUNT(*) AS paymentCount, SUM(amount) AS totalAmount FROM payments WHERE MONTH(date) = :month AND YEAR(date) = :year AND store_id = :storeid');
     $payments->bindParam(':month', $currentMonth);
     $payments->bindParam(':year', $currentYear);
+    $payments->bindParam(':storeid', $storeid);
     $payments->execute();
 
     // Fetch the result
@@ -20,9 +22,10 @@
     $totalAmount = $paymentResult['totalAmount'];
 
     // Prepare the SQL statement
-    $invoices = $pdo->prepare('SELECT COUNT(*) AS invoicePaymentCount, SUM(total) AS totalInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year');
+    $invoices = $pdo->prepare('SELECT COUNT(*) AS invoicePaymentCount, SUM(total) AS totalInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year AND store_id = :storeid');
     $invoices->bindParam(':month', $currentMonth);
     $invoices->bindParam(':year', $currentYear);
+    $invoices->bindParam(':storeid', $storeid);
     $invoices->execute();
 
     // Fetch the result
@@ -33,9 +36,10 @@
     $totalInvoiceAmount = $paymentInvoiceResult['totalInvoiceAmount'];
 
     // Prepare the SQL statement
-    $paidinvoices = $pdo->prepare('SELECT COUNT(*) AS invoicePaidCount, SUM(total) AS totalPaidInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year AND dueamount = 0');   
+    $paidinvoices = $pdo->prepare('SELECT COUNT(*) AS invoicePaidCount, SUM(total) AS totalPaidInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year AND dueamount = 0 AND store_id = :storeid');   
     $paidinvoices->bindParam(':month', $currentMonth);
     $paidinvoices->bindParam(':year', $currentYear);
+    $paidinvoices->bindParam(':storeid', $storeid);
     $paidinvoices->execute();
 
     // Fetch the result
@@ -73,7 +77,7 @@
     color: #777;
 }
 
-.card-custom i.fa-users {
+.card-custom i.fa-solid {
     color: #007bff;
 }
 
@@ -127,7 +131,7 @@
                     <div class="card card-custom">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <i class="fa-solid fa-users fa-2x mr-3"></i>
+                            <i class="fa-solid fa-money-bill-wave fa-2xl mr-3"></i>
                                 <h5 class="card-title mb-0 custom-heading">Payments</h5>
                             </div>
                             <div class="row mt-3">
@@ -146,7 +150,7 @@
                     <div class="card card-custom">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <i class="fa-solid fa-users fa-2x mr-3"></i>
+                                <i class="fa-solid fa-file-invoice fa-2xl mr-3"></i>
                                 <h5 class="card-title mb-0 custom-heading">Invoices</h5>
                             </div>
                             <div class="row mt-3">
@@ -165,7 +169,7 @@
                     <div class="card card-custom">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <i class="fa-solid fa-users fa-2x mr-3"></i>
+                            <i class="fa-solid fa-receipt fa-2xl mr-3"></i>
                                 <h5 class="card-title mb-0 custom-heading">Paid Invoices</h5>
                             </div>
                             <div class="row mt-3">

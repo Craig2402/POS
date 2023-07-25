@@ -1,7 +1,45 @@
 <?php
 
-class productController{
-    static public function ctrCreateProducts(){
+class productController {
+
+	/*=============================================
+   SET THE STORE ID
+   =============================================*/
+	
+    static private $storeid;
+
+	public static function initialize() {
+		if ($_SESSION['role'] == "Administrator") {
+			if (isset($_GET['store-id'])) {
+				self::$storeid = $_GET['store-id'];
+			} else {
+				echo "<script>
+					window.onload = function() {
+						Swal.fire({
+							title: 'No store is selected',
+							text: 'Redirecting to Dashboard',
+							icon: 'error',
+							showConfirmButton: false,
+							timer: 2000 // Display alert for 2 seconds
+						}).then(function() {
+							// After the alert is closed, redirect to the dashboard
+							window.location= 'dashboard';
+						});
+					};
+					</script>";
+				exit; // Adding exit to stop further execution after the redirection
+			}
+		} else {
+			self::$storeid = $_SESSION['storeid'];
+		}
+	}
+
+	/*=============================================
+   CREATE PRODUCT
+   =============================================*/
+
+    static public function ctrCreateProducts() {
+        self::initialize();
 
         if(isset($_POST['addproduct'])){
 
@@ -14,69 +52,76 @@ class productController{
 				=============================================*/
 
 				$route = "views/img/products/default/anonymous.png";
+				
+				$randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
+				$timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+				$current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+				$current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+				$productId = $randomNumber . "-" . $current_time_formatted;
 
-				if(isset($_FILES["txtproductimage"]["tmp_name"])){
+				if (isset($_FILES["txtproductimage"]["tmp_name"])) {
 
 					list($width, $height) = getimagesize($_FILES["txtproductimage"]["tmp_name"]);
-
+				
 					$newWidth = 500;
 					$newHeight = 500;
-
+				
 					/*=============================================
-					we create the folder to save the picture
+					we create the folder to save the picture if it doesn't exist
 					=============================================*/
-
-					$folder = "views/img/products/".$_POST["txtbarcode"];
-
-					mkdir($folder, 0755);
-
+				
+					$folder = "views/img/products/" . $_POST["txtbarcode"];
+				
+					if (!is_dir($folder)) {
+						mkdir($folder, 0755);
+					}
+				
 					/*=============================================
 					WE APPLY DEFAULT PHP FUNCTIONS ACCORDING TO THE IMAGE FORMAT
 					=============================================*/
-
-					if($_FILES["txtproductimage"]["type"] == "image/jpeg"){
-
+				
+					if ($_FILES["txtproductimage"]["type"] == "image/jpeg") {
+				
 						/*=============================================
 						WE SAVE THE IMAGE IN THE FOLDER
 						=============================================*/
-
-						$random = mt_rand(100,999);
-
-						$route = "views/img/products/".$_POST["txtbarcode"]."/".$random.".jpg";
-
-						$origin = imagecreatefromjpeg($_FILES["txtproductimage"]["tmp_name"]);						
-
+				
+						$random = mt_rand(100, 999);
+				
+						$route = "views/img/products/" . $_POST["txtbarcode"] . "/" . $random . ".jpg";
+				
+						$origin = imagecreatefromjpeg($_FILES["txtproductimage"]["tmp_name"]);
+				
 						$destiny = imagecreatetruecolor($newWidth, $newHeight);
-
+				
 						imagecopyresized($destiny, $origin, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-
+				
 						imagejpeg($destiny, $route);
-
 					}
-
-					if($_FILES["txtproductimage"]["type"] == "image/png"){
-
+				
+					if ($_FILES["txtproductimage"]["type"] == "image/png") {
+				
 						/*=============================================
 						WE SAVE THE IMAGE IN THE FOLDER
 						=============================================*/
-
-						$random = mt_rand(100,999);
-
-						$route = "views/img/products/".$_POST["txtbarcode"]."/".$random.".png";
-
-						$origin = imagecreatefrompng($_FILES["txtproductimage"]["tmp_name"]);						
-
+				
+						$random = mt_rand(100, 999);
+				
+						$route = "views/img/products/" . $_POST["txtbarcode"] . "/" . $random . ".png";
+				
+						$origin = imagecreatefrompng($_FILES["txtproductimage"]["tmp_name"]);
+				
 						$destiny = imagecreatetruecolor($newWidth, $newHeight);
-
+				
 						imagecopyresized($destiny, $origin, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-
+				
 						imagepng($destiny, $route);
-
 					}
-
 				}
+				
 
-				$data = array("barcode" => $_POST["txtbarcode"],
+				$data = array("productid" => $productId,
+								"barcode" => $_POST["txtbarcode"],
 								"product" => $_POST["txtproductname"],
 								"idCategory" => $_POST["txtcategory"],
 								"description" => $_POST["txtdescription"],
@@ -85,13 +130,15 @@ class productController{
 								"saleprice" => $_POST["txtsale"],
 								"image" => $route,
 								"taxId" => $_POST["txttaxcat"],
-								"status" => 0);
+								"status" => 0,
+								"storeid" => self::$storeid);
 
 			
 				$table = "products";
 				$item = "barcode";
 				$value = $_POST["txtbarcode"];
-				$SelectedProducts = productModel::mdlShowAllProducts($table, $item, $value);
+				$order="id";
+				$SelectedProducts = productModel::mdlFetchProducts($table, $item, $value, $order);
 
 				if ($SelectedProducts && $SelectedProducts['status'] == 1 ) {
 					$answer = productModel::mdlEditProduct($table, $data);
@@ -100,28 +147,26 @@ class productController{
 				}
 				if($answer == "ok"){
 					// Create an array with the data for the activity log entry
-					$data = array(
+					$logdata = array(
 						'UserID' => $_SESSION['userId'],
 						'ActivityType' => 'Product',
-						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added product ' .$data['product']. '.'
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added product ' .$data['product']. '.',
+						'storeid' => self::$storeid
 					);
 					// Call the ctrCreateActivityLog() function
-					activitylogController::ctrCreateActivityLog($data);
+					activitylogController::ctrCreateActivityLog($logdata);
 
 					echo'<script>
 
 					Swal.fire({
 							icon: "success",
-							title: "Product added succesfully!",
-							showConfirmButton: true,
-							confirmButtonText: "Close"
-							}).then(function(result){
-										if (result.value) {
-
-										window.location = "products";
-
-										}
-									})
+							title: "Product '.$data['product'].' has been added to the inventory list.",
+							showConfirmButton: false,
+							timer: 2000 // Auto close after 2 seconds
+						  }).then(function () {
+							// Code to execute after the alert is closed
+							window.location = "products";
+						  });
 
 						</script>';
 
@@ -132,17 +177,15 @@ class productController{
 				echo'<script>
 
 				Swal.fire({
-						  icon: "error",
-						  title: "Invalid parameters passed!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Close"
-						  }).then(function(result){
-							if (result.value) {
-
-							window.location = "products";
-
-							}
-						})
+					icon: "error",
+					title: "Invalid parameters passed!",
+					showConfirmButton: false,
+					timer: 2000  // 2 seconds
+				  }).then(function(result) {
+					// This function will be called when the alert is closed
+					window.location = "products";
+				  });
+				  
 
 			  	</script>';
 			}
@@ -154,13 +197,21 @@ class productController{
 	SHOW PRODUCTS
 	=============================================*/
 
-	static public function ctrShowProducts($item, $value, $order){
+	static public function ctrShowProducts($item, $value, $order, $fetchAll = false){
 
 		$table = "products";
 
-		$answer = productModel::mdlShowProducts($table, $item, $value, $order);
+		if ($fetchAll) {
+			$answer = productModel::mdlFetchAllProducts($table, $item, $value, $order);
+		} else {
+			$answer = productModel::mdlFetchProducts($table, $item, $value, $order);
+		}
+		
+
+		// $answer = productModel::mdlShowProducts($table, $item, $value, $order);
 
 		return $answer;
+		
 	}
 
 	
@@ -169,6 +220,7 @@ class productController{
 	=============================================*/
 
 	static public function ctrEditProduct(){
+        self::initialize();
 
 		if(isset($_POST["editbarcode"])){
 
@@ -256,6 +308,7 @@ class productController{
 				}
 
 				$table = "products";
+				$status = 0;
 
 				$data = array("barcode" => $_POST["editbarcode"],
 							   "product" => $_POST["editproductname"],
@@ -265,7 +318,8 @@ class productController{
 							   "purchaseprice" => $_POST["editpurchaseprice"],
 							   "saleprice" => $_POST["editsaleprice"],
 							   "image" => $route,
-							   "status" => 0);
+							   "status" => $status,
+							   'storeid' => self::$storeid);
 							   
 				$item = "barcode";
 				$barcode = $data['barcode'];
@@ -284,19 +338,20 @@ class productController{
 				if (!empty($changedInfo)) {
 					$logMessage = $changedInfo;
 				} else {
-					$logMessage = "Product has been edited.";
+					$logMessage = 'User ' . $_SESSION['username'] . ' tried to edit product ' . $oldItem['product'] . '.';
 				}
 
 				$answer = productModel::mdlEditProduct($table, $data);
 
-				if($answer == "ok"){
+				if($answer == "ok" && !empty($changedInfo)){
 					
 					// Create an array with the data for the activity log entry
 					$data = array(
 						'UserID' => $_SESSION['userId'],
 						'ActivityType' => 'Product',
 						'ActivityDescription' => $logMessage,
-                        'itemID' => $barcode
+                        'itemID' => $barcode,
+						'storeid' => self::$storeid
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($data);
@@ -306,18 +361,40 @@ class productController{
 							Swal.fire({
 									icon: "success",
 									title: "The product has been edited",
-									showConfirmButton: true,
-									confirmButtonText: "Close"
-									}).then(function(result){
-												if (result.value) {
-
-												window.location = "products";
-
-												}
-											})
+									showConfirmButton: false,
+									timer: 2000 // Auto close after 2 seconds
+								  }).then(function () {
+									// Code to execute after the alert is closed
+									window.location = "products";
+								  });
 
 						</script>';
 
+				}else {
+
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Category',
+						'ActivityDescription' => $logMessage,
+						'itemID' => $value,
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+	
+					echo'<script>
+							Swal.fire({
+								icon: "success",
+								title: "No changes were made",
+								showConfirmButton: false,
+								timer: 2000 // Timer set to 2 seconds (2000 milliseconds)
+							}).then(function () {
+								// Code to execute when the alert is closed (after 2 seconds)
+								window.location = "category";
+							});
+					</script>';
+					
 				}
 
 
@@ -328,15 +405,12 @@ class productController{
 				Swal.fire({
 						  icon: "error",
 						  title: "Invalid parameters. Please check your values",
-						  showConfirmButton: true,
-						  confirmButtonText: "Close"
-						  }).then(function(result){
-							if (result.value) {
-
+							showConfirmButton: false,
+							timer: 2000 // Auto close after 2 seconds
+						  }).then(function () {
+							// Code to execute after the alert is closed
 							window.location = "products";
-
-							}
-						})
+						  });
 
 			  	</script>';
 			}
@@ -349,6 +423,7 @@ class productController{
 	DELETE PRODUCT
 	=============================================*/
 	static public function ctrDeleteProduct(){
+        self::initialize();
 
 		if(isset($_GET["barcodeProduct"])){
 
@@ -356,14 +431,23 @@ class productController{
 			$barcode = $_GET['barcodeProduct'];
 			$data = array(
 				'status' => 1,
-				'barcode' => $barcode
+				'barcode' => $barcode,
+				'storeid' => self::$storeid
 			);
-			if($_GET["image"] != "" && $_GET["image"] != "views/img/products/default/anonymous.png"){
-
+			if (isset($_GET["image"]) && $_GET["image"] != "" && $_GET["image"] != "views/img/products/default/anonymous.png") {
+				// Delete the specified image
 				unlink($_GET["image"]);
-				rmdir('views/img/products/'.$_GET["barcodeProduct"]);
-
+			
+				// Check if the directory contains more images
+				$barcodeProductDir = 'views/img/products/'.$_GET["barcodeProduct"];
+				$filesInDir = glob($barcodeProductDir . "/*");
+			
+				if (count($filesInDir) === 1) {
+					// Remove the directory if it contains only one image
+					rmdir($barcodeProductDir);
+				}
 			}
+			
 			
 			$item = "barcode";
 			$value = $_GET["barcodeProduct"];
@@ -380,7 +464,8 @@ class productController{
 					'UserID' => $_SESSION['userId'],
 					'ActivityType' => 'Product',
 					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted product ' .$product. '.',
-					'itemID' => $value
+					'itemID' => $value,
+					'storeid' => self::$storeid
 				);
 				// Call the ctrCreateActivityLog() function
 				activitylogController::ctrCreateActivityLog($logdata);
@@ -389,16 +474,13 @@ class productController{
 
 				Swal.fire({
 					  icon: "success",
-					  title: "The Product has been successfully deleted",
-					  showConfirmButton: true,
-					  confirmButtonText: "Close"
-					  }).then(function(result){
-								if (result.value) {
-
-								window.location = "products";
-
-								}
-							})
+					  title: "Product '.$loganswer['product'].' has been  deleted.",
+					  showConfirmButton: false,
+					  timer: 2000 // Auto close after 2 seconds
+					}).then(function () {
+					  // Code to execute after the alert is closed
+					  window.location = "products";
+					});
 
 				</script>';
 
@@ -428,6 +510,7 @@ class productController{
 	Adding to stock
 	=============================================*/
 	public static function ctrAddingStock(){
+        self::initialize();
 
 		if (isset($_POST["addStock"])) {
 	
@@ -440,9 +523,9 @@ class productController{
 				Swal.fire({
 					icon: "warning",
 					title: "Please fill in all required fields",
-					showConfirmButton: true,
-					confirmButtonText: "Close"
-				});
+					showConfirmButton: false,
+					timer: 2000 // Auto close after 2 seconds
+				  })
 				</script>';
 				return;
 			}
@@ -455,7 +538,8 @@ class productController{
                     'UserID' => $_SESSION['userId'],
                     'ActivityType' => 'Product',
                     'ActivityDescription' =>  'User ' . $_SESSION['username'] . ' added ' .$quantity. ' units to a product\'s stock.',
-                    'itemID' => $barcode
+                    'itemID' => $barcode,
+					'storeid' => self::$storeid
                 );
                 // Call the ctrCreateActivityLog() function
                 activitylogController::ctrCreateActivityLog($logdata);
@@ -464,16 +548,17 @@ class productController{
 				Swal.fire({
 					icon: "success",
 					title: "'.$quantity.' units have been added to the current stock quantity",
-					showConfirmButton: true,
-					confirmButtonText: "Close"
-				}).then(function(result){
-					if (result.value) {
-						window.location = "stock";
-					}
-				});
+							showConfirmButton: false,
+							timer: 2000 // Auto close after 2 seconds
+						  }).then(function () {
+							// Code to execute after the alert is closed
+							window.location = "stock";
+						  });
 				</script>';
 			}	
+
 		}
+
 	}
 
 }

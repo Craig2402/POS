@@ -1,6 +1,7 @@
 <?php
 
 $pdo = Connection::connect();
+$storeid = $_SESSION['storeid'];
 
 // Prepare arrays to hold the data for the graph
 $paymentMonths = [];
@@ -14,8 +15,9 @@ for ($month = 1; $month <= 12; $month++) {
 }
 
 // Fetch monthly/yearly revenue data from the database
-$sql = "SELECT DATE_FORMAT(date, '%Y-%m') AS payment_month, SUM(amount) AS total_amount FROM payments GROUP BY DATE_FORMAT(date, '%Y-%m')";
+$sql = "SELECT DATE_FORMAT(date, '%Y-%m') AS payment_month, SUM(amount) AS total_amount FROM payments WHERE store_id = :storeid GROUP BY DATE_FORMAT(date, '%Y-%m')";
 $stmt = $pdo->prepare($sql);
+$stmt->bindParam(':storeid', $storeid);
 $stmt->execute();
 
 // Process the query results and populate the data arrays
@@ -55,8 +57,10 @@ function yearlyRevenue() {
     var years = [];
     var yearlyRevenueData = [];
     <?php
-    $sql = "SELECT DATE_FORMAT(date, '%Y') AS payment_year, SUM(amount) AS total_amount FROM payments GROUP BY DATE_FORMAT(date, '%Y')";
-    $stmt = $pdo->query($sql);
+    $sql = "SELECT DATE_FORMAT(date, '%Y') AS payment_year, SUM(amount) AS total_amount FROM payments WHERE store_id = :storeid GROUP BY DATE_FORMAT(date, '%Y')";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':storeid', $storeid);
+    $stmt->execute();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo "years.push('" . $row['payment_year'] . "');";
         echo "yearlyRevenueData.push(" . $row['total_amount'] . ");";
@@ -96,11 +100,6 @@ function updateChart(labels, data, label, type) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    ticks: {
-                        callback: function(value, index, values) {
-                            return '$' + value.toFixed(2);
-                        }
-                    }
                 }
             }
         }

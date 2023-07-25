@@ -48,37 +48,55 @@
                                     <div class="form-group">
                                       <label for="txtcategory">Category</label>
                                       <select class="form-control" name="txtcategory" id="txtcategory" required>
-                                        <option value="">Select Category</option>
+                                        <option selected disabled  value="">--Select Category--</option>
 
                                             <?php
 
-                                            $item = null;
-                                            $value1 = null;
+                                              $item = null; 
+                                              $value = null;
 
-                                            $categories = categoriesController::ctrShowCategories($item, $value1);
+                                              if ($_SESSION['role'] == "Administrator") {
+                                                $item = "store_id";
+                                                $value = $_GET['store-id'];
+                                              }else {
+                                                $item = "store_id";
+                                                $value = $_SESSION['storeid'];
+                                              }
 
-                                            foreach ($categories as $key => $value) {
-                                              
-                                              echo '<option value="'.$value["id"].'">'.$value["Category"].'</option>';
-                                            }
+                                              $categories = categoriesController::ctrShowCategories($item, $value);
 
-                                            ?>,,k,k,
+                                              foreach ($categories as $key => $value) {
+                                                
+                                                echo '<option value="'.$value["id"].'">'.$value["Category"].'</option>';
+
+                                              }
+
+                                            ?>
                                       </select>
                                     </div>
                                     <div class="form-group">
                                       <label for="txttaxcat">Tax type</label>
                                       <select name="txttaxcat" id="txttaxcat" class="form-control">
-                                        <option value="">Select Tax type</option>
+                                        <option selected disabled value="">--Select Tax type--</option>
                                         <?php
                                         
                                           $item = null;
-                                          $value1 = null;
+                                          $value = null;
 
-                                          $tax = taxdisController::ctrShowTaxdis($item,$value1);
+                                          if ($_SESSION['role'] == "Administrator") {
+                                            $item = "store_id";
+                                            $value = $_GET['store-id'];
+                                          }else {
+                                            $item = "store_id";
+                                            $value = $_SESSION['storeid'];
+                                          }
+
+                                          $tax = taxController::ctrShowTax($item,$value);
                                           
                                           foreach ($tax as $key => $value) {
                                               
                                             echo '<option value="'.$value["VAT"].'">'.$value["VATName"].'</option>';
+
                                           }
 
                                         ?>

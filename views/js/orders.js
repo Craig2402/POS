@@ -54,8 +54,15 @@ $('#product').on('change', function() {
                 }
 
             }else{
-                alert("Select a product to add it to the order list.")
-                // Swal.fire("Warning", "Select a product to add it to the order list.", "warning");
+                Swal.fire({
+                    icon: "warning",
+                    title: "Select a product to add it to the order list.",
+                    showConfirmButton: false,
+                    timer: 2000 // Set the timer for 2 seconds (2000 milliseconds)
+                }).then(function () {
+                    // Redirect to "orders" page after the timer expires
+                    $('#product').val('');
+                });
             }
 
         }

@@ -1,76 +1,123 @@
 <?php
  class categoriesController{
 
+	/*=============================================
+   SET THE STORE ID
+   =============================================*/
+	
+    static private $storeid;
+
+	public static function initialize() {
+		if ($_SESSION['role'] == "Administrator") {
+			if (isset($_GET['store-id'])) {
+				self::$storeid = $_GET['store-id'];
+			} else {
+				echo "<script>
+					window.onload = function() {
+						Swal.fire({
+							title: 'No store is selected',
+							text: 'Redirecting to Dashboard',
+							icon: 'error',
+							showConfirmButton: false,
+							timer: 2000 // Display alert for 2 seconds
+						}).then(function() {
+							// After the alert is closed, redirect to the dashboard
+							window.location= 'dashboard';
+						});
+					};
+					</script>";
+				exit; // Adding exit to stop further execution after the redirection
+			}
+		} else {
+			self::$storeid = $_SESSION['storeid'];
+		}
+	}
+	
+
  	/*=============================================
 	CREATE CATEGORY
 	=============================================*/
-	
 	static public function ctrCreateCategory(){
+        self::initialize();
 
 		if(isset($_POST['newCategory'])){
 
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["newCategory"])){
+			if (!empty(self::$storeid)) {
 
-				$table = 'categories';
+				if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["newCategory"])){
 
-				$data = $_POST['newCategory'];
+					$table = 'categories';
 
-				$answer = CategoriesModel::mdlAddCategory($table, $data);
-				// var_dump($answer);
-
-				if($answer == 'ok'){
-	
-					// Create an array with the data for the activity log entry
-					$logdata = array(
-						'UserID' => $_SESSION['userId'],
-						'ActivityType' => 'Category',
-						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' . $data . '.'
+					$data = array(
+						"category" => $_POST['newCategory'],
+						"storeid" => self::$storeid
 					);
-	
-					// Call the ctrCreateActivityLog() function
-					activitylogController::ctrCreateActivityLog($logdata);
+
+					$answer = CategoriesModel::mdlAddCategory($table, $data);
+					// var_dump($answer);
+
+					if($answer == 'ok'){
+		
+						// Create an array with the data for the activity log entry
+						$logdata = array(
+							'UserID' => $_SESSION['userId'],
+							'ActivityType' => 'Category',
+							'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' . $data['category'] . '.',
+							'storeid' => self::$storeid
+						);
+		
+						// Call the ctrCreateActivityLog() function
+						activitylogController::ctrCreateActivityLog($logdata);
+
+						echo '<script>
+								Swal.fire({
+								icon: "success",
+								title: "Category '.$data['category'].' has been created.",
+								showConfirmButton: false,
+								timer: 2000 // 2 seconds
+								}).then((result) => {
+								// Code to execute after the alert is closed
+								window.location = "category";
+								});
+							
+						</script>';
+					}
+					
+
+				}else{
 
 					echo '<script>
-						
-                    Swal.fire({
-							icon: "success",
-							title: "Category has been successfully saved ",
-							showConfirmButton: true,
-							confirmButtonText: "Close"
-
-							}).then(function(result){
-								if (result.value) {
-
-									window.location = "category";
-
-								}
+							Swal.fire({
+								icon: "error",
+								title: "No especial characters or blank fields.",
+								showConfirmButton: false,
+								timer: 2000 // Auto close after 2 seconds
+							}).then(function () {
+								// The function inside "then" will be executed when the SweetAlert is closed
+								window.location = "category";
 							});
-						
 					</script>';
+					
 				}
-				
 
-			}else{
+			}else {
 
 				echo '<script>
-						
-                Swal.fire({
+						Swal.fire({
 							icon: "error",
-							title: "No especial characters or blank fields",
-							showConfirmButton: true,
-							confirmButtonText: "Close"
-				
-							 }).then(function(result){
-
-								if (result.value) {
-									window.location = "category";
-								}
-							});
-						
+							title: "Select a Store first.",
+							showConfirmButton: false,
+							timer: 2000 // Auto close after 2 seconds
+						}).then(function () {
+							// The function inside "then" will be executed when the SweetAlert is closed
+							window.location = "category";
+						});
 				</script>';
 				
 			}
+				
 		}
+
 	}
 
 	/*=============================================
@@ -91,6 +138,7 @@
 	=============================================*/
 
 	static public function ctrEditCategory(){
+        self::initialize();
 
 		if(isset($_POST["editCategory"])){
 
@@ -115,39 +163,60 @@
             if (!empty($changedInfo)) {
                 $logMessage = $changedInfo;
             } else {
-                $logMessage = "Category has been edited.";
+                $logMessage = 'User ' . $_SESSION['username'] . ' tried to edit category ' . $oldItem['Category'] . '.';
             }
 
 			$answer = CategoriesModel::mdlEditCategory($table, $data);
 
-			if($answer == "ok"){
+			if($answer == "ok" && !empty($changedInfo)){
 				// Create an array with the data for the activity log entry
 				$logdata = array(
 					'UserID' => $_SESSION['userId'],
 					'ActivityType' => 'Category',
 					'ActivityDescription' => $logMessage,
-                	'itemID' => $value
+                	'itemID' => $value,
+					'storeid' => self::$storeid
 				);
 				// Call the ctrCreateActivityLog() function
 				activitylogController::ctrCreateActivityLog($logdata);
 
 				echo'<script>
-
-				Swal.fire({
-						icon: "success",
-						title: "Category has been successfully saved ",
-						showConfirmButton: true,
-						confirmButtonText: "Close"
-						}).then(function(result){
-								if (result.value) {
-
-								window.location = "category";
-
-								}
-							})
-
+						Swal.fire({
+							icon: "success",
+							title: "Category '.$oldItem['category'].' changes have been saved.",
+							showConfirmButton: false,
+							timer: 2000 // Timer set to 2 seconds (2000 milliseconds)
+						}).then(function () {
+							// Code to execute when the alert is closed (after 2 seconds)
+							window.location = "category";
+						});
 				</script>';
 
+			}else {
+
+				// Create an array with the data for the activity log entry
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Category',
+					'ActivityDescription' => $logMessage,
+                	'itemID' => $value,
+					'storeid' => self::$storeid
+				);
+				// Call the ctrCreateActivityLog() function
+				activitylogController::ctrCreateActivityLog($logdata);
+
+				echo'<script>
+						Swal.fire({
+							icon: "success",
+							title: "No changes were made",
+							showConfirmButton: false,
+							timer: 2000 // Timer set to 2 seconds (2000 milliseconds)
+						}).then(function () {
+							// Code to execute when the alert is closed (after 2 seconds)
+							window.location = "category";
+						});
+				</script>';
+				
 			}
 
 		}
@@ -159,6 +228,7 @@
 	=============================================*/
 
 	static public function ctrDeleteCategory(){
+        self::initialize();
 
 		if(isset($_GET["idCategory"])){
 
@@ -175,24 +245,20 @@
 			$item2 = "idCategory";
 			$value2 = $data;
 			$order = "id";
-			$products = productModel::mdlShowProducts($table2, $item2, $value2, $order);
+			$products = productModel::mdlFetchProducts($table2, $item2, $value2, $order);
 				
 			if($products){
 
 				echo'<script>
-
-                Swal.fire({
-						  icon: "warning",
-						  title: "The category has existing products. Please delete all products in this category first.",
-						  showConfirmButton: true,
-						  confirmButtonText: "Close"
-						  }).then(function(result){
-									if (result.value) {
-
-									window.location = "category";
-
-									}
-								})
+				
+						Swal.fire({
+							icon: "warning",
+							title: "The category contains existing products.",
+							showConfirmButton: false,
+							timer: 2000 // Close the alert after 2 seconds
+						}).then(function() {
+							window.location = "category";
+						});
 
 					</script>';
 
@@ -207,28 +273,27 @@
 						'UserID' => $_SESSION['userId'],
 						'ActivityType' => 'Category',
 						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted category ' .$category. '.',
-						'itemID' => $value
+						'itemID' => $value,
+						'storeid' => self::$storeid
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);
 
 					echo'<script>
 
-					Swal.fire({
-							icon: "success",
-							title: "The category has been successfully deleted",
-							showConfirmButton: true,
-							confirmButtonText: "Close"
-							}).then(function(result){
-										if (result.value) {
-
-										window.location = "category";
-
-										}
-									})
-
+							Swal.fire({
+								icon: "success",
+								title: "The category '.$category.' has been successfully deleted",
+								showConfirmButton: false,
+								timer: 2000 // Set the timer to 2 seconds
+							}).then(function () {
+								// This will execute after the SweetAlert closes
+								window.location = "category";
+							});
+					  
 						</script>';
 				}
+
 			}
 		
 		}

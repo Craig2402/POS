@@ -394,91 +394,95 @@ function updateArray() {
 // });
 
 
-function validateForm() {
-  // Check if additionalInputs div is visible
-  var additionalInputs = document.getElementById("additionalInputs");
-  if (additionalInputs.style.display !== "none") {
-    // Get the values of the inputs
-    var cname = document.getElementById("cname").value;
-    var phone = document.getElementById("phone").value;
-    var cid = document.getElementById("cid").value;
+$(function() {
+  $('#submitButton').on('click', function() {
+    // Check      if additionalInputs div is visible
+    var additionalInputs = document.getElementById("additionalInputs");
+    if (additionalInputs.style.display !== "none") {
+      // Get the values of the inputs
+      var cname = document.getElementById("cname").value;
+      var phone = document.getElementById("phone").value;
+      var cid = document.getElementById("cid").value;
 
-    // Check if any input is empty
-    if (cname.trim() === "" || phone.trim() === "" || cid.trim() === "") {
-      Swal.fire({
-        icon: "warning",
-        title: "Empty Fields",
-        text: "Please fill in all the required fields.",
-        timer:2000,
-        showConfirmButton:false,
-      });
-      return false; // Prevent form submission
-    }
-
-    // Check phone length and prefix
-    if (phone.startsWith("254")) {
-      // Phone starts with 254, should have a minimum and maximum of 12 characters
-      if (phone.length < 12 || phone.length > 12) {
+      // Check if any input is empty
+      if (cname.trim() === "" || phone.trim() === "" || cid.trim() === "") {
         Swal.fire({
           icon: "warning",
-          title: "Invalid Phone Number",
-          text: "Phone number should have exactly 12 digits when starting with 254.",
+          title: "Empty Fields",
+          text: "Please fill in all the required fields.",
           timer:2000,
           showConfirmButton:false,
         });
         return false; // Prevent form submission
       }
-    } else if (phone.startsWith("01") || phone.startsWith("07")) {
-      // Phone starts with 01 or 07, should have a minimum and maximum of 10 characters
-      if (phone.length < 10 || phone.length > 10) {
+
+      // Check phone length and prefix
+      if (phone.startsWith("254")) {
+        // Phone starts with 254, should have a minimum and maximum of 12 characters
+        if (phone.length < 12 || phone.length > 12) {
+          Swal.fire({
+            icon: "warning",
+            title: "Invalid Phone Number",
+            text: "Phone number should have exactly 12 digits when starting with 254.",
+            timer:2000,
+            showConfirmButton:false,
+          });
+          return false; // Prevent form submission
+        }
+      } else if (phone.startsWith("01") || phone.startsWith("07")) {
+        // Phone starts with 01 or 07, should have a minimum and maximum of 10 characters
+        if (phone.length < 10 || phone.length > 10) {
+          Swal.fire({
+            icon: "warning",
+            title: "Invalid Phone Number",
+            text: "Phone number should have exactly 10 digits when starting with 01 or 07.",
+            timer:2000,
+            showConfirmButton:false,
+          });
+          return false; // Prevent form submission
+        }
+      } else {
+        // Phone has an invalid prefix
         Swal.fire({
           icon: "warning",
           title: "Invalid Phone Number",
-          text: "Phone number should have exactly 10 digits when starting with 01 or 07.",
+          text: "Phone number should start with 254, 01, or 07.",
           timer:2000,
           showConfirmButton:false,
         });
         return false; // Prevent form submission
       }
-    } else {
-      // Phone has an invalid prefix
+
+      // Check cid length
+      if (cid.length < 8 || cid.length > 8) {
+        Swal.fire({
+          icon: "warning",
+          title: "Invalid Identification Number",
+          text: "Identification number should have exactly 8 characters.",
+          timer:2000,
+          showConfirmButton:false,
+        });
+        return false; // Prevent form submission
+      }
+    }
+
+    // Check if any item is added to the cart
+    var cartItems = productinfo.length;
+    if (cartItems === 0) {
       Swal.fire({
-        icon: "warning",
-        title: "Invalid Phone Number",
-        text: "Phone number should start with 254, 01, or 07.",
+        icon: "error",
+        title: "No Items in Cart",
+        text: "Please add at least one item to the cart before saving the order.",
         timer:2000,
         showConfirmButton:false,
       });
       return false; // Prevent form submission
     }
 
-    // Check cid length
-    if (cid.length < 8 || cid.length > 8) {
-      Swal.fire({
-        icon: "warning",
-        title: "Invalid Identification Number",
-        text: "Identification number should have exactly 8 characters.",
-        timer:2000,
-        showConfirmButton:false,
-      });
-      return false; // Prevent form submission
-    }
-  }
+    // If all validations pass, allow form submission
+    return true;
 
-  // Check if any item is added to the cart
-  var cartItems = productinfo.length;
-  if (cartItems === 0) {
-    Swal.fire({
-      icon: "error",
-      title: "No Items in Cart",
-      text: "Please add at least one item to the cart before saving the order.",
-      timer:2000,
-      showConfirmButton:false,
-    });
-    return false; // Prevent form submission
-  }
+  });
+});
 
-  // If all validations pass, allow form submission
-  return true;
-}
 

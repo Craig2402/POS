@@ -82,7 +82,7 @@ $(".tables tbody").on("click", "button.btnEditProduct", function(){
       processData: false,
       dataType:"json",
       success:function(answer){
-          
+          console.log(answer);
         var categoryData = new FormData();
         categoryData.append("idCategory",answer["idCategory"]);
 
@@ -153,8 +153,6 @@ $(".tables tbody").on("click", "button.btnDeleteProduct", function(){
 		text: "If you're not sure you can cancel this action!",
 		icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Yes, delete product!'
         }).then(function(result){
@@ -205,7 +203,7 @@ $(".tables tbody").on("click", "button.btnViewProduct", function(){
 				processData: false,
 				dataType:"json",
 				success: function(response) {
-					window.location = "index.php?route=viewproduct&barcode=" + barcodeProduct + "&image=" + image;
+					window.location = "index.php?route=viewproduct&product-id=" + barcodeProduct + "&image=" + image;
 				}
 
 			});
@@ -222,7 +220,7 @@ $(".tables tbody").on("click", "button.btnPrintProductBarcode", function(){
 	// var code = $(this).attr("code");
 	var image = $(this).attr("image");
 
-        	window.location = "index.php?route=printbarcode&barcode="+barcodeProduct+"&image="+image;
+        	window.location = "index.php?route=printbarcode&product-id="+barcodeProduct+"&image="+image;
 
 })
 
@@ -255,41 +253,41 @@ $(document).ready(function() {
 });
 
 
-// check if the product exista in the db
-$('#txtbarcode').change(function() {
+// check if the product exists in the db
+// $('#txtbarcode').change(function() {
 
-	var item = "barcode"
-	var order = "id"
-	var value = $(this).val();
+// 	var item = "barcode"
+// 	var order = "id"
+// 	var value = $(this).val();
 	
-	var datum = new FormData();
-    datum.append("item", item);
-    datum.append("order", order);
-    datum.append("value", value);
+// 	var datum = new FormData();
+//     datum.append("item", item);
+//     datum.append("order", order);
+//     datum.append("value", value);
 
-		$.ajax({
+// 		$.ajax({
 
-		url:"ajax/products.ajax.php",
-		method: "POST",
-		data: datum,
-		cache: false,
-		contentType: false,
-		processData: false,
-		dataType:"json",
-		success:function(answer){
-			if (answer) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Product already exists!',
-                    showConfirmButton: false,
-                    timer: 2000, // 2 seconds
-                    willClose: function() {
-                        $('#txtbarcode').val(''); // Reset the text field
-                    }
-                });
-			}
-		}
+// 		url:"ajax/products.ajax.php",
+// 		method: "POST",
+// 		data: datum,
+// 		cache: false,
+// 		contentType: false,
+// 		processData: false,
+// 		dataType:"json",
+// 		success:function(answer){
+// 			if (answer) {
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Product already exists!',
+//                     showConfirmButton: false,
+//                     timer: 2000, // 2 seconds
+//                     willClose: function() {
+//                         $('#txtbarcode').val(''); // Reset the text field
+//                     }
+//                 });
+// 			}
+// 		}
 
-  	})
+//   	})
 
-});
+// });

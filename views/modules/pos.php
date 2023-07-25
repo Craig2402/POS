@@ -1,51 +1,10 @@
-   <style>
-  .modal-header {
-  background-color: #39b54a;
-  color: #fff;
-}
-
-.modal-header h5.modal-title {
-  color: #fff;
-}
-
-.modal-content {
-  border: none;
-  border-radius: 4px;
-}
-
-.modal-body {
-  background-color: #f8f8f8;
-}
-
-.modal-footer {
-  background-color: #f8f8f8;
-}
-
-.modal-footer .btn-primary {
-  background-color: #39b54a;
-  color: #fff;
-}
-
-.modal-footer .btn-primary:hover,
-.modal-footer .btn-primary:focus {
-  background-color: #00cc00;
-  color: #fff;
-}
-
-
-   </style>
-   
-   
-   
-   
-   
-   <?php
+<?php
     require_once 'models/connection.php';
     function fillProducts($pdo){
         $pdo = connection::connect();
         $output="";
-        $select=$pdo->prepare('select * from products where status = 0 order by product ASC');
-
+        $select=$pdo->prepare("SELECT * FROM products WHERE store_id = :store_id AND status = 0");
+        $select->bindParam(':store_id', $_SESSION['storeid']);
         $select->execute();
         
         $result=$select->fetchAll();
@@ -58,10 +17,43 @@
         return $output; ;
 
     }
-
-    
-
  ?>
+ <style>
+    
+    .modal-header {
+        background-color: #39b54a;
+        color: #fff;
+    }
+    
+    .modal-header h5.modal-title {
+        color: #fff;
+    }
+    
+    .modal-content {
+        border: none;
+        border-radius: 4px;
+    }
+    
+    .modal-body {
+        background-color: #f8f8f8;
+    }
+    
+    .modal-footer {
+        background-color: #f8f8f8;
+    }
+    
+    .modal-footer .btn-primary {
+        background-color: #39b54a;
+        color: #fff;
+    }
+    
+    .modal-footer .btn-primary:hover,
+    .modal-footer .btn-primary:focus {
+        background-color: #00cc00;
+        color: #fff;
+    }
+
+ </style>
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -88,7 +80,7 @@
         <div class="row">
             <div class="col-lg-12">
             <!-- /.col-md-6 -->
-                <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <form action="" method="post" enctype="multipart/form-data">
                     <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h5 class="m-0">POS</h5>

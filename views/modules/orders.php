@@ -1,5 +1,3 @@
-
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -40,16 +38,27 @@
                                 <div class="form-group">
                                     <label for="product" class="control-label">Product</label>
                                     <select class="form-control" name="product" id="product">
-                                        <option value="">--Select a product--</option>
+                                        <option disabled selected value="">--Select a product--</option>
                                         <?php
                                             $item = null;
                                             $value = null;
+
+                                            if ($_SESSION['role'] == "Administrator") {
+                                              $item = "store_id";
+                                              if (isset($_GET['store-id'])) {
+                                                $value = $_GET['store-id'];
+                                              }
+                                            }else {
+                                              $item = "store_id";
+                                              $value = $_SESSION['storeid'];
+                                            }
                                             $order = "id";
 
-                                            $products = productController::ctrShowProducts($item, $value, $order);
+                                            $products = productController::ctrShowProducts($item, $value, $order, true);
+                                            // var_dump($products);
 
                                             foreach ($products as $key => $value) {
-                                                echo '<option value="'.$value["barcode"].'">'.$value["product"].'</option>';
+                                                echo '<option value="'.$value["id"].'">'.$value["product"].'</option>';
                                             }
                                         ?>
                                     </select>
@@ -61,7 +70,7 @@
                                 <div class="form-group">
                                     <label for="supplier">Supplier</label>
                                     <select name="supplier" id="supplier" class="form-control" required>
-                                        <option value="">--Select a supplier--</option>
+                                        <option disabled selected value="">--Select a supplier--</option>
                                         <?php
                                             $item = null;
                                             $value = null;

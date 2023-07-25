@@ -4,7 +4,7 @@ class ReturnProductModel {
     ADDING RETURN PRODUCTS
     =============================================*/
     static public function mdlAddReturnProduct($table, $data) {
-        $stmt = Connection::connect()->prepare("INSERT INTO $table (product, quantity, return_date, reason, return_type, supplier) VALUES (:product, :quantity, :return_date, :reason, :return_type, :supplier)");
+        $stmt = Connection::connect()->prepare("INSERT INTO $table (product, quantity, return_date, reason, return_type, supplier, store_id) VALUES (:product, :quantity, :return_date, :reason, :return_type, :supplier, :store_id)");
 
         $stmt->bindParam(":product", $data["product"], PDO::PARAM_STR);
         $stmt->bindParam(":quantity", $data["quantity"], PDO::PARAM_INT);
@@ -12,6 +12,7 @@ class ReturnProductModel {
         $stmt->bindParam(":supplier", $data["supplier"], PDO::PARAM_STR);
         $stmt->bindParam(":reason", $data["reason"], PDO::PARAM_STR);
         $stmt->bindParam(":return_type", $data["return_type"], PDO::PARAM_STR);
+		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
             return "ok";
@@ -27,8 +28,18 @@ class ReturnProductModel {
     SHOW RETURNS
     =============================================*/
     static public function mdlShowReturnProducts($table, $item, $value) {
-        
-		if($item != null){
+
+		if ($item == "store_id"){ 
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+			
+		} elseif($item != null){
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 
@@ -40,14 +51,12 @@ class ReturnProductModel {
 
 		}
 		else{
-
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
 
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
 
-			
 		}
 
 		$stmt -> close();
@@ -55,4 +64,5 @@ class ReturnProductModel {
 		$stmt = null;
 
     }
+    
 }

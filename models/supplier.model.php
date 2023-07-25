@@ -7,12 +7,13 @@ class supplierModel{
 	=============================================*/
 	static public function mdlAddsSupplier($table, $data){
 
-		$stmt = connection::connect()->prepare("INSERT INTO $table(name,address, email, contact) VALUES(:name, :address, :email, :contact)");
+		$stmt = connection::connect()->prepare("INSERT INTO $table(name,address, email, contact, store_id) VALUES(:name, :address, :email, :contact, :store_id)");
 
 		$stmt->bindParam(":name", $data["name"],PDO::PARAM_STR);
 		$stmt->bindParam(":address", $data["address"],PDO::PARAM_STR);
         $stmt->bindParam(":email", $data["email"],PDO::PARAM_STR);
         $stmt->bindParam(":contact", $data["contact"],PDO::PARAM_STR);
+		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 
@@ -35,7 +36,17 @@ class supplierModel{
 	=============================================*/
 	static public function mdlShowSuppliers($table, $item, $value){
 
-		if($item != null){
+		if ($item == "store_id"){ 
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+			
+		} elseif($item != null){
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 
@@ -52,7 +63,7 @@ class supplierModel{
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
-			
+
 		}
 
 		$stmt -> close();

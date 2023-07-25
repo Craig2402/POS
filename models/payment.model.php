@@ -13,12 +13,9 @@ class PaymentModel{
  	/*=============================================
 	CREATE PAYMENT
 	=============================================*/
-    public function insertPayment($paymentId, $amount, $paymentMethod, $invoiceId){
+    public function insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid){
         
-        $query = "INSERT INTO payments (paymentid, amount, paymentmethod, invoiceId) 
-                  VALUES (:paymentid, :amount, :paymentmethod, :invoiceId)";
-
-        $date = date('Y-m-d');
+        $query = "INSERT INTO payments (paymentid, amount, paymentmethod, invoiceId, store_id) VALUES(:paymentid, :amount, :paymentmethod, :invoiceId, :store_id)";
 
         // Prepare the query
         $stmt = $this->db->prepare($query);
@@ -28,6 +25,7 @@ class PaymentModel{
         $stmt->bindParam(':amount', $amount);
         $stmt->bindParam(':paymentmethod', $paymentMethod);
         $stmt->bindParam(':invoiceId', $invoiceId);
+		$stmt -> bindParam(":store_id", $storeid);
 
         // Execute the query
         if ($stmt->execute()) {
@@ -93,29 +91,38 @@ class PaymentModel{
 		$stmt = null;
 
 	}
-		/*=============================================
+	/*=============================================
 	SHOW Payments
 	=============================================*/
     public static function mdlShowPayments($table, $item, $value){
 
-		if($item != null){
+		if ($item == "store_id"){ 
 
-            $stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 
-            $stmt -> bindParam(":".$item, $value);
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
 
-            $stmt -> execute();
+			$stmt -> execute();
 
-            return $stmt -> fetch(PDO::FETCH_ASSOC);
+			return $stmt -> fetchAll();
+			
+		} elseif($item != null){
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetch();
 
 		}
 		else{
-
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
 
 			$stmt -> execute();
 
-			return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			return $stmt -> fetchAll();
 
 		}
 
@@ -158,9 +165,8 @@ class InvoiceModel{
  	/*=============================================
 	CREATE INVOICE
 	=============================================*/
-    public function insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal, $invoiceTotal, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId){
-        $query = "INSERT INTO invoices (invoiceId, products, startdate, duedate, customername, phone, idnumber, totaltax, subtotal, total, discount, dueamount, userId) 
-                  VALUES (:invoiceId, :products, :startdate, :duedate, :customername, :phone, :idnumber, :totaltax, :subtotal, :total, :discount, :dueamount, :userId)";
+    public function insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal, $invoiceTotal, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid){
+        $query = "INSERT INTO invoices (invoiceId, products, startdate, duedate, customername, phone, idnumber, totaltax, subtotal, total, discount, dueamount, userId, store_id) VALUES (:invoiceId, :products, :startdate, :duedate, :customername, :phone, :idnumber, :totaltax, :subtotal, :total, :discount, :dueamount, :userId, :store_id)";
 
         // Prepare the query
         $stmt = $this->db->prepare($query);
@@ -180,6 +186,7 @@ class InvoiceModel{
         $stmt->bindParam(':discount', $invoiceDiscount);
         $stmt->bindParam(':dueamount', $invoiceDueAmount);
         $stmt->bindParam(':userId', $invoiceUserId);
+		$stmt -> bindParam(":store_id", $storeid);
 
         // Execute the query
         if ($stmt->execute()) {
@@ -228,24 +235,33 @@ class InvoiceModel{
 	=============================================*/
     public static function mdlShowInvoices($table, $item, $value){
 
-		if($item != null){
+		if ($item == "store_id"){ 
 
-            $stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 
-            $stmt -> bindParam(":".$item, $value);
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
 
-            $stmt -> execute();
+			$stmt -> execute();
 
-            return $stmt -> fetch(PDO::FETCH_ASSOC);
+			return $stmt -> fetchAll();
+			
+		} elseif($item != null){
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetch();
 
 		}
 		else{
-
 			$stmt = connection::connect()->prepare("SELECT * FROM $table");
 
 			$stmt -> execute();
 
-			return $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			return $stmt -> fetchAll();
 
 		}
 
@@ -258,7 +274,7 @@ class InvoiceModel{
  	/*=============================================
 	EDIT INVOICES
 	=============================================*/
-    public function mdlEditInvoice($table, $data){
+    public static function mdlEditInvoice($table, $data){
 
 		$stmt = connection::connect()->prepare("UPDATE $table SET dueamount = :due WHERE invoiceId = :invoiceId");
 
@@ -286,11 +302,13 @@ class InvoiceModel{
 	DATES RANGE
 	=============================================*/	
 
-	 public static function mdlSalesDatesRange($table, $initialDate, $finalDate){
+	 public static function mdlSalesDatesRange($table, $initialDate, $finalDate, $storeid){
 
 		if($initialDate == null){
 
-			$stmt = connection::connect()->prepare("SELECT * FROM $table ORDER BY invoiceId ASC");
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE store_id = :storeid ORDER BY invoiceId ASC");
+
+			$stmt->bindParam(':storeid', $storeid);
 
 			$stmt -> execute();
 
@@ -299,9 +317,10 @@ class InvoiceModel{
 
 		}else if($initialDate == $finalDate){
 
-			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE startdate like '%$finalDate%'");
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE startdate like '%$finalDate%' AND store_id = :storeid");
 
 			$stmt -> bindParam(":startdate", $finalDate, PDO::PARAM_STR);
+			$stmt->bindParam(':storeid', $storeid);
 
 			$stmt -> execute();
 
@@ -319,12 +338,13 @@ class InvoiceModel{
 
 			if($finalDatePlusOne == $actualDatePlusOne){
 
-				$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE startdate BETWEEN '$initialDate' AND '$finalDatePlusOne'");
+				$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE startdate BETWEEN '$initialDate' AND '$finalDatePlusOne' AND store_id = :storeid");
+				$stmt->bindParam(':storeid', $storeid);
 
 			}else{
 
-
-				$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE startdate BETWEEN '$initialDate' AND '$finalDate'");
+				$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE startdate BETWEEN '$initialDate' AND '$finalDate' AND store_id = :storeid");
+				$stmt->bindParam(':storeid', $storeid);
 
 			}
 		

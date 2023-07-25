@@ -39,11 +39,9 @@ $(".tables").on("click", ".btnDeleteCategory", function(){
 
 	 Swal.fire({
 	 	title: 'Are you sure you want to delete the category?',
-		text: "f you're not sure you can cancel!",
+		text: "If you're not sure you can cancel!",
 		icon: 'warning',
 		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
-		cancelButtonColor: '#d33',
 		cancelButtonText: 'Cancel',
 		confirmButtonText: 'Yes, delete category!'
 	 }).then(function(result){

@@ -54,8 +54,6 @@ $(".tables tbody").on("click", "button.btnDeleteSupplier", function(){
 		text: "If you're not sure you can cancel this action!",
 		icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Yes, delete supplier!'
         }).then(function(result){

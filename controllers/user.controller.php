@@ -197,6 +197,7 @@ class userController{
 								'userpassword' => $encryptpass,
 								'role' => $_POST["roleOptions"],
 								'userphoto' => $photo,
+								'store_id' => $_POST['Selectstore'],
 								'deleted' => 0);
 
 
@@ -276,6 +277,14 @@ class userController{
 		$table = "users";
 
 		$answer = userModel::mdlShowUser($table, $item, $value);
+
+		return $answer;
+	}
+	static public function ctrShowAllUsers($item, $value){
+
+		$table = "users";
+
+		$answer = userModel::mdlShowAllUser($table, $item, $value);
 
 		return $answer;
 	}
@@ -407,6 +416,7 @@ class userController{
 								'username' => $_POST["editUsername"],
 								'userpassword' => $encryptpass,
 								'role' => $_POST["editRoleOptions"],
+								'store_id' => $_POST["Editstore"],
 								'userphoto' => $photo);
             
 				$item = "username";

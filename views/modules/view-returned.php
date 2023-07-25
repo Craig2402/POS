@@ -49,6 +49,14 @@
                     $item = null;
                     $value = null;
 
+                    if ($_SESSION['role'] == "Administrator") {
+                      $item = "store_id";
+                      $value = $_GET['store-id'];
+                    }else {
+                      $item = "store_id";
+                      $value = $_SESSION['storeid'];
+                    }
+
                     $returns = ReturnProductController::ctrShowReturnProducts($item, $value);
                     
                     foreach($returns as $return=>$val){

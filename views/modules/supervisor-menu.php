@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="sidebar-search">
+        <!-- <div class="sidebar-search">
             <div class="input-group">
                 <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
                 <div class="input-group-append">
@@ -23,7 +23,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">

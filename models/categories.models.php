@@ -11,9 +11,10 @@ class CategoriesModel{
 
 	static public function mdlAddCategory($table, $data){
 
-		$stmt = connection::connect()->prepare("INSERT INTO $table(category) VALUES (:category)");
+		$stmt = connection::connect()->prepare("INSERT INTO $table(category, store_id) VALUES (:category, :store_id)");
 
-		$stmt -> bindParam(":category", $data, PDO::PARAM_STR);
+		$stmt -> bindParam(":category", $data['category'], PDO::PARAM_STR);
+		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 
@@ -37,7 +38,17 @@ class CategoriesModel{
 	
 	static public function mdlShowCategories($table, $item, $value){
 
-		if($item != null){
+		if ($item == "store_id"){ 
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+			
+		} elseif($item != null){
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 

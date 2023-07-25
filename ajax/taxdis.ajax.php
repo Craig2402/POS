@@ -16,7 +16,7 @@ class AjaxTaxdis{
 		$item = "taxId";
 		$valor = $this->idTaxdis;
 
-		$answer = taxdisController::ctrShowTaxdis($item, $valor);
+		$answer = taxController::ctrShowTax($item, $valor);
 
 		echo json_encode($answer);
 

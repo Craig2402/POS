@@ -2,51 +2,100 @@
 
  class supplierController{
 
+	/*=============================================
+   SET THE STORE ID
+   =============================================*/
+	
+    static private $storeid;
+
+	public static function initialize() {
+		if ($_SESSION['role'] == "Administrator") {
+			if (isset($_GET['store-id'])) {
+				self::$storeid = $_GET['store-id'];
+			} else {
+				echo "<script>
+					window.onload = function() {
+						Swal.fire({
+							title: 'No store is selected',
+							text: 'Redirecting to Dashboard',
+							icon: 'error',
+							showConfirmButton: false,
+							timer: 2000 // Display alert for 2 seconds
+						}).then(function() {
+							// After the alert is closed, redirect to the dashboard
+							window.location= 'dashboard';
+						});
+					};
+					</script>";
+				exit; // Adding exit to stop further execution after the redirection
+			}
+		} else {
+			self::$storeid = $_SESSION['storeid'];
+		}
+	}
+
  	/*=============================================
 	CREATE SUPPLIER
 	=============================================*/
 	
 	static public function ctrCreateSupplier(){
+        self::initialize();
 
 		if(isset($_POST['addSupplier'])){
 
-            $table = "suppliers";
+			if (!empty(self::$storeid)) {
 
-            $data = array("name" => $_POST["Supplier"],
-                           "address" => $_POST["Address"],
-                           "email" => $_POST["Email"],
-                           "contact" => $_POST["Contact"]);
+                $table = "suppliers";
 
-            $answer = supplierModel::mdlAddsSupplier($table, $data);
+                $data = array("name" => $_POST["Supplier"],
+                            "address" => $_POST["Address"],
+                            "email" => $_POST["Email"],
+                            "contact" => $_POST["Contact"],
+                            "storeid" => self::$storeid);
 
-            if($answer == "ok"){
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Supplier',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' creates supplier ' .$data['name']. '.'
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+                $answer = supplierModel::mdlAddsSupplier($table, $data);
 
-                echo'<script>
+                if($answer == "ok"){
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Supplier',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' creates supplier ' .$data['name']. '.',
+                        'storeid' => self::$storeid
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
 
-                Swal.fire({
-                          icon: "success",
-                          title: "Supplier added succesfully!",
-                          showConfirmButton: true,
-                          confirmButtonText: "Close"
-                          }).then(function(result){
-                                    if (result.value) {
+                    echo'<script>
 
-                                    window.location = "suppliers";
+                        Swal.fire({
+                            icon: "success",
+                            title: "Supplier '.$data['name'].' has been created!",
+                            showConfirmButton: false,
+                            timer: 2000 // 2 seconds
+                        }).then(function(result) {
+                            window.location = "suppliers";
+                        });
+                    
+                        </script>';
 
-                                    }
-                                })
+                }
 
-                    </script>';
+            }else {
 
-            }
+				echo '<script>
+						Swal.fire({
+							icon: "error",
+							title: "Select a Store first.",
+							showConfirmButton: false,
+							timer: 2000 // Auto close after 2 seconds
+						}).then(function () {
+							// The function inside "then" will be executed when the SweetAlert is closed
+							window.location = "suppliers";
+						});
+				</script>';
+				
+			}
 
         }
 
@@ -69,6 +118,7 @@
 	=============================================*/
 
 	static public function ctrEditSupplier(){
+        self::initialize();
 
 		if(isset($_POST["editsupplier"])){
 
@@ -98,19 +148,20 @@
             if (!empty($changedInfo)) {
                 $logMessage = $changedInfo;
             } else {
-                $logMessage = "Supplier has been edited.";
+                $logMessage = 'User ' . $_SESSION['username'] . ' tried to edit supplier ' . $oldItem['name'] . '.';
             }           
             
 
             $answer = supplierModel::mdlEditSupplier($table, $data);
 
-            if($answer == "ok"){
+            if($answer == "ok" && !empty($changedInfo)){
                 // Create an array with the data for the activity log entry
                 $logdata = array(
                     'UserID' => $_SESSION['userId'],
                     'ActivityType' => 'Supplier',
                     'ActivityDescription' => $logMessage,
-                    'itemID' => $supplierid
+                    'itemID' => $supplierid,
+                    'storeid' => self::$storeid
                 );
                 // Call the ctrCreateActivityLog() function
                 activitylogController::ctrCreateActivityLog($logdata);
@@ -120,19 +171,40 @@
                 Swal.fire({
                             icon: "success",
                             title: "The supplier has been edited",
-                            showConfirmButton: true,
-                            confirmButtonText: "Close"
-                            }).then(function(result){
-                                    if (result.value) {
-
-                                    window.location = "suppliers";
-
-                                    }
-                                })
+                            showConfirmButton: false,
+                            timer: 2000 // 2 seconds
+                        }).then(function(result) {
+                            window.location = "suppliers";
+                        });
 
                     </script>';
 
-            }
+            }else {
+
+				// Create an array with the data for the activity log entry
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Supplier',
+					'ActivityDescription' => $logMessage,
+                	'itemID' => $supplierid,
+					'storeid' => self::$storeid
+				);
+				// Call the ctrCreateActivityLog() function
+				activitylogController::ctrCreateActivityLog($logdata);
+
+				echo'<script>
+						Swal.fire({
+							icon: "success",
+							title: "No changes were made",
+							showConfirmButton: false,
+							timer: 2000 // Timer set to 2 seconds (2000 milliseconds)
+						}).then(function () {
+							// Code to execute when the alert is closed (after 2 seconds)
+							window.location = "suppliers";
+						});
+				</script>';
+				
+			}
            
         }
 
@@ -142,6 +214,7 @@
 	DELETE SUPPLIER
 	=============================================*/
 	static public function ctrDeleteSupplier(){
+        self::initialize();
 
 		if(isset($_GET["id"])){
 
@@ -160,7 +233,8 @@
                     'UserID' => $_SESSION['userId'],
                     'ActivityType' => 'Supplier',
                     'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted supplier ' .$oldItem['name']. '.',
-                    'itemID' => $supplierid
+                    'itemID' => $supplierid,
+                    'storeid' => self::$storeid
                 );
                 // Call the ctrCreateActivityLog() function
                 activitylogController::ctrCreateActivityLog($logdata);
@@ -169,16 +243,12 @@
 
 				Swal.fire({
 					  icon: "success",
-					  title: "The supplier has been successfully deleted",
-					  showConfirmButton: true,
-					  confirmButtonText: "Close"
-					  }).then(function(result){
-								if (result.value) {
-
-								window.location = "suppliers";
-
-								}
-							})
+					  title: "Supplier '.$oldItem['name'].' has been successfully deleted",
+                      showConfirmButton: false,
+                      timer: 2000 // 2 seconds
+                  }).then(function(result) {
+                      window.location = "suppliers";
+                  });
 
 				</script>';
 

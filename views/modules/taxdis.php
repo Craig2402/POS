@@ -46,12 +46,12 @@
 
                     <div class="card-footer">
                       <div class="text-center">
-                        <button type="submit" class="btn btn-primary" name="addTaxdis">Save</button>
+                        <button type="submit" class="btn btn-primary" name="addTax">Save</button>
                       </div>
                     </div>
                             <?php
-                                $add= new taxdisController();
-                                $add->ctrCreateTaxdis();
+                                $add= new taxController();
+                                $add->ctrCreateTax();
                             ?>
                     </form>
                 </div>
@@ -88,11 +88,21 @@
                 $item = null; 
                 $value = null;
 
-                $categories = taxdisController::ctrShowTaxdis($item, $value);
+                if ($_SESSION['role'] == "Administrator") {
+                  $item = "store_id";
+                  if (isset($_GET['store-id'])) {
+                    $value = $_GET['store-id'];
+                  }
+                }else {
+                  $item = "store_id";
+                  $value = $_SESSION['storeid'];
+                }
 
-                // var_dump($categories);
+                $taxes = taxController::ctrShowTax($item, $value);
 
-                foreach ($categories as $key => $value) {
+                // var_dump($taxes);
+
+                foreach ($taxes as $key => $value) {
 
                   echo '<tr>
                           <td>'.($key+1).'</td>
@@ -162,15 +172,15 @@
 
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary" name="editTaxdis">Save changes</button>
         </div>
 
         <?php
   
-          $editTaxdis= new taxdisController();
-          $editTaxdis-> ctrEditTaxdis();
+          $editTaxdis= new taxController();
+          $editTaxdis-> ctrEditTax();
         ?>
       </form>
     </div>
@@ -179,8 +189,8 @@
 </div>
 
 <?php
-  $deleteTaxdis = new taxdisController();
-  $deleteTaxdis -> ctrDeleteTaxdis();
+  $deleteTaxdis = new taxController();
+  $deleteTaxdis -> ctrDeleteTax();
 ?>
 <?php
     $markRead = new notificationController();

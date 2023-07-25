@@ -35,8 +35,8 @@
               <div class="card-body">
                 
                 <?php
-                  $item = "barcode"; 
-                  $value = $_GET["barcode"];
+                  $item = "id"; 
+                  $value = $_GET["product-id"];
                   $order='barcode';
 
                   $product = productController::ctrShowProducts($item, $value, $order);

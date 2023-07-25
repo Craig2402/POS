@@ -70,10 +70,9 @@ require_once 'models/connection.php';
                                                     $finalDate = null;
                                                 }
                                                 $pdo = connection::connect();
-                                                $item = null;
-                                                $value = null;
 
                                                 $invoices = PaymentController::ctrSalesDatesRange($initialDate, $finalDate);
+                                                // var_dump($invoices);
 
                                                 foreach ($invoices as $key => $value) {
                                                     $jsonArray = $value["products"];

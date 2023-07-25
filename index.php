@@ -25,6 +25,7 @@ require_once 'models/payment.model.php';
 require_once 'models/supplier.model.php';
 require_once 'models/expenses.model.php';
 require_once 'models/orders.model.php';
+require_once 'models/returns.model.php';
 require_once 'models/notifications.model.php';
 require_once 'models/activitylog.model.php';
 require_once 'models/store.model.php';

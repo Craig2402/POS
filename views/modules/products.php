@@ -52,11 +52,20 @@
                     </thead>
                     <tbody>
                       <?php
-
-                        $item = null; 
+                        $item = null;
                         $value = null;
+
+                        if ($_SESSION['role'] == "Administrator") {
+                          $item = "store_id";
+                          if (isset($_GET['store-id'])) {
+                            $value = $_GET['store-id'];
+                          }
+                        }else {
+                          $item = "store_id";
+                          $value = $_SESSION['storeid'];
+                        }
                         $order='id';
-                        $product = productController::ctrShowProducts($item, $value, $order);
+                        $product = productController::ctrShowProducts($item, $value, $order, true);
 
                         // var_dump($product);
 
@@ -107,15 +116,15 @@
 
                                 <div class="btn-group">
 
-                                  <button class="btn btnPrintProductBarcode"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-barcode"></i></button>
+                                  <button class="btn btnPrintProductBarcode"  idProduct="'.$val["id"].'" image="'.$val["image"].'"><i class="fa fa-barcode"></i></button>
 
-                                  <button class="btn btnViewProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-eye"></i></button>';
+                                  <button class="btn btnViewProduct"  idProduct="'.$val["id"].'" image="'.$val["image"].'"><i class="fa fa-eye"></i></button>';
 
-                                  if (isset($_SESSION['role']) && ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Store")) {
+                                  // if (isset($_SESSION['role']) && ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Store")) {
 
-                                    echo '<button class="btn btnEditProduct" idProduct="'.$val["barcode"].'" data-toggle="modal" data-target="#modalEditProduct"><i class="fa fa-edit"></i></button>';
+                                    echo '<button class="btn btnEditProduct" idProduct="'.$val["id"].'" data-toggle="modal" data-target="#modalEditProduct"><i class="fa fa-edit"></i></button>';
 
-                                  }
+                                  // }
 
                                     echo'<button class="btn btnDeleteProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-times"></i></button>
                                </div>  
@@ -188,7 +197,7 @@
                                 $item = null;
                                 $value1 = null;
 
-                                $tax = taxdisController::ctrShowTaxdis($item,$value1);
+                                $tax = taxController::ctrShowTax($item,$value1);
                                 
                                 foreach ($tax as $key => $value) {
                                     

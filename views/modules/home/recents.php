@@ -1,8 +1,18 @@
 <?php
 $item = null; 
 $value = null;
+
+if ($_SESSION['role'] == "Administrator") {
+  $item = "store_id";
+  if (isset($_GET['store-id'])) {
+    $value = $_GET['store-id'];
+  }
+}else {
+  $item = "store_id";
+  $value = $_SESSION['storeid'];
+}
 $order = 'id';
-$product = productController::ctrShowProducts($item, $value, $order);
+$product = productController::ctrShowProducts($item, $value, $order, true);
 ?>
 
 <!-- PRODUCT LIST -->
@@ -42,7 +52,7 @@ $product = productController::ctrShowProducts($item, $value, $order);
   </div>
   <!-- /.card-body -->
   <div class="card-footer text-center">
-    <a href="index.php?route=products" class="uppercase">View All Products</a>
+    <a href="products" class="uppercase">View All Products</a>
   </div>
   <!-- /.card-footer -->
 </div>

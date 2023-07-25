@@ -3,11 +3,44 @@
 // include_once "ajax/pos2.ajax.php";
 
 class PaymentController {
+
+	/*=============================================
+   SET THE STORE ID
+   =============================================*/
+	
+    static private $storeid;
+
+	public static function initialize() {
+		if ($_SESSION['role'] == "Administrator") {
+			if (isset($_GET['store-id'])) {
+				self::$storeid = $_GET['store-id'];
+			} else {
+				echo "<script>
+					window.onload = function() {
+						Swal.fire({
+							title: 'No store is selected',
+							text: 'Redirecting to Dashboard',
+							icon: 'error',
+							showConfirmButton: false,
+							timer: 2000 // Display alert for 2 seconds
+						}).then(function() {
+							// After the alert is closed, redirect to the dashboard
+							window.location= 'dashboard';
+						});
+					};
+					</script>";
+				exit; // Adding exit to stop further execution after the redirection
+			}
+		} else {
+			self::$storeid = $_SESSION['storeid'];
+		}
+	}
     
  	/*=============================================
 	ADD PAYMENT AND INVOICE
 	=============================================*/
     public function addPayment() {
+        self::initialize();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['saveorder'])) {
 
@@ -29,7 +62,7 @@ class PaymentController {
                     $valueProductId = $value["id"];
                     $order = "id";
     
-                    $getProduct = productModel::mdlShowProducts($tableProducts, $item, $valueProductId, $order);
+                    $getProduct = productModel::mdlFetchProducts($tableProducts, $item, $valueProductId, $order);
     
                     $item1a = "sales";
                     $value1a = $value["Quantity"] + $getProduct["sales"];
@@ -42,9 +75,9 @@ class PaymentController {
                     $newStock = productModel::mdlUpdateProduct($tableProducts, $item1b, $value1b, $valueProductId);
                     if ($newStock == "ok") {
                         
-                        $order = null;
+                        $order = "id";
                         $table = "products";
-                        $stock = productModel::mdlShowProducts($table, $item, $valueProductId, $order);
+                        $stock = productModel::mdlFetchProducts($table, $item, $valueProductId, $order);
                         if ($stock && $stock["stock"] <= 15) {
                             date_default_timezone_set('africa/nairobi');
                             $currentDateTime = date('Y-m-d H:i:s');
@@ -74,6 +107,7 @@ class PaymentController {
                 $invoiceDiscount = $_POST['totaldiscount'];
                 $invoiceDueAmount = $_POST['dueamount'];
                 $invoiceUserId = $_SESSION['userId'];
+                $storeid = self::$storeid;
 
                 
                 // Generate the invoice ID
@@ -81,7 +115,7 @@ class PaymentController {
                 $invoiceId = "INVC-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
                 
                 // Insert invoice data into the invoices table, linking it with the payment
-                $invoiceModel->insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal,  $invoiceTotal, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId);
+                $invoiceModel->insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal,  $invoiceTotal, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid);
 
                 // Retrieve payment data from the form or request parameters
                 $amount = $_POST['txtpaid'];
@@ -95,7 +129,7 @@ class PaymentController {
                 $paymentId = "CASH-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
                 
                 // Insert payment data into the payments table
-                $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId);
+                $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid);
 
                 // create an activitylog of the payment
                 if($paymentModel == true){
@@ -164,7 +198,7 @@ class PaymentController {
                         icon: 'error',
                         text: 'Failed to print the receipt. Please try again.',
                         timer:2000,
-                         showConfirmButton:false,
+                        showConfirmButton:false,
                     });
                     }
                 };
@@ -193,6 +227,7 @@ class PaymentController {
 	MAKE PAYMENT
 	=============================================*/
     public function makePayment() {
+        self::initialize();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['makePayment']) && isset($_POST['r3'])) {
 
@@ -200,6 +235,7 @@ class PaymentController {
                 $amount = $_POST['payment'];
                 $paymentMethod = $_POST['r3'];
                 $invoiceId = $_POST['invoiceId'];
+                $storeid = self::$storeid;
                 
                 // Create an instance of the PaymentModel
                 $paymentModel = new PaymentModel();
@@ -209,7 +245,7 @@ class PaymentController {
                 $paymentId = "CASH-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
                 
                 // Insert payment data into the payments table
-                $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId);
+                $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid);
 
                 if($paymentModel == true){
                     
@@ -290,7 +326,7 @@ class PaymentController {
 
 
     /*=============================================
-	SHOW INVOICES
+	SHOW PAYMENTS
 	=============================================*/
 
 	public static function ctrShowPayments($item, $value){
@@ -307,104 +343,116 @@ class PaymentController {
 	=============================================*/	
 
 	public static function ctrSalesDatesRange($initialDate, $finalDate){
+        self::initialize();
 
 		$table = "invoices";
 
-		$answer = InvoiceModel:: mdlSalesDatesRange($table, $initialDate, $finalDate);
+		$answer = InvoiceModel:: mdlSalesDatesRange($table, $initialDate, $finalDate, self::$storeid);
 
 		return $answer;
 		
 	}
-/*=============================================
-   DOWNLOAD EXCEL
-=============================================*/
+    /*=============================================
+    DOWNLOAD EXCEL
+    =============================================*/
 
-public function ctrDownloadReport(){
+    public function ctrDownloadReport(){
+        self::initialize();
 
-    if(isset($_GET["report"])){
+        if(isset($_GET["report"])){
 
-        $table = "invoices";
+            $table = "invoices";
 
-        if(isset($_GET["initialDate"]) && isset($_GET["finalDate"])){
+            if(isset($_GET["initialDate"]) && isset($_GET["finalDate"])){
 
-            $sales = InvoiceModel::mdlSalesDatesRange($table, $_GET["initialDate"], $_GET["finalDate"]);
+                $sales = InvoiceModel::mdlSalesDatesRange($table, $_GET["initialDate"], $_GET["finalDate"], self::$storeid);
 
-        }else{
+            }else{
 
-            $item = null;
-            $value = null;
+                $item = null;
+                $value = null;
 
-            $sales = InvoiceModel::mdlShowInvoices($table, $item, $value);
-
-        }
-
-        /*=============================================
-        WE CREATE EXCEL FILE
-        =============================================*/
-
-        $name = $_GET["report"].'.xls';
-
-        header('Expires: 0');
-        header('Cache-control: private');
-        header("Content-type: application/vnd.ms-excel"); // Excel file
-        header("Cache-Control: cache, must-revalidate");
-        header('Content-Description: File Transfer');
-        header('Last-Modified: '.date('D, d M Y H:i:s'));
-        header("Pragma: public");
-        header('Content-Disposition:; filename="'.$name.'"');
-        header("Content-Transfer-Encoding: binary");
-
-        echo utf8_decode("<table border='0'>
-            <tr>
-                <td style='font-weight:bold; border:1px solid #eee;'>Invoice</td>
-                <td style='font-weight:bold; border:1px solid #eee;'>Seller</td>
-                <td style='font-weight:bold; border:1px solid #eee;'>Quantity</td>
-                <td style='font-weight:bold; border:1px solid #eee;'>Products</td>
-                <td style='font-weight:bold; border:1px solid #eee;'>Tax</td>
-                <td style='font-weight:bold; border:1px solid #eee;'>Subtotal</td>
-                <td style='font-weight:bold; border:1px solid #eee;'>TOTAL</td>
-                <td style='font-weight:bold; border:1px solid #eee;'>Date</td>
-            </tr>");
-
-        foreach ($sales as $row => $item){
-
-            $customerName = isset($item["customername"]) ? $item["customername"] : "";
-            $customer = PaymentController::ctrShowInvoices("invoiceId", $customerName);
-            $customerName = isset($customer["customername"]) ? $customer["customername"] : "";
-
-            $sellerId = isset($item["userId"]) ? $item["userId"] : "";
-            $seller = userController::ctrShowUsers("userId", $sellerId);
-            $sellerName = isset($seller["name"]) ? $seller["name"] : "";
-
-            $products = json_decode($item["products"], true); // Decode the product field to retrieve the array of products
-
-            $quantity = ""; // Variable to store the quantity
-            $productDetails = ""; // Variable to store the product details
-
-            if (is_array($products)) {
-                foreach ($products as $product) {
-                    $quantity .= $product["Quantity"] . "<br>"; // Extract the quantity and append to the quantity variable
-                    $productDetails .= $product["productName"] . "<br>"; // Extract the product name and append to the productDetails variable
+                if ($_SESSION['role'] == "Administrator") {
+                  $item = "store_id";
+                  if (isset($_GET['store-id'])) {
+                    $value = $_GET['store-id'];
+                  }
+                }else {
+                  $item = "store_id";
+                  $value = $_SESSION['storeid'];
                 }
+
+                $sales = InvoiceModel::mdlShowInvoices($table, $item, $value);
+
             }
 
-            $paymentMethod = isset($item["paymentmethod"]) ? $item["paymentmethod"] : "";
+            /*=============================================
+            WE CREATE EXCEL FILE
+            =============================================*/
 
-            echo utf8_decode("<tr>
-                <td style='border:1px solid #eee;'>" . $item["invoiceId"] . "</td>
-                <td style='border:1px solid #eee;'>" . $sellerName . "</td>
-                <td style='border:1px solid #eee;'>" . $quantity . "</td>
-                <td style='border:1px solid #eee;'>" . $productDetails . "</td>
-                <td style='border:1px solid #eee;'>Ksh " . number_format($item["totaltax"], 2) . "</td>
-                <td style='border:1px solid #eee;'>Ksh " . number_format($item["subtotal"], 2) . "</td>
-                <td style='border:1px solid #eee;'>Ksh " . number_format($item["total"], 2) . "</td>
-                <td style='border:1px solid #eee;'>" . substr($item["datecreated"], 0, 10) . "</td>
-            </tr>");
+            $name = $_GET["report"].'.xls';
+
+            header('Expires: 0');
+            header('Cache-control: private');
+            header("Content-type: application/vnd.ms-excel"); // Excel file
+            header("Cache-Control: cache, must-revalidate");
+            header('Content-Description: File Transfer');
+            header('Last-Modified: '.date('D, d M Y H:i:s'));
+            header("Pragma: public");
+            header('Content-Disposition:; filename="'.$name.'"');
+            header("Content-Transfer-Encoding: binary");
+
+            echo utf8_decode("<table border='0'>
+                <tr>
+                    <td style='font-weight:bold; border:1px solid #eee;'>Invoice</td>
+                    <td style='font-weight:bold; border:1px solid #eee;'>Seller</td>
+                    <td style='font-weight:bold; border:1px solid #eee;'>Quantity</td>
+                    <td style='font-weight:bold; border:1px solid #eee;'>Products</td>
+                    <td style='font-weight:bold; border:1px solid #eee;'>Tax</td>
+                    <td style='font-weight:bold; border:1px solid #eee;'>Subtotal</td>
+                    <td style='font-weight:bold; border:1px solid #eee;'>TOTAL</td>
+                    <td style='font-weight:bold; border:1px solid #eee;'>Date</td>
+                </tr>");
+
+            foreach ($sales as $row => $item){
+
+                $customerName = isset($item["customername"]) ? $item["customername"] : "";
+                $customer = PaymentController::ctrShowInvoices("invoiceId", $customerName);
+                $customerName = isset($customer["customername"]) ? $customer["customername"] : "";
+
+                $sellerId = isset($item["userId"]) ? $item["userId"] : "";
+                $seller = userController::ctrShowUsers("userId", $sellerId);
+                $sellerName = isset($seller["name"]) ? $seller["name"] : "";
+
+                $products = json_decode($item["products"], true); // Decode the product field to retrieve the array of products
+
+                $quantity = ""; // Variable to store the quantity
+                $productDetails = ""; // Variable to store the product details
+
+                if (is_array($products)) {
+                    foreach ($products as $product) {
+                        $quantity .= $product["Quantity"] . "<br>"; // Extract the quantity and append to the quantity variable
+                        $productDetails .= $product["productName"] . "<br>"; // Extract the product name and append to the productDetails variable
+                    }
+                }
+
+                $paymentMethod = isset($item["paymentmethod"]) ? $item["paymentmethod"] : "";
+
+                echo utf8_decode("<tr>
+                    <td style='border:1px solid #eee;'>" . $item["invoiceId"] . "</td>
+                    <td style='border:1px solid #eee;'>" . $sellerName . "</td>
+                    <td style='border:1px solid #eee;'>" . $quantity . "</td>
+                    <td style='border:1px solid #eee;'>" . $productDetails . "</td>
+                    <td style='border:1px solid #eee;'>Ksh " . number_format($item["totaltax"], 2) . "</td>
+                    <td style='border:1px solid #eee;'>Ksh " . number_format($item["subtotal"], 2) . "</td>
+                    <td style='border:1px solid #eee;'>Ksh " . number_format($item["total"], 2) . "</td>
+                    <td style='border:1px solid #eee;'>" . substr($item["datecreated"], 0, 10) . "</td>
+                </tr>");
+            }
+
+            echo "</table>";
         }
-
-        echo "</table>";
     }
-}
 
 	/*=============================================
 	Adding TOTAL sales

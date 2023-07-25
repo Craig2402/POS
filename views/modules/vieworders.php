@@ -26,10 +26,7 @@
                 <!-- /.col-md-6 -->
                     <div class="card card-primary card-outline">
                         <div class="card-header">
-                            <div class="d-flex justify-content-between">
-                                <h5 class="m-0">List of orders</h5>
-                                <a href="returns"><button class="btn btn-primary">Returns</button></a>
-                            </div>
+                            <h5 class="m-0">List of orders</h5>
                         </div>
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped tables">
@@ -46,7 +43,18 @@
                                     $item = null;
                                     $value = null;
 
+                                    if ($_SESSION['role'] == "Administrator") {
+                                      $item = "store_id";
+                                      if (isset($_GET['store-id'])) {
+                                        $value = $_GET['store-id'];
+                                      }
+                                    }else {
+                                      $item = "store_id";
+                                      $value = $_SESSION['storeid'];
+                                    }
+
                                     $orders = orderController::ctrShowOrders($item, $value);
+                                    // var_dump($orders);
                                     foreach ($orders as $key => $val) {
                                         $item = "supplierid";
                                         $value = $val["supplier"];
@@ -112,6 +120,7 @@
                     <div class="form-group">
                         <label for="status">Status:</label>
                         <select class="form-control" name="status" id="status">
+                            <option disabled selected value="">--Select new status--</option>
                             <option value="1">Delivered</option>
                             <option value="2">Canceled</option>
                         </select>

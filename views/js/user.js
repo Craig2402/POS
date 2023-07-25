@@ -79,9 +79,19 @@ $(document).on("click", ".btnEditUser", function(){
 
  			$("#editUsername").val(answer["username"]);
 
-			$("#editRoleOptions").html(answer["role"]);
+			// Assuming you have a variable named "selectedValue" that holds the desired value
+			var selectedRole = answer["role"];
+			// Find the select element by its name attribute
+			var selectElement = document.querySelector('select[name="editRoleOptions"]');
+			// Set the selected value
+			selectElement.value = selectedRole;
 
-			$("#editRoleOptions").val(answer["role"]);
+			// Assuming you have a value you want to select, stored in a variable called 'selectedValue'
+			var selectedValue = answer["store_id"];
+			// Get the select element
+			var selectElement = document.getElementById("Editstore");
+			// Set the selected value
+			selectElement.value = selectedValue;
 
  			$("#actualPassword").val(answer["userpassword"]);
 

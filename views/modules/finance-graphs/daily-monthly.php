@@ -3,6 +3,7 @@
 DAILY PAYMENTS HANDLER
 =============================================*/
 $pdo = connection::connect();
+$storeid = $_SESSION['storeid'];
 
 // Get the current month and last month
 $currentMonth = date('m');
@@ -13,10 +14,12 @@ $currentMonthStmt = $pdo->prepare("
     SELECT DATE(date) AS paymentdate, paymentmethod, SUM(amount) AS totalamount
     FROM payments
     WHERE MONTH(date) = :currentMonth
+    AND store_id = :storeid
     GROUP BY paymentdate, paymentmethod
     ORDER BY paymentdate
 ");
 $currentMonthStmt->bindParam(':currentMonth', $currentMonth);
+$currentMonthStmt->bindParam(':storeid', $storeid);
 $currentMonthStmt->execute();
 $currentMonthPaymentsData = $currentMonthStmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -25,10 +28,12 @@ $lastMonthStmt = $pdo->prepare("
     SELECT DATE(date) AS paymentdate, paymentmethod, SUM(amount) AS totalamount
     FROM payments
     WHERE MONTH(date) = :lastMonth
+    AND store_id = :storeid
     GROUP BY paymentdate, paymentmethod
     ORDER BY paymentdate
 ");
 $lastMonthStmt->bindParam(':lastMonth', $lastMonth);
+$lastMonthStmt->bindParam(':storeid', $storeid);
 $lastMonthStmt->execute();
 $lastMonthPaymentsData = $lastMonthStmt->fetchAll(PDO::FETCH_ASSOC);
 

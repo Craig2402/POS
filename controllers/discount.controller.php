@@ -2,11 +2,44 @@
 
  class discountController{
 
+	/*=============================================
+   SET THE STORE ID
+   =============================================*/
+	
+    static private $storeid;
+
+	public static function initialize() {
+		if ($_SESSION['role'] == "Administrator") {
+			if (isset($_GET['store-id'])) {
+				self::$storeid = $_GET['store-id'];
+			} else {
+				echo "<script>
+					window.onload = function() {
+						Swal.fire({
+							title: 'No store is selected',
+							text: 'Redirecting to Dashboard',
+							icon: 'error',
+							showConfirmButton: false,
+							timer: 2000 // Display alert for 2 seconds
+						}).then(function() {
+							// After the alert is closed, redirect to the dashboard
+							window.location= 'dashboard';
+						});
+					};
+					</script>";
+				exit; // Adding exit to stop further execution after the redirection
+			}
+		} else {
+			self::$storeid = $_SESSION['storeid'];
+		}
+	}
+
  	/*=============================================
 	CREATE CATEGORY
 	=============================================*/
 	
 	static public function ctrCreateDiscount(){
+        self::initialize();
 
 		if(isset($_POST['adddiscount'])){
 
@@ -17,7 +50,8 @@
                             "discount" => $_POST["discountname"],
                             "amount" => $_POST["discountamount"],
                             "startdate" => $_POST["startdate"],
-                            "enddate" => $_POST["enddate"]);
+                            "enddate" => $_POST["enddate"],
+							"storeid" => self::$storeid);
 
 							// var_dump($data);
 
@@ -29,7 +63,8 @@
 				$logdata = array(
 					'UserID' => $_SESSION['userId'],
 					'ActivityType' => 'Discount',
-					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created discount ' .$data['discount']. ' with sum ' .$data['amount']. ' for product ' .$data['product']. '.'
+					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created discount ' .$data['discount']. ' with sum ' .$data['amount']. ' for product ' .$data['product']. '.',
+					'storeid' => self::$storeid
 				);
 				// Call the ctrCreateActivityLog() function
 				activitylogController::ctrCreateActivityLog($logdata);
@@ -39,16 +74,12 @@
                 Swal.fire({
                         icon: "success",
                         title: "Discount has been successfully saved ",
-                        showConfirmButton: true,
-                        confirmButtonText: "Close"
-
-                        }).then(function(result){
-                            if (result.value) {
-
-                                window.location = "discount";
-
-                            }
-                        });
+						showConfirmButton: false,
+						timer: 2000 // Auto close after 2 seconds
+					  }).then(function () {
+						// Code to execute after the alert is closed
+						window.location = "discount";
+					  });
                     
                 </script>';
             }
@@ -74,6 +105,7 @@
 	=============================================*/
 
 	static public function ctrEditDiscount(){
+        self::initialize();
 
 		if (isset($_POST["editdiscount"])) {
 			$table = "discount";
@@ -111,7 +143,8 @@
 					'UserID' => $_SESSION['userId'],
 					'ActivityType' => 'Discounts',
 					'ActivityDescription' => $logMessage,
-                    'itemID' => $discountId
+                    'itemID' => $discountId,
+					'storeid' => self::$storeid
 				);
 				// Call the method to create the activity log in the model or any other appropriate function
 				activitylogController::ctrCreateActivityLog($logdata);
@@ -119,13 +152,12 @@
 					Swal.fire({
 						icon: "success",
 						title: "Discount has been successfully saved",
-						showConfirmButton: true,
-						confirmButtonText: "Close"
-					}).then(function(result){
-						if (result.value) {
-							window.location = "discount";
-						}
-					});
+						showConfirmButton: false,
+						timer: 2000 // Auto close after 2 seconds
+					  }).then(function () {
+						// Code to execute after the alert is closed
+						window.location = "discount";
+					  });
 				</script>';
 			}
 		}
@@ -136,6 +168,7 @@
 	=============================================*/
 
 	static public function ctrDeleteDiscount(){
+        self::initialize();
 
 		if(isset($_GET["idDiscount"])){
 
@@ -156,7 +189,8 @@
 					'UserID' => $_SESSION['userId'],
 					'ActivityType' => 'Discounts',
 					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted discount ' .$discountname.' for product ' .$discountproductcode. '.'. '.',
-                    'itemID' => $value
+                    'itemID' => $value,
+					'storeid' => self::$storeid
 				);
 				// Call the ctrCreateActivityLog() function
 				activitylogController::ctrCreateActivityLog($logdata);
@@ -166,15 +200,12 @@
                 Swal.fire({
 						  icon: "success",
 						  title: "The discount has been successfully deleted",
-						  showConfirmButton: true,
-						  confirmButtonText: "Close"
-						  }).then(function(result){
-									if (result.value) {
-
-										window.location = "discount";
-
-									}
-								})
+						  showConfirmButton: false,
+						  timer: 2000 // Auto close after 2 seconds
+						}).then(function () {
+						  // Code to execute after the alert is closed
+						  window.location = "discount";
+						});
 
 					</script>';
 			}

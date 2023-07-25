@@ -5,23 +5,23 @@ require_once "../models/product.model.php";
 
 class AjaxProducts{
 
-	/*=============================================
-	GENERATE CODE FROM ID CATEGORY
-	=============================================*/	
+	// /*=============================================
+	// GENERATE CODE FROM ID CATEGORY
+	// =============================================*/	
 
-	public $idCategory;
+	// public $idCategory;
 
-	public function ajaxCreateProductCode(){
+	// public function ajaxCreateProductCode(){
 
-		$item = "idCategory";
-		$value = $this->idCategory;
-		$order='id';
+	// 	$item = "idCategory";
+	// 	$value = $this->idCategory;
+	// 	$order='id';
 
-		$answer = productController::ctrShowProducts($item, $value, $order);
+	// 	$answer = productController::ctrShowProducts($item, $value, $order);
 
-		echo json_encode($answer);
+	// 	echo json_encode($answer);
 
-	}
+	// }
 
 	/*=============================================
  	 EDIT PRODUCT
@@ -32,10 +32,10 @@ class AjaxProducts{
 	
 	public function ajaxEditProduct(){
 		// Get product by id
-		$item = "barcode";
+		$item = "id";
 		$value = $this->barcodeProduct;
 		$order='id';
-		$answer = productController::ctrShowProducts($item, $value, $order);
+		$answer = productController::ctrShowProducts($item, $value, $order, false);
 	
 		echo json_encode($answer);
 	}
@@ -44,7 +44,7 @@ class AjaxProducts{
         $item = $this->data['item'];
         $value = $this->data['value'];
         $order= $this->data['order'];
-        $answer = productController::ctrShowProducts($item, $value, $order);
+        $answer = productController::ctrShowProducts($item, $value, $order, true);
     
         echo json_encode($answer);
 	}
@@ -54,8 +54,6 @@ class AjaxProducts{
 /*=============================================
 EDIT PRODUCT
 =============================================*/ 
-
-if (count($_POST) == 3) {
 
     if (isset($_POST["item"]) && isset($_POST["value"]) && isset($_POST["order"])) {
 
@@ -67,8 +65,6 @@ if (count($_POST) == 3) {
         );
         $products->ajaxShowproducts();
     }
-
-}else {
 	
 	if(isset($_POST["barcodeProduct"])){
 
@@ -77,7 +73,7 @@ if (count($_POST) == 3) {
 		$editProduct -> ajaxEditProduct();
 	
 	}
-}
+
 
 
 

@@ -36,18 +36,28 @@
                             <div class="form-group">
                             <label>Product name</label>
                                 <select class="form-control select2bs4" name="discountproduct" id="discountproduct" data-dropdown-css-class="select2-blue" style="width: 100%;">
-                                    <option value="">Select or search</option>
+                                    <option selected disabled value="">--Select or search--</option>
                                     <?php 
                                     
                                         $item =  null;
                                         $value = null;
+
+                                        if ($_SESSION['role'] == "Administrator") {
+                                          $item = "store_id";
+                                          if (isset($_GET['store-id'])) {
+                                            $value = $_GET['store-id'];
+                                          }
+                                        }else {
+                                          $item = "store_id";
+                                          $value = $_SESSION['storeid'];
+                                        }
                                         $order='product';
                                         
 
-                                        $product = productController::ctrShowProducts($item, $value, $order);
+                                        $product = productController::ctrShowProducts($item, $value, $order, true);
                                         foreach ($product as $key => $value) {
 
-                                          echo '<option value="'.$value["barcode"].'">'.$value["product"].'</option>';
+                                          echo '<option value="'.$value["id"].'">'.$value["product"].'</option>';
 
                                         }
 
@@ -101,17 +111,28 @@
                                 $item = null; 
                                 $value = null;
 
+                                if ($_SESSION['role'] == "Administrator") {
+                                  $item = "store_id";
+                                  if (isset($_GET['store-id'])) {
+                                    $value = $_GET['store-id'];
+                                  }
+                                }else {
+                                  $item = "store_id";
+                                  $value = $_SESSION['storeid'];
+                                }
+
                                 $discount = discountController::ctrShowDiscount($item, $value);
+                                // var_dump($discount);
                                 
                                 foreach ($discount as $key => $val) {
 
                                   // var_dump($val["product"]);
 
-                                  $item = "barcode";
+                                  $item = "id";
                                   $value = $val["product"];
-                                  $order='disId';
+                                  $order='id';
 
-                                  $product = productController::ctrShowProducts($item, $value, $order);
+                                  $product = productController::ctrShowProducts($item, $value, $order, false);
 
                                   echo '<tr>
                                           <td>'.($key+1).'</td>
@@ -122,8 +143,8 @@
                                           <td>'.$val["enddate"].'</td>
                                           <td>
                                             <div class="btn-group">  
-                                              <button class="btn btn-warning btnEditDiscount" idDiscount="'.$val["disId"].'" data-toggle="modal" data-target="#editDiscount"><i class="fa fa-edit"></i></button>
-                                              <button class="btn btn-danger btnDeleteDiscount" idDiscount="'.$val["disId"].'"><i class="fa fa-times"></i></button>
+                                              <button class="btn btnEditDiscount" idDiscount="'.$val["disId"].'" data-toggle="modal" data-target="#editDiscount"><i class="fa fa-edit"></i></button>
+                                              <button class="btn btnDeleteDiscount" idDiscount="'.$val["disId"].'"><i class="fa fa-times"></i></button>
                                             </div>  
                                           </td>
                                         </tr>';

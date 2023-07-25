@@ -1,8 +1,19 @@
 <?php
 $item = null; 
 $value = null;
+
+if ($_SESSION['role'] == "Administrator") {
+  $item = "store_id";
+  if (isset($_GET['store-id'])) {
+    $value = $_GET['store-id'];
+  }
+}else {
+  $item = "store_id";
+  $value = $_SESSION['storeid'];
+}
 $order = 'sales';
-$product = productController::ctrShowProducts($item, $value, $order);
+$product = productController::ctrShowProducts($item, $value, $order, true);
+// var_dump($product);
 $totalSales = productController::ctrAddingTotalSales();
 $color = array(
   'red',      // Red

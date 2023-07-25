@@ -52,7 +52,9 @@ require_once 'models/connection.php';
                     <tbody>
                         <?php
                         $pdo = connection::connect();
-                        $select = $pdo->prepare('SELECT * FROM payments');
+                        $storeid = $_SESSION['storeid'];
+                        $select = $pdo->prepare('SELECT * FROM payments WHERE store_id = :storeid');
+                        $select->bindParam(':storeid', $storeid);
                         $select->execute();
                         $paymentResult = $select->fetchAll();
                         foreach ($paymentResult as $paymentKey => $paymentVal) {

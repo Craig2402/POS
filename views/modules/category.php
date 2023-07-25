@@ -72,15 +72,8 @@
                       
                       <th>#</th>
                       <th>Category</th>
-                      <?php
+                      <th>Actions</th>
 
-                        if (isset($_SESSION['role']) && ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Store")) {
-
-                          echo '<th>Actions</th>';
-
-                        }
-
-                      ?>
                     </tr> 
 
                     </thead>
@@ -90,6 +83,14 @@
 
                 $item = null; 
                 $value = null;
+
+                if ($_SESSION['role'] == "Administrator") {
+                  $item = "store_id";
+                  $value = $_GET['store-id'];
+                }else {
+                  $item = "store_id";
+                  $value = $_SESSION['storeid'];
+                }
 
                 $categories = categoriesController::ctrShowCategories($item, $value);
 
@@ -110,7 +111,7 @@
 
                                 
 
-                              if ($_SESSION['role'] == "Administrator") {
+                              if ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Supervisor") {
                                 echo '<button class="btn  btnDeleteCategory" idCategory="'.$value["id"].'"><i class="fa fa-times"></i></button>';
                               }else{
                                 echo '<button class="btn askDeleteCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#askDeleteCategory" ><i class="fa fa-times"></i></button>';

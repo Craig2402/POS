@@ -31,7 +31,7 @@ $invoices = PaymentController::ctrShowInvoices($item2, $value2);
 
 $item2 = 'null';
 $value2 = 'taxId';
-$tax = taxdisController::ctrShowTaxdis($item2, $value2);
+$tax = taxController::ctrShowTax($item2, $value2);
 
 // Create a new TCPDF instance
 $pdf = new TCPDF('P', 'mm', array(80, 297), true, 'UTF-8', false);
