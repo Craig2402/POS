@@ -1,21 +1,17 @@
 <?php
-    require_once 'models/connection.php';
-    function fillProducts($pdo){
-        $pdo = connection::connect();
-        $output="";
-        $select=$pdo->prepare("SELECT * FROM products WHERE store_id = :store_id AND status = 0");
-        $select->bindParam(':store_id', $_SESSION['storeid']);
-        $select->execute();
-        
-        $result=$select->fetchAll();
-
-        foreach($result as $row){
-            $output.='<option value="'.$row['barcode'].'">' . $row['product'] . '</option>';
-        }
-
-
-        return $output; ;
-
+    function fillProducts(){
+  
+      $item = "store_id";
+      $value = $_SESSION['storeid'];
+      $order = 'id';
+      $products = productController::ctrShowProducts($item, $value, $order, true);
+  
+      $output = '';
+      foreach ($products as $row) {
+          $output .= '<option value="' . $row['id'] . '">' . $row['product'] . '</option>';
+      }
+  
+      return $output;
     }
  ?>
  <style>
@@ -97,7 +93,7 @@
                                 <div class="form-group">
                                 <label>Product name</label>
                                     <select class="form-control select2" data-dropdown-css-class="select2-purple" style="width: 100%;" id="pos-select">
-                                        <option value="">Select or search</option><?php echo fillProducts($pdo);?>
+                                        <option value="">Select or search</option><?php echo fillProducts();?>
                                     </select>
                                 </div>
                                 <div class="tableFixHead">

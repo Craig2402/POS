@@ -56,7 +56,63 @@
 <body class="hold-transition sidebar-mini">
 <?php
 if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
-    if (isset($_SESSION['role']) && $_SESSION['role'] == "Supervisor" || $_SESSION['role'] == "Administrator") {
+        if (isset($_SESSION['role']) && $_SESSION['role'] == "Administrator") {
+            include 'modules/header.php';
+            include 'modules/supervisor-menu.php';
+    
+            if (isset($_GET['route'])) {
+                // Check if the requested route is valid for the Administrator role
+                if ($_GET['route'] == "dashboard" ||
+                    $_GET['route'] == "registration" ||
+                    $_GET['route'] == "addproduct"||
+                    $_GET['route'] == "products" ||
+                    $_GET['route'] == "changepassword" ||
+                    $_GET['route'] == "category" ||
+                    $_GET['route'] == "printbarcode" ||
+                    $_GET['route'] == "viewproduct" ||
+                    $_GET['route'] == "taxdis" ||
+                    $_GET['route'] == "pos" ||
+                    $_GET['route']=="transactions" ||
+                    $_GET['route'] == "discount" ||
+                    $_GET['route'] == "invoices" ||
+                    $_GET['route'] == "payment" ||
+                    $_GET['route'] == "sales" ||
+                    $_GET['route'] == "stock" ||
+                    $_GET['route'] == "suppliers" ||
+                    $_GET['route'] == "expenses" ||
+                    $_GET['route'] == "orders" ||
+                    $_GET['route'] == "returns" ||
+                    $_GET['route'] == "vieworders" ||
+                    $_GET['route'] == "stores" ||
+                    $_GET['route'] == "manage-stores" ||
+                    $_GET['route'] == "view-returned" ||
+                    $_GET['route'] == "finance-dashboard" ||
+                    $_GET['route'] == "logout"
+                ) { 
+                    // Log the route
+                    $logMessage = $_SESSION['username']. " accessed route: " . $_GET['route'];
+            
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Route access',
+                        'ActivityDescription' => $logMessage
+                    );
+    
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
+                    include "modules/" . $_GET['route'] . ".php";
+                } else {
+                    include "modules/404.php";
+                }
+            } else {
+                include "modules/dashboard.php"; // Default page for Administrator
+            }
+            include 'modules/footer.php';
+            echo '</div>';
+
+
+        }elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Supervisor") {
         include 'modules/header.php';
         include 'modules/supervisor-menu.php';
 
@@ -106,7 +162,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                 include "modules/404.php";
             }
         } else {
-            include "modules/dashboard.php"; // Default page for Administrator
+            include "modules/dashboard.php"; // Default page for supervisor
         }
         include 'modules/footer.php';
         echo '</div>';

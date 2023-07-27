@@ -1,16 +1,6 @@
 <?php
-$item = null; 
-$value = null;
-
-if ($_SESSION['role'] == "Administrator") {
-  $item = "store_id";
-  if (isset($_GET['store-id'])) {
-    $value = $_GET['store-id'];
-  }
-}else {
-  $item = "store_id";
-  $value = $_SESSION['storeid'];
-}
+$item = "store_id";
+$value = $_SESSION['storeid'];
 $order = 'id';
 $product = productController::ctrShowProducts($item, $value, $order, true);
 ?>
@@ -30,7 +20,7 @@ $product = productController::ctrShowProducts($item, $value, $order, true);
     <ul class="products-list product-list-in-card pl-2 pr-2">
       <?php
       $productCount = count($product); // Get the number of products
-      $productLimit = min($productCount, 10); // Limit the loop to a maximum of 10 products or the available number of products
+      $productLimit = min($productCount, 5); // Limit the loop to a maximum of 10 products or the available number of products
 
       for ($i = 0; $i < $productLimit; $i++) {
         echo '

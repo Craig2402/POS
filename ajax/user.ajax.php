@@ -61,7 +61,28 @@ class AjaxUsers{
 
 	}
 
+		/*=============================================
+	VALIDATE IF EMAIL ALREADY EXISTS
+	=============================================*/
+
+	public $validateEmail;
+
+	public function ajaxValidateEmail(){
+
+		$item = "email";
+		$value = $this->validateEmail;
+
+		$answer = userController::ctrShowUsers($item, $value);
+
+		echo json_encode($answer);
+
+	}
+
 }
+
+
+
+
 
 
 /*=============================================
@@ -98,4 +119,12 @@ if (isset($_POST["validateUser"])) {
 	$valUser = new AjaxUsers();
 	$valUser -> validateUser = $_POST["validateUser"];
 	$valUser -> ajaxValidateUser();
+}
+
+
+if (isset($_POST["validateEmail"])) {
+
+	$valEmail = new AjaxUsers();
+	$valEmail -> validateEmail = $_POST["validateEmail"];
+	$valEmail -> ajaxValidateEmail();
 }

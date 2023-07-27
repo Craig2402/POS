@@ -9,22 +9,19 @@ class userController{
 	static public function ctrUserLogin(){
 
 		if (isset($_POST["btn_login"])) {
-			
-			if (preg_match('/^[a-zA-Z0-9]+$/', $_POST["txt_user"]) && 
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["txt_password"])) {
 
 				$encryptpass = crypt($_POST["txt_password"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 				
 				$table = 'users';
 
-				$item = 'username';
+				$item = 'email';
 				$value = $_POST["txt_user"];
 
 				$answer = userModel::mdlShowUser($table, $item, $value);
 
 				 //var_dump($answer);
 
-				if($answer["username"] == $_POST["txt_user"] && $answer["userpassword"] == $encryptpass ){
+				if($answer["email"] == $_POST["txt_user"] && $answer["userpassword"] == $encryptpass ){
 
 					if($answer["status"] == 1 && $answer["deleted"] == 0){
 
@@ -33,8 +30,13 @@ class userController{
 						$_SESSION["name"] = $answer["name"];
 						$_SESSION["username"] = $answer["username"];
 						$_SESSION["userphoto"] = $answer["userphoto"];
+						$_SESSION["email"] = $answer["email"];
 						$_SESSION["role"] = $answer["role"];
-						$_SESSION["storeid"] = $answer["store_id"];
+						if ($answer["roe"] == "Administrator"){
+							$_SESSION['storeid'] = null;
+						}else{
+							$_SESSION['storeid'] = $answer["store_id"];
+						}
 
 						/*=============================================
 						Register date to know last_login
@@ -67,7 +69,7 @@ class userController{
 
 							if ($_SESSION["role"] == "Administrator") {
 								echo '<script>
-									window.location = "dashboard"; // Set the route for the Administrator
+									window.location = "admin-dashboard"; // Set the route for the Administrator
 								</script>';
 							} elseif ($_SESSION["role"] == "Seller") {
 								echo '<script>
@@ -111,7 +113,7 @@ class userController{
 				
 				}
 			
-			}
+			
 		
 		}
 	
@@ -126,9 +128,7 @@ class userController{
 
 		if (isset($_POST["username"])) {
 			
-			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["name"]) &&
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["username"]) &&
-				preg_match('/^[a-zA-Z0-9]+$/', $_POST["userpassword"])){
+			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["name"])){
 
 				/*=============================================
 				VALIDATE IMAGE
@@ -196,6 +196,7 @@ class userController{
 							  'username' => $_POST["username"],
 								'userpassword' => $encryptpass,
 								'role' => $_POST["roleOptions"],
+								'email' => $_POST["email"],
 								'userphoto' => $photo,
 								'store_id' => $_POST['Selectstore'],
 								'deleted' => 0);
@@ -416,6 +417,7 @@ class userController{
 								'username' => $_POST["editUsername"],
 								'userpassword' => $encryptpass,
 								'role' => $_POST["editRoleOptions"],
+								'email' => $_POST["email"],
 								'store_id' => $_POST["Editstore"],
 								'userphoto' => $photo);
             

@@ -40,18 +40,9 @@
                                 </thead>
                                 <tbody>
                                 <?php
-                                    $item = null;
-                                    $value = null;
 
-                                    if ($_SESSION['role'] == "Administrator") {
-                                      $item = "store_id";
-                                      if (isset($_GET['store-id'])) {
-                                        $value = $_GET['store-id'];
-                                      }
-                                    }else {
-                                      $item = "store_id";
-                                      $value = $_SESSION['storeid'];
-                                    }
+                                    $item = "store_id";
+                                    $value = $_SESSION['storeid'];
 
                                     $orders = orderController::ctrShowOrders($item, $value);
                                     // var_dump($orders);

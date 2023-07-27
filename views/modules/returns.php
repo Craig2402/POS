@@ -1,14 +1,6 @@
 <?php
-  $item = null;
-  $value = null;
-
-  if ($_SESSION['role'] == "Administrator") {
-    $item = "store_id";
-    $value = $_GET['store-id'];
-  }else {
-    $item = "store_id";
-    $value = $_SESSION['storeid'];
-  }
+  $item = "store_id";
+  $value = $_SESSION['storeid'];
   $order = 'id';
   $products = productController::ctrShowProducts($item, $value, $order, true);
 
@@ -77,14 +69,6 @@
                                   <option value=""></option> <?php
                                             $item = null;
                                             $value = null;
-
-                                            if ($_SESSION['role'] == "Administrator") {
-                                              $item = "store_id";
-                                              $value = $_GET['store-id'];
-                                            }else {
-                                              $item = "store_id";
-                                              $value = $_SESSION['storeid'];
-                                            }
 
                                             $supplier = supplierController::ctrShowSuppliers($item, $value);
                                             foreach ($supplier as $key => $value) {

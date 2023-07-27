@@ -8,28 +8,24 @@ class ReturnProductController {
     static private $storeid;
 
 	public static function initialize() {
-		if ($_SESSION['role'] == "Administrator") {
-			if (isset($_GET['store-id'])) {
-				self::$storeid = $_GET['store-id'];
-			} else {
-				echo "<script>
-					window.onload = function() {
-						Swal.fire({
-							title: 'No store is selected',
-							text: 'Redirecting to Dashboard',
-							icon: 'error',
-							showConfirmButton: false,
-							timer: 2000 // Display alert for 2 seconds
-						}).then(function() {
-							// After the alert is closed, redirect to the dashboard
-							window.location= 'dashboard';
-						});
-					};
-					</script>";
-				exit; // Adding exit to stop further execution after the redirection
-			}
-		} else {
+		if ($_SESSION['storeid'] != null) {
 			self::$storeid = $_SESSION['storeid'];
+		} else {
+			echo "<script>
+				window.onload = function() {
+					Swal.fire({
+						title: 'No store is selected',
+						text: 'Redirecting to Dashboard',
+						icon: 'error',
+						showConfirmButton: false,
+						timer: 2000 // Display alert for 2 seconds
+					}).then(function() {
+						// After the alert is closed, redirect to the dashboard
+						window.location= 'dashboard';
+					});
+				};
+				</script>";
+			exit; // Adding exit to stop further execution after the redirection
 		}
 	}
 
@@ -49,7 +45,7 @@ class ReturnProductController {
             $tableProducts = "products";
 
             // Get the current stock of the product
-            $productData = productModel::mdlShowProducts($tableProducts, "barcode", $barcode, "id");
+            $productData = productModel::mdlFetchProducts($tableProducts, "barcode", $barcode, "id");
 
             if ($productData) {
                 $currentStock = $productData["stock"];
@@ -150,6 +146,7 @@ class ReturnProductController {
     SHOW RETURNS
     =============================================*/
     static public function ctrShowReturnProducts($item, $value) {
+        self::initialize();
         
         $table = "returnproducts";
 

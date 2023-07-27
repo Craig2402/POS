@@ -1,23 +1,18 @@
 <?php
-    require_once 'models/connection.php';
-    function fillProducts($pdo){
-        $pdo = connection::connect();
-        $output="";
-        $select=$pdo->prepare('select * from products where status = 0 order by product ASC');
+  function fillProducts(){
 
-        $select->execute();
-        
-        $result=$select->fetchAll();
+    $item = "store_id";
+    $value = $_SESSION['storeid'];
+    $order = 'id';
+    $products = productController::ctrShowProducts($item, $value, $order, true);
 
-        foreach($result as $row){
-            $output.='<option value="'.$row['barcode'].'">' . $row['product'] . '</option>';
-        }
-
-
-        return $output; ;
-
+    $output = '';
+    foreach ($products as $row) {
+        $output .= '<option value="' . $row['id'] . '">' . $row['product'] . '</option>';
     }
 
+    return $output;
+  }
  ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -57,7 +52,7 @@
                       <div class="form-group">
                         <label>Product name</label>
                         <select class="form-control select2" data-dropdown-css-class="select2-purple" style="width: 100%;" name="product" id="stock">
-                            <option value="">Select or search</option><?php echo fillProducts($pdo);?>
+                            <option value="">Select or search</option><?php echo fillProducts();?>
                         </select>
                       </div>
                       <div class="form-group">
@@ -70,7 +65,7 @@
                       </div>
                       <div class="form-group">
                         <label for="astock">Stock</label>
-                        <input type="number" min="1" step="any" class="form-control" name="astock" id="astock" placeholder="Add to stock">
+                        <input type="number" min="1" step="any" class="form-control" name="astock" id="astock" placeholder="Add to stock" required>
                       </div>
                       <div class="card-footer">
                         <div class="text-center">
@@ -81,7 +76,7 @@
                     <div class="col-lg-7">
                       <ul class="list-group">
                           <center><p class="list-group-item list-group-item-info"><b>PRODUCT IMAGE</b></p></center>
-                          <img class="img-responsive" id="productImage">
+                          <img class="img-responsive" id="productImage" width="900px" height="600px">
                       </ul>
                     </div>
                   </div>

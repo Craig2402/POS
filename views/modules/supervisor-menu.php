@@ -5,25 +5,22 @@
     </a>
 
     <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="<?php echo $_SESSION['userphoto']; ?>" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block" ><?php echo $_SESSION['username']; ?></a>
-            </div>
-        </div>
+    <?php
+$item = "store_id";
+$value = $_SESSION['storeid'];
+$store = storeController::ctrShowStores($item, $value);
+?>
 
-        <!-- <div class="sidebar-search">
-            <div class="input-group">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div> -->
+<?php if ($_SESSION['storeid'] !== null) { ?>
+  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+      <img src="<?php echo $store['logo']; ?>" class="img-circle elevation-2" alt="User Image">
+    </div>
+    <div class="info">
+      <a href="#" class="d-block"><?php echo $store['store_name']; ?></a>
+    </div>
+  </div>
+<?php } ?>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">

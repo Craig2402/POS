@@ -136,14 +136,24 @@
                         $item = null; 
                         $value = null;
 
-                        if ($_SESSION['role'] == "Administrator") {
-                          $item = "store_id";
-                          if (isset($_GET['store-id'])) {
-                            $value = $_GET['store-id'];
-                          }
-                        }else {
+                        if ($_SESSION['storeid'] != null) {
                           $item = "store_id";
                           $value = $_SESSION['storeid'];
+                        }else {
+                          echo'<script>
+
+                              Swal.fire({
+                                  icon: "warning",
+                                  title: "No Store Selected",
+                                  text: "Please select a store first to view products.",
+                                  showConfirmButton: false,
+                                  timer: 2000 // Auto close after 2 seconds
+                                  }).then(function () {
+                                    // Code to execute after the alert is closed
+                                    window.location = "dashboard";
+                                  });
+                
+                            </script>';
                         }
 
                         $expenses= expenseController::ctrShowExpenses($item, $value);

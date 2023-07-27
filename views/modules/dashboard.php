@@ -52,49 +52,69 @@
 
 </style>
 <?php
-$pdo=connection::connect();
-  $month=date('m');
-  
-  $item = null;
-  $value = null;
+    $pdo=connection::connect();
+    $month=date('m');
 
-  if ($_SESSION['role'] == "Administrator") {
-    $item = "store_id";
-    if (isset($_GET['store-id'])) {
-      $value = $_GET['store-id'];
+    if ($_SESSION['role'] == "Administrator") {
+        if (isset($_SESSION['storeid'])) {
+            $item = "store_id";
+            $value = $_SESSION['storeid'];
+            $storeid = $_SESSION['storeid'];
+            $order='id';
+            $products = productController::ctrShowProducts($item, $value, $order, true);
+            $totalProducts = count($products);
+        }else {
+            $item = 'status';
+            $value = 0;
+            $storeid = null;
+        }
+        $item1 = null;
+        $value1 = null;
+        $users=userController::ctrShowUsers($item1,$value1);
+        $totalusers=count($users);
+
+        $stores=storeController::ctrShowStores($item1,$value1);
+        $totalstores=count($stores);
+
+        $merch=$pdo->prepare( 'SELECT SUM(stock * purchaseprice) AS total_value FROM products');
+        $merch->execute();
+        $result=$merch->fetch();
+
+        $totalSales = PaymentController::ctrAddingTotalPayments($month, $storeid);
+
+        $invoices = PaymentController::ctrShowInvoices($item1, $value1);
+        //   var_dump($invoices);
+    }else {
+        $storeid = $_SESSION['storeid'];
+        $item = "store_id";
+        $value = $_SESSION['storeid'];
+        $order='id';
+        $products = productController::ctrShowProducts($item, $value, $order, true);
+        $totalProducts = count($products);
+
+        $merch=$pdo->prepare( 'SELECT SUM(stock * purchaseprice) AS total_value FROM products WHERE store_id = :store_id');
+        $merch -> bindParam(":store_id", $value, PDO::PARAM_STR);
+        $merch->execute();
+        $result=$merch->fetch();
+
+        $totalSales = PaymentController::ctrAddingTotalPayments($month, $storeid);
+
+        $invoices = PaymentController::ctrShowInvoices($item, $value);
+        //   var_dump($invoices);
     }
-  }else {
-    $item = "store_id";
-    $value = $_SESSION['storeid'];
-  }
-  $order='id';
-  $products = productController::ctrShowProducts($item, $value, $order, true);
-  $totalProducts = count($products);
-
-  $merch=$pdo->prepare( 'SELECT SUM(stock * purchaseprice) AS total_value FROM products WHERE store_id = :store_id');
-  $merch -> bindParam(":store_id", $value, PDO::PARAM_STR);
-  $merch->execute();
-  $result=$merch->fetch();
- 
-
-  $totalSales = PaymentController::ctrAddingTotalPayments($month);
-
-  $invoices = PaymentController::ctrShowInvoices($item, $value);
-//   var_dump($invoices);
-  $totalQuantity = 0;
-  $currentMonth = date('m'); // Get the current month
-  
-  foreach ($invoices as $invoice) {
-      $invoiceMonth = date('m', strtotime($invoice['startdate'])); // Get the month of the invoice
-      if ($invoiceMonth == $currentMonth) {
-          $products = json_decode($invoice['products'], true); // Convert the JSON string to an array
-          foreach ($products as $product) {
-              $quantity = isset($product['Quantity']) ? intval($product['Quantity']) : 0; // Get the quantity as an integer
-              $totalQuantity += $quantity;
-          }
-      }
-  }
-
+    $totalQuantity = 0;
+    $currentMonth = date('m'); // Get the current month
+    
+    foreach ($invoices as $invoice) {
+        $invoiceMonth = date('m', strtotime($invoice['startdate'])); // Get the month of the invoice
+        if ($invoiceMonth == $currentMonth) {
+            $products = json_decode($invoice['products'], true); // Convert the JSON string to an array
+            foreach ($products as $product) {
+                $quantity = isset($product['Quantity']) ? intval($product['Quantity']) : 0; // Get the quantity as an integer
+                $totalQuantity += $quantity;
+            }
+        }
+    }
 ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -124,7 +144,7 @@ $pdo=connection::connect();
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <i class="fa-solid fa-money-bill fa-2x mr-3"></i>
-                                    <h5 class="card-title mb-0 custom-heading">Monthly Gross Income</h5>
+                                    <h5 class="card-title mb-0 custom-heading">Monthly Gross Income<?php if ($_SESSION['storeid'] !== null && $_SESSION['role'] == "Administrator") { echo "(per store)"; } ?></h5>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-6">
@@ -145,7 +165,7 @@ $pdo=connection::connect();
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <i class="fa-solid fa-sitemap fa-2x mr-3"></i>
-                                    <h5 class="card-title mb-0 custom-heading">Merchandise Value</h5>
+                                    <h5 class="card-title mb-0 custom-heading">Merchandise Value<?php if ($_SESSION['storeid'] !== null && $_SESSION['role'] == "Administrator") { echo "(per store)"; } ?></h5>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-6">
@@ -161,60 +181,114 @@ $pdo=connection::connect();
                 </div>
                 <!-- ./col -->
                 <div class="col-lg-3 col-md-6">
-                    <a href="sales" class="no-link-style">
-                        <div class="card card-custom">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                  <i class="fa-solid fa-handshake fa-2x mr-3"></i>
-                                    <h5 class="card-title mb-0 custom-heading">Monthly sold units</h5>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <p class="card-text">View</p>
+                    <?php if ($_SESSION['storeid'] !== null) { ?>
+                        <a href="sales" class="no-link-style">
+                            <div class="card card-custom">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-handshake fa-2x mr-3"></i>
+                                        <h5 class="card-title mb-0 custom-heading">Monthly sold units</h5>
                                     </div>
-                                    <div class="col-6">
-                                        <p class="card-text text-right"><?php echo number_format($totalQuantity); ?> units</p>
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <p class="card-text">View</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="card-text text-right"><?php echo number_format($totalQuantity); ?> units</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    <?php } else{?>
+                        <a href="users" class="no-link-style">
+                            <div class="card card-custom">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                    <i class="fa-solid fa-users nav-icon fa-2x mr-3"></i>
+                                        <h5 class="card-title mb-0 custom-heading">Employees</h5>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <p class="card-text">View</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="card-text text-right"><?php echo number_format($totalusers); ?> persons</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    <?php } ?>
                 </div>
                 <!-- ./col -->
                 <div class="col-lg-3 col-md-6">
-                    <a href="products" class="no-link-style">
-                        <div class="card card-custom">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa-solid fa-cart-shopping fa-2x mr-3"></i>
-                                    <h5 class="card-title mb-0 custom-heading">Products</h5>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <p class="card-text">View</p>
+                    <?php if ($_SESSION['storeid'] !== null) { ?>
+                        <a href="products" class="no-link-style">
+                            <div class="card card-custom">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-cart-shopping fa-2x mr-3"></i>
+                                        <h5 class="card-title mb-0 custom-heading">Products</h5>
                                     </div>
-                                    <div class="col-6">
-                                        <p class="card-text text-right"><?php echo number_format($totalProducts); ?></p>
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <p class="card-text">View</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="card-text text-right"><?php echo number_format($totalProducts); ?></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    <?php } else{?>
+                        <a href="manage-stores" class="no-link-style">
+                            <div class="card card-custom">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa-solid fa-warehouse fa-2x mr-3"></i>
+                                        <h5 class="card-title mb-0 custom-heading">Stores</h5>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <p class="card-text">View</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="card-text text-right"><?php echo number_format($totalstores); ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    <?php } ?>
                 </div>
                 <!-- ./col -->
                 <div class="col-md-12">
                   <?php
-                    include 'finance-graphs/revenue-expense.php';
+                    if (isset($_SESSION['storeid'])) {
+                        include 'finance-graphs/revenue-expense.php';
+                    }else {
+                        include 'finance-graphs/revenue-expense.php';
+                    }
                   ?>
                 </div>
                 <div class="col-md-6 col-xs-12">
                   <?php
-                    include 'reports/top-products.php';
+                    if (isset($_SESSION['storeid'])) {
+                        include 'reports/top-products.php';
+                    }else {
+                        include 'reports/top-store.php';
+                    }
                   ?>
                 </div>
                 <div class="col-md-6 col-xs-12">
                   <?php
-                    include 'home/recents.php';
+                    if (isset($_SESSION['storeid'])) {
+                        include 'home/recents.php';
+                    }else {
+                        include 'home/recentusers.php';
+                    }
                   ?>
                 </div>
             </div>

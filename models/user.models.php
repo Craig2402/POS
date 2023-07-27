@@ -61,7 +61,7 @@ class userModel{
 
 	static public function mdlCreateUser($table, $data){
 
-		$stmt = connection::connect()->prepare("INSERT INTO $table(name, username, userpassword, role, userphoto, store_id) VALUES (:name, :username, :userpassword, :role, :userphoto, :store_id)");
+		$stmt = connection::connect()->prepare("INSERT INTO $table(name, username, userpassword, role, userphoto, store_id, email) VALUES (:name, :username, :userpassword, :role, :userphoto, :store_id, :email)");
 
 		$stmt -> bindParam(":name", $data["name"], PDO::PARAM_STR);
 		$stmt -> bindParam(":username", $data["username"], PDO::PARAM_STR);
@@ -69,6 +69,7 @@ class userModel{
 		$stmt -> bindParam(":role", $data["role"], PDO::PARAM_STR);
 		$stmt -> bindParam(":userphoto", $data["userphoto"], PDO::PARAM_STR);
 		$stmt -> bindParam(":store_id", $data["store_id"], PDO::PARAM_STR);
+		$stmt -> bindParam(":email", $data["email"], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 
@@ -98,7 +99,7 @@ class userModel{
 
 	static public function mdlEditUser($table, $data){
 
-		$stmt = connection::connect()->prepare("UPDATE $table set name = :name, userpassword = :userpassword, role = :role, store_id = :store_id, userphoto = :userphoto, deleted = :deleted WHERE username = :username");
+		$stmt = connection::connect()->prepare("UPDATE $table set name = :name, userpassword = :userpassword, role = :role, store_id = :store_id, userphoto = :userphoto, deleted = :deleted, email=:email WHERE username = :username");
 
 		$stmt -> bindParam(":name", $data["name"], PDO::PARAM_STR);
 		$stmt -> bindParam(":username", $data["username"], PDO::PARAM_STR);
@@ -107,6 +108,7 @@ class userModel{
 		$stmt -> bindParam(":store_id", $data["store_id"], PDO::PARAM_STR);
 		$stmt -> bindParam(":userphoto", $data["userphoto"], PDO::PARAM_STR);
 		$stmt -> bindParam(":deleted", $data["deleted"], PDO::PARAM_STR);
+		$stmt -> bindParam(":email", $data["email"], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 

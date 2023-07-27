@@ -38,30 +38,17 @@
                                 <select class="form-control select2bs4" name="discountproduct" id="discountproduct" data-dropdown-css-class="select2-blue" style="width: 100%;">
                                     <option selected disabled value="">--Select or search--</option>
                                     <?php 
-                                    
-                                        $item =  null;
-                                        $value = null;
+                                      $item = "store_id";
+                                      $value = $_SESSION['storeid'];
+                                      $order='product';
+                                      
 
-                                        if ($_SESSION['role'] == "Administrator") {
-                                          $item = "store_id";
-                                          if (isset($_GET['store-id'])) {
-                                            $value = $_GET['store-id'];
-                                          }
-                                        }else {
-                                          $item = "store_id";
-                                          $value = $_SESSION['storeid'];
-                                        }
-                                        $order='product';
-                                        
+                                      $product = productController::ctrShowProducts($item, $value, $order, true);
+                                      foreach ($product as $key => $value) {
 
-                                        $product = productController::ctrShowProducts($item, $value, $order, true);
-                                        foreach ($product as $key => $value) {
+                                        echo '<option value="'.$value["id"].'">'.$value["product"].'</option>';
 
-                                          echo '<option value="'.$value["id"].'">'.$value["product"].'</option>';
-
-                                        }
-
-                                        
+                                      }                                        
                                     ?>
                                 </select>
                             </div>
@@ -108,18 +95,8 @@
                             <tbody>
                               <?php
 
-                                $item = null; 
-                                $value = null;
-
-                                if ($_SESSION['role'] == "Administrator") {
-                                  $item = "store_id";
-                                  if (isset($_GET['store-id'])) {
-                                    $value = $_GET['store-id'];
-                                  }
-                                }else {
-                                  $item = "store_id";
-                                  $value = $_SESSION['storeid'];
-                                }
+                                $item = "store_id";
+                                $value = $_SESSION['storeid'];
 
                                 $discount = discountController::ctrShowDiscount($item, $value);
                                 // var_dump($discount);

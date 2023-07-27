@@ -1,3 +1,27 @@
+<?php
+    // $item = null;
+    // $value = null;
+
+    // if (isset($_SESSION['storeid']) && $_SESSION['storeid'] != null) {
+    //     $item = "store_id";
+    //     $value = $_SESSION['storeid'];
+    // }else {
+    //     echo'<script>
+
+    //         Swal.fire({
+    //             icon: "warning",
+    //             title: "No Store Selected",
+    //             text: "Please select a store first to view products.",
+    //             showConfirmButton: false,
+    //             timer: 2000 // Auto close after 2 seconds
+    //             }).then(function () {
+    //                 // Code to execute after the alert is closed
+    //                 window.location = "dashboard";
+    //             });
+
+    //         </script>';
+    // }
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -40,18 +64,9 @@
                                     <select class="form-control" name="product" id="product">
                                         <option disabled selected value="">--Select a product--</option>
                                         <?php
-                                            $item = null;
-                                            $value = null;
 
-                                            if ($_SESSION['role'] == "Administrator") {
-                                              $item = "store_id";
-                                              if (isset($_GET['store-id'])) {
-                                                $value = $_GET['store-id'];
-                                              }
-                                            }else {
-                                              $item = "store_id";
-                                              $value = $_SESSION['storeid'];
-                                            }
+                                            $item = "store_id";
+                                            $value = $_SESSION['storeid'];
                                             $order = "id";
 
                                             $products = productController::ctrShowProducts($item, $value, $order, true);

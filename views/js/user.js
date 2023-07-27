@@ -216,6 +216,45 @@ $("#username").change(function(){
 });
 
 /*=============================================
+VALIDATE IF EMAIL ALREADY EXISTS
+=============================================*/
+
+$("#email").change(function(){
+
+	$(".alert").remove();
+
+	var email = $(this).val();
+
+	var data = new FormData();
+ 	data.append("validateEmail", email);
+
+  	$.ajax({
+
+	  url:"ajax/user.ajax.php",
+	  method: "POST",
+	  data: data,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function(answer){ 
+
+      	//console.log("answer", answer);
+
+      	if(answer){
+
+      		$("#email").parent().after('<div class="alert alert-warning">This email already exists in the system</div>');
+      		
+      		$("#email").val('');
+      	}
+
+      }
+
+    });
+
+});
+
+/*=============================================
  DELETE USER
  =============================================*/
 
@@ -244,6 +283,59 @@ $(document).on("click", ".btnDeleteUser", function(){
 
 	})
 
+});
+
+  // JavaScript to handle the "View Profile" link click event
+$(document).ready(function() {
+    $(".view-profile-link").click(function(e) {
+        e.preventDefault();
+        var userId = $(this).attr("userid");
+		console.log(userId);
+
+		var data= new FormData();
+
+		data.append("userId", userId);
+        // Make an AJAX request to fetch the user profile data
+        $.ajax({
+            type: "POST",
+            url: "ajax/user.ajax.php",
+            data: data, // Send the userId as a query parameter
+			contentType:false,
+			caches:false,
+			processData:false,
+            dataType: "json",
+            success: function(answer) {
+                console.log("Response data:", answer);
+					$("#profilePicture").attr("src", answer.userphoto);
+				  $("#userName").text(answer.name);
+				  $("#userEmail").text("Email: " + answer.email);
+				  $("#userRole").text("Role: " + answer.role);
+
+
+				  var data= new FormData();
+				  data.append("Storeid",answer.store_id);
+				  $.ajax({
+					type: "POST",
+					url: "ajax/stores.ajax.php",
+					data: data, // Send the userId as a query parameter
+					contentType:false,
+					caches:false,
+					processData:false,
+					dataType: "json",
+					success: function(answer) {
+						$("#userStore").text("Store: " + answer.store_name);
+					}
+				});
+
+                // Show the modal
+                $("#userProfileModal").modal("show");
+            },
+            error: function(xhr, status, error) {
+                // Handle any errors that occurred during the AJAX request
+                console.error(error);
+            }
+        });
+    });
 });
 
 

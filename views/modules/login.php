@@ -80,7 +80,7 @@
           <p class="login-box-msg">Sign in to start your session</p>
           <form action="" method="post">
             <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Username" name="txt_user" required>
+              <input type="email" class="form-control" placeholder="Enter Email" name="txt_user" required>
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-user"></span>
@@ -88,7 +88,7 @@
               </div>
             </div>
             <div class="input-group mb-3">
-              <input type="password" class="form-control" placeholder="Password" name="txt_password" required>
+              <input type="password" class="form-control" placeholder="Enter Password" name="txt_password" required>
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-lock"></span>
@@ -102,7 +102,7 @@
             </div>
           </form>
           <p class="mb-1 text-center">
-            <a href="forgot-password.html">I forgot my password</a>
+            <a href="#">I forgot my password</a>
           </p>
         </div>
       </div>

@@ -81,51 +81,43 @@
                   <tbody>
                   <?php
 
-                $item = null; 
-                $value = null;
+                    $item = "store_id";
+                    $value = $_SESSION['storeid'];
 
-                if ($_SESSION['role'] == "Administrator") {
-                  $item = "store_id";
-                  $value = $_GET['store-id'];
-                }else {
-                  $item = "store_id";
-                  $value = $_SESSION['storeid'];
-                }
-
-                $categories = categoriesController::ctrShowCategories($item, $value);
+                    $categories = categoriesController::ctrShowCategories($item, $value);
 
 
-                // var_dump($categories);
+                    // var_dump($categories);
 
-                foreach ($categories as $key => $value) {
+                    foreach ($categories as $key => $value) {
 
-                  echo '<tr>
-                          <td>'.($key+1).'</td>
-                          <td>'.$value['Category'].'</td>
-                          <td>
+                      echo '<tr>
+                              <td>'.($key+1).'</td>
+                              <td>'.$value['Category'].'</td>
+                              <td>
 
-                            <div class="btn-group">
+                                <div class="btn-group">
 
-                            <button class="btn btnEditCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#editCategories"><i class="fa fa-edit"></i></button>';
+                                <button class="btn btnEditCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#editCategories"><i class="fa fa-edit"></i></button>';
 
 
-                                
+                                    
 
-                              if ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Supervisor") {
-                                echo '<button class="btn  btnDeleteCategory" idCategory="'.$value["id"].'"><i class="fa fa-times"></i></button>';
-                              }else{
-                                echo '<button class="btn askDeleteCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#askDeleteCategory" ><i class="fa fa-times"></i></button>';
-                              }
-                              
+                                  if ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Supervisor") {
+                                    echo '<button class="btn  btnDeleteCategory" idCategory="'.$value["id"].'"><i class="fa fa-times"></i></button>';
+                                  }else{
+                                    echo '<button class="btn askDeleteCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#askDeleteCategory" ><i class="fa fa-times"></i></button>';
+                                  }
+                                  
 
-                  echo '      </div>  
+                      echo '      </div>  
 
-                          </td>
+                              </td>
 
-                        </tr>';
+                            </tr>';
 
-                      }
-              ?>
+                          }
+                  ?>
 
                   </tbody>
                 </table>

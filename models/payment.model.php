@@ -162,19 +162,38 @@ class PaymentModel{
 	Adding TOTAL sales
 	=============================================*/
 
-	static public function mdlAddingTotalPayments($table, $month){	
+	static public function mdlAddingTotalPayments($table, $month, $storeid){	
 
-		$stmt = connection::connect()->prepare("SELECT SUM(amount) as total FROM $table where MONTH(date) =:month");
+		if ($storeid != null) {
 
-        $stmt->bindParam(':month',$month,PDO::PARAM_INT);
+			$stmt = connection::connect()->prepare("SELECT SUM(amount) as total FROM $table where MONTH(date) =:month AND store_id = :storeid");
 
-		$stmt -> execute();
+			$stmt->bindParam(':month',$month,PDO::PARAM_INT);
+			$stmt->bindParam(':storeid',$storeid,PDO::PARAM_STR);
 
-		return $stmt -> fetch();
+			$stmt -> execute();
 
-		$stmt -> closeCursor();
+			return $stmt -> fetch();
 
-		$stmt = null;
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
+		}else {
+
+			$stmt = connection::connect()->prepare("SELECT SUM(amount) as total FROM $table where MONTH(date) =:month");
+
+			$stmt->bindParam(':month',$month,PDO::PARAM_INT);
+
+			$stmt -> execute();
+
+			return $stmt -> fetch();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
+			
+		}
 
 	}
     

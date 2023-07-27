@@ -85,45 +85,35 @@
                   <tbody>
                   <?php
 
-                $item = null; 
-                $value = null;
+                    $item = "store_id";
+                    $value = $_SESSION['storeid'];
 
-                if ($_SESSION['role'] == "Administrator") {
-                  $item = "store_id";
-                  if (isset($_GET['store-id'])) {
-                    $value = $_GET['store-id'];
-                  }
-                }else {
-                  $item = "store_id";
-                  $value = $_SESSION['storeid'];
-                }
+                    $taxes = taxController::ctrShowTax($item, $value);
 
-                $taxes = taxController::ctrShowTax($item, $value);
+                    // var_dump($taxes);
 
-                // var_dump($taxes);
+                    foreach ($taxes as $key => $value) {
 
-                foreach ($taxes as $key => $value) {
+                      echo '<tr>
+                              <td>'.($key+1).'</td>
+                              <td class="text-uppercase">'.$value['VAT'].'</td>
+                              <td class="text-uppercase">'.$value['VATName'].'</td>
+                              <td>
 
-                  echo '<tr>
-                          <td>'.($key+1).'</td>
-                          <td class="text-uppercase">'.$value['VAT'].'</td>
-                          <td class="text-uppercase">'.$value['VATName'].'</td>
-                          <td>
+                                <div class="btn-group">
+                                    
+                                  <button class="btn btnEditTaxdis" taxId="'.$value["taxId"].'" data-toggle="modal" data-target="#editTaxdis"><i class="fa fa-edit"></i></button>
 
-                            <div class="btn-group">
-                                
-                              <button class="btn btnEditTaxdis" taxId="'.$value["taxId"].'" data-toggle="modal" data-target="#editTaxdis"><i class="fa fa-edit"></i></button>
+                                  <button class="btn btnDeleteTaxdis" taxId="'.$value["taxId"].'"><i class="fa fa-times"></i></button>
 
-                              <button class="btn btnDeleteTaxdis" taxId="'.$value["taxId"].'"><i class="fa fa-times"></i></button>
+                                </div>  
 
-                            </div>  
+                              </td>
 
-                          </td>
+                            </tr>';
+                    }
 
-                        </tr>';
-                }
-
-              ?>
+                  ?>
 
                   </tbody>
                 </table>
