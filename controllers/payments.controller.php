@@ -355,88 +355,85 @@ class PaymentController {
     public function ctrDownloadReport(){
         self::initialize();
 
-        if(isset($_GET["report"])){
+        $table = "invoices";
 
-            $table = "invoices";
+        if(isset($_GET["initialDate"]) && isset($_GET["finalDate"])){
 
-            if(isset($_GET["initialDate"]) && isset($_GET["finalDate"])){
+            $sales = InvoiceModel::mdlSalesDatesRange($table, $_GET["initialDate"], $_GET["finalDate"], self::$storeid);
 
-                $sales = InvoiceModel::mdlSalesDatesRange($table, $_GET["initialDate"], $_GET["finalDate"], self::$storeid);
+        }else{
+            $item = "store_id";
+            $value = $_SESSION['storeid'];
 
-            }else{
-                $item = "store_id";
-                $value = $_SESSION['storeid'];
+            $sales = InvoiceModel::mdlShowInvoices($table, $item, $value);
 
-                $sales = InvoiceModel::mdlShowInvoices($table, $item, $value);
-
-            }
-
-            /*=============================================
-            WE CREATE EXCEL FILE
-            =============================================*/
-
-            $name = $_GET["report"].'.xls';
-
-            header('Expires: 0');
-            header('Cache-control: private');
-            header("Content-type: application/vnd.ms-excel"); // Excel file
-            header("Cache-Control: cache, must-revalidate");
-            header('Content-Description: File Transfer');
-            header('Last-Modified: '.date('D, d M Y H:i:s'));
-            header("Pragma: public");
-            header('Content-Disposition:; filename="'.$name.'"');
-            header("Content-Transfer-Encoding: binary");
-
-            echo utf8_decode("<table border='0'>
-                <tr>
-                    <td style='font-weight:bold; border:1px solid #eee;'>Invoice</td>
-                    <td style='font-weight:bold; border:1px solid #eee;'>Seller</td>
-                    <td style='font-weight:bold; border:1px solid #eee;'>Quantity</td>
-                    <td style='font-weight:bold; border:1px solid #eee;'>Products</td>
-                    <td style='font-weight:bold; border:1px solid #eee;'>Tax</td>
-                    <td style='font-weight:bold; border:1px solid #eee;'>Subtotal</td>
-                    <td style='font-weight:bold; border:1px solid #eee;'>TOTAL</td>
-                    <td style='font-weight:bold; border:1px solid #eee;'>Date</td>
-                </tr>");
-
-            foreach ($sales as $row => $item){
-
-                $customerName = isset($item["customername"]) ? $item["customername"] : "";
-                $customer = PaymentController::ctrShowInvoices("invoiceId", $customerName);
-                $customerName = isset($customer["customername"]) ? $customer["customername"] : "";
-
-                $sellerId = isset($item["userId"]) ? $item["userId"] : "";
-                $seller = userController::ctrShowUsers("userId", $sellerId);
-                $sellerName = isset($seller["name"]) ? $seller["name"] : "";
-
-                $products = json_decode($item["products"], true); // Decode the product field to retrieve the array of products
-
-                $quantity = ""; // Variable to store the quantity
-                $productDetails = ""; // Variable to store the product details
-
-                if (is_array($products)) {
-                    foreach ($products as $product) {
-                        $quantity .= $product["Quantity"] . "<br>"; // Extract the quantity and append to the quantity variable
-                        $productDetails .= $product["productName"] . "<br>"; // Extract the product name and append to the productDetails variable
-                    }
-                }
-
-                $paymentMethod = isset($item["paymentmethod"]) ? $item["paymentmethod"] : "";
-
-                echo utf8_decode("<tr>
-                    <td style='border:1px solid #eee;'>" . $item["invoiceId"] . "</td>
-                    <td style='border:1px solid #eee;'>" . $sellerName . "</td>
-                    <td style='border:1px solid #eee;'>" . $quantity . "</td>
-                    <td style='border:1px solid #eee;'>" . $productDetails . "</td>
-                    <td style='border:1px solid #eee;'>Ksh " . number_format($item["totaltax"], 2) . "</td>
-                    <td style='border:1px solid #eee;'>Ksh " . number_format($item["subtotal"], 2) . "</td>
-                    <td style='border:1px solid #eee;'>Ksh " . number_format($item["total"], 2) . "</td>
-                    <td style='border:1px solid #eee;'>" . substr($item["datecreated"], 0, 10) . "</td>
-                </tr>");
-            }
-
-            echo "</table>";
         }
+
+        /*=============================================
+        WE CREATE EXCEL FILE
+        =============================================*/
+
+        $name = time() . '.xls';
+
+        header('Expires: 0');
+        header('Cache-control: private');
+        header("Content-type: application/vnd.ms-excel"); // Excel file
+        header("Cache-Control: cache, must-revalidate");
+        header('Content-Description: File Transfer');
+        header('Last-Modified: '.date('D, d M Y H:i:s'));
+        header("Pragma: public");
+        header('Content-Disposition:; filename="'.$name.'"');
+        header("Content-Transfer-Encoding: binary");
+
+        echo utf8_decode("<table border='0'>
+            <tr>
+                <td style='font-weight:bold; border:1px solid #eee;'>Invoice</td>
+                <td style='font-weight:bold; border:1px solid #eee;'>Seller</td>
+                <td style='font-weight:bold; border:1px solid #eee;'>Quantity</td>
+                <td style='font-weight:bold; border:1px solid #eee;'>Products</td>
+                <td style='font-weight:bold; border:1px solid #eee;'>Tax</td>
+                <td style='font-weight:bold; border:1px solid #eee;'>Subtotal</td>
+                <td style='font-weight:bold; border:1px solid #eee;'>TOTAL</td>
+                <td style='font-weight:bold; border:1px solid #eee;'>Date</td>
+            </tr>");
+
+        foreach ($sales as $row => $item){
+
+            $customerName = isset($item["customername"]) ? $item["customername"] : "";
+            $customer = PaymentController::ctrShowInvoices("invoiceId", $customerName);
+            $customerName = isset($customer["customername"]) ? $customer["customername"] : "";
+
+            $sellerId = isset($item["userId"]) ? $item["userId"] : "";
+            $seller = userController::ctrShowUsers("userId", $sellerId);
+            $sellerName = isset($seller["name"]) ? $seller["name"] : "";
+
+            $products = json_decode($item["products"], true); // Decode the product field to retrieve the array of products
+
+            $quantity = ""; // Variable to store the quantity
+            $productDetails = ""; // Variable to store the product details
+
+            if (is_array($products)) {
+                foreach ($products as $product) {
+                    $quantity .= $product["Quantity"] . "<br>"; // Extract the quantity and append to the quantity variable
+                    $productDetails .= $product["productName"] . "<br>"; // Extract the product name and append to the productDetails variable
+                }
+            }
+
+            $paymentMethod = isset($item["paymentmethod"]) ? $item["paymentmethod"] : "";
+
+            echo utf8_decode("<tr>
+                <td style='border:1px solid #eee;'>" . $item["invoiceId"] . "</td>
+                <td style='border:1px solid #eee;'>" . $sellerName . "</td>
+                <td style='border:1px solid #eee;'>" . $quantity . "</td>
+                <td style='border:1px solid #eee;'>" . $productDetails . "</td>
+                <td style='border:1px solid #eee;'>Ksh " . number_format($item["totaltax"], 2) . "</td>
+                <td style='border:1px solid #eee;'>Ksh " . number_format($item["subtotal"], 2) . "</td>
+                <td style='border:1px solid #eee;'>Ksh " . number_format($item["total"], 2) . "</td>
+                <td style='border:1px solid #eee;'>" . substr($item["datecreated"], 0, 10) . "</td>
+            </tr>");
+        }
+
+        echo "</table>";
     }
 
 	/*=============================================

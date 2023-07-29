@@ -15,6 +15,7 @@
   $username=$_SESSION['username'];
   $pdo=connection::connect();
   if(isset($_POST['btnupdate'])){
+    $newpassword=crypt($_POST["newpass"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
     $update=$pdo->prepare("UPDATE users set userpassword=:pass where username=:username");
     $update->bindParam(':pass',$newpassword,PDO::PARAM_STR);
     $update->bindParam(':username',$username,PDO::PARAM_STR);
@@ -30,12 +31,12 @@
 
       $_SESSION['status']="Password changed";
       $_SESSION['status_code']="success";
-      // session_destroy();
-      // echo'
-      // <script>
-      //     window.location.reload();
-      // </script>
-      // ';
+      session_destroy();
+      echo'
+      <script>
+          window.location.reload();
+      </script>
+      ';
     }
   }
  ?>
@@ -205,10 +206,7 @@ if (isset($_SESSION['status'])&& $_SESSION['status']!=''){
     title: '<?php echo $_SESSION['status'] ?>',
     showConfirmButton: false,
     timer: 2000 // Close the alert after 2 seconds
-    }).then(function() {
-      session_destroy()
-      window.location.reload();
-    });
+    })
 </script>
 
 

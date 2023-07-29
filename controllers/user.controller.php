@@ -32,7 +32,7 @@ class userController{
 						$_SESSION["userphoto"] = $answer["userphoto"];
 						$_SESSION["email"] = $answer["email"];
 						$_SESSION["role"] = $answer["role"];
-						if ($answer["roe"] == "Administrator"){
+						if ($answer["role"] == "Administrator"){
 							$_SESSION['storeid'] = null;
 						}else{
 							$_SESSION['storeid'] = $answer["store_id"];

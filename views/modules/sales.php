@@ -37,9 +37,9 @@
                 <div class="card-tools">
                   <?php 
                     if (isset($_GET['initialDate'])) {
-                      echo'<a href="views/modules/printreport.php?report=report&initialDate='.$_GET["initialDate"].'&finalDate='.$_GET["finalDate"].'">';
+                      echo'<a href="views/modules/printreport.php?initialDate='.$_GET["initialDate"].'&finalDate='.$_GET["finalDate"].'">';
                     } else {
-                      echo'<a href="views/modules/printreport.php?report=report">';
+                      echo'<a href="views/modules/printreport.php?">';
                     }
                   ?>
                   <button type="button" class="btn btn-success btn-sm" id="printexcel">Download Excel Report</button> 
@@ -58,17 +58,12 @@
                   </div>
                   <div class="row">
                     <div class="col-md-6 col-xs-12">
-                      <?php include 'reports/top-products.php'; ?>
+                    <?php include 'reports/income.php'; ?>
                     </div>
                     <div class="col-md-6 col-xs-12">
                       <div class="row">
                         <div class="col-md-12 col-xs-12">
                           <?php include 'reports/sellers.php'; ?>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-12 col-xs-12">
-                          <?php include 'reports/income.php'; ?>
                         </div>
                       </div>
                     </div>
