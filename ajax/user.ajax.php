@@ -78,6 +78,31 @@ class AjaxUsers{
 
 	}
 
+	public $oldpassword;
+	public $userid;
+
+	public function ajaxValidatePassword(){
+
+		$item = "userId";
+		$value = $this->userid;
+
+		$answer = userController::ctrShowUsers($item, $value);
+
+		$nonEncryptedPassword = $this->oldpassword;
+		$storedEncryptedPassword = $answer['userpassword']; // Replace this with the actual stored encrypted password from the database
+
+		// Use the crypt() function to encrypt the non-encrypted password for comparison
+		$encryptedPassword = crypt($nonEncryptedPassword, '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+
+		// echo json_encode($answer);
+		if ($encryptedPassword === $storedEncryptedPassword) {
+			echo json_encode(true);
+		} else {
+			echo json_encode(false);
+		}
+
+	}
+
 }
 
 
@@ -94,6 +119,18 @@ if (isset($_POST["userId"])) {
 	$edit = new AjaxUsers();
 	$edit -> userId = $_POST["userId"];
 	$edit -> ajaxEditUser();
+}
+
+/*=============================================
+VALIDATE OLD PASSWORD
+=============================================*/
+
+if (isset($_POST["oldpassword"]) && isset($_POST["user-id"])) {
+
+	$validate = new AjaxUsers();
+	$validate -> oldpassword = $_POST["oldpassword"];
+	$validate -> userid = $_POST["user-id"];
+	$validate -> ajaxValidatePassword();
 }
 
 /*=============================================

@@ -1,16 +1,6 @@
 <?php
-$item = null; 
-$value = null;
-
-if ($_SESSION['role'] == "Administrator") {
-  $item = "store_id";
-  if (isset($_GET['store-id'])) {
-    $value = $_GET['store-id'];
-  }
-}else {
-  $item = "store_id";
-  $value = $_SESSION['storeid'];
-}
+$item = "store_id";
+$value = $_SESSION['storeid'];
 $order = 'sales';
 $product = productController::ctrShowProducts($item, $value, $order, true);
 // var_dump($product);
@@ -71,7 +61,7 @@ $color = array(
       $numDisplayedProducts = min($numProducts, 5);
       for ($i = 0; $i < $numDisplayedProducts; $i++) {
         echo '<li class="nav-item">
-                <a href="index.php?route=viewproduct&barcode='.$product[$i]['barcode'].'" class="nav-link">
+                <a href="index.php?route=viewproduct&product-id='.$product[$i]['id'].'" class="nav-link">
                 <img src="'.$product[$i]["image"].'" class="img-thumbnail" width="60px" style="margin-right:10px"> 
                   ' . $product[$i]['product'] .  '
                   <span class="float-right text-' . $color[$i % 10] . '">

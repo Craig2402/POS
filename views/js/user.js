@@ -290,7 +290,6 @@ $(document).ready(function() {
     $(".view-profile-link").click(function(e) {
         e.preventDefault();
         var userId = $(this).attr("userid");
-		console.log(userId);
 
 		var data= new FormData();
 
@@ -305,7 +304,6 @@ $(document).ready(function() {
 			processData:false,
             dataType: "json",
             success: function(answer) {
-                console.log("Response data:", answer);
 					$("#profilePicture").attr("src", answer.userphoto);
 				  $("#userName").text(answer.name);
 				  $("#userEmail").text("Email: " + answer.email);

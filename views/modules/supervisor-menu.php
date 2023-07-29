@@ -259,22 +259,6 @@ $store = storeController::ctrShowStores($item, $value);
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="changepassword" class="nav-link">
-                        <i class="fa-solid fa-user-shield nav-icon"></i>
-                        <p>
-                            Change password
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="logout" class="nav-link">
-                        <i class="fa-solid fa-arrow-right-from-bracket nav-icon"></i>
-                        <p>
-                            Log out
-                        </p>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

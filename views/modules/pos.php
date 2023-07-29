@@ -8,7 +8,7 @@
   
       $output = '';
       foreach ($products as $row) {
-          $output .= '<option value="' . $row['id'] . '">' . $row['product'] . '</option>';
+          $output .= '<option value="' . $row['barcode'] . '">' . $row['product'] . '</option>';
       }
   
       return $output;

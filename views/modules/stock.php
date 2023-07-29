@@ -76,7 +76,7 @@
                     <div class="col-lg-7">
                       <ul class="list-group">
                           <center><p class="list-group-item list-group-item-info"><b>PRODUCT IMAGE</b></p></center>
-                          <img class="img-responsive" id="productImage" width="900px" height="600px">
+                          <img class="img-responsive" id="productImage">
                       </ul>
                     </div>
                   </div>

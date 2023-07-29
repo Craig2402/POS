@@ -8,10 +8,12 @@
     $currentYear = date('Y');
 
     // Prepare the SQL statement
-    $payments = $pdo->prepare('SELECT COUNT(*) AS paymentCount, SUM(amount) AS totalAmount FROM payments WHERE MONTH(date) = :month AND YEAR(date) = :year AND store_id = :storeid');
+    $payments = $pdo->prepare("SELECT COUNT(*) AS paymentCount, SUM(amount) AS totalAmount FROM payments WHERE MONTH(date) = :month AND YEAR(date) = :year " . ($storeid ? "AND store_id = :store_id" : "") . "");
     $payments->bindParam(':month', $currentMonth);
     $payments->bindParam(':year', $currentYear);
-    $payments->bindParam(':storeid', $storeid);
+    if ($storeid) {
+        $payments->bindParam(':store_id', $storeid, PDO::PARAM_STR);
+    }
     $payments->execute();
 
     // Fetch the result
@@ -22,10 +24,12 @@
     $totalAmount = $paymentResult['totalAmount'];
 
     // Prepare the SQL statement
-    $invoices = $pdo->prepare('SELECT COUNT(*) AS invoicePaymentCount, SUM(total) AS totalInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year AND store_id = :storeid');
+    $invoices = $pdo->prepare("SELECT COUNT(*) AS invoicePaymentCount, SUM(total) AS totalInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year " . ($storeid ? "AND store_id = :store_id" : "") . "");
     $invoices->bindParam(':month', $currentMonth);
     $invoices->bindParam(':year', $currentYear);
-    $invoices->bindParam(':storeid', $storeid);
+    if ($storeid) {
+        $invoices->bindParam(':store_id', $storeid, PDO::PARAM_STR);
+    }
     $invoices->execute();
 
     // Fetch the result
@@ -36,10 +40,12 @@
     $totalInvoiceAmount = $paymentInvoiceResult['totalInvoiceAmount'];
 
     // Prepare the SQL statement
-    $paidinvoices = $pdo->prepare('SELECT COUNT(*) AS invoicePaidCount, SUM(total) AS totalPaidInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year AND dueamount = 0 AND store_id = :storeid');   
+    $paidinvoices = $pdo->prepare("SELECT COUNT(*) AS invoicePaidCount, SUM(total) AS totalPaidInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year AND dueamount = 0 " . ($storeid ? "AND store_id = :store_id" : "") . "");
     $paidinvoices->bindParam(':month', $currentMonth);
     $paidinvoices->bindParam(':year', $currentYear);
-    $paidinvoices->bindParam(':storeid', $storeid);
+    if ($storeid) {
+        $paidinvoices->bindParam(':store_id', $storeid, PDO::PARAM_STR);
+    }
     $paidinvoices->execute();
 
     // Fetch the result
@@ -136,10 +142,10 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-6">
-                                    <p class="card-text">Ksh <?php echo number_format($totalAmount,2); ?></p>
+                                    <p class="card-text" id="totalAmount"></p>
                                 </div>
                                 <div class="col-6">
-                                    <p class="card-text text-right"><?php echo $paymentCount; ?></p>
+                                    <p class="card-text text-right" id="paymentCount"></p>
                                 </div>
                             </div>
                         </div>
@@ -155,10 +161,10 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-6">
-                                    <p class="card-text">Ksh <?php echo number_format($totalInvoiceAmount,2); ?></p>
+                                    <p class="card-text" id="totalInvoiceAmount"></p>
                                 </div>
                                 <div class="col-6">
-                                    <p class="card-text text-right"><?php echo $invoicePaymentCount; ?></p>
+                                    <p class="card-text text-right" id="invoicePaymentCount"></p>
                                 </div>
                             </div>
                         </div>
@@ -174,10 +180,10 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-6">
-                                    <p class="card-text">Ksh <?php echo number_format($totalPaidInvoiceAmount,2); ?></p>
+                                    <p class="card-text" id="totalPaidInvoiceAmount"></p>
                                 </div>
                                 <div class="col-6">
-                                    <p class="card-text text-right"><?php echo $invoicePaidCount; ?></p>
+                                    <p class="card-text text-right" id="invoicePaidCount"></p>
                                 </div>
                             </div>
                         </div>
@@ -221,6 +227,6 @@
 </div>
 <!-- /.content-wrapper -->
 <?php
-    $markRead = new notificationController();
-    $markRead -> ctrMarkNotificationsRead();
+    // $markRead = new notificationController();
+    // $markRead -> ctrMarkNotificationsRead();
 ?>

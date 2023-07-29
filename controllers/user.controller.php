@@ -21,7 +21,7 @@ class userController{
 
 				 //var_dump($answer);
 
-				if($answer["email"] == $_POST["txt_user"] && $answer["userpassword"] == $encryptpass ){
+				if($answer["email"] == $value && $answer["userpassword"] == $encryptpass ){
 
 					if($answer["status"] == 1 && $answer["deleted"] == 0){
 
@@ -104,7 +104,7 @@ class userController{
 					
                     Swal.fire({
                         icon: "error",
-                        title: "Incorrect username or password",
+                        title: "Incorrect email or password",
                         showConfirmButton: true,
                         confirmButtonText: "Close"
                         });

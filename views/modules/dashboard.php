@@ -51,71 +51,6 @@
 }
 
 </style>
-<?php
-    $pdo=connection::connect();
-    $month=date('m');
-
-    if ($_SESSION['role'] == "Administrator") {
-        if (isset($_SESSION['storeid'])) {
-            $item = "store_id";
-            $value = $_SESSION['storeid'];
-            $storeid = $_SESSION['storeid'];
-            $order='id';
-            $products = productController::ctrShowProducts($item, $value, $order, true);
-            $totalProducts = count($products);
-        }else {
-            $item = 'status';
-            $value = 0;
-            $storeid = null;
-        }
-        $item1 = null;
-        $value1 = null;
-        $users=userController::ctrShowUsers($item1,$value1);
-        $totalusers=count($users);
-
-        $stores=storeController::ctrShowStores($item1,$value1);
-        $totalstores=count($stores);
-
-        $merch=$pdo->prepare( 'SELECT SUM(stock * purchaseprice) AS total_value FROM products');
-        $merch->execute();
-        $result=$merch->fetch();
-
-        $totalSales = PaymentController::ctrAddingTotalPayments($month, $storeid);
-
-        $invoices = PaymentController::ctrShowInvoices($item1, $value1);
-        //   var_dump($invoices);
-    }else {
-        $storeid = $_SESSION['storeid'];
-        $item = "store_id";
-        $value = $_SESSION['storeid'];
-        $order='id';
-        $products = productController::ctrShowProducts($item, $value, $order, true);
-        $totalProducts = count($products);
-
-        $merch=$pdo->prepare( 'SELECT SUM(stock * purchaseprice) AS total_value FROM products WHERE store_id = :store_id');
-        $merch -> bindParam(":store_id", $value, PDO::PARAM_STR);
-        $merch->execute();
-        $result=$merch->fetch();
-
-        $totalSales = PaymentController::ctrAddingTotalPayments($month, $storeid);
-
-        $invoices = PaymentController::ctrShowInvoices($item, $value);
-        //   var_dump($invoices);
-    }
-    $totalQuantity = 0;
-    $currentMonth = date('m'); // Get the current month
-    
-    foreach ($invoices as $invoice) {
-        $invoiceMonth = date('m', strtotime($invoice['startdate'])); // Get the month of the invoice
-        if ($invoiceMonth == $currentMonth) {
-            $products = json_decode($invoice['products'], true); // Convert the JSON string to an array
-            foreach ($products as $product) {
-                $quantity = isset($product['Quantity']) ? intval($product['Quantity']) : 0; // Get the quantity as an integer
-                $totalQuantity += $quantity;
-            }
-        }
-    }
-?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -151,7 +86,7 @@
                                         <p class="card-text">View</p>
                                     </div>
                                     <div class="col-6">
-                                        <p class="card-text text-right">Ksh <?php echo number_format($totalSales['total'],2);?></p>
+                                        <p class="card-text text-right" id="totalSales">Ksh </p>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +107,7 @@
                                         <p class="card-text">View</p>
                                     </div>
                                     <div class="col-6">
-                                        <p class="card-text text-right">Ksh <?php echo number_format($result['total_value'],2); ?></p>
+                                        <p class="card-text text-right" id="totalMerchandise">Ksh </p>
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +129,7 @@
                                             <p class="card-text">View</p>
                                         </div>
                                         <div class="col-6">
-                                            <p class="card-text text-right"><?php echo number_format($totalQuantity); ?> units</p>
+                                            <p class="card-text text-right" id="totalQuantity">units</p>
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +148,7 @@
                                             <p class="card-text">View</p>
                                         </div>
                                         <div class="col-6">
-                                            <p class="card-text text-right"><?php echo number_format($totalusers); ?> persons</p>
+                                            <p class="card-text text-right" id="totalUsers">persons</p>
                                         </div>
                                     </div>
                                 </div>
@@ -236,7 +171,7 @@
                                             <p class="card-text">View</p>
                                         </div>
                                         <div class="col-6">
-                                            <p class="card-text text-right"><?php echo number_format($totalProducts); ?></p>
+                                            <p class="card-text text-right" id="totalProducts"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -255,7 +190,7 @@
                                             <p class="card-text">View</p>
                                         </div>
                                         <div class="col-6">
-                                            <p class="card-text text-right"><?php echo number_format($totalstores); ?></p>
+                                            <p class="card-text text-right" id="totalStores"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -266,11 +201,7 @@
                 <!-- ./col -->
                 <div class="col-md-12">
                   <?php
-                    if (isset($_SESSION['storeid'])) {
-                        include 'finance-graphs/revenue-expense.php';
-                    }else {
-                        include 'finance-graphs/revenue-expense.php';
-                    }
+                    include 'finance-graphs/revenue-expense.php';
                   ?>
                 </div>
                 <div class="col-md-6 col-xs-12">

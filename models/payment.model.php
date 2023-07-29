@@ -376,7 +376,7 @@ class InvoiceModel{
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE store_id = :storeid ORDER BY invoiceId ASC");
 
-			$stmt->bindParam(':storeid', $storeid);
+			$stmt->bindParam(':storeid', $storeid, PDO::PARAM_STR);
 
 			$stmt -> execute();
 
@@ -390,9 +390,8 @@ class InvoiceModel{
 		}else if($initialDate == $finalDate){
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE startdate like '%$finalDate%' AND store_id = :storeid");
-
-			$stmt -> bindParam(":startdate", $finalDate, PDO::PARAM_STR);
-			$stmt->bindParam(':storeid', $storeid);
+			
+			$stmt -> bindParam(':storeid', $storeid, PDO::PARAM_STR);
 
 			$stmt -> execute();
 

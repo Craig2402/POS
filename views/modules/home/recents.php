@@ -29,7 +29,7 @@ $product = productController::ctrShowProducts($item, $value, $order, true);
             <img src="' . $product[$i]['image'] . '" class="img-size-50">
           </div>
           <div class="product-info">
-            <a href="index.php?route=viewproduct&barcode='.$product[$i]['barcode'].'" class="product-title">' . $product[$i]['product'] . '
+            <a href="index.php?route=viewproduct&product-id='.$product[$i]['id'].'" class="product-title">' . $product[$i]['product'] . '
               <span class="badge badge-warning float-right">Ksh ' . $product[$i]['saleprice'] . '</span></a>
             <span class="product-description">
               ' . $product[$i]['description'] . '

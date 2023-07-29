@@ -51,17 +51,8 @@
                                         <option selected disabled  value="">--Select Category--</option>
 
                                             <?php
-
-                                              $item = null; 
-                                              $value = null;
-
-                                              if ($_SESSION['role'] == "Administrator") {
-                                                $item = "store_id";
-                                                $value = $_GET['store-id'];
-                                              }else {
-                                                $item = "store_id";
-                                                $value = $_SESSION['storeid'];
-                                              }
+                                              $item = "store_id";
+                                              $value = $_SESSION['storeid'];
 
                                               $categories = categoriesController::ctrShowCategories($item, $value);
 
@@ -79,17 +70,8 @@
                                       <select name="txttaxcat" id="txttaxcat" class="form-control">
                                         <option selected disabled value="">--Select Tax type--</option>
                                         <?php
-                                        
-                                          $item = null;
-                                          $value = null;
-
-                                          if ($_SESSION['role'] == "Administrator") {
-                                            $item = "store_id";
-                                            $value = $_GET['store-id'];
-                                          }else {
-                                            $item = "store_id";
-                                            $value = $_SESSION['storeid'];
-                                          }
+                                          $item = "store_id";
+                                          $value = $_SESSION['storeid'];
 
                                           $tax = taxController::ctrShowTax($item,$value);
                                           
