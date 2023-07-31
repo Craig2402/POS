@@ -9,6 +9,7 @@ HANDLE NOTIFICATIONS
 class AjaxNotifications {
 
     public $data;
+    public $sessionStoreid;
 
     public function ajaxMarkReadNotification() {
 
@@ -35,7 +36,7 @@ class AjaxNotifications {
         // Handle the notification creation as needed
     }
 
-    public function ajaxShowNotifications() {
+    public function ajaxShowAllNotifications() {
         
         $item = null;
         $value = null;
@@ -44,16 +45,32 @@ class AjaxNotifications {
 		echo json_encode($notifications);
 
     }
+    
+    public function ajaxShowNotifications() {
+        
+        $item = "store_id";
+        $value = $this->sessionStoreid;
+        $notifications = notificationController::ctrShowNotifications($item, $value);
+        
+		echo json_encode($notifications);
+
+    }
 
 }
-if (empty($_POST)) {
+    if (isset($_POST["sessionStoreid"]) && isset($_POST["sessionRole"]) && $_POST["sessionRole"] == "Administrator") {
 
-    $notification = new AjaxNotifications();
-    
-    $notification->ajaxShowNotifications();
-    
-}
-// if (count($_POST) == 2) {
+        $notification = new AjaxNotifications();
+        
+        $notification->ajaxShowAllNotifications();
+        
+    }
+    if (isset($_POST["sessionStoreid"]) && isset($_POST["sessionRole"]) && $_POST["sessionRole"] != "Administrator") {
+
+        $notification = new AjaxNotifications();
+        $notification->sessionStoreid = $_POST["sessionStoreid"]; 
+        $notification->ajaxShowNotifications();
+
+    }
 
     if (isset($_POST["sessionid"]) && isset($_POST["notificationId"])) {
 
@@ -64,8 +81,6 @@ if (empty($_POST)) {
         );
         $notification->ajaxMarkReadNotification();
     }
-
-// } else {
 
     if (isset($_POST["session"]) && isset($_POST["type"]) && isset($_POST["status"]) && isset($_POST["name"]) && isset($_POST["user"])) {
 
@@ -80,5 +95,3 @@ if (empty($_POST)) {
         $notification->ajaxMarkReadNotificationRejected();
 
     }
-
-// }

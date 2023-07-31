@@ -14,42 +14,6 @@
       return $output;
     }
  ?>
- <style>
-    
-    .modal-header {
-        background-color: #39b54a;
-        color: #fff;
-    }
-    
-    .modal-header h5.modal-title {
-        color: #fff;
-    }
-    
-    .modal-content {
-        border: none;
-        border-radius: 4px;
-    }
-    
-    .modal-body {
-        background-color: #f8f8f8;
-    }
-    
-    .modal-footer {
-        background-color: #f8f8f8;
-    }
-    
-    .modal-footer .btn-primary {
-        background-color: #39b54a;
-        color: #fff;
-    }
-    
-    .modal-footer .btn-primary:hover,
-    .modal-footer .btn-primary:focus {
-        background-color: #00cc00;
-        color: #fff;
-    }
-
- </style>
  <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -76,7 +40,7 @@
         <div class="row">
             <div class="col-lg-12">
             <!-- /.col-md-6 -->
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="" method="post" enctype="multipart/form-data" id="posForm">
                     <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h5 class="m-0">POS</h5>
@@ -199,7 +163,7 @@
                                 </div>
                                 <!-- Input fields to be added conditionally -->
                                 <div id="additionalInputs" style="display: none;">
-                                <hr style="height:2px; border-width:0; color:black; background-color:black;">
+                                    <hr style="height:2px; border-width:0; color:black; background-color:black;">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Customer Name</span>
@@ -217,6 +181,15 @@
                                             <span class="input-group-text">Identification Number</span>
                                         </div>
                                         <input type="text" class="form-control" id="cid" name="cid">
+                                    </div>
+                                </div>
+
+                                <div class="loyaltyPoints" style="display: none;">
+                                    <hr style="height:2px; border-width:0; color:black; background-color:black;">
+                                    <label for="floatingInput">Loyalty Points</label>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control gphone" id="floatingInput" name="gphone">
+                                        <label for="floatingInput">Enter Phone Number</label>
                                     </div>
                                 </div>
                                 <!-- End of additional inputs -->

@@ -14,6 +14,7 @@ require_once 'controllers/returns.controller.php';
 require_once 'controllers/notifications.controller.php';
 require_once 'controllers/activitylog.controller.php';
 require_once 'controllers/store.controller.php';
+require_once 'controllers/loyalty.controller.php';
 
 
 require_once 'models/user.models.php';
@@ -29,6 +30,7 @@ require_once 'models/returns.model.php';
 require_once 'models/notifications.model.php';
 require_once 'models/activitylog.model.php';
 require_once 'models/store.model.php';
+require_once 'models/loyalty.model.php';
 
 $template= new templateController();
 $template-> ctrTemplate();

@@ -211,8 +211,8 @@ class InvoiceModel{
  	/*=============================================
 	CREATE INVOICE
 	=============================================*/
-    public function insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal, $invoiceTotal, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid){
-        $query = "INSERT INTO invoices (invoiceId, products, startdate, duedate, customername, phone, idnumber, totaltax, subtotal, total, discount, dueamount, userId, store_id) VALUES (:invoiceId, :products, :startdate, :duedate, :customername, :phone, :idnumber, :totaltax, :subtotal, :total, :discount, :dueamount, :userId, :store_id)";
+    public function insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal, $invoiceTotal, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid, $datecreated){
+        $query = "INSERT INTO invoices (invoiceId, products, startdate, duedate, customername, phone, idnumber, totaltax, subtotal, total, discount, dueamount, userId, store_id, datecreated) VALUES (:invoiceId, :products, :startdate, :duedate, :customername, :phone, :idnumber, :totaltax, :subtotal, :total, :discount, :dueamount, :userId, :store_id, :datecreated)";
 
         // Prepare the query
         $stmt = $this->db->prepare($query);
@@ -233,6 +233,7 @@ class InvoiceModel{
         $stmt->bindParam(':dueamount', $invoiceDueAmount);
         $stmt->bindParam(':userId', $invoiceUserId);
 		$stmt -> bindParam(":store_id", $storeid);
+		$stmt -> bindParam(":datecreated", $datecreated);
 
 		if ($stmt->execute()) {
 

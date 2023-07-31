@@ -7,6 +7,18 @@
     object-fit: cover;
     margin-right: 10px;
   }
+  /* Add any shaking animation to the .shaking-bell class */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+.shaking-bell {
+  animation: shake 0.5s infinite; /* Adjust animation duration and timing as needed */
+}
+
 </style>
    
    
@@ -65,9 +77,9 @@
       <!-- Notifications Dropdown Menu -->
     
       <li class="nav-item">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge" id="rowCountSpan"></span>
+        <a href="#" class="btn position-relative nav-link" data-toggle="dropdown">
+          <i class="fa fa-bell" id="bellIcon"></i>
+          <span class="badge bg-warning rounded-pill position-absolute top-0 start-100 translate-middle"  id="rowCountSpan"></span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-header" id="rowCountSpanHeader"></div>
@@ -83,8 +95,10 @@
           <?php
             echo '<a href="#" class="dropdown-item view-profile-link" userid="'.$_SESSION['userId'].'">Profile</a>';
           ?>
-          <a href="#" class="dropdown-item" data-toggle="modal" data-target="#switchStoreModal">Switch Store</a>
           <?php
+            if ($_SESSION['role'] == "Administrator") {
+              echo '<a href="#" class="dropdown-item" data-toggle="modal" data-target="#switchStoreModal">Switch Store</a>';
+            }
             if ($_SESSION['storeid'] !== null && $_SESSION['role'] == "Administrator") {
               echo '<a href="#" id="exit_store" value="'.$_SESSION['storeid'].'" class="dropdown-item">Exit store</a>';
             }
@@ -148,7 +162,7 @@
           <h4 id="userName" class="text-center"></h4>
           <p id="userEmail" class="text-center"></p>
           <p id="userRole" class="text-center"></p>
-          <?php if ($_SESSION['storeid'] !== null) { ?>
+          <?php if ($_SESSION['storeid'] !== null && $_SESSION['role'] !== "Administrator") { ?>
             <p id="userStore" class="text-center"></p>
           <?php } ?>
         </div>

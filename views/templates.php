@@ -9,6 +9,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Inventory | System</title>
+  <link rel="stylesheet" href="views/css/custom.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
    <!-- chart js -->
@@ -50,7 +51,6 @@
    <!-- printJS library -->
   <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
   <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
-  <link rel="stylesheet" href="views/css/custom.css">
 
 </head>
 <body class="hold-transition sidebar-mini">

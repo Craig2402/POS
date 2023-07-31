@@ -156,8 +156,8 @@ foreach ($paymentMethods as $paymentMethod) {
         <h5 class="m-0 d-flex align-items-center justify-content-between">
             Payments for period (VAT included)
             <div class="d-flex">
-                <button onclick="Monthlypayment()" class="btn btn-sm btn-primary mx-1">Monthly</button>
-                <button onclick="Yearlypayment()" class="btn btn-sm btn-primary mx-1">Yearly</button>
+                <button onclick="Monthlypayment()" class="btn btn-outline-primary btn-sm mx-1">Monthly</button>
+                <button onclick="Yearlypayment()" class="btn btn-outline-primary btn-sm mx-1">Yearly</button>
             </div>
         </h5>
     </div>

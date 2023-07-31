@@ -48,7 +48,9 @@
                 <form action="" method="post" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-lg-5">
-                      <center><p class="list-group-item list-group-item-info"><b>PRODUCT</b></p></center>
+                      <ul class="list-group">
+                        <center><p class="list-group-item list-group-item-info"><b>PRODUCT</b></p></center>
+                      </ul>
                       <div class="form-group">
                         <label>Product name</label>
                         <select class="form-control select2" data-dropdown-css-class="select2-purple" style="width: 100%;" name="product" id="stock">

@@ -326,7 +326,7 @@ class productModel{
 
 	static public function mdlAddingStock($table ,$quantity, $barcode){
 
-		$stmt = connection::connect()->prepare("UPDATE $table SET stock = stock + :quantity WHERE barcode = :barcode");
+		$stmt = connection::connect()->prepare("UPDATE $table SET stock = stock + :quantity WHERE id = :barcode");
 		
 		$stmt -> bindParam(":quantity", $quantity, PDO::PARAM_INT);
 		$stmt -> bindParam(":barcode", $barcode, PDO::PARAM_INT);

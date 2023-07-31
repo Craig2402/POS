@@ -4,7 +4,11 @@ $value = $_SESSION['storeid'];
 $order = 'id';
 $product = productController::ctrShowProducts($item, $value, $order, true);
 ?>
-
+ <style>
+  .link  {
+  text-decoration: none;
+  }
+</style>
 <!-- PRODUCT LIST -->
 <div class="card">
   <div class="card-header">
@@ -29,7 +33,7 @@ $product = productController::ctrShowProducts($item, $value, $order, true);
             <img src="' . $product[$i]['image'] . '" class="img-size-50">
           </div>
           <div class="product-info">
-            <a href="index.php?route=viewproduct&product-id='.$product[$i]['id'].'" class="product-title">' . $product[$i]['product'] . '
+            <a href="index.php?route=viewproduct&product-id='.$product[$i]['id'].'" class="product-title link">' . $product[$i]['product'] . '
               <span class="badge badge-warning float-right">Ksh ' . $product[$i]['saleprice'] . '</span></a>
             <span class="product-description">
               ' . $product[$i]['description'] . '
@@ -42,7 +46,7 @@ $product = productController::ctrShowProducts($item, $value, $order, true);
   </div>
   <!-- /.card-body -->
   <div class="card-footer text-center">
-    <a href="products" class="uppercase">View All Products</a>
+    <a href="products" class="uppercase link">View All Products</a>
   </div>
   <!-- /.card-footer -->
 </div>

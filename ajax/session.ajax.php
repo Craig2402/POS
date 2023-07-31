@@ -5,12 +5,14 @@
     $sessionId = $_SESSION['userId'];
     $sessionRole = $_SESSION['role'];
     $sessionUsername = $_SESSION['username'];
+    $sessionStoreid = $_SESSION['storeid'];
 
     // Create an associative array to hold the session data
     $sessionData = array(
         'sessionId' => $sessionId,
         'sessionRole' => $sessionRole,
-        'sessionUsername' => $sessionUsername
+        'sessionUsername' => $sessionUsername,
+        'sessionStoreid' => $sessionStoreid
     );
 
     // Convert the array to JSON and echo the response

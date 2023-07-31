@@ -158,8 +158,8 @@ foreach ($paymentMethods as $index => $paymentMethod) {
         <h5 class="m-0 d-flex align-items-center justify-content-between">
             Daily Payments
             <div class="d-flex">
-                <button onclick="previousMonth()" class="btn btn-sm btn-primary mx-1">Last Month</button>
-                <button onclick="thisMonth()" class="btn btn-sm btn-primary mx-1">This Month</button>
+                <button onclick="previousMonth()" class="btn btn-outline-primary btn-sm mx-1">Last Month</button>
+                <button onclick="thisMonth()" class="btn btn-outline-primary btn-sm mx-1">This Month</button>
             </div>
         </h5>
     </div>

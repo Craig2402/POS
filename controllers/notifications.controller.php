@@ -22,11 +22,13 @@ class notificationController{
             date_default_timezone_set('africa/nairobi');
             $currentDateTime = date('Y-m-d H:i:s');
             $username = $_SESSION['username'];
+            $storeid = $_SESSION['storeid'];
     
             $data = array("message" => $_POST["reason"],
                             "datetime" => $currentDateTime,
                             "name" => $username,
-                            "type" => $_POST["type"] . "," . $_POST["id"]);
+                            "type" => $_POST["type"] . "," . $_POST["id"],
+                            "storeid" => $storeid);
     
             $answer = notificationModel::mdlAddNotification($table, $data);
     

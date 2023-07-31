@@ -4,7 +4,11 @@ $usersQuery = $pdo->prepare("SELECT * FROM users ORDER BY userId DESC LIMIT 5");
 $usersQuery->execute();
 $usersData = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
+ <style>
+  .link  {
+  text-decoration: none;
+  }
+</style>
 <!-- RECENTLY ADDED USERS LIST -->
 <div class="card">
   <div class="card-header">
@@ -26,7 +30,7 @@ $usersData = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
                     <img src="' . $user['userphoto'] . '" class="img-size-50">
                 </div>
                 <div class="product-info">
-                    <a href="#" class="product-title view-profile-link" userid="' . $user['userId'] . '">
+                    <a href="#" class="product-title view-profile-link link" userid="' . $user['userId'] . '">
                         ' . $user['name'] . '
                         <span class="badge badge-warning float-right">' . $user['email'] . '</span>
                     </a>
@@ -42,7 +46,7 @@ $usersData = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
 
   <!-- /.card-body -->
   <div class="card-footer text-center">
-    <a href="users" class="uppercase">View All Users</a>
+    <a href="users" class="uppercase link">View All Users</a>
   </div>
   <!-- /.card-footer -->
 </div>

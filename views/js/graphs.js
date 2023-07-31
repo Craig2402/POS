@@ -23,8 +23,8 @@ function fetchData() {
 
             // Update the frontend with the fetched data
             $('#totalProducts').text(graphdata.totalProducts);
-            $('#totalMerchandise').text('Ksh ' + graphdata.totalMerchandise);
-            $('#totalSales').text('Ksh ' + graphdata.totalSales);
+            $('#totalMerchandise').text('Ksh ' + formatCurrency(graphdata.totalMerchandise));
+            $('#totalSales').text('Ksh ' + formatCurrency(graphdata.totalSales));
             $('#totalUsers').text(graphdata.totalUsers + ' persons');
             $('#totalStores').text(graphdata.totalStores + ' stores');
             $('#totalQuantity').text(graphdata.totalQuantity + ' units');
@@ -223,4 +223,12 @@ function displayTopPerformingStores(data) {
       options: pieOptions
     });
   }
-  
+  // Function to format currency
+function formatCurrency(value) {
+    return parseFloat(value).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
+// Function to format numbers
+function formatNumber(value) {
+    return parseFloat(value).toLocaleString();
+}

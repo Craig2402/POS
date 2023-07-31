@@ -39,6 +39,7 @@ class PaymentController {
         self::initialize();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['saveorder'])) {
+                date_default_timezone_set('africa/nairobi');
 
                 // Use the payment ID to insert into the invoices table
                 $invoiceModel = new InvoiceModel();
@@ -75,13 +76,14 @@ class PaymentController {
                         $table = "products";
                         $stock = productModel::mdlFetchProducts($table, $item, $valueProductId, $order);
                         if ($stock && $stock["stock"] <= 15) {
-                            date_default_timezone_set('africa/nairobi');
                             $currentDateTime = date('Y-m-d H:i:s');
                             $data = array(
                                 "message" => $stock["product"] . " is running low on stock",
                                 "datetime" => $currentDateTime,
                                 "name" => "System",
-                                "type" => "Stock notification,".$getProduct["barcode"]
+                                "type" => "Stock notification,".$valueProductId,
+                                "storeid" => self::$storeid,
+                                "userid" => $_SESSION['userId'],
                             );
                             $notification = notificationController::ctrCreateNotification($data);
                         }
@@ -104,6 +106,7 @@ class PaymentController {
                 $invoiceDueAmount = $_POST['dueamount'];
                 $invoiceUserId = $_SESSION['userId'];
                 $storeid = self::$storeid;
+                $datecreated = date('Y-m-d H:i:s');
 
                 
                 // Generate the invoice ID
@@ -111,11 +114,12 @@ class PaymentController {
                 $invoiceId = "INVC-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
                 
                 // Insert invoice data into the invoices table, linking it with the payment
-                $invoiceModel->insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal,  $invoiceTotal, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid);
+                $invoiceModel->insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal,  $invoiceTotal, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid, $datecreated);
 
                 // Retrieve payment data from the form or request parameters
                 $amount = $_POST['txtpaid'];
                 $paymentMethod = $_POST['r3'];
+                $phoneNumber = $_POST['gphone'];
                 
                 // Create an instance of the PaymentModel
                 $paymentModel = new PaymentModel();
@@ -123,22 +127,40 @@ class PaymentController {
                 // Generate the payment ID manually
                 $nextNumericPart = $paymentModel->getNextPaymentNumericPart(); // Implement this method in PaymentModel to get the next available numeric part
                 $paymentId = "CASH-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
+
+                // fetch the loyalty value
+                $table = "loyaltysettings";
+                $loyaltyvalue = LoyaltyModel::mdlShowLoyaltyValue($table);
+                // var_dump($loyaltyvalue);
+
+                $LoyaltyPointsAwarded = $invoiceTotal / $loyaltyvalue[0]['SettingValue'];
+
+                $loyaltydata = array(
+                    "Phone" => $phoneNumber,
+                    "PointsEarned" => $LoyaltyPointsAwarded,
+                );
+
+                $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
+
+                if ($loyaltyPoint) {
                 
-                // Insert payment data into the payments table
-                $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid);
+                    // Insert payment data into the payments table
+                    $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid);
 
-                // create an activitylog of the payment
-                if($paymentModel == true){
+                    // create an activitylog of the payment
+                    if($paymentModel == true){
 
-                    // Create an array with the data for the activity log entry
-                    $data = array(
-                        'UserID' => $_SESSION['userId'],
-                        'ActivityType' => 'Sale',
-                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$invoiceId.'.',
-                        'itemID' => $invoiceId
-                    );
-                    // Call the ctrCreateActivityLog() function
-                    activitylogController::ctrCreateActivityLog($data);
+                        // Create an array with the data for the activity log entry
+                        $data = array(
+                            'UserID' => $_SESSION['userId'],
+                            'ActivityType' => 'Sale',
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$paymentId.'.',
+                            'itemID' => $paymentId
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($data);
+                    }
+                    
                 }
                 
                 // Redirect or display success message
@@ -429,7 +451,7 @@ class PaymentController {
                 <td style='border:1px solid #eee;'>Ksh " . number_format($item["totaltax"], 2) . "</td>
                 <td style='border:1px solid #eee;'>Ksh " . number_format($item["subtotal"], 2) . "</td>
                 <td style='border:1px solid #eee;'>Ksh " . number_format($item["total"], 2) . "</td>
-                <td style='border:1px solid #eee;'>" . substr($item["datecreated"], 0, 10) . "</td>
+                <td style='border:1px solid #eee;'>" . $item["datecreated"] . "</td>
             </tr>");
         }
 

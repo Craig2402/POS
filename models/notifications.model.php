@@ -9,12 +9,13 @@ class notificationModel{
 
         try {
 
-            $stmt = connection::connect()->prepare("INSERT INTO $table(message, create_date, notification_type, name) VALUES(:message, :datetime, :type, :name)");
+            $stmt = connection::connect()->prepare("INSERT INTO $table(message, create_date, notification_type, name, store_id) VALUES(:message, :datetime, :type, :name, :store_id)");
     
             $stmt->bindParam(":message", $data["message"], PDO::PARAM_STR);
             $stmt->bindParam(":datetime", $data["datetime"], PDO::PARAM_STR);
             $stmt->bindParam(":type", $data["type"], PDO::PARAM_STR);
             $stmt->bindParam(":name", $data["name"], PDO::PARAM_STR);
+            $stmt->bindParam(":store_id", $data["storeid"], PDO::PARAM_STR);
     
             if ($stmt->execute()) {
 
@@ -27,10 +28,23 @@ class notificationModel{
             }
 
         } catch (PDOException $e) {
-
             if ($e->getCode() === "23000") { // Error code for duplicate entry
+                
+                try {
+                    $stmt = connection::connect()->prepare("UPDATE $table SET viewed_by = TRIM(BOTH ',' FROM REPLACE(CONCAT(',', viewed_by, ','), :userid, ',')), create_date = :datetime WHERE message = :message");
 
-                return "duplicate";
+                    $userid = ',' . $data["userid"] . ','; // Add commas to the userid
+                    $new_datetime = date('Y-m-d H:i:s'); // Get the new datetime value
+                    $stmt->bindParam(":userid", $userid, PDO::PARAM_STR);
+                    $stmt->bindParam(":datetime", $data["datetime"], PDO::PARAM_STR);
+                    $stmt->bindParam(":message", $data["message"], PDO::PARAM_STR);
+                    
+                    $stmt->execute();
+                    
+                } catch (PDOException $ex) {
+                    error_log("Database error: " . $ex->getMessage()); // Log the error for debugging purposes
+                    return "error";
+                }
                 
             } else {
 
@@ -83,7 +97,21 @@ class notificationModel{
 	=============================================*/
 	static public function mdlShowNotifications($table, $item, $value){
 
-		if($item != null){
+		if ($item == "store_id"){ 
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
+			
+		} elseif($item != null){
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 
@@ -93,9 +121,9 @@ class notificationModel{
 
 			return $stmt -> fetch();
 
-            $stmt -> closeCursor();
+			$stmt -> closeCursor();
 
-            $stmt = null;
+			$stmt = null;
 
 		}
 		else{
@@ -103,11 +131,11 @@ class notificationModel{
 
 			$stmt -> execute();
 
-            return $stmt -> fetchAll();
+			return $stmt -> fetchAll();
 
-            $stmt -> closeCursor();
+			$stmt -> closeCursor();
 
-            $stmt = null;
+			$stmt = null;
 
 		}
 

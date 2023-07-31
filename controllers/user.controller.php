@@ -67,9 +67,9 @@ class userController{
 							// Call the ctrCreateActivityLog() function
 							activitylogController::ctrCreateActivityLog($data);
 
-							if ($_SESSION["role"] == "Administrator") {
+							if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Supervisor") {
 								echo '<script>
-									window.location = "admin-dashboard"; // Set the route for the Administrator
+									window.location = "dashboard"; // Set the route for the Administrator and Supervisor
 								</script>';
 							} elseif ($_SESSION["role"] == "Seller") {
 								echo '<script>

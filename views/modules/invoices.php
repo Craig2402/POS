@@ -43,7 +43,7 @@ require_once 'models/connection.php';
                                     <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by customer name or contact">
 
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-hover text-nowrap tables">
+                                        <table class="table table-hover tables">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -95,11 +95,11 @@ require_once 'models/connection.php';
                                                         <td>' . $value["duedate"] . '</td>';
 
                                                     if ($value["dueamount"] == 0) {
-                                                        echo '<td><button class="btn btn-success btn-xs">Paid</button></td>';
+                                                        echo '<td><button class="btn btn-success btn-sm">Paid</button></td>';
                                                     } elseif ($value["total"] == abs($value['dueamount'])) {
-                                                        echo '<td><button class="btn btn-danger btn-xs">Unpaid</button></td>';
+                                                        echo '<td><button class="btn btn-danger btn-sm">Unpaid</button></td>';
                                                     } else {
-                                                        echo '<td><button class="btn btn-warning btn-xs">Partially Paid</button></td>';
+                                                        echo '<td><button class="btn btn-warning btn-sm">Partially Paid</button></td>';
                                                     }
 
                                                     echo '<td>' . $value["totaltax"] . '</td>
@@ -127,13 +127,14 @@ require_once 'models/connection.php';
                                                         echo '<tr class="expandable-body">
                                                                 <td colspan="13">
                                                                     <p>
-                                                                        <table class="table table-bordered">
+                                                                        <table class="table table-hover">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th>#</th>
                                                                                     <th>Amount</th>
                                                                                     <th>Date</th>
                                                                                     <th>Payment Method</th>
+                                                                                    <th>actions</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>';
@@ -145,6 +146,8 @@ require_once 'models/connection.php';
                                                                         <td>' . $paymentVal["amount"] . '</td>
                                                                         <td>' . $paymentVal["date"] . '</td>
                                                                         <td>' . $paymentVal["paymentmethod"] . '</td>
+                                                                        <td><button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s download-reciept"><i class="fa-solid fa-file-pdf"></i></button>
+                                                                        <button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s view-receipt"><i class="fa-solid fa-eye"></i></button></td>
                                                                     </tr>';
                                                             }
                                                         }

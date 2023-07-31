@@ -32,8 +32,8 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         <h5 class="m-0 d-flex align-items-center justify-content-between">
             Monthly Recurring Revenue
             <div class="d-flex">
-                <button onclick="monthlyRevenue()" class="btn btn-sm btn-primary mx-1">Monthly</button>
-                <button onclick="yearlyRevenue()" class="btn btn-sm btn-primary mx-1">Yearly</button>
+                <button onclick="monthlyRevenue()" class="btn btn-outline-primary btn-sm mx-1">Monthly</button>
+                <button onclick="yearlyRevenue()" class="btn btn-outline-primary btn-sm mx-1">Yearly</button>
             </div>
         </h5>
     </div>

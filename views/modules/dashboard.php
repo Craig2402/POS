@@ -49,7 +49,9 @@
     background-color: #fff;
     color: #007bff;
 }
-
+  .no-link-style  {
+  text-decoration: none;
+  }
 </style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->

@@ -1,5 +1,10 @@
+<style>
+  .link  {
+  text-decoration: none;
+  }
+</style>
 <aside class="main-sidebar custom-sidebar">
-    <a href="#" class="brand-link">
+    <a href="#" class="brand-link link">
         <img src="./dist/img/AdminLTELogo.png" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light" >POS</span>
     </a>
@@ -17,7 +22,7 @@ $store = storeController::ctrShowStores($item, $value);
       <img src="<?php echo $store['logo']; ?>" class="img-circle elevation-2" alt="User Image">
     </div>
     <div class="info">
-      <a href="#" class="d-block"><?php echo $store['store_name']; ?></a>
+      <a href="#" class="d-block link"><?php echo $store['store_name']; ?></a>
     </div>
   </div>
 <?php } ?>

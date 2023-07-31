@@ -367,13 +367,20 @@ $(document).ready(function() {
 $(document).ready(function() {
   $('#submitButton').click(function() {
     var dueAmount = parseFloat($('#txtdue_id').val());
-
+    
     if (dueAmount < 0 && $('#additionalInputs').is(':hidden')) {
-      $('#additionalInputs').show();
+      $('#additionalInputs, .loyaltyPoints').show();
       return false; // Prevent form submission
     } else if (dueAmount === 0) {
-      $('form').submit();
+      // Submit the form if the loyaltyPoints div is visible
+      if ($(".loyaltyPoints").is(":hidden")) {
+        $(".loyaltyPoints").show();
+        return false; // Prevent form submission
+      }else{
+        $('form').submit();
+      }
     }
+
   });
 });
 
@@ -403,13 +410,32 @@ function updateArray() {
   $('#productsList').val(updatedArrayJSON);
 }
 
-// $(document).ready(function() {
-//   $('#phone').inputmask('+99 999 999 9999');
-// });
-
 
 $(function() {
-  $('#submitButton').on('click', function() {
+  $('#posForm').on('submit', function(event) {
+    // check if a payment method is selected
+    var radios = document.getElementsByName("r3");
+    var selected = false;
+    
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) {
+        selected = true;
+        break;
+      }
+    }
+
+    if (!selected) {
+      // No radio button selected, display Sweet Alert
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Please select a payment method!',
+        timer:2000,
+        showConfirmButton:false,
+      });
+      return false; // Prevent form submission
+    }
+
     // Check      if additionalInputs div is visible
     var additionalInputs = document.getElementById("additionalInputs");
     if (additionalInputs.style.display !== "none") {

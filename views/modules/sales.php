@@ -24,7 +24,8 @@
         <div class="row">
           <div class="col-lg-12">
           <!-- /.col-md-6 -->
-            <div class="card card-primary card-outline"><div class="card-header">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
               <div class="d-flex justify-content-between">
                 <div class="input-group">
                   <button type="button" class="btn btn-default btn-sm dates" id="daterange-btn2">
@@ -47,6 +48,7 @@
                 </div>
               </div>
             </div>
+            </div>
 
               <div class="card-body">
                 <div class="row">
@@ -55,21 +57,20 @@
                       include 'reports/sales-graphs.php'
                     ?>
                   </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-xs-12">
+                  <?php include 'reports/income.php'; ?>
                   </div>
-                  <div class="row">
-                    <div class="col-md-6 col-xs-12">
-                    <?php include 'reports/income.php'; ?>
-                    </div>
-                    <div class="col-md-6 col-xs-12">
-                      <div class="row">
-                        <div class="col-md-12 col-xs-12">
-                          <?php include 'reports/sellers.php'; ?>
-                        </div>
+                  <div class="col-md-6 col-xs-12">
+                    <div class="row">
+                      <div class="col-md-12 col-xs-12">
+                        <?php include 'reports/sellers.php'; ?>
                       </div>
                     </div>
                   </div>
+                </div>
               </div>
-            </div>
     
           </div>
           <!-- /.col-md-6 -->
