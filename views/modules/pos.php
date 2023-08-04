@@ -141,6 +141,12 @@
                                             M-pesa
                                         </label>
                                     </div>
+                                    <div class="icheck-info d-inline">
+                                        <input type="radio" name="r3" id="radioSuccess4"  value="points">
+                                        <label for="radioSuccess4">
+                                            Points
+                                        </label>
+                                    </div>
                                 </div>
                                 <hr style="height:2px; border-width:0; color:black; background-color:black;">
                                 <div class="input-group">

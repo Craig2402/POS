@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 require_once "../controllers/user.controller.php";
 require_once "../models/user.models.php";
 
@@ -10,6 +11,10 @@ class AjaxUsers{
 	=============================================*/
 
 	public $userId;
+	public $activateUser;
+	public $activateId;
+	public $validateUser;
+	public $validateEmail;
 
 	public function ajaxEditUser(){
 
@@ -26,8 +31,6 @@ class AjaxUsers{
 	ACTIVATE USER
 	=============================================*/
 
-	public $activateUser;
-	public $activateId;	
 
 	public function ajaxActivateUser(){
 
@@ -48,7 +51,6 @@ class AjaxUsers{
 	VALIDATE IF USER ALREADY EXISTS
 	=============================================*/
 
-	public $validateUser;
 
 	public function ajaxValidateUser(){
 
@@ -65,7 +67,6 @@ class AjaxUsers{
 	VALIDATE IF EMAIL ALREADY EXISTS
 	=============================================*/
 
-	public $validateEmail;
 
 	public function ajaxValidateEmail(){
 
@@ -104,10 +105,6 @@ class AjaxUsers{
 	}
 
 }
-
-
-
-
 
 
 /*=============================================
@@ -156,6 +153,7 @@ if (isset($_POST["validateUser"])) {
 	$valUser = new AjaxUsers();
 	$valUser -> validateUser = $_POST["validateUser"];
 	$valUser -> ajaxValidateUser();
+
 }
 
 
@@ -164,4 +162,5 @@ if (isset($_POST["validateEmail"])) {
 	$valEmail = new AjaxUsers();
 	$valEmail -> validateEmail = $_POST["validateEmail"];
 	$valEmail -> ajaxValidateEmail();
+
 }

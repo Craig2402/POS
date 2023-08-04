@@ -66,8 +66,8 @@ require_once 'models/connection.php';
                                         <td>' . $paymentVal["amount"] . '</td> 
                                         <td>' . $paymentVal["paymentmethod"] . '</td>
                                         <td>' . $paymentVal["date"] . '</td>
-                                        <td><button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s download-reciept"><i class="fa-solid fa-file-pdf"></i></button>
-                                        <button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s view-receipt"><i class="fa-solid fa-eye"></i></button>
+                                        <td><button receipt="' . $paymentVal['receiptNumber'] . '" class="btn btn-s download-reciept"><i class="fa-solid fa-file-pdf"></i></button>
+                                        <button receipt="' . $paymentVal['receiptNumber'] . '" class="btn btn-s view-receipt"><i class="fa-solid fa-eye"></i></button>
                                         <button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s delete-Transaction"><i class="fa-solid fa-trash"></i></button></td>
                                     </tr>';
                             }

@@ -157,14 +157,41 @@ $(".tables tbody").on("click", "button.downloadinvoice", function(){
 view invoices
 =============================================*/
 
+
 $(".tables tbody").on("click", "button.view-receipt", function(){
     var receipt = $(this).attr("receipt");
-    window.open('views/pdfs/view-receipt.php?receipt=' + receipt, '_blank');
+    var fileURL = "views/pdfs/receipts/" + receipt + ".pdf";
+
+    // Open the PDF in a new blank tab
+    var newTab = window.open(fileURL, '_blank');
+    
+    // Check if the window was opened successfully
+    if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+        // Display SweetAlert indicating the PDF was not found
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'PDF not found!'
+        });
+    }
 });
 
 $(".tables tbody").on("click", "button.download-reciept", function(){
     var receipt = $(this).attr("receipt");
-    window.open('views/pdfs/download-receipt.php?receipt=' + receipt, '_blank');
+    var fileURL = "views/pdfs/receipts/" + receipt + ".pdf";
+    var link = document.createElement('a');
+    link.href = fileURL;
+    link.target = '_blank';
+    link.download = receipt + '.pdf';
+
+    // Append the anchor to the document
+    document.body.appendChild(link);
+
+    // Trigger a click on the anchor to start the download
+    link.click();
+
+    // Remove the anchor from the document after download
+    document.body.removeChild(link);
     
 });
 

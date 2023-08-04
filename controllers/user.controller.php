@@ -575,6 +575,6 @@ class userController{
 		}
 
 	}
-	
+
 }
 

@@ -13,9 +13,9 @@ class PaymentModel{
  	/*=============================================
 	CREATE PAYMENT
 	=============================================*/
-    public function insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid){
+    public function insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid, $loyaltyPoint){
         
-        $query = "INSERT INTO payments (paymentid, amount, paymentmethod, invoiceId, store_id) VALUES(:paymentid, :amount, :paymentmethod, :invoiceId, :store_id)";
+        $query = "INSERT INTO payments (paymentid, amount, paymentmethod, invoiceId, store_id, loyaltyid) VALUES(:paymentid, :amount, :paymentmethod, :invoiceId, :store_id, :loyaltyid)";
 
         // Prepare the query
         $stmt = $this->db->prepare($query);
@@ -26,6 +26,7 @@ class PaymentModel{
         $stmt->bindParam(':paymentmethod', $paymentMethod);
         $stmt->bindParam(':invoiceId', $invoiceId);
 		$stmt -> bindParam(":store_id", $storeid);
+		$stmt -> bindParam(":loyaltyid", $loyaltyPoint);
 
 		if ($stmt->execute()) {
 

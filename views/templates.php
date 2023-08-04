@@ -297,6 +297,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/notifications.js"></script>
 <script src="views/js/store.js"></script>
 <script src="views/js/graphs.js"></script>
+<script src="views/js/header.js"></script>
 
 <!-- datatable js -->
 <script>

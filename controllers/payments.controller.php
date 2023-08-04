@@ -76,7 +76,9 @@ class PaymentController {
                         $table = "products";
                         $stock = productModel::mdlFetchProducts($table, $item, $valueProductId, $order);
                         if ($stock && $stock["stock"] <= 15) {
+                            echo "stock is low";
                             $currentDateTime = date('Y-m-d H:i:s');
+                            // $storeid = self::$storeid;
                             $data = array(
                                 "message" => $stock["product"] . " is running low on stock",
                                 "datetime" => $currentDateTime,
@@ -120,48 +122,56 @@ class PaymentController {
                 $amount = $_POST['txtpaid'];
                 $paymentMethod = $_POST['r3'];
                 $phoneNumber = $_POST['gphone'];
+
+                $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
+				$timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+				$current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+				$current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+				$loyaltyid = $randomNumber . $current_time_formatted;
                 
                 // Create an instance of the PaymentModel
                 $paymentModel = new PaymentModel();
                 
+                if (isset($phoneNumber)) {
+
+                    // fetch the loyalty value
+                    $table = "loyaltysettings";
+                    $loyaltyvalue = LoyaltyModel::mdlShowLoyaltyValue($table);
+                    // var_dump($loyaltyvalue);
+
+                    $LoyaltyPointsAwarded = $invoiceTotal / $loyaltyvalue[0]['SettingValue'];
+
+                    $loyaltydata = array(
+                        "loyaltyid" => $loyaltyid,
+                        "Phone" => $phoneNumber,
+                        "PointsEarned" => $LoyaltyPointsAwarded,
+                    );
+
+                    $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
+                }
+
                 // Generate the payment ID manually
                 $nextNumericPart = $paymentModel->getNextPaymentNumericPart(); // Implement this method in PaymentModel to get the next available numeric part
                 $paymentId = "CASH-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
 
-                // fetch the loyalty value
-                $table = "loyaltysettings";
-                $loyaltyvalue = LoyaltyModel::mdlShowLoyaltyValue($table);
-                // var_dump($loyaltyvalue);
-
-                $LoyaltyPointsAwarded = $invoiceTotal / $loyaltyvalue[0]['SettingValue'];
-
-                $loyaltydata = array(
-                    "Phone" => $phoneNumber,
-                    "PointsEarned" => $LoyaltyPointsAwarded,
-                );
-
-                $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
-
-                if ($loyaltyPoint) {
                 
-                    // Insert payment data into the payments table
-                    $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid);
+                // Insert payment data into the payments table
+                $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid, $loyaltyid);
 
-                    // create an activitylog of the payment
-                    if($paymentModel == true){
+                // create an activitylog of the payment
+                if($paymentModel == true){
 
-                        // Create an array with the data for the activity log entry
-                        $data = array(
-                            'UserID' => $_SESSION['userId'],
-                            'ActivityType' => 'Sale',
-                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$paymentId.'.',
-                            'itemID' => $paymentId
-                        );
-                        // Call the ctrCreateActivityLog() function
-                        activitylogController::ctrCreateActivityLog($data);
-                    }
-                    
+                    // Create an array with the data for the activity log entry
+                    $data = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Sale',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$paymentId.'.',
+                        'itemID' => $paymentId
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($data);
                 }
+                    
                 
                 // Redirect or display success message
                 // echo "Payment and invoice added successfully!";
@@ -254,7 +264,34 @@ class PaymentController {
                 $paymentMethod = $_POST['r3'];
                 $invoiceId = $_POST['invoiceId'];
                 $storeid = self::$storeid;
+
+                $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
+				$timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+				$current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+				$current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+				$loyaltyid = $randomNumber . $current_time_formatted;
                 
+                // Create an instance of the PaymentModel
+                $paymentModel = new PaymentModel();
+                
+                if (isset($phoneNumber)) {
+
+                    // fetch the loyalty value
+                    $table = "loyaltysettings";
+                    $loyaltyvalue = LoyaltyModel::mdlShowLoyaltyValue($table);
+                    // var_dump($loyaltyvalue);
+
+                    $LoyaltyPointsAwarded = $amount / $loyaltyvalue[0]['SettingValue'];
+
+                    $loyaltydata = array(
+                        "loyaltyid" => $loyaltyid,
+                        "Phone" => $phoneNumber,
+                        "PointsEarned" => $LoyaltyPointsAwarded,
+                    );
+
+                    $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
+                }
+
                 // Create an instance of the PaymentModel
                 $paymentModel = new PaymentModel();
                 
@@ -263,7 +300,7 @@ class PaymentController {
                 $paymentId = "CASH-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
                 
                 // Insert payment data into the payments table
-                $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid);
+                $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid, $loyaltyPoint);
 
                 if($paymentModel == true){
                     
