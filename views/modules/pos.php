@@ -149,53 +149,74 @@
                                     </div>
                                 </div>
                                 <hr style="height:2px; border-width:0; color:black; background-color:black;">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Due</span>
-                                    </div>
-                                    <input type="text" class="form-control form-control-lg total" id="txtdue_id" name="dueamount" readonly >
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">Kshs</span>
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Paid</span>
-                                    </div>
-                                    <input type="text" class="form-control form-control-lg total" id="txtpaid_id" name="txtpaid" readonly>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">Kshs</span>
-                                    </div>
-                                </div>
-                                <!-- Input fields to be added conditionally -->
-                                <div id="additionalInputs" style="display: none;">
-                                    <hr style="height:2px; border-width:0; color:black; background-color:black;">
+                                <div class="save-order">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">Customer Name</span>
+                                            <span class="input-group-text">Due</span>
                                         </div>
-                                        <input type="text" class="form-control" id="cname" name="cname">
+                                        <input type="text" class="form-control form-control-lg total" id="txtdue_id" name="dueamount" readonly >
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Kshs</span>
+                                        </div>
                                     </div>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">Phone Number</span>
+                                            <span class="input-group-text">Paid</span>
                                         </div>
-                                        <input type="text" class="form-control" id="phone" name="phone">
-                                    </div>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Identification Number</span>
+                                        <input type="text" class="form-control form-control-lg total" id="txtpaid_id" name="txtpaid" readonly>
+                                        <input type="text" class="form-control form-control-lg redeemedpoints" id="redeemedpoints" name="redeemedpoints">
+                                        <input type="text" class="form-control form-control-lg pointamountvalue" id="pointamountvalue" name="pointamountvalue">
+                                        <input type="text" class="form-control form-control-lg rphone" id="rphone" name="rphone">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Kshs</span>
                                         </div>
-                                        <input type="text" class="form-control" id="cid" name="cid">
                                     </div>
-                                </div>
+                                    <!-- Input fields to be added conditionally -->
+                                    <div id="additionalInputs" style="display: none;">
+                                        <hr style="height:2px; border-width:0; color:black; background-color:black;">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Customer Name</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="cname" name="cname">
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Phone Number</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="phone" name="phone">
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Identification Number</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="cid" name="cid">
+                                        </div>
+                                    </div>
 
-                                <div class="loyaltyPoints" style="display: none;">
-                                    <hr style="height:2px; border-width:0; color:black; background-color:black;">
-                                    <label for="floatingInput">Loyalty Points</label>
+                                    <div class="loyaltyPoints" style="display: none;">
+                                        <hr style="height:2px; border-width:0; color:black; background-color:black;">
+                                        <label for="floatingInput">Loyalty Points</label>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control gphone" id="floatingInput" name="gphone">
+                                            <label for="floatingInput">Enter Phone Number</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="points-plat" style="display: none;">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control gphone" id="floatingInput" name="gphone">
-                                        <label for="floatingInput">Enter Phone Number</label>
+                                        <input type="text" class="form-control pphone" id="floatingPPhoneInput" name="pphone" placeholder="Enter Phone Number">
+                                        <label for="floatingPPhoneInput">Enter Phone Number</label>
+                                    </div>
+                                    <div class="alert alert-danger" id="lesspoints" role="alert" style="display: none;">Points not enough to make purchase!<br>Select a payment method to topup.</div>
+                                    <div class="alert alert-danger" id="nophone" role="alert" style="display: none;">The phone number does not exist.</div>
+                                    <div class="payment-methods" style="display: none;">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control top-up" id="floatingtop-upInput" name="top-up" placeholder="Topup amount">
+                                            <label for="floatingtop-upInput">Topup amount</label>
+                                        </div>
+                                        <button type="button" class="btn btn-primary topupCash">Cash</button>
+                                        <button type="button" class="btn btn-success topupMpesa">Mpesa</button>
                                     </div>
                                 </div>
                                 <!-- End of additional inputs -->

@@ -367,13 +367,14 @@ $(document).ready(function() {
 $(document).ready(function() {
   $('#submitButton').click(function() {
     var dueAmount = parseFloat($('#txtdue_id').val());
+    var redeemedPointsInput = document.getElementById("redeemedpoints");
     
-    if (dueAmount < 0 && $('#additionalInputs').is(':hidden')) {
+    if (dueAmount < 0 && $('#additionalInputs').is(':hidden') && redeemedPointsInput.value === "") {
       $('#additionalInputs, .loyaltyPoints').show();
       return false; // Prevent form submission
     } else if (dueAmount === 0) {
       // Submit the form if the loyaltyPoints div is visible
-      if ($(".loyaltyPoints").is(":hidden")) {
+      if ($(".loyaltyPoints").is(":hidden") && redeemedPointsInput.value === "") {
         $(".loyaltyPoints").show();
         return false; // Prevent form submission
       }else{
@@ -401,8 +402,103 @@ $(document).ready(function() {
     });
   });
 
-  
 
+// Listen for changes in the points radio button selection
+$('input[name="r3"]').on('change', function() {
+  
+  var selectedOption = $(this).val();
+      
+  // Show the modal if "Cheque" option is selected
+  if (selectedOption === 'points') {
+    $('.save-order').hide();
+    $('.points-plat').show();
+  } else {
+    $('.save-order').show();
+    $('.points-plat').hide();
+  }
+  
+  
+});
+
+
+// validate the enterd phone number and fetch the availlable points
+$(document).on("keyup", ".pphone", function() {
+  totalAmount = parseFloat($('#txttotal_id').val());
+  phoneNumber = $(this).val();
+  
+  var data = new FormData();
+  data.append("phoneNumber", phoneNumber);
+  
+  // fetch points linked to the entered phone number
+  $.ajax({
+    type: "POST",
+    url: "ajax/loyalty.ajax.php",
+    data: data,
+    contentType: false,
+    cache: false,
+    processData: false,
+    dataType: "json",
+    success: function(answer) {
+      // Check if the list is empty or not
+      if (Array.isArray(answer) && answer.length === 0) {
+        $('#nophone').show();
+        $('#lesspoints').hide();
+        $('.payment-methods').hide();
+      } else {
+        $('#nophone').hide();
+        let totalPointsEarned = 0;
+        let totalPointsRedeemed = 0;
+
+        answer.forEach(item => {
+          totalPointsEarned += parseInt(item.PointsEarned);
+        });
+        
+        answer.forEach(item => {
+          totalPointsRedeemed += parseInt(item.PointsRedeemed);
+        });
+
+        var totalPoints = totalPointsEarned - totalPointsRedeemed
+        
+        LoyaltyConversionName = "2";
+
+        var datum = new FormData();
+        datum.append("LoyaltyConversionName", LoyaltyConversionName);
+        
+        // fetch points linked to the entered phone number
+        $.ajax({
+          type: "POST",
+          url: "ajax/loyalty.ajax.php",
+          data: datum,
+          contentType: false,
+          cache: false,
+          processData: false,
+          dataType: "json",
+          success: function(response) {
+            conversionValue = response.SettingValue
+            convertedValue = totalPoints*conversionValue
+            TopUpAmount = totalAmount - convertedValue
+            $(".top-up").val(TopUpAmount);
+            if (convertedValue < totalAmount) {
+              $('#lesspoints').show();
+              $('.payment-methods').show();
+              $('.topupCash').click(function() {
+                document.getElementById("radioSuccess1").checked = true;
+                $('.total').show();
+                $('.save-order').show();
+                $('.points-plat').hide();
+                $("#txtpaid_id").val(TopUpAmount).trigger('change');
+                $("#txtdue_id").val("0.00");
+                $("#redeemedpoints").val(totalPoints);
+                $("#pointamountvalue").val(convertedValue);
+                $("#rphone").val(phoneNumber);
+              });
+            }
+          }
+        });
+      }
+    }
+  });
+});
 
 // Function to update the array and set it to the productsList input
 function updateArray() {

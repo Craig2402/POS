@@ -36,7 +36,6 @@ class AjaxCategories{
 EDITAR CATEGORÍA
 =============================================*/	
 
-if (count($_POST) == 2) {
 
     if (isset($_POST["item"]) && isset($_POST["value"])) {
 
@@ -48,7 +47,6 @@ if (count($_POST) == 2) {
         $categories->ajaxShowCategories();
     }
 
-}else {
 	
 	if(isset($_POST["idCategory"])){
 
@@ -56,4 +54,3 @@ if (count($_POST) == 2) {
 		$category -> idCategory = $_POST["idCategory"];
 		$category -> ajaxEditCategory();
 	}
-}

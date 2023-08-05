@@ -14,6 +14,8 @@ require_once '../../controllers/taxdis.controller.php';
 require_once '../../models/taxdis.models.php';
 require_once '../../controllers/store.controller.php';
 require_once '../../models/store.model.php';
+require_once "../../controllers/loyalty.controller.php";
+require_once "../../models/loyalty.model.php";
 require_once '../../models/connection.php';
 
 require_once '../../vendor/autoload.php';
@@ -162,19 +164,22 @@ $html .= '</tbody>
 
 $cashPaid = 0;
 $mpesaPay = 0;
+$pointPay=0;
 $change = 0;
 
-if (is_array($paymentData) && isset($paymentData['invoiceId'])) {
-    $amount = $paymentData['amount'];
-    switch ($paymentData['paymentmethod']) {
-        case 'cash':
+
+    if (is_array($paymentData) && isset($paymentData['invoiceId'])) {
+        $amount = $paymentData['amount'];
+        if ($paymentData['paymentmethod'] === 'cash') {
             $cashPaid += $amount;
-            break;
-        case 'mpesa':
+        } 
+        if ($paymentData['paymentmethod'] === 'mpesa') {
             $mpesaPay += $amount;
-            break;
+        }
+        if ($paymentData['paymentmethod'] === 'points') {
+            $pointPay += $amount;
+        }
     }
-}
 
 // Calculate the change
 if ($cashPaid > $totalAmount) {
@@ -197,8 +202,17 @@ $html .= '  <hr style="border: none; border-top: 1px dashed #000;">
                 <tr>
                     <td>Mpesa Pay:</td>
                     <td>' . number_format($mpesaPay, 2) . '</td>
-                </tr>
-                <tr>
+                </tr>';
+
+// Add the "Points" row only when $pointspay is greater than zero
+if ($pointPay > 0) {
+    $html .= '<tr>
+                    <td>Points:</td>
+                    <td>' . number_format($pointPay, 2) . '</td>
+                </tr>';
+}
+
+$html .= '    <tr>
                     <td>Change:</td>
                     <td>' . number_format($change, 2) . '</td>
                 </tr>
@@ -372,7 +386,89 @@ $html .= '</tbody>
             </table>';
     }
 
+ 
+    $points='';
+    if($paymentData['loyaltyid']!==null){
+       
+        $item7='pointId';
+        $value7=$paymentData['loyaltyid'];
+        $loyalty=loyaltyController::ctrShowLoyaltyPoints($item7, $value7);
+        // if($loyalty){
+        $item6='Phone';
+        $value6=$loyalty['Phone'];
+        $initialloyalty=loyaltyController::ctrShowLoyaltyPoints($item6, $value6, true);
+        $totalPointsEarned = 0;
+        $totalredeemedPoints = 0;
+        foreach ($initialloyalty as $loyaltyData) {
+            // Fetch PointsEarned from each element in the array
+            $pointsEarned = floatval($loyaltyData['PointsEarned']);
+
+            // Accumulate the PointsEarned values to calculate the total
+            $totalPointsEarned += $pointsEarned;
     
+            // Fetch PointsRedeemed from each element in the array
+            $redeemedPoints=floatval($loyaltyData['PointsRedeemed']);
+
+            // Accumulate the PointsEarned values to calculate the total
+            $totalredeemedPoints += $redeemedPoints;
+        }
+
+        $totalPoints = $totalPointsEarned - $totalredeemedPoints;
+        $initialTotalPointsEarned = $totalPoints - $loyalty['PointsEarned'];
+        $totalAvailablePoints = $initialTotalPointsEarned + $loyalty['PointsEarned'];
+
+
+    // }
+        // $totalLoyalty=$totalLoyaltyAmount+$loyalty['PointsEarned'];
+
+        $points= '
+        <hr style="border: none; border-top: 1px dashed #000;">
+            <h4 style="text-align:center;">LOYALTY POINTS</h4>
+         <hr style="border: none; border-top: 1px dashed #000;">
+        
+        <table>
+                <tbody>
+                <tr>
+                    <td style="white-space: nowrap;">
+                        Loyalty Code
+                    </td>
+                    <td>
+                        : '.$paymentData['loyaltyid'].'
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Prev. Points Bal
+                    </td>
+                    <td>
+                    : '.$initialTotalPointsEarned.' POINTS
+                    </td>
+                </tr>
+                <tr>
+                <td>
+                    Points Earned Now
+                </td>
+                <td>
+                : '.$loyalty['PointsEarned'].' POINTS
+                </td>
+            </tr>
+                <hr style="border: none; border-top: 1px dashed #000;">
+
+                <tr>
+                <td>
+                    Total 
+                </td>
+                <td>
+                    : '.$totalAvailablePoints.' POINTS
+                </td>
+            </tr>
+            <hr style="border: none; border-top: 1px dashed #000;">
+                </tbody>
+            </table>
+            ';
+    }
+
+$html .= $points;
 
 
 // Set content and convert HTML to PDF
@@ -393,9 +489,9 @@ header('Content-Disposition: inline; filename='. $receiptNumber .'.pdf');
 //Update the receipt number on the server
 $pdo = connection::connect();
 
-$select = $pdo->prepare("UPDATE payments set receiptNumber = :receiptNumber where paymentid=:paymentid");
+$select = $pdo->prepare("UPDATE payments set receiptNumber = :receiptNumber where invoiceId=:invoiceId");
 $select->bindParam(':receiptNumber', $receiptNumber);
-$select->bindParam(':paymentid', $paymentData['paymentid']);
+$select->bindParam(':invoiceId', $paymentData['invoiceId']);
 $select->execute();
 
 // Output the PDF content
