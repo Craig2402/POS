@@ -35,57 +35,85 @@
 	=============================================*/
 	static public function ctrCreateCategory(){
         self::initialize();
+		// fetch all the categories in the database
+		$table = "categories";
+		$item = null;
+		$value = null;
+		$Allcategories = CategoriesModel::mdlShowCategories($table, $item, $value);
+		// var_dump($Allcategories);
+		
+		// Count the number of categories array
+		$numAllcategories = count($Allcategories);
+		$validatetable = "customers";
+		$element = "categories";
+		$organisationcode = $_SESSION['organizationcode'];
+		$response = packagevalidateController::ctrPackageValidate($element, $validatetable, $numAllcategories, $organisationcode);
 
 		if(isset($_POST['newCategory'])){
 
-			if (!empty(self::$storeid)) {
+			if ($response) {
+				if (!empty(self::$storeid)) {
 
-				if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["newCategory"])){
+					if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["newCategory"])){
 
-					$table = 'categories';
-
-					$data = array(
-						"category" => $_POST['newCategory'],
-						"storeid" => self::$storeid
-					);
-
-					$answer = CategoriesModel::mdlAddCategory($table, $data);
-					// var_dump($answer);
-
-					if($answer == 'ok'){
-		
-						// Create an array with the data for the activity log entry
-						$logdata = array(
-							'UserID' => $_SESSION['userId'],
-							'ActivityType' => 'Category',
-							'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' . $data['category'] . '.',
-							'storeid' => self::$storeid
+						$data = array(
+							"category" => $_POST['newCategory'],
+							"storeid" => self::$storeid
 						);
-		
-						// Call the ctrCreateActivityLog() function
-						activitylogController::ctrCreateActivityLog($logdata);
+
+						$answer = CategoriesModel::mdlAddCategory($table, $data);
+						// var_dump($answer);
+
+						if($answer == 'ok'){
+			
+							// Create an array with the data for the activity log entry
+							$logdata = array(
+								'UserID' => $_SESSION['userId'],
+								'ActivityType' => 'Category',
+								'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' . $data['category'] . '.',
+								'storeid' => self::$storeid
+							);
+			
+							// Call the ctrCreateActivityLog() function
+							activitylogController::ctrCreateActivityLog($logdata);
+
+							echo '<script>
+									Swal.fire({
+									icon: "success",
+									title: "Category '.$data['category'].' has been created.",
+									showConfirmButton: false,
+									timer: 2000 // 2 seconds
+									}).then((result) => {
+									// Code to execute after the alert is closed
+									window.location = "category";
+									});
+								
+							</script>';
+						}
+						
+
+					}else{
 
 						echo '<script>
 								Swal.fire({
-								icon: "success",
-								title: "Category '.$data['category'].' has been created.",
-								showConfirmButton: false,
-								timer: 2000 // 2 seconds
-								}).then((result) => {
-								// Code to execute after the alert is closed
-								window.location = "category";
+									icon: "error",
+									title: "No especial characters or blank fields.",
+									showConfirmButton: false,
+									timer: 2000 // Auto close after 2 seconds
+								}).then(function () {
+									// The function inside "then" will be executed when the SweetAlert is closed
+									window.location = "category";
 								});
-							
 						</script>';
+						
 					}
-					
 
-				}else{
+				}else {
 
 					echo '<script>
 							Swal.fire({
 								icon: "error",
-								title: "No especial characters or blank fields.",
+								title: "Select a Store first.",
 								showConfirmButton: false,
 								timer: 2000 // Auto close after 2 seconds
 							}).then(function () {
@@ -96,18 +124,17 @@
 					
 				}
 
-			}else {
+			} else {
 
-				echo '<script>
-						Swal.fire({
-							icon: "error",
-							title: "Select a Store first.",
-							showConfirmButton: false,
-							timer: 2000 // Auto close after 2 seconds
-						}).then(function () {
-							// The function inside "then" will be executed when the SweetAlert is closed
-							window.location = "category";
-						});
+				echo'<script>
+				
+				Swal.fire({
+					icon: "warning",
+					title: "Cannot Add Category",
+					text: "You cannot add more categories with your current package. Consider upgrading your package.",
+					button: "OK"
+				});
+
 				</script>';
 				
 			}

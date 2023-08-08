@@ -80,6 +80,7 @@ function fetchNotification() {
         success: function (notifications) {
           var allowedNotificationTypes = {
             'Administrator': ['Stock notification', 'Category deletion'],
+            'Owner': ['Stock notification', 'Category deletion'],
             'Supervisor': ['Stock notification', 'Category deletion'],
             'Store': ['Admin feedback', 'Stock notification', 'Acceptions'],
             'Seller': ['Stock', 'Acceptions']

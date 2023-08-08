@@ -164,9 +164,9 @@
                                             <span class="input-group-text">Paid</span>
                                         </div>
                                         <input type="text" class="form-control form-control-lg total" id="txtpaid_id" name="txtpaid" readonly>
-                                        <input type="text" class="form-control form-control-lg redeemedpoints" id="redeemedpoints" name="redeemedpoints">
-                                        <input type="text" class="form-control form-control-lg pointamountvalue" id="pointamountvalue" name="pointamountvalue">
-                                        <input type="text" class="form-control form-control-lg rphone" id="rphone" name="rphone">
+                                        <input type="hidden" class="form-control form-control-lg redeemedpoints" id="redeemedpoints" name="redeemedpoints">
+                                        <input type="hidden" class="form-control form-control-lg pointamountvalue" id="pointamountvalue" name="pointamountvalue">
+                                        <input type="hidden" class="form-control form-control-lg rphone" id="rphone" name="rphone">
                                         <div class="input-group-append">
                                             <span class="input-group-text">Kshs</span>
                                         </div>

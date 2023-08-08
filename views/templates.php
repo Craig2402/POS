@@ -56,7 +56,7 @@
 <body class="hold-transition sidebar-mini">
 <?php
 if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
-        if (isset($_SESSION['role']) && $_SESSION['role'] == "Administrator") {
+        if (isset($_SESSION['role']) && $_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Owner") {
             include 'modules/header.php';
             include 'modules/supervisor-menu.php';
     
@@ -182,6 +182,18 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "payment" ||
             $_GET['route'] == "logout"
         ) {
+        // Log the route
+        $logMessage = $_SESSION['username']. " accessed route: " . $_GET['route'];
+
+        // Create an array with the data for the activity log entry
+        $logdata = array(
+            'UserID' => $_SESSION['userId'],
+            'ActivityType' => 'Route access',
+            'ActivityDescription' => $logMessage
+        );
+
+        // Call the ctrCreateActivityLog() function
+        activitylogController::ctrCreateActivityLog($logdata);
         include "modules/" . $_GET['route'] . ".php";
         } else {
         include "modules/404.php";
@@ -207,6 +219,18 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "discount" ||
             $_GET['route'] == "logout"
         ) {
+        // Log the route
+        $logMessage = $_SESSION['username']. " accessed route: " . $_GET['route'];
+
+        // Create an array with the data for the activity log entry
+        $logdata = array(
+            'UserID' => $_SESSION['userId'],
+            'ActivityType' => 'Route access',
+            'ActivityDescription' => $logMessage
+        );
+
+        // Call the ctrCreateActivityLog() function
+        activitylogController::ctrCreateActivityLog($logdata);
         include "modules/" . $_GET['route'] . ".php";
         } else {
         include "modules/404.php";

@@ -149,24 +149,24 @@ $(".tables tbody").on("click", "button.btnDeleteProduct", function(){
 	// var code = $(this).attr("code");
 	var image = $(this).attr("image");
 	
-	Swal.fire({
+	// Swal.fire({
 
-		title: 'Are you sure you want to delete the product?',
-		text: "If you're not sure you can cancel this action!",
-		icon: 'warning',
-        showCancelButton: true,
-		confirmButtonColor: '#0069d9',
-		cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancel',
-        confirmButtonText: 'Yes, delete product!'
-        }).then(function(result){
-        if (result.value) {
+	// 	title: 'Are you sure you want to delete the product?',
+	// 	text: "If you're not sure you can cancel this action!",
+	// 	icon: 'warning',
+    //     showCancelButton: true,
+	// 	confirmButtonColor: '#0069d9',
+	// 	cancelButtonColor: '#d33',
+    //     cancelButtonText: 'Cancel',
+    //     confirmButtonText: 'Yes, delete product!'
+    //     }).then(function(result){
+    //     if (result.value) {
 
         	window.location = "index.php?route=products&barcodeProduct="+barcodeProduct+"&image="+image;
 
-        }
+    //     }
 
-	})
+	// })
 
 })
 
