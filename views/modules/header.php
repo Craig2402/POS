@@ -104,10 +104,10 @@
             echo '<a href="#" class="dropdown-item view-profile-link" userid="'.$_SESSION['userId'].'">Profile</a>';
           ?>
           <?php
-            if ($_SESSION['role'] == "Administrator") {
+            if ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Owner") {
               echo '<a href="#" class="dropdown-item" data-toggle="modal" data-target="#switchStoreModal">Switch Store</a>';
             }
-            if ($_SESSION['storeid'] !== null && $_SESSION['role'] == "Administrator") {
+            if ($_SESSION['storeid'] !== null && $_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Owner") {
               echo '<a href="#" id="exit_store" value="'.$_SESSION['storeid'].'" class="dropdown-item">Exit store</a>';
             }
           ?>

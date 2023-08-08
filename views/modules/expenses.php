@@ -53,7 +53,7 @@
                 <div class="d-flex justify-content-between">
                   <h5 class="m-0">Expense</h5>
                   <?php
-                    if ($_SESSION['role'] == "Administrator") {
+                    if ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Owner") {
                       echo '<button class="btn btn-primary float-right btnAddExpenseType" data-toggle="modal" data-target="#addExpenseType">Add Expense Type</button>';
                     }
                   ?>

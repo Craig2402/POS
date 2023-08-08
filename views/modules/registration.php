@@ -151,7 +151,7 @@
                     if ($_SESSION['role'] == "Supervisor") {
                         $item = "store_id";
                         $value = $_SESSION['storeid'];
-                    } elseif ($_SESSION['role'] == "Administrator") {
+                    } elseif ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Owner") {
                         $item = "role";
                         $value = "Supervisor";
                     }
