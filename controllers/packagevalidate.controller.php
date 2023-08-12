@@ -44,6 +44,19 @@ class packagevalidateController {
             } else{
                 return false;
             }
+
+        } elseif ($element == "users") {
+            // validate the categories limit
+            $userLimit = intval($package['users']);
+
+            if ($package["users"] == "unlimited") {
+                return true;
+            } elseif ($userLimit > $countAll){
+                return true;
+            } else{
+                return false;
+            }
+            
         }
 
     }

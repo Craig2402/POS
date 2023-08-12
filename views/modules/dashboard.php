@@ -138,7 +138,7 @@
                             </div>
                         </a>
                     <?php } else{?>
-                        <a href="users" class="no-link-style">
+                        <a href="registration" class="no-link-style">
                             <div class="card card-custom">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">

@@ -127,147 +127,180 @@ class userController{
 	
 	static public function ctrCreateUser(){
 
+		// fetch all products from the database
+		$table = "users";
+		$item = null;
+		$value = null;
+		$Allusers = userModel::mdlShowUser($table, $item, $value);
+		
+		// Count the number of products array
+		$numAllusers = count($Allusers);
+		$validatetable = "customers";
+		$element = "users";
+		$organisationcode = $_SESSION['organizationcode'];
+		$response = packagevalidateController::ctrPackageValidate($element, $validatetable, $numAllusers, $organisationcode);
+
 		if (isset($_POST["username"])) {
+
+			if ($response) {
 			
-			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["name"])){
-
-				/*=============================================
-				VALIDATE IMAGE
-				=============================================*/
-
-				$photo = "";
-			
-				if (isset($_FILES["userphoto"]["tmp_name"])){
-
-					list($width, $height) = getimagesize($_FILES["userphoto"]["tmp_name"]);
-					
-					$newWidth = 500;
-					$newHeight = 500;
-
+				if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["name"])){
+	
 					/*=============================================
-					Let's create the folder for each user
+					VALIDATE IMAGE
 					=============================================*/
-
-					$folder = "views/img/users/".$_POST["username"];
-
-					mkdir($folder, 0755);
-
-					/*=============================================
-					PHP functions depending on the image
-					=============================================*/
-
-					if($_FILES["userphoto"]["type"] == "image/jpeg"){
-
-						$randomNumber = mt_rand(100,999);
+	
+					$photo = "";
+				
+					if (isset($_FILES["userphoto"]["tmp_name"])){
+	
+						list($width, $height) = getimagesize($_FILES["userphoto"]["tmp_name"]);
 						
-						$photo = "views/img/users/".$_POST["username"]."/".$randomNumber.".jpg";
-						
-						$srcImage = imagecreatefromjpeg($_FILES["userphoto"]["tmp_name"]);
-						
-						$destination = imagecreatetruecolor($newWidth, $newHeight);
-
-						imagecopyresized($destination, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-
-						imagejpeg($destination, $photo);
-
+						$newWidth = 500;
+						$newHeight = 500;
+	
+						/*=============================================
+						Let's create the folder for each user
+						=============================================*/
+	
+						$folder = "views/img/users/".$_POST["username"];
+	
+						mkdir($folder, 0755);
+	
+						/*=============================================
+						PHP functions depending on the image
+						=============================================*/
+	
+						if($_FILES["userphoto"]["type"] == "image/jpeg"){
+	
+							$randomNumber = mt_rand(100,999);
+							
+							$photo = "views/img/users/".$_POST["username"]."/".$randomNumber.".jpg";
+							
+							$srcImage = imagecreatefromjpeg($_FILES["userphoto"]["tmp_name"]);
+							
+							$destination = imagecreatetruecolor($newWidth, $newHeight);
+	
+							imagecopyresized($destination, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+	
+							imagejpeg($destination, $photo);
+	
+						}
+	
+						if ($_FILES["userphoto"]["type"] == "image/png") {
+	
+							$randomNumber = mt_rand(100,999);
+							
+							$photo = "views/img/users/".$_POST["username"]."/".$randomNumber.".png";
+							
+							$srcImage = imagecreatefrompng($_FILES["userphoto"]["tmp_name"]);
+							
+							$destination = imagecreatetruecolor($newWidth, $newHeight);
+	
+							imagecopyresized($destination, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+	
+							imagepng($destination, $photo);
+						}
+	
 					}
-
-					if ($_FILES["userphoto"]["type"] == "image/png") {
-
-						$randomNumber = mt_rand(100,999);
-						
-						$photo = "views/img/users/".$_POST["username"]."/".$randomNumber.".png";
-						
-						$srcImage = imagecreatefrompng($_FILES["userphoto"]["tmp_name"]);
-						
-						$destination = imagecreatetruecolor($newWidth, $newHeight);
-
-						imagecopyresized($destination, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-
-						imagepng($destination, $photo);
+	
+					$table = 'users';
+	
+					$encryptpass = crypt($_POST["userpassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+	
+					$data = array('name' => $_POST["name"],
+								  'username' => $_POST["username"],
+									'userpassword' => $encryptpass,
+									'role' => $_POST["roleOptions"],
+									'email' => $_POST["email"],
+									'userphoto' => $photo,
+									'store_id' => $_POST['Selectstore'],
+									'email' => $_POST['email'],
+									'organizationcode' => $_SESSION['organizationcode'],
+									'deleted' => 0);
+	
+	
+					$item = 'username';
+					$value = $_POST["username"];
+	
+					$SelectedUser = userModel::mdlShowAllUser($table, $item, $value);
+					if ($SelectedUser && $SelectedUser['deleted'] == 1) {
+						$answer = userModel::mdlEditUser($table, $data);
+					}else {
+						$answer = userModel::mdlCreateUser($table, $data);
 					}
-
-				}
-
-				$table = 'users';
-
-				$encryptpass = crypt($_POST["userpassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-
-				$data = array('name' => $_POST["name"],
-							  'username' => $_POST["username"],
-								'userpassword' => $encryptpass,
-								'role' => $_POST["roleOptions"],
-								'email' => $_POST["email"],
-								'userphoto' => $photo,
-								'store_id' => $_POST['Selectstore'],
-								'deleted' => 0);
-
-
-				$item = 'username';
-				$value = $_POST["username"];
-
-				$SelectedUser = userModel::mdlShowAllUser($table, $item, $value);
-				if ($SelectedUser && $SelectedUser['deleted'] == 1) {
-					$answer = userModel::mdlEditUser($table, $data);
-				}else {
-					$answer = userModel::mdlCreateUser($table, $data);
-				}
-
-				if ($answer == 'ok') {
-					// Create an array with the data for the activity log entry
-					$logdata = array(
-						'UserID' => $_SESSION['userId'],
-						'ActivityType' => 'User',
-						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' creates user ' .$data['username']. '.',
-						'itemID' => $data['username']
-					);
-					// Call the ctrCreateActivityLog() function
-					activitylogController::ctrCreateActivityLog($logdata);
-
-						echo '<script>
+	
+					if ($answer == 'ok') {
+						// Create an array with the data for the activity log entry
+						$logdata = array(
+							'UserID' => $_SESSION['userId'],
+							'ActivityType' => 'User',
+							'ActivityDescription' => 'User ' . $_SESSION['username'] . ' creates user ' .$data['username']. '.',
+							'itemID' => $data['username']
+						);
+						// Call the ctrCreateActivityLog() function
+						activitylogController::ctrCreateActivityLog($logdata);
+	
+							echo '<script>
+							
+							Swal.fire({
+								icon: "success",
+								title: "User added succesfully!",
+								showConfirmButton: true,
+								confirmButtonText: "Close"
+	
+							}).then(function(result){
+	
+								if(result.value){
+	
+									window.location = "registration";
+								}
+	
+							});
+							
+							</script>';
+	
+					}
+				
+				}else{
+	
+					echo '<script>
 						
 						Swal.fire({
-							icon: "success",
-							title: "User added succesfully!",
+							icon: "error",
+							title: "No especial characters or blank fields",
 							showConfirmButton: true,
 							confirmButtonText: "Close"
-
-						}).then(function(result){
-
-							if(result.value){
-
-								window.location = "registration";
-							}
-
-						});
+				
+							}).then(function(result){
+	
+								if(result.value){
+	
+									window.location = "registration";
+								}
+	
+							});
 						
-						</script>';
-
+					</script>';
 				}
-			
-			}else{
+				
+			} else {
 
-				echo '<script>
-					
-					Swal.fire({
-						icon: "error",
-						title: "No especial characters or blank fields",
-						showConfirmButton: true,
-						confirmButtonText: "Close"
-			
-						}).then(function(result){
+				echo'<script>
+				
+				Swal.fire({
+					icon: "warning",
+					title: "Cannot Add User",
+					text: "You cannot add more users with your current package. Consider upgrading your package.",
+					button: "OK"
+				});
 
-							if(result.value){
-
-								window.location = "registration";
-							}
-
-						});
-					
 				</script>';
+
 			}
 			
 		}
+
 	}
 
 	/*=============================================
@@ -287,6 +320,14 @@ class userController{
 		$table = "users";
 
 		$answer = userModel::mdlShowAllUser($table, $item, $value);
+
+		return $answer;
+	}
+	static public function ctrShowUser($item, $value){
+
+		$table = "users";
+
+		$answer = userModel::mdlShowUsers($table, $item, $value);
 
 		return $answer;
 	}

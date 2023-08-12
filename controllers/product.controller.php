@@ -50,36 +50,6 @@ class productController {
 		$organisationcode = $_SESSION['organizationcode'];
 		$response = packagevalidateController::ctrPackageValidate($element, $validatetable, $numAllproducts, $organisationcode);
 		
-		// if(isset($_POST['addproduct'])){
-		// 	if ($response) {
-
-		// 		echo'<script>
-
-		// 		Swal.fire({
-		// 				icon: "success",
-		// 				title: "good news",
-		// 				showConfirmButton: false,
-		// 				timer: 2000 // Auto close after 2 seconds
-		// 			})
-
-		// 			</script>';
-				
-		// 	}else {
-
-		// 		echo'<script>
-
-		// 		Swal.fire({
-		// 				icon: "warning",
-		// 				title: "bad news",
-		// 				showConfirmButton: false,
-		// 				timer: 2000 // Auto close after 2 seconds
-		// 			})
-
-		// 			</script>';
-				
-		// 	}
-		// }
-		
 		if(isset($_POST['addproduct'])){
 			if ($response) {
 
@@ -479,32 +449,31 @@ class productController {
 	static public function ctrDeleteProduct(){
         self::initialize();
 
-		if(isset($_GET["barcodeProduct"])){
+		if(isset($_GET["product-id"])){
 
 			$table ="products";
-			$barcode = $_GET['barcodeProduct'];
+			$barcode = $_GET['product-id'];
 			$data = array(
 				'status' => 1,
-				'barcode' => $barcode,
-				'storeid' => self::$storeid
+				'barcode' => $barcode
 			);
 			if (isset($_GET["image"]) && $_GET["image"] != "" && $_GET["image"] != "views/img/products/default/anonymous.png") {
 				// Delete the specified image
 				unlink($_GET["image"]);
 			
 				// Check if the directory contains more images
-				$barcodeProductDir = 'views/img/products/'.$_GET["barcodeProduct"];
-				$filesInDir = glob($barcodeProductDir . "/*");
+				$productimageDir = 'views/img/products/'.$_GET["product-id"];
+				$filesInDir = glob($productimageDir . "/*");
 			
 				if (count($filesInDir) === 1) {
 					// Remove the directory if it contains only one image
-					rmdir($barcodeProductDir);
+					rmdir($productimageDir);
 				}
 			}
 			
 			
-			$item = "barcode";
-			$value = $_GET["barcodeProduct"];
+			$item = "id";
+			$value = $_GET["product-id"];
 			$order = "id";
 			$loganswer = productModel::mdlFetchProducts($table, $item, $value, $order);
 			$product = $loganswer['product'];
@@ -512,33 +481,33 @@ class productController {
 			// $answer = productModel::mdlDeleteProduct($table, $data);
 			$answer = productModel::mdlDeleteProduct($table, $data);
 
-			// if($answer == "ok"){
-			// 	// Create an array with the data for the activity log entry
-			// 	$logdata = array(
-			// 		'UserID' => $_SESSION['userId'],
-			// 		'ActivityType' => 'Product',
-			// 		'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted product ' .$product. '.',
-			// 		'itemID' => $value,
-			// 		'storeid' => self::$storeid
-			// 	);
-			// 	// Call the ctrCreateActivityLog() function
-			// 	activitylogController::ctrCreateActivityLog($logdata);
+			if($answer == "ok"){
+				// Create an array with the data for the activity log entry
+				$logdata = array(
+					'UserID' => $_SESSION['userId'],
+					'ActivityType' => 'Product',
+					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted product ' .$product. '.',
+					'itemID' => $value,
+					'storeid' => self::$storeid
+				);
+				// Call the ctrCreateActivityLog() function
+				activitylogController::ctrCreateActivityLog($logdata);
 
-			// 	echo'<script>
+				echo'<script>
 
-			// 	Swal.fire({
-			// 		  icon: "success",
-			// 		  title: "Product '.$loganswer['product'].' has been  deleted.",
-			// 		  showConfirmButton: false,
-			// 		  timer: 2000 // Auto close after 2 seconds
-			// 		}).then(function () {
-			// 		  // Code to execute after the alert is closed
-			// 		  window.location = "products";
-			// 		});
+				Swal.fire({
+					  icon: "success",
+					  title: "Product '.$loganswer['product'].' has been  deleted.",
+					  showConfirmButton: false,
+					  timer: 2000 // Auto close after 2 seconds
+					}).then(function () {
+					  // Code to execute after the alert is closed
+					  window.location = "products";
+					});
 
-			// 	</script>';
+				</script>';
 
-			// }		
+			}		
 		
 		}
 

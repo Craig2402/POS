@@ -242,11 +242,10 @@ class productModel{
 
 		// $stmt -> bindParam(":id", $data, PDO::PARAM_INT);
 
-		$stmt = connection::connect()->prepare("UPDATE $table SET status = :status WHERE id = :barcode AND store_id = :store_id");
+		$stmt = connection::connect()->prepare("UPDATE $table SET status = :status WHERE id = :barcode");
 
-		$stmt -> bindParam(":status", $data['status'], PDO::PARAM_INT);
+		$stmt -> bindParam(":status", $data['status'], PDO::PARAM_STR);
 		$stmt -> bindParam(":barcode", $data['barcode'], PDO::PARAM_INT);
-		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 

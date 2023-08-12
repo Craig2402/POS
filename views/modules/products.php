@@ -117,7 +117,7 @@
 
                                   // }
 
-                                    echo'<button class="btn btnDeleteProduct"  idProduct="'.$val["barcode"].'" image="'.$val["image"].'"><i class="fa fa-times"></i></button>
+                                    echo'<button class="btn btnDeleteProduct"  idProduct="'.$val["id"].'" image="'.$val["image"].'"><i class="fa fa-times"></i></button>
                                </div>  
 
                             </td>

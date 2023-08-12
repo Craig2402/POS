@@ -53,6 +53,21 @@ class userModel{
 		$stmt = null;
 
 	}
+	static public function mdlShowUsers($tableUsers, $item, $value){
+
+		$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item AND deleted = 0");
+
+		$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+		$stmt -> execute();
+
+		return $stmt -> fetchAll();
+
+		$stmt -> closeCursor();
+
+		$stmt = null;
+
+	}
 
 
 	/*=============================================
@@ -61,7 +76,7 @@ class userModel{
 
 	static public function mdlCreateUser($table, $data){
 
-		$stmt = connection::connect()->prepare("INSERT INTO $table(name, username, userpassword, role, userphoto, store_id, email) VALUES (:name, :username, :userpassword, :role, :userphoto, :store_id, :email)");
+		$stmt = connection::connect()->prepare("INSERT INTO $table(name, username, userpassword, role, userphoto, store_id, email, organizationcode) VALUES (:name, :username, :userpassword, :role, :userphoto, :store_id, :email, :organizationcode)");
 
 		$stmt -> bindParam(":name", $data["name"], PDO::PARAM_STR);
 		$stmt -> bindParam(":username", $data["username"], PDO::PARAM_STR);
@@ -70,6 +85,7 @@ class userModel{
 		$stmt -> bindParam(":userphoto", $data["userphoto"], PDO::PARAM_STR);
 		$stmt -> bindParam(":store_id", $data["store_id"], PDO::PARAM_STR);
 		$stmt -> bindParam(":email", $data["email"], PDO::PARAM_STR);
+		$stmt -> bindParam(":organizationcode", $data["organizationcode"], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 

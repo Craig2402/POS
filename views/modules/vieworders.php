@@ -70,11 +70,11 @@
                                             <td>'.$val["date"].$val["status"].'</td>
                                             <td>';
                                                 if ($val["status"] == 1) {
-                                                    echo '<button class="btn btn-xs btn-success">Delivered</button>';
+                                                    echo '<button class="btn btn-sm btn-success">Delivered</button>';
                                                 }elseif ($val["status"] == 2) {
-                                                    echo '<button class="btn btn-xs btn-secondary">Canceled</button>';
+                                                    echo '<button class="btn btn-sm btn-secondary">Canceled</button>';
                                                 }else {
-                                                    echo '<button class="btn btn-xs btn-warning editStatusBtn" data-toggle="modal" data-target="#statusModal" data-order-id="'.$val['orderid'].'">Pending</button>';
+                                                    echo '<button class="btn btn-sm btn-warning editStatusBtn" data-toggle="modal" data-target="#statusModal" data-order-id="'.$val['orderid'].'">Pending</button>';
                                                 }
                                         echo '</td>
                                         </tr>';

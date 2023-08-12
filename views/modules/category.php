@@ -103,7 +103,7 @@
 
                                     
 
-                                  if ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Supervisor" || $_SESSION['role'] == "Owner") {
+                                  if ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Supervisor") {
                                     echo '<button class="btn  btnDeleteCategory" idCategory="'.$value["id"].'"><i class="fa fa-times"></i></button>';
                                   }else{
                                     echo '<button class="btn askDeleteCategory" idCategory="'.$value["id"].'" data-toggle="modal" data-target="#askDeleteCategory" ><i class="fa fa-times"></i></button>';

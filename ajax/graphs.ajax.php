@@ -50,7 +50,14 @@ if ($_SESSION['role'] == "Administrator") {
     $item1 = null;
     $value1 = null;
     $users=userController::ctrShowUsers($item1,$value1);
-    $totalusers=count($users);
+    
+    $totalusers = 0;
+
+    foreach ($users as $row) {
+        if ($row['role'] !== 'Administrator') {
+            $totalusers++;
+        }
+    }
 
     $stores=storeController::ctrShowStores($item1,$value1);
     $totalstores=count($stores);

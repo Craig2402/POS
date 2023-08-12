@@ -147,7 +147,6 @@ $(document).on("keyup change", ".qty", function() {
   
   updateArray();
   calculateSubtotal()
-  // }
 
 
   if (quantity > stock) {
@@ -155,8 +154,8 @@ $(document).on("keyup change", ".qty", function() {
     $(this).val(1);
   }
 
-  tr.find(".totalamt").text(quantity * tr.find(".price").text());
-  tr.find(".saleprice").val(quantity * tr.find(".price").text());
+  // tr.find(".totalamt").text(quantity * tr.find(".price").text());
+  // tr.find(".saleprice").val(quantity * tr.find(".price").text());
   // calculateSubtotal();
 });
 
@@ -336,7 +335,13 @@ $(document).ready(function() {
       
       // Show the modal if "Cheque" option is selected
       if (selectedOption === 'M-pesa') {
-        $('#exampleModal').modal('show');
+        Swal.fire({
+          icon: "warning",
+          title: "Coming soon.",
+          showConfirmButton: false,
+          timer: 2000 // Auto close after 2 seconds
+        })
+        // $('#exampleModal').modal('show');
       } else {
         $('#exampleModal').modal('hide');
       }
@@ -393,7 +398,13 @@ $(document).ready(function() {
       
       // Show the modal if "Cheque" option is selected
       if (selectedOption === 'mdogo') {
-        $('#additionalInputs').show();
+        Swal.fire({
+          icon: "warning",
+          title: "Coming soon.",
+          showConfirmButton: false,
+          timer: 2000 // Auto close after 2 seconds
+        })
+        // $('#additionalInputs').show();
       return false; // Prevent form submission
       }else{
         $('#additionalInputs').hide();

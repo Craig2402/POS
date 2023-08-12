@@ -56,7 +56,7 @@
 <body class="hold-transition sidebar-mini">
 <?php
 if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
-        if (isset($_SESSION['role']) && $_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Owner") {
+        if (isset($_SESSION['role']) && $_SESSION['role'] == "Administrator") {
             include 'modules/header.php';
             include 'modules/supervisor-menu.php';
     

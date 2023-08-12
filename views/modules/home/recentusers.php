@@ -1,6 +1,6 @@
 <?php
 $pdo = connection::connect();
-$usersQuery = $pdo->prepare("SELECT * FROM users ORDER BY userId DESC LIMIT 5");
+$usersQuery = $pdo->prepare("SELECT * FROM users WHERE role != 'Administrator'  ORDER BY userId DESC LIMIT 5");
 $usersQuery->execute();
 $usersData = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
 ?>

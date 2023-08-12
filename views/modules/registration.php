@@ -45,6 +45,10 @@
                                 <input type="text" class="form-control" name="name" id="name" placeholder="Enter Fullname" required>
                             </div>
                             <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">Username</label>
                                 <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" required>
                             </div>
@@ -151,12 +155,12 @@
                     if ($_SESSION['role'] == "Supervisor") {
                         $item = "store_id";
                         $value = $_SESSION['storeid'];
-                    } elseif ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Owner") {
+                    } elseif ($_SESSION['role'] == "Administrator") {
                         $item = "role";
                         $value = "Supervisor";
                     }
 
-                    $user = userController::ctrShowAllUsers($item, $value);
+                    $user = userController::ctrShowUser($item, $value);
                     // var_dump($user);
 
                     foreach ($user as $key => $val) {
@@ -185,11 +189,11 @@
 
                       if($val["status"] != 0){
 
-                          echo '<td><button class="btn btnActivate btn-success btn-xs" userId="'.$val["userId"].'" status="0">Activated</button></td>';
+                          echo '<td><button class="btn btnActivate btn-success btn-sm" userId="'.$val["userId"].'" status="0">Activated</button></td>';
 
                       }else{
 
-                          echo '<td><button class="btn btnActivate btn-danger btn-xs" userId="'.$val["userId"].'" status="1">Deactivated</button></td>';
+                          echo '<td><button class="btn btnActivate btn-danger btn-sm" userId="'.$val["userId"].'" status="1">Deactivated</button></td>';
                       }
                       
                       echo '<td>'.$val["lastlogin"].'</td>
