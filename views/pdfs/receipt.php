@@ -10,8 +10,8 @@ require_once "../../controllers/product.controller.php";
 require_once "../../models/product.model.php";
 require_once "../../controllers/user.controller.php";
 require_once "../../models/user.models.php";
-require_once '../../controllers/taxdis.controller.php';
-require_once '../../models/taxdis.models.php';
+require_once '../../controllers/tax.controller.php';
+require_once '../../models/tax.models.php';
 require_once '../../controllers/store.controller.php';
 require_once '../../models/store.model.php';
 require_once "../../controllers/loyalty.controller.php";
@@ -168,18 +168,18 @@ $pointPay=0;
 $change = 0;
 
 
-    if (is_array($paymentData) && isset($paymentData['invoiceId'])) {
-        $amount = $paymentData['amount'];
-        if ($paymentData['paymentmethod'] === 'cash') {
-            $cashPaid += $amount;
-        } 
-        if ($paymentData['paymentmethod'] === 'mpesa') {
-            $mpesaPay += $amount;
-        }
-        if ($paymentData['paymentmethod'] === 'points') {
-            $pointPay += $amount;
-        }
+if (is_array($paymentData) && isset($paymentData['invoiceId'])) {
+    $amount = $paymentData['amount'];
+    if ($paymentData['paymentmethod'] === 'Cash') {
+        $cashPaid += $amount;
+    } 
+    if ($paymentData['paymentmethod'] === 'mpesa') {
+        $mpesaPay += $amount;
     }
+    if ($paymentData['paymentmethod'] === 'points') {
+        $pointPay += $amount;
+    }
+}
 
 // Calculate the change
 if ($cashPaid > $totalAmount) {

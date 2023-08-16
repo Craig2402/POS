@@ -18,7 +18,7 @@ class AjaxLoyalty{
     
     public function ajaxFetchPointConversionValue(){
         $LoyaltyConversionName = $this->LoyaltyConversionName;
-        $item = "SettingID";
+        $item = "SettingName";
 
         $answer = loyaltyController::ctrShowLoyaltyPointConversionValue($item, $LoyaltyConversionName);
 

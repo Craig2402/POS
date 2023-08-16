@@ -62,4 +62,44 @@
 
         }
 
+        /*=============================================
+        CHANGE LOYALTY SETTINGS
+        =============================================*/
+        static public function ctrchangeLoyaltySettings(){
+
+            if (isset($_POST['saveSetting'])) {
+                
+                $table = "loyaltysettings";
+                $data = array(
+                    "LoyaltyPointValue" => $_POST['loyaltyPointValue'],
+                    "LoyaltyValueConversion" => $_POST['loyaltyValueConversion']
+                );
+                
+                $answer = LoyaltyModel::mdlchangeLoyaltySettings($table, $data);
+
+                if($answer == 'ok'){
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Settings',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed loyalty settings.'
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
+    
+                    echo '<script>
+                        
+                    Swal.fire({
+                            icon: "success",
+                            title: "Settings updated successfully",
+                            showConfirmButton: false,
+                            timer: 2000 // Auto close after 2 seconds
+                          })
+                        
+                    </script>';
+                }
+
+            }
+        }
+
     }

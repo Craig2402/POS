@@ -27,11 +27,8 @@
           <!-- /.col-md-6 -->
 
             <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped tables">
+                <table id="example1" class="table-striped tables display" style="width:100%">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -108,7 +105,7 @@
               <div class="form-group">
                 <label for="editstoreName">Store Name</label>
                 <input type="text" class="form-control" id="editstoreName" name="editstoreName" placeholder="Enter store name" required>
-                <input type="text" name="editstoreId" id="editstoreId">
+                <input type="hidden" name="editstoreId" id="editstoreId">
               </div>
               <div class="form-group">
                 <label for="editstoreAddress">Store Address</label>
@@ -146,7 +143,7 @@
             </div>
           </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer justify-content-between">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary" name="editStore">Edit store</button>
       </div>

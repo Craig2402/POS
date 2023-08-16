@@ -29,7 +29,7 @@
                             <h5 class="m-0">List of orders</h5>
                         </div>
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped tables">
+                            <table id="example1" class="table-striped tables display" style="width:100%">
                                 <thead>
                                     <th>#</th>
                                     <th>Products</th>

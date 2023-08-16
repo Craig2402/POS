@@ -15,7 +15,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
-              <li class="breadcrumb-item"><a href="products">Procust List</a></li>
+              <li class="breadcrumb-item"><a href="products">Product list</a></li>
               <li class="breadcrumb-item active">View Product</li>
             </ol>
           </div><!-- /.col -->
@@ -60,7 +60,7 @@
                                     <center><p class="list-group-item list-group-item-info"><b>PRODUCT DETAILS</b></p></center>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <b>Barcode</b>
-                                        <span class="badge badge-light">'.$product["barcode"].'</span>
+                                        <span class="badge badge-dark">'.$product["barcode"].'</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <b>Product Name</b>

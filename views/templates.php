@@ -6,52 +6,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Inventory | System</title>
-  <link rel="stylesheet" href="views/css/custom.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inventory | System</title>
+    <link rel="stylesheet" href="views/css/custom.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-   <!-- chart js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="views/plugins/chart.js/Chart.min.js"></script>
-  <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="views/plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="views/dist/css/adminlte.min.css">
-  <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="views/plugins/sweetalert2//sweetalert2.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="views/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="views/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="views/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="views/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <!-- Select2 -->
-  <link rel="stylesheet" href="views/plugins/select2/css/select2.min.css">
-  <link rel="stylesheet" href="views/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-  <!-- Morris chart -->
-<link rel="stylesheet" href="views/bower_components/morris.js/morris.css">
-   <!-- Ionicons -->
-   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="views/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- daterange picker -->
-  <!-- <script src="views/plugins/daterangepicker/daterangepicker.css"></script> -->
-  <!-- pdf generator -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <!-- chart js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="views/plugins/chart.js/Chart.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="views/plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="views/dist/css/adminlte.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="views/plugins/sweetalert2//sweetalert2.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="views/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="views/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="views/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="views/bower_components/morris.js/morris.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="views/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- daterange picker -->
+    <!-- <script src="views/plugins/daterangepicker/daterangepicker.css"></script> -->
+    <!-- pdf generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-   <!-- printJS library -->
-  <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
-  <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- printJS library -->
+    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+    <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+  
 </head>
 <body class="hold-transition sidebar-mini">
 <?php
@@ -251,16 +253,19 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 </div>
 <!-- ./wrapper -->
 
+<!-- Include Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
  <!-- Include the Inputmask library CSS file -->
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.css">
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+ 
 
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <!-- Include the Inputmask library JavaScript file and jQuery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ZMP7rVo3mIykBf5+3SBI3z5F6zvbhqE+IbbVYUew+OrCXaRkfjBr5aSd6I3twEm+5" crossorigin="anonymous"></script>
 <!-- <script src="views/plugins/moment/moment.min.js"></script> -->
 <!-- jQuery -->
 <script src="views/plugins/jquery/jquery.min.js"></script>
@@ -273,17 +278,11 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/dist/js/adminlte.min.js"></script>
 <script src="views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables & Plugins -->
-<script src="views/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="views/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="views/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="views/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="views/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="views/plugins/jszip/jszip.min.js"></script>
-<script src="views/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="views/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="views/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="views/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="views/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<!-- Responsive Extension JavaScript -->
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
 <!-- jQuery Knob Chart -->
 <script src="views/plugins/jquery-knob/jquery.knob.min.js"></script>
@@ -323,17 +322,18 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/graphs.js"></script>
 <script src="views/js/header.js"></script>
 
+
+
 <!-- datatable js -->
 <script>
-  $(function () {
-      //DataTable initialization
-      $("#example1").DataTable({
-          "responsive": true,
-          "lengthChange": false,
-          "autoWidth": false,
-          "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-  });  
+//   $(function () {
+//       //DataTable initialization
+//       $("#example1").DataTable({
+//           "responsive": true,
+//           "lengthChange": false,
+//           "autoWidth": false
+//       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+//   });  
   
     //Initialize Select2 Elements
     $('.select2').select2()
@@ -342,6 +342,13 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     })
+
+
+$('#example1').DataTable({
+    pagingType: 'full_numbers',
+    responsive: true,
+    stateSave: true
+});
 </script>
 </body>
 </html>

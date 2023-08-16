@@ -112,7 +112,7 @@ class storeController{
 
                 Swal.fire({
                         icon: "success",
-                        title: "Store '.$_POST['storeName'].' has created",
+                        title: "Store '.$_POST['storeName'].' has been created",
                         showConfirmButton: true,
                         confirmButtonText: "Close"
                         }).then(function(result){

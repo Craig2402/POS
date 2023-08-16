@@ -80,7 +80,7 @@
                         </form>
                     </div>
                     <div class="col-lg-8">
-                        <table id="example1" class="table table-bordered table-striped tables">
+                        <table id="example1" class="table-striped tables display" style="width:100%">
                             <thead>
                                 <tr>
                                   <td>#</td>

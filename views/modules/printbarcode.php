@@ -44,8 +44,10 @@
                   echo'
                     <div class="row">
                       <div class="col-lg-6">
-                        <form class="form-horizontal" method="post" action="barcode/barcode.php" target="_blank">
-                          <center><p class="list-group-item list-group-item-info"><b>PRINR BARCODE</b></p></center>
+                        <ul class="list-group">
+                          <center><p class="list-group-item list-group-item-info"><b>PRINT BARCODE</b></p></center>
+                        </ul>
+                          <form class="form-horizontal" method="post" action="barcode/barcode.php" target="_blank">
                             <div class="form-group">
                               <label class="control-label col-sm-2" for="product">Product:</label>
                               <div class="col-sm-10">

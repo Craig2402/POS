@@ -42,9 +42,6 @@
             <!-- /.col-md-6 -->
                 <form action="" method="post" enctype="multipart/form-data" id="posForm">
                     <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h5 class="m-0">POS</h5>
-                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-8">
@@ -123,13 +120,13 @@
                                 </div>
                                 <hr style="height:2px; border-width:0; color:black; background-color:black;">
                                 <div class="form-group clearfix" name="paymentmethod">
-                                    <div class="icheck-primary d-inline">
+                                    <!-- <div class="icheck-primary d-inline">
                                         <input type="radio" name="r3" id="radioSuccess1" value="cash">
                                         <label for="radioSuccess1">
                                             Cash
                                         </label>
                                     </div>
-                                    <div class="icheck-danger d-inline">
+                                    <div class="icheck-danger d-inline mdogo" style="display: none;">
                                         <input type="radio" name="r3" id="radioSuccess2"  value="mdogo">
                                         <label for="radioSuccess2">
                                             Lipa MdogoMdogo
@@ -141,11 +138,28 @@
                                             M-pesa
                                         </label>
                                     </div>
-                                    <div class="icheck-info d-inline">
+                                    <div class="icheck-info d-inline" style="display: none;">
                                         <input type="radio" name="r3" id="radioSuccess4"  value="points">
                                         <label for="radioSuccess4">
                                             Points
                                         </label>
+                                    </div> -->
+
+                                    <div class="icheck-primary form-check form-check-inline" >
+                                        <input class="form-check-input" type="radio" name="r3" id="radioSuccess1" value="Cash">
+                                        <label class="form-check-label" for="radioSuccess1">Cash</label>
+                                    </div>
+                                    <div class="icheck-success form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="r3" id="radioSuccess3" value="M-pesa">
+                                        <label class="form-check-label" for="radioSuccess3">M-pesa</label>
+                                    </div>
+                                    <div class="icheck-danger form-check form-check-inline mdogo" style="display: none;">
+                                        <input class="form-check-input" type="radio" name="r3" id="radioSuccess2" value="mdogo">
+                                        <label class="form-check-label" for="radioSuccess2">Lipa MdogoMdogo</label>
+                                    </div>
+                                    <div class="icheck-info form-check form-check-inline points" style="display: none;">
+                                        <input class="form-check-input" type="radio" name="r3" id="radioSuccess4" value="points">
+                                        <label class="form-check-label" for="radioSuccess4">Points</label>
                                     </div>
                                 </div>
                                 <hr style="height:2px; border-width:0; color:black; background-color:black;">

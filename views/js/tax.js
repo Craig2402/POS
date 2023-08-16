@@ -2,15 +2,15 @@
 EDIT CATEGORY
 =============================================*/
 
-$(".tables").on("click", ".btnEditTaxdis", function(){
+$(".tables").on("click", ".btnEdittax", function(){
 
-	var idTaxdis = $(this).attr("taxId");
+	var idtax = $(this).attr("taxId");
 
 	var datum = new FormData();
-	datum.append("idTaxdis", idTaxdis);
+	datum.append("idtax", idtax);
 
 	$.ajax({
-		url: "ajax/taxdis.ajax.php",
+		url: "ajax/tax.ajax.php",
 		method: "POST",
       	data: datum,
       	cache: false,
@@ -34,9 +34,9 @@ $(".tables").on("click", ".btnEditTaxdis", function(){
 /*=============================================
 DELETE CATEGORY
 =============================================*/
-$(".tables").on("click", ".btnDeleteTaxdis", function(){
+$(".tables").on("click", ".btnDeletetax", function(){
 
-	 var idTaxdis = $(this).attr("taxId");
+	 var idtax = $(this).attr("taxId");
 
 	 Swal.fire({
 	 	title: 'Are you sure you want to delete the Tax?',
@@ -51,7 +51,7 @@ $(".tables").on("click", ".btnDeleteTaxdis", function(){
 
 	 	if(result.value){
 
-	 		window.location = "index.php?route=taxdis&idTaxdis="+idTaxdis;
+	 		window.location = "index.php?route=tax&idtax="+idtax;
 
 	 	}
 

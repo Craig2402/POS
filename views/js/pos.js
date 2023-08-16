@@ -70,7 +70,7 @@ $(function() {
 
 
                   var tr = '<tr>' +
-                  '<td style="text-align:left; vertical-align:middle; font-size:17px;"><span class="badge badge-dark">' + product + '</span><input type="hidden" class="form-control product_c" name="productarr[]" value="' + product + '"><input type="hidden" class="form-control idTaxdis" name="tax_arr[]" value="' + taxId + '"><input type="hidden" class="form-control barcode" name="barcode_arr[]" value="' + barcode + '"></td>' +
+                  '<td style="text-align:left; vertical-align:middle; font-size:17px;"><span class="badge badge-dark">' + product + '</span><input type="hidden" class="form-control product_c" name="productarr[]" value="' + product + '"><input type="hidden" class="form-control idtax" name="tax_arr[]" value="' + taxId + '"><input type="hidden" class="form-control barcode" name="barcode_arr[]" value="' + barcode + '"></td>' +
                   '<td style="text-align:left; vertical-align:middle; font-size:17px;"><span class="badge badge-primary stocklbl" name="stock_arr[]" id="stock_id' + id + '">' + stock + '</span><input type="hidden" class="form-control stock_c" name="stock_c_arr[]" id="stock_idd' + id + '" value="' + stock + '"></td>' +
                   '<td style="text-align:left; vertical-align:middle; font-size:17px;"><span class="badge badge-warning price" name="price_arr[]" id="price_id' + id + '">' + saleprice + '</span><input type="hidden" class="form-control price_c" name="price_c_arr[]" id="price_idd' + id + '" value="' + saleprice + '"></td>' +
 
@@ -229,7 +229,7 @@ $(function() {
                   updateArray();
 
                   var tr = '<tr>' +
-                  '<td style="text-align:left; vertical-align:middle; font-size:17px;"><span class="badge badge-dark">' + product + '</span><input type="hidden" class="form-control product_c" name="productarr[]" value="' + product + '"><input type="hidden" class="form-control idTaxdis" name="tax_arr[]" value="' + taxId + '"><input type="hidden" class="form-control barcode" name="barcode_arr[]" value="' + barcode + '"></td>' +
+                  '<td style="text-align:left; vertical-align:middle; font-size:17px;"><span class="badge badge-dark">' + product + '</span><input type="hidden" class="form-control product_c" name="productarr[]" value="' + product + '"><input type="hidden" class="form-control idtax" name="tax_arr[]" value="' + taxId + '"><input type="hidden" class="form-control barcode" name="barcode_arr[]" value="' + barcode + '"></td>' +
                   '<td style="text-align:left; vertical-align:middle; font-size:17px;"><span class="badge badge-primary stocklbl" name="stock_arr[]" id="stock_id' + id + '">' + stock + '</span><input type="hidden" class="form-control stock_c" name="stock_c_arr[]" id="stock_idd' + id + '" value="' + stock + '"></td>' +
                   '<td style="text-align:left; vertical-align:middle; font-size:17px;"><span class="badge badge-warning price" name="price_arr[]" id="price_id' + id + '">' + saleprice + '</span><input type="hidden" class="form-control price_c" name="price_c_arr[]" id="price_idd' + id + '" value="' + saleprice + '"></td>' +
 
@@ -282,7 +282,7 @@ function calculateSubtotal() {
     var qty = parseInt(tr.find(".qty").val());
     var price = parseFloat(tr.find(".price").text());
     var saleprice = qty * price;
-    var taxId = parseInt(tr.find(".idTaxdis").val());
+    var taxId = parseInt(tr.find(".idtax").val());
     var discount = parseFloat(tr.find(".discount").text());
     var totalDis=discount*qty;
 
@@ -374,12 +374,12 @@ $(document).ready(function() {
     var dueAmount = parseFloat($('#txtdue_id').val());
     var redeemedPointsInput = document.getElementById("redeemedpoints");
     
-    if (dueAmount < 0 && $('#additionalInputs').is(':hidden') && redeemedPointsInput.value === "") {
+    if (dueAmount < 0 && $('#additionalInputs').is(':hidden') && $('.points').is(':visible') && redeemedPointsInput.value === "") {
       $('#additionalInputs, .loyaltyPoints').show();
       return false; // Prevent form submission
     } else if (dueAmount === 0) {
       // Submit the form if the loyaltyPoints div is visible
-      if ($(".loyaltyPoints").is(":hidden") && redeemedPointsInput.value === "") {
+      if ($(".loyaltyPoints").is(":hidden") && redeemedPointsInput.value === "" && $('.points').is(':visible')) {
         $(".loyaltyPoints").show();
         return false; // Prevent form submission
       }else{
@@ -470,7 +470,7 @@ $(document).on("keyup", ".pphone", function() {
 
         var totalPoints = totalPointsEarned - totalPointsRedeemed
         
-        LoyaltyConversionName = "2";
+        LoyaltyConversionName = "LoyaltyValueConversion";
 
         var datum = new FormData();
         datum.append("LoyaltyConversionName", LoyaltyConversionName);
@@ -632,4 +632,44 @@ $(function() {
   });
 });
 
+
+
+$.ajax({
+  type: "GET",
+  url: "ajax/settings.ajax.php",
+  cache: false,
+  success: function(settingsData) {
+    console.log(settingsData);
+    
+    // Parse the JSON response
+    try {
+      settingsData = JSON.parse(settingsData);
+    } catch (error) {
+      console.error("Error parsing JSON response:", error);
+      return;
+    }
+    var lipaMdogoSetting = settingsData.find(setting => setting.SettingName === "Lipamdogomdogo");
+    var loyaltyPointsSetting = settingsData.find(setting => setting.SettingName === "Loyaltypoints");
+
+    if (lipaMdogoSetting && loyaltyPointsSetting) {
+      if (lipaMdogoSetting.SettingValue === "1" && loyaltyPointsSetting.SettingValue === "1") {
+        $('.mdogo').show();
+        $('.points').show();
+      } else {          
+        // Check a checkbox based on the condition
+        if (lipaMdogoSetting.SettingValue === "1") {
+          $('.mdogo').show();
+        } else if (loyaltyPointsSetting.SettingValue === "1") {
+          $('.points').show();
+        } else{
+          $('.mdogo').hide();
+          $('.points').hide();
+        }
+      }
+    }
+  },
+  error: function(xhr, status, error) {
+    console.error("AJAX request error:", error);
+  }
+});
 

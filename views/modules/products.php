@@ -30,7 +30,7 @@
                 <h5 class="m-0">Product List</h5>
               </div>
               <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped tables">
+              <table id="example1" class="table-striped tables display" style="width:100%">
                   <thead>
            
                     <tr>
@@ -140,111 +140,215 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <div class="modal fade" id="modalEditProduct">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Edit product</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>         
-            <form action="" method="post" enctype="multipart/form-data">
-              <div class="card-body">
-                  <div class="row">
-                      <div class="col-md-6">
-                          <div class="form-group">
-                              <label for="exampleInputEmail1">Barcode</label>
-                              <input type="text" class="form-control" name="editbarcode" id="editbarcode" readonly>
-                          </div>
-                          <div class="form-group">
-                              <label for="exampleInputEmail1">Product Name</label>
-                              <input type="text" class="form-control" name="editproductname" id="editproductname">
-                          </div>
-                          <div class="form-group">
-                            <label for="exampleSelectBorder">Category</label>
-                            <select class="form-control" name="editcategory">
-                              <?php
-
-                                $item = null;
-                                $value1 = null;
-
-                                $categories = categoriesController::ctrShowCategories($item, $value1);
-
-                                foreach ($categories as $key => $value) {
-                                  echo '<option value="'.$value["id"].'" '.$selected.'>'.$value["Category"].'</option>';
-                                }
-                                
-
-                              ?>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="txttaxcat">Tax type</label>
-                            <select name="edittaxcat" id="edittaxcat" class="form-control">
-                              <option value="">Select a Tax type</option>
-                              <?php
-                              
-                                $item = null;
-                                $value1 = null;
-
-                                $tax = taxController::ctrShowTax($item,$value1);
-                                
-                                foreach ($tax as $key => $value) {
-                                    
-                                  echo '<option value="'.$value["VAT"].'">'.$value["VAT"].'</option>';
-                                }
-
-                              ?>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                              <label>Description</label>
-                              <textarea class="form-control" placeholder= "Edit description" name="editdescription" id="editdescription" rows="4"></textarea>
-                          </div>
-                          
-                      </div>
-                      <div class="col-md-6">  
-                          <div class="form-group">
-                              <label for="exampleInputEmail1">Stock quantity</label>
-                              <input type="number" min="1" step="any" class="form-control" name="editstock" id="editstock" readonly>
-                          </div>
-                          <div class="form-group">
-                              <label for="exampleInputEmail1">Purchase price</label>
-                              <input type="number" min="1" step="any" class="form-control" name="editpurchaseprice" id="editpurchaseprice">
-                          </div>
-                          <div class="form-group">
-                              <label for="exampleInputEmail1">Sale price</label>
-                              <input type="number" min="1" step="any" class="form-control" name="editsaleprice" id="editsaleprice">
-                          </div>
-                          <div class="form-group">
-                              <div class="panel"><label for="exampleInputPassword1">Photo</label></div>
-                              <input type="file" class="txtproductimage" name="editImage" id="editImage" >
-                              <p class="help-block">Maximum file size 2mb</p>
-                              <img src="views/img/products/default/anonymous.png" class="thumbnail preview" width="100px">
-                              <input type="hidden" name="currentImage" id="currentImage">
-                          </div>
-                      </div>               
-                  </div>
-              </div>
-                <!-- /.card-body -->
-              <div class="modal-footer justify-content-between">
-                  <button type="submit" class="btn btn-default" data-dismiss="modal" name="editproduct">Close</button>
-                  <button type="submit" class="btn btn-primary" name="addproduct">Save</button>
-              </div>
-                <?php
-
-                  $editProduct = new productController();
-                  $editProduct -> ctrEditProduct();
-
-                ?>   
-            </form>
-          </div>
-          <!-- /.modal-content -->
+<div id="modalEditProduct" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <form role="form" method="POST">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit product</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <!-- /.modal-dialog -->
+        <div class="modal-body">
+          <div class="box-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Barcode</label>
+                    <input type="text" class="form-control" name="editbarcode" id="editbarcode" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Product Name</label>
+                    <input type="text" class="form-control" name="editproductname" id="editproductname">
+                </div>
+                <div class="form-group">
+                  <label for="exampleSelectBorder">Category</label>
+                  <select class="form-control" name="editcategory">
+                    <?php
+
+                      $item = null;
+                      $value1 = null;
+
+                      $categories = categoriesController::ctrShowCategories($item, $value1);
+
+                      foreach ($categories as $key => $value) {
+                        echo '<option value="'.$value["id"].'" '.$selected.'>'.$value["Category"].'</option>';
+                      }
+                      
+
+                    ?>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="txttaxcat">Tax type</label>
+                  <select name="edittaxcat" id="edittaxcat" class="form-control">
+                    <option value="">Select a Tax type</option>
+                    <?php
+                    
+                      $item = null;
+                      $value1 = null;
+
+                      $tax = taxController::ctrShowTax($item,$value1);
+                      
+                      foreach ($tax as $key => $value) {
+                          
+                        echo '<option value="'.$value["VAT"].'">'.$value["VAT"].'</option>';
+                      }
+
+                    ?>
+                  </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" placeholder= "Edit description" name="editdescription" id="editdescription" rows="4"></textarea>
+                </div>
+              </div>
+              <div class="col-md-6"> 
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Stock quantity</label>
+                    <input type="number" min="1" step="any" class="form-control" name="editstock" id="editstock" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Purchase price</label>
+                    <input type="number" min="1" step="any" class="form-control" name="editpurchaseprice" id="editpurchaseprice">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Sale price</label>
+                    <input type="number" min="1" step="any" class="form-control" name="editsaleprice" id="editsaleprice">
+                </div>
+                <div class="form-group">
+                    <div class="panel"><label for="exampleInputPassword1">Photo</label></div>
+                    <input type="file" class="txtproductimage" name="editImage" id="editImage" >
+                    <p class="help-block">Maximum file size 2mb</p>
+                    <img src="views/img/products/default/anonymous.png" class="thumbnail preview" width="100px">
+                    <input type="hidden" name="currentImage" id="currentImage">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="addproduct">Save changes</button>
+        </div>
+        <?php
+          $editProduct = new productController();
+          $editProduct -> ctrEditProduct();
+        ?>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+  <div class="modal fade" id="">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit product</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>         
+        <form action="" method="post" enctype="multipart/form-data">
+          <div class="card-body">
+          <div class="box-body">
+          <!-- <div class="box-body"> -->
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Barcode</label>
+                          <input type="text" class="form-control" name="editbarcode" id="editbarcode" readonly>
+                      </div>
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Product Name</label>
+                          <input type="text" class="form-control" name="editproductname" id="editproductname">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleSelectBorder">Category</label>
+                        <select class="form-control" name="editcategory">
+                          <?php
+
+                            $item = null;
+                            $value1 = null;
+
+                            $categories = categoriesController::ctrShowCategories($item, $value1);
+
+                            foreach ($categories as $key => $value) {
+                              echo '<option value="'.$value["id"].'" '.$selected.'>'.$value["Category"].'</option>';
+                            }
+                            
+
+                          ?>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="txttaxcat">Tax type</label>
+                        <select name="edittaxcat" id="edittaxcat" class="form-control">
+                          <option value="">Select a Tax type</option>
+                          <?php
+                          
+                            $item = null;
+                            $value1 = null;
+
+                            $tax = taxController::ctrShowTax($item,$value1);
+                            
+                            foreach ($tax as $key => $value) {
+                                
+                              echo '<option value="'.$value["VAT"].'">'.$value["VAT"].'</option>';
+                            }
+
+                          ?>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                          <label>Description</label>
+                          <textarea class="form-control" placeholder= "Edit description" name="editdescription" id="editdescription" rows="4"></textarea>
+                      </div>
+                      
+                  </div>
+                  <div class="col-md-6">  
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Stock quantity</label>
+                          <input type="number" min="1" step="any" class="form-control" name="editstock" id="editstock" readonly>
+                      </div>
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Purchase price</label>
+                          <input type="number" min="1" step="any" class="form-control" name="editpurchaseprice" id="editpurchaseprice">
+                      </div>
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Sale price</label>
+                          <input type="number" min="1" step="any" class="form-control" name="editsaleprice" id="editsaleprice">
+                      </div>
+                      <div class="form-group">
+                          <div class="panel"><label for="exampleInputPassword1">Photo</label></div>
+                          <input type="file" class="txtproductimage" name="editImage" id="editImage" >
+                          <p class="help-block">Maximum file size 2mb</p>
+                          <img src="views/img/products/default/anonymous.png" class="thumbnail preview" width="100px">
+                          <input type="hidden" name="currentImage" id="currentImage">
+                      </div>
+                  </div>               
+              </div>
+            <!-- /.card-body -->
+          <div class="modal-footer justify-content-between">
+              <button type="submit" class="btn btn-default" data-dismiss="modal" name="editproduct">Close</button>
+              <button type="submit" class="btn btn-primary" name="addproduct">Save</button>
+          </div>
+          </div>
+          </div>
+            <?php
+
+              $editProduct = new productController();
+              $editProduct -> ctrEditProduct();
+
+            ?>   
+        </form>
       </div>
-      <!-- /.modal -->
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
 <?php
   $deleteProduct = new productController();
   $deleteProduct -> ctrDeleteProduct();

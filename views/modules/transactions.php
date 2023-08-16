@@ -13,7 +13,7 @@ require_once 'models/connection.php';
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
-              <li class="breadcrumb-item active">Transaction List</li>
+              <li class="breadcrumb-item active">Transactions</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -29,11 +29,8 @@ require_once 'models/connection.php';
           <!-- /.col-md-6 -->
 
             <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Transaction List</h5>
-              </div>
               <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped tables">
+              <table id="example1" class="table-striped tables display" style="width:100%">
                   <thead>
            
                     <tr>

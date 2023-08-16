@@ -31,7 +31,7 @@
 	}
 
  	/*=============================================
-	CREATE taxdis
+	CREATE tax
 	=============================================*/
 	
 	static public function ctrCreateTax(){
@@ -75,7 +75,7 @@
 						timer: 2000 // Display alert for 2 seconds
 					}).then(function() {
 						// After the alert is closed, redirect to the dashboard
-						window.location= "taxdis";
+						window.location= "tax";
 					});
 					
 				</script>';
@@ -104,7 +104,7 @@
 
 	static public function ctrEditTax(){
 
-		if(isset($_POST["editTaxdis"])){
+		if(isset($_POST["edittax"])){
 
 			$table = "taxes";
 
@@ -156,7 +156,7 @@
 						timer: 2000 // Display alert for 2 seconds
 					}).then(function() {
 						// After the alert is closed, redirect to the dashboard
-						window.location= "taxdis";
+						window.location= "tax";
 					});
 				</script>';
 
@@ -172,10 +172,10 @@
 
 	static public function ctrDeleteTax(){
 
-		if(isset($_GET["idTaxdis"])){
+		if(isset($_GET["idtax"])){
 
 			$table ="taxes";
-			$data = $_GET["idTaxdis"];
+			$data = $_GET["idtax"];
 
 			$item = "taxId";
 			$tax = TaxModel::mdlShowTax($table, $item, $data);
@@ -205,7 +205,7 @@
 						  timer: 2000 // Display alert for 2 seconds
 					  }).then(function() {
 						  // After the alert is closed, redirect to the dashboard
-						  window.location= "taxdis";
+						  window.location= "tax";
 					  });
 
 					</script>';

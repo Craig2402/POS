@@ -98,7 +98,7 @@ class LoyaltyModel{
 
         $stmt = connection::connect()->prepare("SELECT * FROM `$table` WHERE $item =:$item");
 
-		$stmt->bindParam(':'.$item, $value, PDO::PARAM_INT);
+		$stmt->bindParam(':'.$item, $value, PDO::PARAM_STR);
 
         $stmt -> execute();
 
@@ -107,6 +107,40 @@ class LoyaltyModel{
         $stmt -> closeCursor();
 
         $stmt = null;
+
+	}
+
+	/*=============================================
+	CHANGE LOYALTY SETTINGS
+	=============================================*/
+	static public function mdlchangeLoyaltySettings($table, $data){
+
+		$stmt = connection::connect()->prepare("UPDATE loyaltysettings SET SettingValue = :value WHERE SettingName = :item");
+
+		// Update the first row
+		$item1 = "LoyaltyPointValue";
+		$value1 = $data['LoyaltyPointValue'];
+		$stmt->bindParam(':value', $value1, PDO::PARAM_INT);
+		$stmt->bindParam(':item', $item1, PDO::PARAM_STR);
+		if ($stmt->execute()) {
+		
+			// Update the second row
+			$item2 = "LoyaltyValueConversion";
+			$value2 = $data['LoyaltyValueConversion'];
+			$stmt->bindParam(':value', $value2, PDO::PARAM_INT);
+			$stmt->bindParam(':item', $item2, PDO::PARAM_STR);
+			if ($stmt->execute()) {
+				return "ok";
+			} else {
+				return "Error";
+			}
+		} else {
+			return "Error";
+	}
+		
+		$stmt->closeCursor();
+		$stmt = null;
+		
 
 	}
 

@@ -1,31 +1,58 @@
 <style>
   .link  {
-  text-decoration: none;
+    text-decoration: none;
   }
+
+  <?php
+  
+  $table = "customers";
+  $item = "organizationcode";
+  $value = $_SESSION['organizationcode'];
+  $conn = connection::connectbilling()->prepare("SELECT * FROM `$table` WHERE $item = :$item");
+  
+  $conn->bindParam(':' . $item, $value, PDO::PARAM_STR);
+  
+  $conn->execute();
+  
+  $organizationData = $conn->fetch(PDO::FETCH_ASSOC); // Fetch the result into an associative array
+
+  $conn -> closeCursor();
+
+  $conn = null;
+  ?>
 </style>
 <aside class="main-sidebar custom-sidebar">
-    <a href="#" class="brand-link link">
+    <!-- <a href="/views/img/main-logo.png" class="link">
         <img src="./dist/img/AdminLTELogo.png" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light" >POS</span>
-    </a>
+        <span class="brand-text font-weight-light" ><?php echo $organizationData['organizationname'] ?></span>
+    </a> -->
+    
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+            <img src="../img/store/main-logo.png" class="img-circle elevation-2">
+        </div>
+        <div class="info">
+            <a href="#" class="d-block link"><?php echo $organizationData['organizationname']; ?></a>
+        </div>
+    </div>
 
     <div class="sidebar">
     <?php
-$item = "store_id";
-$value = $_SESSION['storeid'];
-$store = storeController::ctrShowStores($item, $value);
-?>
+        $item = "store_id";
+        $value = $_SESSION['storeid'];
+        $store = storeController::ctrShowStores($item, $value);
+        ?>
 
-<?php if ($_SESSION['storeid'] !== null) { ?>
-  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-    <div class="image">
-      <img src="<?php echo $store['logo']; ?>" class="img-circle elevation-2" alt="User Image">
-    </div>
-    <div class="info">
-      <a href="#" class="d-block link"><?php echo $store['store_name']; ?></a>
-    </div>
-  </div>
-<?php } ?>
+        <?php if ($_SESSION['storeid'] !== null) { ?>
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="<?php echo $store['logo']; ?>" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <div class="d-block link"><?php echo $store['store_name']; ?></div>
+            </div>
+        </div>
+    <?php } ?>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -193,7 +220,7 @@ $store = storeController::ctrShowStores($item, $value);
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="taxdis" class="nav-link">
+                            <a href="tax" class="nav-link">
                                 <i class="fa-solid fa-circle nav-icon"></i>
                                 <p>Tax</p>
                             </a>

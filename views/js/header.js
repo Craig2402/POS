@@ -171,7 +171,6 @@ $(document).ready(function() {
 });
 
 // Listen for changes in the profile picture input
-
 $("#profilePictureInput").change(function () {
     // Submit the form when an image is selected
     $("#profilePictureForm").submit();
@@ -179,3 +178,124 @@ $("#profilePictureInput").change(function () {
     $("#profilePictureInput").val('');
     
 });
+
+// Reset the settings modal content when the modal is closed
+$('#settingsModal').on('hidden.bs.modal', function () {
+  // Clear the checkboxes and form fields
+  $('#lipaMdogo').prop('checked', false);
+  $('#loyaltyPoints').prop('checked', false);
+  $('#logoInput').val('');
+  $('#loyaltyValueConversion').val('');
+  $('#loyaltyPointValue').val('');
+});
+
+// fetch settings data
+$(".settings").on("click", function() {
+
+  $.ajax({
+    type: "GET",
+    url: "ajax/settings.ajax.php",
+    cache: false,
+    success: function(settingsData) {
+      // Parse the JSON response
+      try {
+        settingsData = JSON.parse(settingsData);
+      } catch (error) {
+        console.error("Error parsing JSON response:", error);
+        return;
+      }
+  
+      // Find the objects with SettingName "LoyaltyPointValue" and "LoyaltyValueConversion"
+      var LoyaltyPointValue = settingsData.find(setting => setting.SettingName === "LoyaltyPointValue");
+      var LoyaltyValueConversion = settingsData.find(setting => setting.SettingName === "LoyaltyValueConversion");
+      var lipaMdogoSetting = settingsData.find(setting => setting.SettingName === "Lipamdogomdogo");
+      var loyaltyPointsSetting = settingsData.find(setting => setting.SettingName === "Loyaltypoints");
+
+      // Set values for form fields
+      $('#loyaltyPointValue').val(LoyaltyPointValue.SettingValue);
+      $('#loyaltyValueConversion').val(LoyaltyValueConversion.SettingValue);
+  
+      // Check if both settings have SettingValue of "1"
+      if (lipaMdogoSetting && loyaltyPointsSetting) {
+        if (lipaMdogoSetting.SettingValue === "1" && loyaltyPointsSetting.SettingValue === "1") {  
+          // Check both checkboxes
+          $('#lipaMdogo').prop('checked', true);
+          $('#loyaltyPoints').prop('checked', true);
+        } else {          
+          // Check a checkbox based on the condition
+          if (lipaMdogoSetting.SettingValue === "1") {
+            $('#lipaMdogo').prop('checked', true);
+          } else if (loyaltyPointsSetting.SettingValue === "1") {
+            $('#loyaltyPoints').prop('checked', true);
+          }
+        }
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error("AJAX request error:", error);
+    }
+  });
+  
+});
+
+// this function holds the ajax request
+function settingsAjax(item, value) {
+  
+  var data= new FormData();
+  data.append("item", item);
+  data.append("value", value);
+
+  $.ajax({
+    type: "POST",
+    url: "ajax/settings.ajax.php",
+    data: data, 
+    contentType:false,
+    caches:false,
+    processData:false,
+    dataType: "json",
+    success: function(answer) {
+      console.log(answer);
+    },
+    error: function(xhr, status, error) {
+      console.error("AJAX request error:", error);
+    }
+  });
+}
+
+// Listen for changes in the "Activate Lipa Mdogo Mdogo" checkbox
+$('#lipaMdogo').on('change', function() {
+  var item = "Lipamdogomdogo";
+  if (this.checked) {
+    // Checkbox is checked
+    console.log("Lipa Mdogo Mdogo activated");
+    var value = 1;
+    settingsAjax(item, value);
+    // Perform your action here
+  } else {
+    // Checkbox is unchecked
+    console.log("Lipa Mdogo Mdogo deactivated");
+    var value = 0;
+    settingsAjax(item, value);
+    // Perform your action here
+  }
+});
+
+// Listen for changes in the "Activate Loyalty Points" checkbox
+$('#loyaltyPoints').on('change', function() {
+  var item = "Loyaltypoints";
+  if (this.checked) {
+    // Checkbox is checked
+    console.log("Loyalty Points activated");
+    var value = 1;
+    settingsAjax(item, value);
+    // Perform your action here
+  } else {
+    // Checkbox is unchecked
+    console.log("Loyalty Points deactivated");
+    var value = 0;
+    settingsAjax(item, value);
+    // Perform your action here
+  }
+});
+
+

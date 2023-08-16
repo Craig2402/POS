@@ -144,12 +144,3 @@ color: #999;
 color: rgb(255, 255, 255);
 }
 
-.custom-sidebar .nav-treeview .nav-link:hover i,
-.custom-sidebar .nav-treeview .nav-link.active i {
-color: rgb(255, 255, 255);
-}
-
-.custom-sidebar .nav-pills .nav-link:hover {
-background-color: rgb(0, 105, 217);
-color: #FFF;
-}

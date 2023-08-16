@@ -1,20 +1,20 @@
 <?php
 
-require_once "../controllers/taxdis.controller.php";
-require_once "../models/taxdis.models.php";
+require_once "../controllers/tax.controller.php";
+require_once "../models/tax.models.php";
 
-class AjaxTaxdis{
+class Ajaxtax{
 
 	/*=============================================
 	EDIT CATEGORY
 	=============================================*/	
 
-	public $idTaxdis;
+	public $idtax;
 
 	public function ajaxEditTax(){
 
 		$item = "taxId";
-		$valor = $this->idTaxdis;
+		$valor = $this->idtax;
 
 		$answer = taxController::ctrShowTax($item, $valor);
 
@@ -26,9 +26,9 @@ class AjaxTaxdis{
 /*=============================================
 EDITAR CATEGORÍA
 =============================================*/	
-if(isset($_POST["idTaxdis"])){
+if(isset($_POST["idtax"])){
 
-	$taxdis = new AjaxTaxdis();
-	$taxdis -> idTaxdis = $_POST["idTaxdis"];
-	$taxdis -> ajaxEditTax();
+	$tax = new Ajaxtax();
+	$tax -> idtax = $_POST["idtax"];
+	$tax -> ajaxEditTax();
 }

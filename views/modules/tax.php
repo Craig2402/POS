@@ -69,7 +69,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped tables">
+                <table id="example1" class="table-striped tables display" style="width:100%">
                   <thead>
            
                     <tr>
@@ -102,9 +102,9 @@
 
                                 <div class="btn-group">
                                     
-                                  <button class="btn btnEditTaxdis" taxId="'.$value["taxId"].'" data-toggle="modal" data-target="#editTaxdis"><i class="fa fa-edit"></i></button>
+                                  <button class="btn btnEdittax" taxId="'.$value["taxId"].'" data-toggle="modal" data-target="#edittax"><i class="fa fa-edit"></i></button>
 
-                                  <button class="btn btnDeleteTaxdis" taxId="'.$value["taxId"].'"><i class="fa fa-times"></i></button>
+                                  <button class="btn btnDeletetax" taxId="'.$value["taxId"].'"><i class="fa fa-times"></i></button>
 
                                 </div>  
 
@@ -131,11 +131,11 @@
   <!-- /.content-wrapper -->
 
   <!--=====================================
-=            module edit taxdis            =
+=            module edit tax            =
 ======================================-->
 
 <!-- Modal -->
-<div id="editTaxdis" class="modal fade" role="dialog">
+<div id="edittax" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -164,13 +164,13 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" name="editTaxdis">Save changes</button>
+          <button type="submit" class="btn btn-primary" name="edittax">Save changes</button>
         </div>
 
         <?php
   
-          $editTaxdis= new taxController();
-          $editTaxdis-> ctrEditTax();
+          $edittax= new taxController();
+          $edittax-> ctrEditTax();
         ?>
       </form>
     </div>
@@ -179,8 +179,8 @@
 </div>
 
 <?php
-  $deleteTaxdis = new taxController();
-  $deleteTaxdis -> ctrDeleteTax();
+  $deletetax = new taxController();
+  $deletetax -> ctrDeleteTax();
 ?>
 <?php
     $markRead = new notificationController();

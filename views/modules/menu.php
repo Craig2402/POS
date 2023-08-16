@@ -109,7 +109,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="taxdis" class="nav-link">
+            <a href="tax" class="nav-link">
               <i class="nav-icon fas fa-calculator"></i>
               <p>
                 Tax

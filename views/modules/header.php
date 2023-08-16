@@ -105,6 +105,7 @@
           ?>
           <?php
             if ($_SESSION['role'] == "Administrator") {
+              echo '<a href="#" class="dropdown-item settings" data-toggle="modal" data-target="#settingsModal">Settings</a>';
               echo '<a href="#" class="dropdown-item" data-toggle="modal" data-target="#switchStoreModal">Switch Store</a>';
             }
             if ($_SESSION['storeid'] !== null && $_SESSION['role'] == "Administrator") {
@@ -219,6 +220,60 @@
     </div>
   </div>
 </div>
+
+
+<!-- Settings Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modalBodyContent">
+          <img id="companyLogo" src="views/img/products/default/anonymous.png" class="img-fluid rounded-circle mx-auto d-block" style="width: 100px; cursor: pointer;">
+        </div>
+        <div class="form-group">
+
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="lipaMdogo">
+            <label class="form-check-label" for="lipaMdogo">Activate Lipa Mdogo Mdogo</label>
+          </div>
+          
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="loyaltyPoints">
+            <label class="form-check-label" for="loyaltyPoints">Activate Loyalty Points</label>
+          </div>
+          
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="loyaltyValueConversion">Loyalty Value Conversion</label>
+            <input type="number" class="form-control" id="loyaltyValueConversion" name="loyaltyValueConversion">
+          </div>
+          <div class="form-group">
+            <label for="loyaltyPointValue">Loyalty Point Value</label>
+            <input type="number" class="form-control" id="loyaltyPointValue" name="loyaltyPointValue">
+          </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" name="saveSetting">Save Changes</button>
+      </div>
+      <?php
+
+        $editSettings = new loyaltyController();
+        $editSettings -> ctrchangeLoyaltySettings();
+
+      ?>  
+        </form>
+    </div>
+  </div>
+</div>
+
 <?php
 if (isset($_SESSION['status'])&& $_SESSION['status']!=''){
   ?>

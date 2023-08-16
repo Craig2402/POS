@@ -135,21 +135,21 @@ $(document).on("keyup change", "#payment", function() {
 view invoices
 =============================================*/
 
-$(".tables tbody").on("click", "button.viewInvoice", function(){
+// $(".tables tbody").on("click", "button.viewInvoice", function(){
 
-    var invoiceId = $(this).attr("idInvoice");
+//     var invoiceId = $(this).attr("idInvoice");
 
-    window.open('views/pdfs/view-invoice.php?invoiceId=' + invoiceId, '_blank');
+//     window.open('views/pdfs/view-invoice.php?invoiceId=' + invoiceId, '_blank');
 
 
 
-});
+// });
 
-$(".tables tbody").on("click", "button.downloadinvoice", function(){
-    var invoiceId = $(this).attr("idInvoice");
-    window.open('views/pdfs/download-invoices.php?invoiceId=' + invoiceId, '_blank');
+// $(".tables tbody").on("click", "button.downloadinvoice", function(){
+//     var invoiceId = $(this).attr("idInvoice");
+//     window.open('views/pdfs/download-invoices.php?invoiceId=' + invoiceId, '_blank');
     
-});
+// });
 
 
 
