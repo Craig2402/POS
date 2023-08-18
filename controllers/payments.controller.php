@@ -407,22 +407,70 @@ class PaymentController {
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($data);
 
-                        echo'<script>
-
+                        echo "
+                        <script>
+                        var paymentId = " . json_encode($paymentId) . ";
+            
+                        Swal.fire({
+                            title: 'Generating Receipt',
+                            text: 'Please wait while the receipt is being generated...',
+                            allowOutsideClick: false,
+                            showConfirmButton:false,
+                            onBeforeOpen: function() {
+                            Swal.showLoading();
+                            }
+                        });
+            
+                        fetch('views/pdfs/receipt.php?paymentId=' + paymentId)
+                            .then(response => response.blob())
+                            .then(blob => {
+                            var fileURL = URL.createObjectURL(blob);
+                            var iframe = document.createElement('iframe');
+                            iframe.style.display = 'none';
+                            document.body.appendChild(iframe);
+                            iframe.src = fileURL;
+                            iframe.onload = function() {
+                                try {
+                                // Try printing the content
+                                iframe.contentWindow.print();
+                                document.body.removeChild(iframe);
+            
+                                Swal.close();
+            
                                 Swal.fire({
-                                        icon: "success",
-                                        title: "Transaction succesfully!",
-                                        showConfirmButton: true,
-                                        confirmButtonText: "Close"
-                                        }).then(function(result){
-                                                    if (result.value) {
-
-                                                    window.location = "invoices";
-
-                                                    }
-                                                })
-
-                            </script>';
+                                    title: 'Print Complete',
+                                    icon: 'success',
+                                    text: 'The receipt has been printed successfully!',
+                                    timer:2000,
+                                    showConfirmButton:false,
+                                });
+                                } catch (error) {
+                                document.body.removeChild(iframe);
+            
+                                Swal.close();
+            
+                                Swal.fire({
+                                    title: 'Print Failed',
+                                    icon: 'error',
+                                    text: 'Failed to print the receipt. Please try again.',
+                                    timer:2000,
+                                    showConfirmButton:false,
+                                });
+                                }
+                            };
+                            })
+                            .catch(error => {
+                            Swal.close();
+                            Swal.fire({
+                                title: 'Print Failed',
+                                icon: 'error',
+                                text: 'Failed to generate the receipt. Please try again.',
+                                timer:2000,
+                                showConfirmButton:false,
+                            });
+                            });
+                        </script>
+                        ";
                     }
 
 				}
@@ -739,5 +787,18 @@ class PaymentController {
         }
 
     }
+
+    /*=============================================
+	FETCH GROUPED PAYMENTS
+	=============================================*/
+
+	public static function ctrfetchGroupedPayments($item, $value){
+
+		$table = "payments";
+
+		$answer = PaymentModel::mdlfetchGroupedPayments($table, $item, $value);
+
+		return $answer;
+	}
 
 }

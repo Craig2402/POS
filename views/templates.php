@@ -269,6 +269,8 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <!-- <script src="views/plugins/moment/moment.min.js"></script> -->
 <!-- jQuery -->
 <script src="views/plugins/jquery/jquery.min.js"></script>
+<!-- Include jQuery via CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- date-range-picker -->
 <!-- <script src="views/plugins/daterangepicker/daterangepicker.js"></script> -->

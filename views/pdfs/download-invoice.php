@@ -172,6 +172,16 @@ $pdf->SetY(-20); // Move to the bottom of the page
 $pdf->SetFont('helvetica', '', 10);
 $pdf->Cell(0, 10, 'Thank you for your business', 0, 0, 'C');
 
-// Output the PDF as a file (force download)
-$pdf->Output('invoice.pdf', 'D');
+// Generate a unique identifier (e.g., timestamp and random number)
+$uniqueIdentifier = time() . '_' . mt_rand(1000, 9999);
+
+// Format the current date
+$currentDate = date('Y-m-d');
+
+// Combine the identifier and date to create the PDF filename
+$pdfFilename = "invoice_{$currentDate}_{$uniqueIdentifier}.pdf";
+
+// Output the PDF as a file (force download) with the generated filename
+$pdf->Output($pdfFilename, 'D');
+
 ?>

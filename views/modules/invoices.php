@@ -133,7 +133,7 @@ require_once 'models/connection.php';
                                                                 <button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s addPayment"><i class="fa-solid fa-check"></i></button></td>';
                                                     } else {
                                                         echo '<td><button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s downloadinvoice"><i class="fa-solid fa-file-pdf"></i></button>
-                                                            <button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s viewInvoice"><i class="fa-solid fa-eye"></i></button></td>';
+                                                            <button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s viewInvoice" data-toggle="modal" data-target="#viewInvoiceModal"><i class="fa-solid fa-eye"></i></button></td>';
                                                     }
 
                                                     echo '</tr>';
@@ -198,41 +198,40 @@ require_once 'models/connection.php';
 <!-- /.content-wrapper -->
 
 <!-- View Invoice Modal -->
-<div class="modal fade" id="viewInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="userProfileModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="userProfileModalLabel">View Invoice</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+<div id="viewInvoiceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewInvoiceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <form role="form" method="POST">
+        <div class="modal-header">
+            <h4 class="modal-title">View Invoice</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            </button>
+        </div>
             <div class="modal-body">
                 <div class="modalBodyContent">
                     <div class="row">
                         <div class="col-sm-3">
                             <strong>Invoice to:</strong><br>
-                            <strong>Number</strong>
+                            <strong>Number:</strong>
                         </div>
-                        <div class="col-sm-3">
-                            Name:<br>
-                            number
+                        <div class="col-sm-3 invoice-name-number">
+
                         </div>
                         <div class="col-sm-3">
                             <strong>Document Date:</strong><br>
                             <strong>Due Date:</strong>
                         </div>
-                        <div class="col-sm-3">
-                            date <br>
-                            date
+                        <div class="col-sm-3 invoice-dates">
                         </div>
                     </div>
                     <!-- Add some spacing -->
                     <div class="my-4"></div>
                     <!-- Table row -->
                     <div class="row">
-                        <div class="col-12 table-responsive">
-                            <table class="w-100 custom-table">
+                        <div class="col-12 table-responsive custom-table">
+                            <table id="invoice-table" class="w-100">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -243,15 +242,7 @@ require_once 'models/connection.php';
                                         <th>Total</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Call of Duty</td>
-                                        <td>455-981-221</td>
-                                        <td>El snort testosterone trophy driving gloves handsome</td>
-                                        <td>$64.50</td>
-                                        <td>$64.50</td>
-                                    </tr>
+                                <tbody id="invoice-table-body">
                                 </tbody>
                             </table>
                         </div>
@@ -272,24 +263,24 @@ require_once 'models/connection.php';
                                 <div class="col-sm-6 text-end">
                                     Total without VAT:
                                 </div>
-                                <div class="col-sm-6 text-end">
-                                    $250.30
+                                <div class="col-sm-6 text-end subtotal">
+                                    
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 text-end">
                                     VAT:
                                 </div>
-                                <div class="col-sm-6 text-end">
-                                    $250.30
+                                <div class="col-sm-6 text-end vat">
+                                    
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 text-end">
                                     Discount:
                                 </div>
-                                <div class="col-sm-6 text-end">
-                                    $250.30
+                                <div class="col-sm-6 text-end discount">
+                                    
                                 </div>
                             </div>
                             <div class="row">
@@ -297,15 +288,15 @@ require_once 'models/connection.php';
                                     <strong class="fs-5">Total:</strong> <!-- Add fs-5 class for bigger text -->
                                 </div>
                                 <div class="col-sm-6 text-end">
-                                    <strong class="fs-5">$250.30</strong> <!-- Add fs-5 class for bigger text -->
+                                    <strong class="fs-5 total"></strong> <!-- Add fs-5 class for bigger text -->
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 text-end">
                                     Due:
                                 </div>
-                                <div class="col-sm-6 text-end">
-                                    $250.30
+                                <div class="col-sm-6 text-end due">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -317,8 +308,9 @@ require_once 'models/connection.php';
                     <div class="my-4"></div>
 
                     <div class="row">
-                        <div class="col-8 table-responsive">
-                            <table class="w-100 custom-table">
+                        <div class="col-8 table-responsive custom-table">
+                            <h4>Related payments:</h4>
+                            <table id="payment-table" class="w-100">
                                 <thead>
                                     <tr>
                                         <th>Type</th>
@@ -326,16 +318,7 @@ require_once 'models/connection.php';
                                         <th>Amount</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><button class=" btn btn-sm btn-success">Payment</button></td>
-                                        <td>8275345</td>
-                                        <td>$455</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" class="text-end">Total paid:</td>
-                                        <td>$455</td>
-                                    </tr>
+                                <tbody id="payment-table-body">
                                 </tbody>
                             </table>
                         </div>
@@ -343,14 +326,14 @@ require_once 'models/connection.php';
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <div class="dropup-center dropup">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                         Actions
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">View PDF</a></li>
-                        <li><a class="dropdown-item" href="#">Download PDF</a></li>
+                        <li><a id="view-pdf-link" class="dropdown-item" href="#">View PDF</a></li>
+                        <li><a id="download-pdf-link" class="dropdown-item" href="#">Download PDF</a></li>
                     </ul>
                 </div>
             </div>

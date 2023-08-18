@@ -125,53 +125,5 @@ $(".daterangepicker.opensright .ranges li").on("click", function(){
 })
 
 
-// Attach a click event listener to the parent element
-document.getElementById('invoiceTable').addEventListener('click', function(event) {
-  // Check if the clicked element has a class that corresponds to the buttons
-  if (event.target.classList.contains('downloadinvoice')) {
-      var invoiceId = event.target.getAttribute('idInvoice');
-      // Handle download invoice action
-      console.log('Download invoice for invoiceId:', invoiceId);
-  } else if (event.target.classList.contains('viewInvoice')) {
-      var invoiceId = event.target.getAttribute('idInvoice');
-      // Handle view invoice action
-      console.log('View invoice for invoiceId:', invoiceId);
-  } else if (event.target.classList.contains('addPayment')) {
-      var invoiceId = event.target.getAttribute('idInvoice');
-      // Handle add payment action
-      console.log('Add payment for invoiceId:', invoiceId);
-  }
-});
 
 
-/*=============================================
-VIEW INVOICE MODAL
-=============================================*/
-
-$(".viewInvoice").on("click", function(){
-  console.log("clicked");
-
-	var idInvoice = $(this).attr("idInvoice");
-	
-	var datum = new FormData();
-  datum.append("idInvoice", idInvoice);
-
-  
-  $.ajax({
-
-      url:"ajax/payment.ajax.php",
-      method: "POST",
-      data: datum,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType:"json",
-      success:function(answer){
-        console.log(answer);
-      }, error: function() {
-          Swal.fire("Error", "Failed to retrieve invoice data from the server.", "error");
-      }
-
-  });
-
-})

@@ -168,18 +168,18 @@ $pointPay=0;
 $change = 0;
 
 
-if (is_array($paymentData) && isset($paymentData['invoiceId'])) {
-    $amount = $paymentData['amount'];
-    if ($paymentData['paymentmethod'] === 'Cash') {
-        $cashPaid += $amount;
-    } 
-    if ($paymentData['paymentmethod'] === 'mpesa') {
-        $mpesaPay += $amount;
+    if (is_array($paymentData) && isset($paymentData['invoiceId'])) {
+        $amount = $paymentData['amount'];
+        if ($paymentData['paymentmethod'] === 'Cash') {
+            $cashPaid += $amount;
+        } 
+        if ($paymentData['paymentmethod'] === 'mpesa') {
+            $mpesaPay += $amount;
+        }
+        if ($paymentData['paymentmethod'] === 'points') {
+            $pointPay += $amount;
+        }
     }
-    if ($paymentData['paymentmethod'] === 'points') {
-        $pointPay += $amount;
-    }
-}
 
 // Calculate the change
 if ($cashPaid > $totalAmount) {
@@ -388,7 +388,7 @@ $html .= '</tbody>
 
  
     $points='';
-    if($paymentData['loyaltyid']!==null){
+    if(($paymentData['loyaltyid']!==null) && ($loyalty['Phone']!==null)){
        
         $item7='pointId';
         $value7=$paymentData['loyaltyid'];

@@ -160,6 +160,25 @@ class PaymentModel{
 
 	}
 	/*=============================================
+	FETCH GROUPED PAYMENTS
+	=============================================*/
+
+	static public function mdlfetchGroupedPayments($table, $item, $value){
+
+		$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+		$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+		$stmt -> execute();
+
+		return $stmt -> fetchAll();
+		
+		$stmt->closeCursor();
+
+		$stmt = null;
+
+	}
+	/*=============================================
 	Adding TOTAL sales
 	=============================================*/
 

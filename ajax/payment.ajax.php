@@ -10,6 +10,7 @@ class AjaxInvoices{
 	=============================================*/	
 
 	public $idInvoice;
+	public $invoiceid;
 
 	public function ajaxAddPayment(){
 
@@ -17,6 +18,18 @@ class AjaxInvoices{
 		$value = $this->idInvoice;
 
 		$answer = PaymentController::ctrShowInvoices($item, $value);
+
+		echo json_encode($answer);
+
+	}
+
+
+	public function ajaxFetchPayment(){
+
+		$item = "invoiceId";
+		$value = $this->invoiceid;
+
+		$answer = PaymentController::ctrfetchGroupedPayments($item, $value);
 
 		echo json_encode($answer);
 
@@ -34,5 +47,13 @@ if(isset($_POST["idInvoice"])){
     $addPayment -> idInvoice = $_POST["idInvoice"];
     $addPayment -> ajaxAddPayment();
   
-  }
+}
+
+if(isset($_POST["invoiceid"])){
+
+    $fetchPayment = new AjaxInvoices();
+    $fetchPayment -> invoiceid = $_POST["invoiceid"];
+    $fetchPayment -> ajaxFetchPayment();
+  
+}
   

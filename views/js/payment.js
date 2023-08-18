@@ -1,16 +1,14 @@
-
 /*=============================================
 MAKE PAYMENT
 =============================================*/
 
 $(".tables tbody").on("click", "button.addPayment", function(){
 
-	var idInvoice = $(this).attr("idInvoice");
-	
-	var datum = new FormData();
+    var idInvoice = $(this).attr("idInvoice");
+
+    var datum = new FormData();
     datum.append("idInvoice", idInvoice);
 
-    
     $.ajax({
 
         url:"ajax/payment.ajax.php",
@@ -22,20 +20,17 @@ $(".tables tbody").on("click", "button.addPayment", function(){
         dataType:"json",
         success:function(answer){
 
-            const productList = answer['products']
-            
-            const productNames = productList.flatMap(({ productName }) => productName);
+            const productList = JSON.parse(answer['products']);
+
+            const productDetails = productList.map(product => {
+                return `${product.productName} (Quantity: ${product.Quantity})`;
+            }).join(', ');
 
             localStorage.setItem('customerName', answer['customername']);
-
-            localStorage.setItem('Products', productNames);
-
+            localStorage.setItem('Products', productDetails);
             localStorage.setItem('Total', answer['total']);
-
             localStorage.setItem('Due', answer['dueamount']);
-
             localStorage.setItem('Paid', parseInt(answer['dueamount']) + parseInt(answer['total']));
-            
             localStorage.setItem('Invoiceid', answer['invoiceId']);
 
             window.location.href = 'payment';
@@ -132,32 +127,205 @@ $(document).on("keyup change", "#payment", function() {
 
 
 /*=============================================
-view invoices
+VIEW INVOICE MODAL
 =============================================*/
 
-// $(".tables tbody").on("click", "button.viewInvoice", function(){
 
-//     var invoiceId = $(this).attr("idInvoice");
+$(".tables tbody").on("click", "button.viewInvoice", function(){
 
-//     window.open('views/pdfs/view-invoice.php?invoiceId=' + invoiceId, '_blank');
+    var idInvoice = $(this).attr("idInvoice");
 
+    // Get references to the links
+    var viewPdfLink = document.getElementById("view-pdf-link");
+    var downloadPdfLink = document.getElementById("download-pdf-link");
 
-
-// });
-
-// $(".tables tbody").on("click", "button.downloadinvoice", function(){
-//     var invoiceId = $(this).attr("idInvoice");
-//     window.open('views/pdfs/download-invoices.php?invoiceId=' + invoiceId, '_blank');
+    // Set the href attributes using JavaScript
+    viewPdfLink.href = 'views/pdfs/view-invoice.php?invoiceId=' + idInvoice;
+    viewPdfLink.target = '_blank';
     
-// });
+    downloadPdfLink.href = 'views/pdfs/download-invoice.php?invoiceId=' + idInvoice;
+    downloadPdfLink.target = '_blank';
 
+    
+    var invoice_datum = new FormData();
+    invoice_datum.append("idInvoice", idInvoice);
 
+    var payment_datum = new FormData();
+    payment_datum.append("invoiceid", idInvoice);
+  
+    
+    $.ajax({
+  
+        url:"ajax/payment.ajax.php",
+        method: "POST",
+        data: invoice_datum,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(answer){
+            // invoice header
+            if (answer.customername == "") {
+                $(".invoice-name-number").html("null <br>" + answer.invoiceId);
+            } else {
+                $(".invoice-name-number").html(answer.customername + "<br>" + answer.invoiceId);
+            }            
+
+            $(".invoice-dates").html(answer.startdate + "<br>" + answer.duedate);
+            
+            // invoice table
+            const productArray = JSON.parse(answer.products);
+
+            productArray.map((product, index) => {
+                var barcodeProduct = product.id;
+                
+                var datum = new FormData();
+                datum.append("barcodeProduct", barcodeProduct);
+
+                $.ajax({
+
+                    url:"ajax/products.ajax.php",
+                    method: "POST",
+                    data: datum,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType:"json",
+                    success:function(answer){
+                        // Get the table body
+                        var tbody = document.querySelector('#invoice-table tbody');
+                        
+                        // Create a new table row
+                        var newRow = document.createElement('tr');
+
+                        var Cell1 = document.createElement('td');
+                        Cell1.textContent = index + 1;
+                        newRow.appendChild(Cell1);
+                        
+                        var Cell2 = document.createElement('td');
+                        Cell2.textContent = product.productName;
+                        newRow.appendChild(Cell2);
+                        
+                        var Cell3 = document.createElement('td');
+                        Cell3.textContent = answer.barcode;
+                        newRow.appendChild(Cell3);
+                        
+                        var Cell4 = document.createElement('td');
+                        Cell4.textContent = product.Quantity;
+                        newRow.appendChild(Cell4);
+                        
+                        var Cell5 = document.createElement('td');
+                        Cell5.textContent = product.salePrice;
+                        newRow.appendChild(Cell5);
+                        
+                        var Cell6 = document.createElement('td');
+                        Cell6.textContent = product.salePrice * product.Quantity;
+                        newRow.appendChild(Cell6);
+                        
+                        // Add the new row to the table body
+                        tbody.appendChild(newRow);
+
+                    }, error: function() {
+                        Swal.fire("Error", "Failed to retrieve product data for the invoice from the server.", "error");
+                    }
+
+                });
+
+            });
+
+            // invoice sums
+            $(".subtotal").text("Ksh " + formatCurrency(answer.subtotal));
+            $(".vat").text("Ksh " + formatCurrency(answer.totaltax));
+            $(".discount").text("Ksh " + formatCurrency(answer.discount));
+            $(".total").text("Ksh " + formatCurrency(answer.total));
+            $(".due").text("Ksh " + formatCurrency(answer.dueamount));
+
+            // var invoiceid = answer.invoiceId
+            var payment_datum = new FormData();
+            payment_datum.append("invoiceid", answer.invoiceId);
+            $.ajax({
+        
+                url:"ajax/payment.ajax.php",
+                method: "POST",
+                data: payment_datum,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType:"json",
+                success:function(answer){
+                    console.log(answer);
+                    // Get the table body
+                    var tbody = document.querySelector('#payment-table tbody');
+                    
+                    // initialize the total amount
+                    let totalAmount = 0;
+                    for (const data in answer) {
+                        if (answer.hasOwnProperty(data)) {
+                            const payment = answer[data];
+
+                            const amount = parseFloat(payment.amount); // Convert amount to a number
+        
+                            if (!isNaN(amount)) {
+                                totalAmount += amount;
+                            }                            
+                    
+                            // Create a new table row
+                            var newRow = document.createElement('tr');
+
+                            var Cell1 = document.createElement('td');
+                            var paymentButton = document.createElement('button');
+                            paymentButton.className = 'btn btn-sm btn-success';
+                            paymentButton.textContent = payment.paymentmethod;
+                            Cell1.appendChild(paymentButton);
+                            newRow.appendChild(Cell1);
+                            
+                            var Cell2 = document.createElement('td');
+                            Cell2.textContent = payment.receiptNumber;
+                            newRow.appendChild(Cell2);
+                            
+                            var Cell3 = document.createElement('td');
+                            Cell3.textContent =  "Ksh " + formatCurrency(payment.amount);
+                            newRow.appendChild(Cell3);
+                            
+                            // Add the new row to the table body
+                            tbody.appendChild(newRow);
+                        }
+                    }
+                    
+                    // Create a new table row element
+                    var newRow = document.createElement('tr');
+
+                    // Create the first cell with "colspan" attribute
+                    var cell1 = document.createElement('td');
+                    cell1.setAttribute('colspan', '2');
+                    cell1.className = 'text-end';
+                    cell1.textContent = 'Total paid:';
+                    newRow.appendChild(cell1);
+
+                    // Create the second cell
+                    var cell2 = document.createElement('td');
+                    cell2.textContent = "Ksh " + formatCurrency(totalAmount);
+                    newRow.appendChild(cell2);
+
+                    // Append the new row to the table body
+                    tbody.appendChild(newRow);
+                    
+                }, error: function() {
+                    Swal.fire("Error", "Failed to retrieve payment data from the server.", "error");
+                }
+        
+            });
+        }, error: function() {
+            Swal.fire("Error", "Failed to retrieve invoice data from the server.", "error");
+        }
+  
+    });
+  
+  });
 
 /*=============================================
-view invoices
+view reciept
 =============================================*/
-
-
 $(".tables tbody").on("click", "button.view-receipt", function(){
     var receipt = $(this).attr("receipt");
     var fileURL = "views/pdfs/receipts/" + receipt + ".pdf";

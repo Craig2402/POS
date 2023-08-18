@@ -223,9 +223,9 @@ function displayTopPerformingStores(data) {
       options: pieOptions
     });
   }
-  // Function to format currency
+// Function to format currency with 2 decimal places
 function formatCurrency(value) {
-    return parseFloat(value).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return parseFloat(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 // Function to format numbers
