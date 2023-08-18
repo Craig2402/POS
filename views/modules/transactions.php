@@ -29,7 +29,7 @@ require_once 'models/connection.php';
           <!-- /.col-md-6 -->
 
             <div class="card card-primary card-outline">
-              <div class="card-body">
+              <div class="card-body" id="buttonContainer">
               <table id="example1" class="table-striped tables display" style="width:100%">
                   <thead>
            
@@ -84,6 +84,80 @@ require_once 'models/connection.php';
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+
+  
+
+
+  <div id="viewPaymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewPaymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    
+    <div class="modal-content">
+      <form role="form" method="POST">
+        <div class="modal-header">
+            <h4 class="modal-title">View payment</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body"> 
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong>Customer:</strong><br>
+                        <strong>Invoice number:</strong><br>
+                        <strong>Payment type:</strong>
+                    </div>
+                    <div class="col-sm-3 payment-col1">
+
+                    </div>
+                    <div class="col-sm-3">
+                        <strong>Sum:</strong><br>
+                        <strong>Reciept number:</strong><br>
+                        <strong>Payment date:</strong>
+                    </div>
+                    <div class="col-sm-3 payment-col2">
+
+                    </div>
+                </div>
+
+                <!-- Add some spacing -->
+                <div class="my-4"></div>
+
+                <div class="row">
+                    <div class="col-8 table-responsive custom-table">
+                        <h4>Related payments:</h4>
+                        <table id="invoice2-table" class="w-100">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Number</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoice2-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="dropup-center dropup">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                    Actions
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a id="view-reciept-pdf-link" class="dropdown-item" href="#">View PDF</a></li>
+                    <li><a id="download-reciept-pdf-link" class="dropdown-item" href="#">Download PDF</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
   <?php
 
 $deleteTransaction = new PaymentController();

@@ -146,14 +146,18 @@ $(".tables tbody").on("click", "button.viewInvoice", function(){
     downloadPdfLink.href = 'views/pdfs/download-invoice.php?invoiceId=' + idInvoice;
     downloadPdfLink.target = '_blank';
 
-    
+    openInvoiceModal(idInvoice)
+  
+});
+
+function openInvoiceModal(idInvoice) {
+
     var invoice_datum = new FormData();
     invoice_datum.append("idInvoice", idInvoice);
 
     var payment_datum = new FormData();
     payment_datum.append("invoiceid", idInvoice);
-  
-    
+
     $.ajax({
   
         url:"ajax/payment.ajax.php",
@@ -164,11 +168,15 @@ $(".tables tbody").on("click", "button.viewInvoice", function(){
         processData: false,
         dataType:"json",
         success:function(answer){
+            const customername = answer.customername
+            const invoiceid = answer.invoiceId
+            const duedate = answer.duedate
+            
             // invoice header
             if (answer.customername == "") {
-                $(".invoice-name-number").html("null <br>" + answer.invoiceId);
+                $(".invoice-name-number").html("Null <br>" + answer.invoiceId + "<br>");
             } else {
-                $(".invoice-name-number").html(answer.customername + "<br>" + answer.invoiceId);
+                $(".invoice-name-number").html(answer.customername + "<br>" + answer.invoiceId + "<br>");
             }            
 
             $(".invoice-dates").html(answer.startdate + "<br>" + answer.duedate);
@@ -253,7 +261,6 @@ $(".tables tbody").on("click", "button.viewInvoice", function(){
                 processData: false,
                 dataType:"json",
                 success:function(answer){
-                    console.log(answer);
                     // Get the table body
                     var tbody = document.querySelector('#payment-table tbody');
                     
@@ -283,6 +290,7 @@ $(".tables tbody").on("click", "button.viewInvoice", function(){
                             Cell2.textContent = payment.receiptNumber;
                             newRow.appendChild(Cell2);
                             
+
                             var Cell3 = document.createElement('td');
                             Cell3.textContent =  "Ksh " + formatCurrency(payment.amount);
                             newRow.appendChild(Cell3);
@@ -290,7 +298,7 @@ $(".tables tbody").on("click", "button.viewInvoice", function(){
                             // Add the new row to the table body
                             tbody.appendChild(newRow);
                         }
-                    }
+                    }                            
                     
                     // Create a new table row element
                     var newRow = document.createElement('tr');
@@ -320,13 +328,193 @@ $(".tables tbody").on("click", "button.viewInvoice", function(){
         }
   
     });
-  
-  });
+    
+}
+function openPaymentModal(receiptNumber, customername, invoiceid, duedate) {
+    // open the payment modal
+    // $('#viewPaymentModal').modal('show');
+    // Create a button element
+    var button = document.createElement('button');
+
+    // Add the necessary attributes for modal functionality
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', '#viewPaymentModal');
+    button.className = 'invisible';
+
+    // Append the button to a container element (e.g., a div with the ID 'buttonContainer')
+    var buttonContainer = document.getElementById('buttonContainer'); // Change to your container's ID
+    buttonContainer.appendChild(button);
+
+    // Get the button element by its class or ID
+    var button = document.querySelector('.invisible'); // Change to your class or ID
+
+    // Trigger a click event on the button
+    button.click();
+
+    var payment_data = new FormData();
+    payment_data.append("receiptNumber", receiptNumber);
+
+    $.ajax({
+
+        url:"ajax/payment.ajax.php",
+        method: "POST",
+        data: payment_data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(answer){
+
+            if (customername == "") {
+                $(".payment-col1").html("Null <br>" + invoiceid + "<br>" + answer.paymentmethod);
+            } else {
+                $(".payment-col1").html(customername + "<br>" + invoiceid + "<br>" +answer.paymentmethod);
+            }        
+
+            $(".payment-col2").html(answer.amount + "<br>" + receiptNumber + "<br>" + duedate);
+
+                        
+            // Get the table body
+            var tbody = document.querySelector('#invoice2-table tbody');
+
+            // Create a new table row
+            var newRow = document.createElement('tr');
+
+            var Cell1 = document.createElement('td');
+            var paymentButton = document.createElement('button');
+            paymentButton.className = 'btn btn-sm btn-success';
+            paymentButton.textContent = "Invoice";
+            Cell1.appendChild(paymentButton);
+            newRow.appendChild(Cell1);
+            
+            var Cell2 = document.createElement('td');
+            Cell2.textContent = invoiceid;
+            newRow.appendChild(Cell2);
+            
+
+            var Cell3 = document.createElement('td');
+            Cell3.textContent =  "Ksh " + formatCurrency(answer.amount);
+            newRow.appendChild(Cell3);
+            
+            // Add the new row to the table body
+            tbody.appendChild(newRow);
+
+        }
+
+    });
+}
+
+
+$('#viewInvoiceModal').on('hidden.bs.modal', function (e) {
+
+    // Select the table body
+    var tbody = $('#invoice-table-body');
+    
+    // Remove all rows from the table body
+    tbody.empty();
+
+    // Select the table body
+    var tbody = $('#payment-table-body');
+    
+    // Remove all rows from the table body
+    tbody.empty();
+
+});
+
+$('#viewPaymentModal').on('hidden.bs.modal', function (e) {
+
+    // Select the table body
+    var tbody = $('#invoice2-table-body');
+    
+    // Remove all rows from the table body
+    tbody.empty();
+
+});
 
 /*=============================================
 view reciept
 =============================================*/
 $(".tables tbody").on("click", "button.view-receipt", function(){
+
+    var receiptNumber = $(this).attr("receipt");
+    
+
+    // Get references to the links
+    var viewPdfLink = document.getElementById("view-reciept-pdf-link");
+    var downloadPdfLink = document.getElementById("download-reciept-pdf-link");
+
+    // Set the 'receipt' attribute for the elements
+    $(viewPdfLink).attr("receipt", receiptNumber);
+    $(downloadPdfLink).attr("receipt", receiptNumber);
+
+    var payment_data = new FormData();
+    payment_data.append("receiptNumber", receiptNumber);
+
+    $.ajax({
+
+        url:"ajax/payment.ajax.php",
+        method: "POST",
+        data: payment_data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(answer){
+
+            const receiptNumber = answer.receiptNumber;
+            const customername = answer.customername;
+            const idInvoice = answer.invoiceId;
+        
+            var payment_data = new FormData();
+            payment_data.append("idInvoice", idInvoice);
+        
+            $.ajax({
+        
+                url:"ajax/payment.ajax.php",
+                method: "POST",
+                data: payment_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType:"json",
+                success:function(answer){
+
+                    const duedate = answer.duedate;
+
+                    // $('#viewPaymentModal').modal('show');
+                    // Create a button element
+                    var button = document.createElement('button');
+
+                    // Add the necessary attributes for modal functionality
+                    button.setAttribute('data-toggle', 'modal');
+                    button.setAttribute('data-target', '#viewPaymentModal');
+                    button.className = 'invisible';
+
+                    // Append the button to a container element (e.g., a div with the ID 'buttonContainer')
+                    var buttonContainer = document.getElementById('buttonContainer'); // Change to your container's ID
+                    buttonContainer.appendChild(button);
+
+                    // Get the button element by its class or ID
+                    var button = document.querySelector('.invisible'); // Change to your class or ID
+
+                    // Trigger a click event on the button
+                    button.click();
+                    
+                    openPaymentModal(receiptNumber, customername, idInvoice, duedate)
+        
+                }
+                
+            });
+
+        }
+        
+    });
+
+
+
+});
+
+$("#view-reciept-pdf-link").on("click", function(){
     var receipt = $(this).attr("receipt");
     var fileURL = "views/pdfs/receipts/" + receipt + ".pdf";
 
@@ -341,16 +529,36 @@ $(".tables tbody").on("click", "button.view-receipt", function(){
             title: 'Oops...',
             text: 'PDF not found!'
         });
+        
     }
+
 });
 
-$(".tables tbody").on("click", "button.download-reciept", function(){
+
+$("#download-reciept-pdf-link").on("click", function(){
     var receipt = $(this).attr("receipt");
     var fileURL = "views/pdfs/receipts/" + receipt + ".pdf";
     var link = document.createElement('a');
     link.href = fileURL;
     link.target = '_blank';
     link.download = receipt + '.pdf';
+    
+    // Check if the file exists using an AJAX request
+    $.ajax({
+        type: 'HEAD',
+        url: fileURL,
+        success: function () {
+            // File exists, create and trigger the link
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        },
+        error: function () {
+            // File doesn't exist, display SweetAlert
+            swal("File Not Found", "The receipt PDF file doesn't exist.", "error");
+        }
+    });
+    
 
     // Append the anchor to the document
     document.body.appendChild(link);
