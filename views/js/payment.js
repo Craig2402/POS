@@ -462,8 +462,12 @@ $(".tables tbody").on("click", "button.view-receipt", function(){
         success:function(answer){
 
             const receiptNumber = answer.receiptNumber;
-            const customername = answer.customername;
+            var customername = answer.customername;
             const idInvoice = answer.invoiceId;
+            if (!customername) {
+                customername = "Null"
+            }
+            console.log(customername);
         
             var payment_data = new FormData();
             payment_data.append("idInvoice", idInvoice);
