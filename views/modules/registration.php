@@ -85,10 +85,8 @@
                                 <label for="exampleSelectBorder">Role</label>
                                 <select class="form-control" name="roleOptions" id="roleOptions" required>
                                     <option value="" disabled selected>Select role</option>
-                                    <option value="Administrator">Administrator</option>
                                     <option value="Seller">Cashier</option>
                                     <option value="Store">Store keeper</option>
-                                    <option value="Supervisor">Supervisor</option>
                                 </select>
                               </div>';
                             }
@@ -153,11 +151,11 @@
                     $value = null;
                     
                     if ($_SESSION['role'] == "Supervisor") {
-                        $item = "store_id";
-                        $value = $_SESSION['storeid'];
+                      $item = "store_id";
+                      $value = $_SESSION['storeid'];
                     } elseif ($_SESSION['role'] == "Administrator") {
-                        $item = "role";
-                        $value = "Supervisor";
+                      $item = "role";
+                      $value = "Supervisor";
                     }
 
                     $user = userController::ctrShowUser($item, $value);
@@ -229,82 +227,177 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <div class="modal fade" id="editUser">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Edit Product</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-                        
-            <form action="" method="post" enctype="multipart/form-data">
-              <div class="card-body">
-                  <div class="form-group">
-                      <label for="exampleInputEmail1">Name</label>
-                      <input type="text" class="form-control" name="editName" id="editName" value="">
-                  </div>
-                  <div class="form-group">
-                      <label for="exampleInputEmail1">Username</label>
-                      <input type="taxt" class="form-control" name="editUsername" id="editUsername" value="" readonly>
-                  </div>
-                  <div class="form-group">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" class="form-control" name="editUserpassword" id="editUserpassword" placeholder="New Password">
-                      <input type="hidden" name="actualPassword" id="actualPassword">
-                  </div>
-                  <div class="form-group">
-                    <label for="Editstore">Store</label>
-                    <select class="form-control" name="Editstore" id="Editstore" required>
-                    <?php
-                      $item = null;
-                      $value = null;
-                      $stores = storeController::ctrShowStores($item, $value);
-                      foreach ($stores as $key => $value) {
-                        echo '<option value="'.$value["store_id"].'">'.$value["store_name"].'</option>';
-                      }
-                    ?>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                      <label for="exampleSelectBorder">Role</label>
-                      <select class="form-control" name="editRoleOptions">
-                          <option value="Administrator">Administrator</option>
-                          <option value="Seller">Seller</option>
-                          <option value="Store">Store keeper</option>
-                          <option value="Supervisor">Supervisor</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <div class="panel"><label for="exampleInputPassword1">Photo</label></div>
-                      <input type="file" class="userphoto" name="editUserphoto" id="editUserphoto" >
-                      <p class="help-block">Maximum file size 2mb</p>
-                      <img src="views/img/default/users/anonymous.png" class="thumbnail preview" width="100px">
-                      <input type="hidden" name="actualPhoto" id="actualPhoto">
-                  </div>
-              </div>
-          <!-- /.card-body -->
-              <?php
-              $editUser= new userController();
-              $editUser->ctrEditUser();
-              ?>
-              <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" name="editUser" class="btn btn-primary">Save changes</button>
-              </div>
-          </form>
-          </div>
-          <!-- /.modal-content -->
+<div id="editUser" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-md">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <form action="" method="post" enctype="multipart/form-data">
+        <div class="modal-header">
+            <h4 class="modal-title">Edit User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <!-- /.modal-dialog -->
+        <div class="modal-body">
+          <div class="box-body">
+            <div class="form-group">
+                <label for="editName">Name</label>
+                <input type="text" class="form-control" name="editName" id="editName" value="">
+            </div>
+            <div class="form-group">
+                <label for="editUsername">Username</label>
+                <input type="text" class="form-control" name="editUsername" id="editUsername" value="" readonly>
+            </div>
+            <div class="form-group">
+                <label for="editemail">Email</label>
+                <input type="text" class="form-control" name="editemail" id="editemail" value="" readonly>
+            </div>
+            <div class="form-group">
+                <label for="editUserpassword">Password</label>
+                <input type="password" class="form-control" name="editUserpassword" id="editUserpassword" placeholder="New Password">
+                <input type="hidden" name="actualPassword" id="actualPassword">
+            </div>
+            <div class="form-group">
+              <label for="Editstore">Store</label>
+              <select class="form-control" name="Editstore" id="Editstore" required>
+              <?php
+                $item = null;
+                $value = null;
+                $stores = storeController::ctrShowStores($item, $value);
+                foreach ($stores as $key => $value) {
+                  echo '<option value="'.$value["store_id"].'">'.$value["store_name"].'</option>';
+                }
+              ?>
+              </select>
+            </div>
+            <?php
+              if ($_SESSION['role'] == 'Administrator') {
+                echo '
+                <div class="form-group">
+                  <label for="editRoleOptions">Role</label>
+                  <select class="form-control" name="editRoleOptions" id="editRoleOptions" disabled required>
+                      <option value="Supervisor" selected>Supervisor</option>
+                  </select>
+                </div>';
+              }elseif ($_SESSION['role'] == "Supervisor"){
+                echo '
+                <div class="form-group">
+                  <label for="editRoleOptions">Role</label>
+                  <select class="form-control" name="editRoleOptions" id="editRoleOptions" required>
+                      <option value="" disabled selected>Select role</option>
+                      <option value="Seller">Cashier</option>
+                      <option value="Store">Store keeper</option>
+                  </select>
+                </div>';
+              }
+            ?>
+            <div class="form-group">
+                <div class="panel"><label for="editUserphoto">Photo</label></div>
+                <input type="file" class="userphoto" name="editUserphoto" id="editUserphoto" >
+                <p class="help-block">Maximum file size 2mb</p>
+                <img src="views/img/default/users/anonymous.png" class="thumbnail preview" width="100px">
+                <input type="hidden" name="actualPhoto" id="actualPhoto">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" name="editUser">Save changes</button>
+        </div>
+        <?php
+          $editUser= new userController();
+          $editUser->ctrEditUser();
+        ?>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editUser">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="" method="post" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Product</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+                  
+        <div class="card-body">
+          <div class="box-body">
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Name</label>
+                  <input type="text" class="form-control" name="editName" id="editName" value="">
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Username</label>
+                  <input type="taxt" class="form-control" name="editUsername" id="editUsername" value="" readonly>
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" class="form-control" name="editUserpassword" id="editUserpassword" placeholder="New Password">
+                  <input type="hidden" name="actualPassword" id="actualPassword">
+              </div>
+              <div class="form-group">
+                <label for="Editstore">Store</label>
+                <select class="form-control" name="Editstore" id="Editstore" required>
+                <?php
+                  $item = null;
+                  $value = null;
+                  $stores = storeController::ctrShowStores($item, $value);
+                  foreach ($stores as $key => $value) {
+                    echo '<option value="'.$value["store_id"].'">'.$value["store_name"].'</option>';
+                  }
+                ?>
+                </select>
+              </div>
+              <?php
+                if ($_SESSION['role'] == 'Administrator') {
+                  echo '
+                  <div class="form-group" style="display: none;>
+                    <label for="exampleSelectBorder">Role</label>
+                    <select class="form-control" name="roleOptions" id="roleOptions" required>
+                        <option value="Supervisor" selected>Supervisor</option>
+                    </select>
+                  </div>';
+                }elseif ($_SESSION['role'] == "Supervisor"){
+                  echo '
+                  <div class="form-group">
+                    <label for="exampleSelectBorder">Role</label>
+                    <select class="form-control" name="roleOptions" id="roleOptions" required>
+                        <option value="" disabled selected>Select role</option>
+                        <option value="Seller">Cashier</option>
+                        <option value="Store">Store keeper</option>
+                    </select>
+                  </div>';
+                }
+              ?>
+              <div class="form-group">
+                  <div class="panel"><label for="exampleInputPassword1">Photo</label></div>
+                  <input type="file" class="userphoto" name="editUserphoto" id="editUserphoto" >
+                  <p class="help-block">Maximum file size 2mb</p>
+                  <img src="views/img/default/users/anonymous.png" class="thumbnail preview" width="100px">
+                  <input type="hidden" name="actualPhoto" id="actualPhoto">
+              </div>
+          </div>
+      <!-- /.card-body -->
+          <?php
+          $editUser= new userController();
+          $editUser->ctrEditUser();
+          ?>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" name="editUser" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
       </div>
-      <!-- /.modal -->
-      <?php
-      $delUser= new userController();
-      $delUser->ctrDeleteUser();
-      ?>
-      <?php
-          $markRead = new notificationController();
-          $markRead -> ctrMarkNotificationsRead();
-      ?>
+    <!-- /.modal-content -->
+      </form>
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<?php
+  $delUser= new userController();
+  $delUser->ctrDeleteUser();
+?>

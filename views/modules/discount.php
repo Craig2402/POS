@@ -198,7 +198,4 @@
     $deletediscount= new discountController();
     $deletediscount->ctrDeleteDiscount();
   ?>
-  <?php
-      $markRead = new notificationController();
-      $markRead -> ctrMarkNotificationsRead();
-  ?>
+ 

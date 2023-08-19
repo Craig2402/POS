@@ -443,7 +443,9 @@ class PaymentController {
                                     text: 'The receipt has been printed successfully!',
                                     timer:2000,
                                     showConfirmButton:false,
+                                    
                                 });
+                                window.location.href = 'invoices';
                                 } catch (error) {
                                 document.body.removeChild(iframe);
             
@@ -475,18 +477,6 @@ class PaymentController {
 
 				}
                 
-            }else{
-
-                echo'<script>
-
-                        Swal.fire({
-                                icon: "warning",
-                                title: "Select a payent method to proceed",
-                                showConfirmButton: true,
-                                confirmButtonText: "Close"
-                                })
-
-                    </script>';
             }
 
         }

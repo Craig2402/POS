@@ -21,7 +21,7 @@ class userController{
 
 				 //var_dump($answer);
 
-				if($answer["email"] == $value && $answer["userpassword"] == $encryptpass ){
+				if($answer && $answer["email"] == $value && $answer["userpassword"] == $encryptpass ){
 
 					if($answer["status"] == 1 && $answer["deleted"] == 0){
 
@@ -459,7 +459,7 @@ class userController{
 								'username' => $_POST["editUsername"],
 								'userpassword' => $encryptpass,
 								'role' => $_POST["editRoleOptions"],
-								'email' => $_POST["email"],
+								'email' => $_POST["editemail"],
 								'store_id' => $_POST["Editstore"],
 								'userphoto' => $photo);
             

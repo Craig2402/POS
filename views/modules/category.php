@@ -214,7 +214,3 @@ module make request
   $deleteCategory = new categoriesController();
   $deleteCategory -> ctrDeleteCategory();
 ?>
-<?php
-    $markRead = new notificationController();
-    $markRead -> ctrMarkNotificationsRead();
-?>

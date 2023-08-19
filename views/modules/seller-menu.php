@@ -1,99 +1,111 @@
-<!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-      <img src="./dist/img/AdminLTELogo.png" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">POS</span>
+<style>
+.link  {
+  text-decoration: none;
+}
+.brand-text:hover {
+  color: black;
+}
+.brand-text {
+  color: black;
+}
+</style>
+<?php
+  $table = "customers";
+  $item = "organizationcode";
+  $value = $_SESSION['organizationcode'];
+  $conn = connection::connectbilling()->prepare("SELECT * FROM `$table` WHERE $item = :$item");
+
+  $conn->bindParam(':' . $item, $value, PDO::PARAM_STR);
+
+  $conn->execute();
+
+  $organizationData = $conn->fetch(PDO::FETCH_ASSOC); // Fetch the result into an associative array
+
+  $conn -> closeCursor();
+
+  $conn = null;
+?>
+<aside class="main-sidebar custom-sidebar">
+    <a href="#" class="brand-link link">
+        <img src="./img/store/959.jpg" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light" ><?php echo $organizationData['organizationname'] ?></span>
     </a>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src=<?php echo $_SESSION['userphoto'];?> class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block"><?php echo $_SESSION['username'];?></a>
-        </div>
-      </div>
+    <?php
+        $item = "store_id";
+        $value = $_SESSION['storeid'];
+        $store = storeController::ctrShowStores($item, $value);
+        ?>
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
+        <?php if ($_SESSION['storeid'] !== null) { ?>
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="<?php echo $store['logo']; ?>" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <div class="d-block link"><?php echo $store['store_name']; ?></div>
+            </div>
         </div>
-      </div>
+    <?php } ?>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library --> 
-          <li class="nav-item">
-            <a href="dashboard" class="nav-link">
-              <i class="fa-solid fa-house-user"></i> 
-              <p>
-                Dashboard
-              </p>
-            </a>
-          </li>
-          <li class="nav nav-item">
-                <a href="" class="nav-link"><i class="fa-solid fa-cart-shopping"></i>
-                  <p>
-                    Products
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="products" class="nav-link">
-                          <i class="fa-solid fa-eye"></i>
-                            <p>View Products</p>
-                        </a>
-                    </li>
-                </ul>
-          </li>
-          <li class="nav-item">
-            <a href="pos" class="nav-link">
-              <i class="fa-solid fa-store"></i>
-              <p>
-                POS
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="invoices" class="nav-link">
-              <i class="fa-solid fa-file-invoice-dollar"></i>
-              <p>
-                invoices
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="changepassword" class="nav-link">
-              <i class="fa-solid fa-user-shield"></i>
-              <p>
-                Change password
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="logout" class="nav-link">
-              <i class="fa-solid fa-arrow-right-from-bracket"></i>
-              <p>
-                Log out
-              </p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                <li class="nav-item">
+                    <a href="pos" class="nav-link">
+                        <i class="fa-solid fa-store nav-icon"></i>
+                        <p>
+                            POS
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <p>
+                            Inventory
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="products" class="nav-link">
+                                <i class="fa-solid fa-circle nav-icon"></i>
+                                <p>View Products</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-arrow-trend-up nav-icon"></i>
+                        <p>
+                            Finance
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="transactions" class="nav-link">
+                                <i class="fa-solid fa-circle nav-icon"></i>
+                                <p>Transactions</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="invoices" class="nav-link">
+                                <i class="fa-solid fa-circle nav-icon"></i>
+                                <p>Client Invoices</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
-  </aside>
+</aside>
+

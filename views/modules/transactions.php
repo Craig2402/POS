@@ -170,7 +170,4 @@ $reciept = $deleteTransaction->ctrDeleteTransaction();
     // var_dump($deleteTransaction)
 
   ?>
-  <?php
-      $markRead = new notificationController();
-      $markRead -> ctrMarkNotificationsRead();
-  ?>
+ 

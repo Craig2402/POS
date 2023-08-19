@@ -143,6 +143,6 @@
   </div>
   <!-- /.content-wrapper -->
 <?php
-    $markRead = new notificationController();
+    $ 
     $markRead -> ctrMarkNotificationsRead();
 ?>

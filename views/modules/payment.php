@@ -61,7 +61,7 @@
 
                         <div class="form-group clearfix" name="paymentmethod">
                             <div class="icheck-primary d-inline">
-                                <input type="radio" name="r3" id="radioSuccess1" value="cash">
+                                <input type="radio" name="r3" id="radioSuccess1" value="Cash">
                                 <label for="radioSuccess1">
                                     Cash
                                 </label>
@@ -110,7 +110,4 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-<?php
-    $markRead = new notificationController();
-    $markRead -> ctrMarkNotificationsRead();
-?>
+ 

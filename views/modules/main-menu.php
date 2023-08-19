@@ -2,7 +2,14 @@
   .link  {
     text-decoration: none;
   }
-
+  .brand-text:hover {
+    color: black;
+  }
+  .brand-text {
+    color: black;
+  }
+  
+</style>
   <?php
   
   $table = "customers";
@@ -20,21 +27,11 @@
 
   $conn = null;
   ?>
-</style>
 <aside class="main-sidebar custom-sidebar">
-    <!-- <a href="/views/img/main-logo.png" class="link">
-        <img src="./dist/img/AdminLTELogo.png" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <a href="#" class="brand-link link">
+        <img src="./img/store/959.jpg" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light" ><?php echo $organizationData['organizationname'] ?></span>
-    </a> -->
-    
-    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-            <img src="../img/store/main-logo.png" class="img-circle elevation-2">
-        </div>
-        <div class="info">
-            <a href="#" class="d-block link"><?php echo $organizationData['organizationname']; ?></a>
-        </div>
-    </div>
+    </a>
 
     <div class="sidebar">
     <?php

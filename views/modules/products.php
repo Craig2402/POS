@@ -353,7 +353,3 @@
   $deleteProduct = new productController();
   $deleteProduct -> ctrDeleteProduct();
 ?>
-<?php
-  $markRead = new notificationController();
-  $markRead -> ctrMarkNotificationsRead();
-?>

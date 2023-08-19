@@ -182,7 +182,4 @@
   $deletetax = new taxController();
   $deletetax -> ctrDeleteTax();
 ?>
-<?php
-    $markRead = new notificationController();
-    $markRead -> ctrMarkNotificationsRead();
-?>
+ 

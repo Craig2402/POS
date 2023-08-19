@@ -35,9 +35,6 @@
               </div>
             </div>
           </form>
-          <p class="mb-1 text-center">
-            <a href="#" class="link">I forgot my password</a>
-          </p>
         </div>
       </div>
     </div>

@@ -42,6 +42,10 @@
     <!-- daterange picker -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="views/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    
+
     
     <!-- =============================================
     SCRIPTS
@@ -72,6 +76,10 @@
     <!-- chart js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="views/plugins/chart.js/Chart.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
     
 
 </head>
@@ -80,7 +88,7 @@
 if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
         if (isset($_SESSION['role']) && $_SESSION['role'] == "Administrator") {
             include 'modules/header.php';
-            include 'modules/supervisor-menu.php';
+            include 'modules/main-menu.php';
     
             if (isset($_GET['route'])) {
                 // Check if the requested route is valid for the Administrator role
@@ -136,7 +144,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 
         }elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Supervisor") {
         include 'modules/header.php';
-        include 'modules/supervisor-menu.php';
+        include 'modules/main-menu.php';
 
         if (isset($_GET['route'])) {
             // Check if the requested route is valid for the Administrator role

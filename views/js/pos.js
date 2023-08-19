@@ -374,10 +374,15 @@ $(document).ready(function() {
     var dueAmount = parseFloat($('#txtdue_id').val());
     var redeemedPointsInput = document.getElementById("redeemedpoints");
     
-    if (dueAmount < 0 && $('#additionalInputs').is(':hidden') && $('.points').is(':visible') && redeemedPointsInput.value === "") {
+    if (dueAmount < 0 && $('#additionalInputs').is(':hidden') && redeemedPointsInput.value === "") {
       $('#additionalInputs, .loyaltyPoints').show();
+      if ($('.points').is(':hidden')) {
+        $(".loyaltyPoints").hide();
+      } else{
+        $(".loyaltyPoints").show();
+      }
       return false; // Prevent form submission
-    } else if (dueAmount === 0) {
+    }  else if (dueAmount === 0) {
       // Submit the form if the loyaltyPoints div is visible
       if ($(".loyaltyPoints").is(":hidden") && redeemedPointsInput.value === "" && $('.points').is(':visible')) {
         $(".loyaltyPoints").show();

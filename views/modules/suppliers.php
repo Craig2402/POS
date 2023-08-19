@@ -188,7 +188,6 @@
         $deleteSupplier -> ctrDeleteSupplier();
 
       ?>  
-      <?php
-          $markRead = new notificationController();
-          $markRead -> ctrMarkNotificationsRead();
+ 
+           
       ?>

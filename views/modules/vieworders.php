@@ -129,10 +129,7 @@
         </div>
     </div>
 </div>
-<?php
-    $markRead = new notificationController();
-    $markRead -> ctrMarkNotificationsRead();
-?>
+ 
 
 <script>
     $(document).ready(function() {

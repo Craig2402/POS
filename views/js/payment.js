@@ -88,20 +88,40 @@ if (window.location.href.indexOf('payment') !== -1) {
 
 
 }
-$("#paymentForm").submit(function() {
 
-    if ($('input[name=r3]:checked').length === 0) {
-        
-        Swal.fire({
+// Wait for the document to be ready
+document.addEventListener("DOMContentLoaded", function () {
+    const paymentForm = document.getElementById("paymentForm");
+
+    paymentForm.addEventListener("submit", function (event) {
+        // Prevent form submission
+        event.preventDefault();
+
+        // Check if a payment method is selected
+        const paymentMethodRadios = document.getElementsByName("r3");
+        let selectedPaymentMethod = false;
+
+        for (const radio of paymentMethodRadios) {
+            if (radio.checked) {
+                selectedPaymentMethod = true;
+                break;
+            }
+        }
+
+        if (!selectedPaymentMethod) {
+            // Display SweetAlert alert
+            Swal.fire({
                 icon: "warning",
-                title: "Select a payment method to proceed",
-                showConfirmButton: true,
-                confirmButtonColor: '#0069d9',
-                confirmButtonText: "Close"
-                })
-
-    }
-
+                title: "Oops...",
+                text: "Please select a payment method before submitting the form!",
+                timer:2000,
+                showConfirmButton:false,
+            });
+        } else {
+            // If payment method is selected, submit the form
+            paymentForm.submit();
+        }
+    });
 });
 
 
