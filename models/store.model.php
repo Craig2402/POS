@@ -86,7 +86,21 @@ class storeModel{
 	=============================================*/
 	static public function mdlShowStores($table, $item, $value){
 
-		if($item != null){
+		if ($item == "store_id"){ 
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
+			
+		} elseif($item != null){
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
 
@@ -112,7 +126,6 @@ class storeModel{
 
 			$stmt = null;
 
-			
 		}
 
 	}

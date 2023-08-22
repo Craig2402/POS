@@ -37,5 +37,41 @@ class activitylogModel{
 		}
 
     }
+	
+    /*=============================================
+    FETCH ACTIVITYLOG
+    =============================================*/
+	public static function mdlFetchActivityLog($table, $item, $value){
+
+		if($item != null){
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetch();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
+		}
+		else{
+			$stmt = connection::connect()->prepare("SELECT * FROM $table ORDER BY Timestamp DESC;");
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
+
+			
+		}
+
+	}
 
 }

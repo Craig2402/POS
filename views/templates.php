@@ -68,10 +68,8 @@
     <script src="views/plugins/select2/js/select2.full.min.js"></script>
 
     <!-- daterange picker -->
-    <script src="views/plugins/daterangepicker/daterangepicker.css"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="views/plugins/daterangepicker/daterangepicker.js"></script>
     
     <!-- chart js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -117,20 +115,9 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                     $_GET['route'] == "manage-stores" ||
                     $_GET['route'] == "view-returned" ||
                     $_GET['route'] == "finance-dashboard" ||
+                    $_GET['route'] == "logs"||
                     $_GET['route'] == "logout"
-                ) { 
-                    // Log the route
-                    $logMessage = $_SESSION['username']. " accessed route: " . $_GET['route'];
-            
-                    // Create an array with the data for the activity log entry
-                    $logdata = array(
-                        'UserID' => $_SESSION['userId'],
-                        'ActivityType' => 'Route access',
-                        'ActivityDescription' => $logMessage
-                    );
-    
-                    // Call the ctrCreateActivityLog() function
-                    activitylogController::ctrCreateActivityLog($logdata);
+                ) {
                     include "modules/" . $_GET['route'] . ".php";
                 } else {
                     include "modules/404.php";
@@ -174,19 +161,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                 $_GET['route'] == "view-returned" ||
                 $_GET['route'] == "finance-dashboard" ||
                 $_GET['route'] == "logout"
-            ) { 
-                // Log the route
-                $logMessage = $_SESSION['username']. " accessed route: " . $_GET['route'];
-        
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Route access',
-                    'ActivityDescription' => $logMessage
-                );
-
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+            ) {
                 include "modules/" . $_GET['route'] . ".php";
             } else {
                 include "modules/404.php";
@@ -212,18 +187,6 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "payment" ||
             $_GET['route'] == "logout"
         ) {
-        // Log the route
-        $logMessage = $_SESSION['username']. " accessed route: " . $_GET['route'];
-
-        // Create an array with the data for the activity log entry
-        $logdata = array(
-            'UserID' => $_SESSION['userId'],
-            'ActivityType' => 'Route access',
-            'ActivityDescription' => $logMessage
-        );
-
-        // Call the ctrCreateActivityLog() function
-        activitylogController::ctrCreateActivityLog($logdata);
         include "modules/" . $_GET['route'] . ".php";
         } else {
         include "modules/404.php";
@@ -249,18 +212,6 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
             $_GET['route'] == "discount" ||
             $_GET['route'] == "logout"
         ) {
-        // Log the route
-        $logMessage = $_SESSION['username']. " accessed route: " . $_GET['route'];
-
-        // Create an array with the data for the activity log entry
-        $logdata = array(
-            'UserID' => $_SESSION['userId'],
-            'ActivityType' => 'Route access',
-            'ActivityDescription' => $logMessage
-        );
-
-        // Call the ctrCreateActivityLog() function
-        activitylogController::ctrCreateActivityLog($logdata);
         include "modules/" . $_GET['route'] . ".php";
         } else {
         include "modules/404.php";

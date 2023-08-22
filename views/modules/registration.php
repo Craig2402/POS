@@ -57,18 +57,35 @@
                                 <input type="password" class="form-control" name="userpassword" id="userpassword" placeholder="Password" required>
                             </div>
                             <div class="form-group">
-                              <label for="Selectstore">Store</label>
-                              <select class="form-control" name="Selectstore" id="Selectstore" required>
-                              <option value="" disabled selected>Select a store</option>
                               <?php
-                                $item = null;
-                                $value = null;
-                                $stores = storeController::ctrShowStores($item, $value);
-                                foreach ($stores as $key => $value) {
-                                  echo '<option value="'.$value["store_id"].'">'.$value["store_name"].'</option>';
+                                $item = 'store_id';
+                                $value = $_SESSION['storeid'];
+                                if ($_SESSION['role'] == 'Administrator') {
+                                  echo '<label for="Selectstore">Store</label>
+                                  <select class="form-control" name="Selectstore" id="Selectstore" required>
+                                  <option value="" disabled selected>Select a store</option>';
+                                  $item = null;
+                                  $value = null;
+                                  $stores = storeController::ctrShowStores($item, $value);
+                                  var_dump($stores);
+                                  foreach ($stores as $key => $value) {
+                                    echo '<option value="'.$value["store_id"].'">'.$value["store_name"].'</option>';
+                                  }
+                                  echo '</select>';
+                                } else {
+                                  echo '<label for="Selectstore" hidden>Store</label>
+                                  <select class="form-control" name="Selectstore" id="Selectstore" hidden required>
+                                  <option value="" disabled selected>Select a store</option>';
+                                  $item = null;
+                                  $value = null;
+                                  $stores = storeController::ctrShowStores($item, $value);
+                                  var_dump($stores);
+                                  foreach ($stores as $key => $value) {
+                                    echo '<option value="'.$value["store_id"].'">'.$value["store_name"].'</option>';
+                                  }
+                                  echo '</select>';                                  
                                 }
                               ?>
-                              </select>
                             </div>
                           <?php
                             if ($_SESSION['role'] == 'Administrator') {
@@ -153,12 +170,14 @@
                     if ($_SESSION['role'] == "Supervisor") {
                       $item = "store_id";
                       $value = $_SESSION['storeid'];
+                      $role = "Supervisor";
                     } elseif ($_SESSION['role'] == "Administrator") {
                       $item = "role";
                       $value = "Supervisor";
+                      $role = null;
                     }
 
-                    $user = userController::ctrShowUser($item, $value);
+                    $user = userController::ctrShowUser($item, $value, $role);
                     // var_dump($user);
 
                     foreach ($user as $key => $val) {
@@ -178,12 +197,12 @@
 
                       }else{
 
-                          echo '<td><img src="views/img/default/users/anonymous.png" class="img-thumbnail" width="40px"></td>';
+                          echo '<td><img src="views/img/users/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
                       
                       }
 
                       echo '<td>'.$val["role"].'</td>
-                            <td>'.$store["store_name"].'</td>';
+                            <td>'.$store[0]["store_name"].'</td>';
 
                       if($val["status"] != 0){
 
@@ -274,9 +293,10 @@
                 echo '
                 <div class="form-group">
                   <label for="editRoleOptions">Role</label>
-                  <select class="form-control" name="editRoleOptions" id="editRoleOptions" disabled required>
+                  <select class="form-control" name="editRoleOptions" id="editRoleOptions" hidden required>
                       <option value="Supervisor" selected>Supervisor</option>
                   </select>
+                  <input type="text" class="form-control" name="currentRole" id="currentRole" readonly>
                 </div>';
               }elseif ($_SESSION['role'] == "Supervisor"){
                 echo '
@@ -312,91 +332,6 @@
   </div>
 </div>
 
-<div class="modal fade" id="editUser">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form action="" method="post" enctype="multipart/form-data">
-        <div class="modal-header">
-          <h4 class="modal-title">Edit Product</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-                  
-        <div class="card-body">
-          <div class="box-body">
-              <div class="form-group">
-                  <label for="exampleInputEmail1">Name</label>
-                  <input type="text" class="form-control" name="editName" id="editName" value="">
-              </div>
-              <div class="form-group">
-                  <label for="exampleInputEmail1">Username</label>
-                  <input type="taxt" class="form-control" name="editUsername" id="editUsername" value="" readonly>
-              </div>
-              <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" name="editUserpassword" id="editUserpassword" placeholder="New Password">
-                  <input type="hidden" name="actualPassword" id="actualPassword">
-              </div>
-              <div class="form-group">
-                <label for="Editstore">Store</label>
-                <select class="form-control" name="Editstore" id="Editstore" required>
-                <?php
-                  $item = null;
-                  $value = null;
-                  $stores = storeController::ctrShowStores($item, $value);
-                  foreach ($stores as $key => $value) {
-                    echo '<option value="'.$value["store_id"].'">'.$value["store_name"].'</option>';
-                  }
-                ?>
-                </select>
-              </div>
-              <?php
-                if ($_SESSION['role'] == 'Administrator') {
-                  echo '
-                  <div class="form-group" style="display: none;>
-                    <label for="exampleSelectBorder">Role</label>
-                    <select class="form-control" name="roleOptions" id="roleOptions" required>
-                        <option value="Supervisor" selected>Supervisor</option>
-                    </select>
-                  </div>';
-                }elseif ($_SESSION['role'] == "Supervisor"){
-                  echo '
-                  <div class="form-group">
-                    <label for="exampleSelectBorder">Role</label>
-                    <select class="form-control" name="roleOptions" id="roleOptions" required>
-                        <option value="" disabled selected>Select role</option>
-                        <option value="Seller">Cashier</option>
-                        <option value="Store">Store keeper</option>
-                    </select>
-                  </div>';
-                }
-              ?>
-              <div class="form-group">
-                  <div class="panel"><label for="exampleInputPassword1">Photo</label></div>
-                  <input type="file" class="userphoto" name="editUserphoto" id="editUserphoto" >
-                  <p class="help-block">Maximum file size 2mb</p>
-                  <img src="views/img/default/users/anonymous.png" class="thumbnail preview" width="100px">
-                  <input type="hidden" name="actualPhoto" id="actualPhoto">
-              </div>
-          </div>
-      <!-- /.card-body -->
-          <?php
-          $editUser= new userController();
-          $editUser->ctrEditUser();
-          ?>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" name="editUser" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    <!-- /.modal-content -->
-      </form>
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 <?php
   $delUser= new userController();
   $delUser->ctrDeleteUser();

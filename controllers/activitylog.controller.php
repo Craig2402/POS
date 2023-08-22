@@ -16,5 +16,18 @@ class activitylogController {
             
         }
     }
+    
+    /*=============================================
+    FETCH ACTIVITYLOG
+    =============================================*/
+    public static function ctrFetchActivityLog($item, $value){
+        
+        $table = "UserActivityLog";
+
+        $answer = activitylogModel::mdlFetchActivityLog($table, $item, $value);
+
+        return $answer;
+
+    }
 }
 ?>

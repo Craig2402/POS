@@ -323,11 +323,11 @@ class userController{
 
 		return $answer;
 	}
-	static public function ctrShowUser($item, $value){
+	static public function ctrShowUser($item, $value, $role){
 
 		$table = "users";
 
-		$answer = userModel::mdlShowUsers($table, $item, $value);
+		$answer = userModel::mdlShowUsers($table, $item, $value, $role);
 
 		return $answer;
 	}

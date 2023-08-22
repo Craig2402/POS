@@ -105,6 +105,7 @@
           ?>
           <?php
             if ($_SESSION['role'] == "Administrator") {
+              echo '<a href="logs" class="dropdown-item">Logs</a>';
               echo '<a href="#" class="dropdown-item settings" data-toggle="modal" data-target="#settingsModal">Settings</a>';
               echo '<a href="#" class="dropdown-item" data-toggle="modal" data-target="#switchStoreModal">Switch Store</a>';
             }

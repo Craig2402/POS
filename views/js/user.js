@@ -99,6 +99,8 @@ $(document).on("click", ".btnEditUser", function(){
 
  			$("#actualPhoto").val(answer["userphoto"]);
 
+ 			$("#currentRole").val(answer.role);
+
  			$("#editemail").val(answer.email);
  			
  			if(answer["userphoto"] != ''){

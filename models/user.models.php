@@ -53,19 +53,37 @@ class userModel{
 		$stmt = null;
 
 	}
-	static public function mdlShowUsers($tableUsers, $item, $value){
+	static public function mdlShowUsers($tableUsers, $item, $value, $role){
+		if ($role != null) {
 
-		$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item AND deleted = 0");
+			$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item AND deleted = 0 AND role != :role");
 
-		$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+			$stmt -> bindParam(":role", $role, PDO::PARAM_STR);
 
-		$stmt -> execute();
+			$stmt -> execute();
 
-		return $stmt -> fetchAll();
+			return $stmt -> fetchAll();
 
-		$stmt -> closeCursor();
+			$stmt -> closeCursor();
 
-		$stmt = null;
+			$stmt = null;
+			
+		} else {
+
+			$stmt = connection::connect()->prepare("SELECT * FROM $tableUsers WHERE $item = :$item AND deleted = 0");
+
+			$stmt -> bindParam(":".$item, $value, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+			$stmt -> closeCursor();
+
+			$stmt = null;
+			
+		}
 
 	}
 
