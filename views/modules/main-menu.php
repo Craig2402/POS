@@ -8,7 +8,6 @@
   .brand-text {
     color: black;
   }
-  
 </style>
   <?php
   
@@ -28,8 +27,8 @@
   $conn = null;
   ?>
 <aside class="main-sidebar custom-sidebar">
-    <a href="#" class="brand-link link">
-        <img src="./img/store/959.jpg" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <a href="#" class="brand-link link" data-toggle="modal" data-target="#editModal">
+        <img src="views/img/company/main-logo.png" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light" ><?php echo $organizationData['organizationname'] ?></span>
     </a>
 

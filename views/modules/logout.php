@@ -16,6 +16,3 @@ echo '<script>
  </script>';
 
 ?>
-'
-
-?>

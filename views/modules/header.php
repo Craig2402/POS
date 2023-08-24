@@ -85,15 +85,15 @@
       <!-- Notifications Dropdown Menu -->
     
       <li class="nav-item">
-        <a href="#" class="btn position-relative nav-link" data-toggle="dropdown">
+        <a href="#" class="btn position-relative nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
           <i class="fa fa-bell" id="bellIcon"></i>
           <span class="badge bg-warning rounded-pill position-absolute top-0 start-100 translate-middle"  id="rowCountSpan"></span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <!-- <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-header" id="rowCountSpanHeader"></div>
           <div class="dropdown-divider"></div>
           <div class="notificationItems"></div>
-        </div>
+        </div> -->
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -271,6 +271,20 @@
 
       ?>  
         </form>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="rowCountSpanHeader">Notifications</h5>
+    <!-- <div class="offcanvas-title dropdown-header" id="rowCountSpanHeader"></div> -->
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+      <div class="dropdown-divider"></div>
+      <div class="notificationItems"></div>
     </div>
   </div>
 </div>
