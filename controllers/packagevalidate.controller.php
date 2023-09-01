@@ -61,4 +61,13 @@ class packagevalidateController {
 
     }
 
+    static public function ctrshowpackage($table, $value){
+        $customer= packagevalidateModel::mdlfetchCustomerDetails($table,$value);
+        $table='packages';
+        $item='packageid';
+        $value=$customer[0]['packageid'];
+        $plan=packagevalidateModel::mdlfetchPackageDetails($table,$item,$value);
+        return $plan['name'];
+    }
+
 }

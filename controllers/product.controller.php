@@ -353,7 +353,7 @@ class productController {
 				$changedInfo = ''; // Initialize the changed information string
 
 				foreach ($data as $property => $value) {
-					if ($property !== 'barcode' && $oldItem[$property] !== $value) {
+					if ($property !== 'barcode' && $property !== 'storeid' && $property !== 'status' &&$oldItem[$property] !== $value) {
 						$changedInfo .= "Property $property changed from {$oldItem[$property]} to $value. ";
 					}
 				}
@@ -582,6 +582,38 @@ class productController {
 
 		}
 
+	}
+
+	public static function fetchSalesData() {
+		$pdo = connection::connect();
+		
+		// Prepare and execute the SQL query to fetch sales data
+		$query = "SELECT startdate, products FROM invoices";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+		
+		$salesData = array();
+		
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+			$startDate = $row['startdate'];
+			$productsJson = $row['products'];
+			
+			// Decode the JSON data
+			$products = json_decode($productsJson, true);
+			
+			// Loop through products in the invoice and add them to the sales data array
+			foreach ($products as $product) {
+				$salesData[] = array(
+					'startdate' => $startDate,
+					'productName' => $product['productName'],
+					'Quantity' => $product['Quantity'],
+					'salePrice' => $product['salePrice'],
+					'Discount' => $product['Discount'],
+				);
+			}
+		}
+		
+		return $salesData;
 	}
 
 }

@@ -96,3 +96,38 @@ $('#daterange-btn2').daterangepicker(
       }
   
   })
+
+
+ /*=============================================
+  SALES PER PRODUCT DATE FUNCTION
+  =============================================*/
+  $(document).ready(function() {
+    // Function to update the table based on selected year and month
+    function updateTable() {
+        var selectedMonth = $("#selectedMonth").val();
+        var selectedYear = $("#selectedYear").val();
+
+        $.ajax({
+            url: "ajax/products.ajax.php",
+            method: "POST",
+            data: {
+                selectedMonth: selectedMonth,
+                selectedYear: selectedYear
+            },
+            success: function(data) {
+                $("#tableBody").html(data);
+            },
+            error: function() {
+                alert("An error occurred while fetching data.");
+            }
+        });
+    }
+
+    // Attach the change event handlers
+    $("#selectedMonth, #selectedYear").change(function() {
+        updateTable();
+    });
+
+    // Initial update
+    updateTable();
+});

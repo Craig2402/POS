@@ -1,0 +1,491 @@
+[31-Aug-2023 09:03:32 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:32 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:32 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:33 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:34 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:35 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:35 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:35 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:35 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:35 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:35 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:38 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:38 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:38 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:38 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:38 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:38 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:53 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:56 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:56 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:56 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:57 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:57 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:03:57 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:04 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:04 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:04 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:06 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:06 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:06 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:06 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:06 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:06 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:06 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:06 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:06 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:11 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:11 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:04:11 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:05:12 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:05:12 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:05:12 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:05:39 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:05:39 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:05:39 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:07:03 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:07:03 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:07:03 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:07:08 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:07:08 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:07:08 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:07:48 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:07:48 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:07:48 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:08:29 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:08:29 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:08:29 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:09:51 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:09:51 UTC] PHP Warning:  include(views/templates.php): Failed to open stream: No such file or directory in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:09:51 UTC] PHP Warning:  include(): Failed opening 'views/templates.php' for inclusion (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php on line 6
+[31-Aug-2023 09:15:02 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 10:28:23 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:04:48 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:13:32 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:13:57 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:14:14 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:18:26 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:44:37 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:44:54 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:50:11 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:50:21 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sql309.infinityfree.com failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/connection.php(7): PDO->__construct('mysql:host=sql3...', 'if0_34420837', 'SVQ90GmNnbUK')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/connection.php on line 7
+[31-Aug-2023 11:54:51 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/models/connection.php on line 7
+[31-Aug-2023 11:54:59 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/models/connection.php on line 7
+[31-Aug-2023 12:00:15 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/models/connection.php on line 7
+[31-Aug-2023 12:03:21 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/models/connection.php on line 7
+[31-Aug-2023 12:03:31 UTC] PHP Fatal error:  Uncaught PDOException: PDO::__construct(): php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+
+Next PDOException: SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo for sftp failed: Name or service not known in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=sftp...', 'afriposc_root', 'eU7Uo81pvL9N*(')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/models/connection.php on line 7
+[31-Aug-2023 12:14:24 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'afriposc_root'@'ip189.ip-188-165-46.eu' (using password: YES) in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=188....', 'afriposc_root', 'Tom_d7w,yKL}')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/models/connection.php on line 7
+[31-Aug-2023 12:15:46 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'afriposc_root'@'rbx108.truehost.cloud' (using password: YES) in /home/afriposc/test1.afripos.co.ke/models/connection.php:7
+Stack trace:
+#0 /home/afriposc/test1.afripos.co.ke/models/connection.php(7): PDO->__construct('mysql:host=54.3...', 'afriposc_root', 'Tom_d7w,yKL}')
+#1 /home/afriposc/test1.afripos.co.ke/models/user.models.php(14): connection::connect()
+#2 /home/afriposc/test1.afripos.co.ke/controllers/user.controller.php(20): userModel::mdlShowUser('users', 'email', 'craig@gmail.com')
+#3 /home/afriposc/test1.afripos.co.ke/views/modules/login.php(46): userController::ctrUserLogin()
+#4 /home/afriposc/test1.afripos.co.ke/views/templates.php(228): include('/home/afriposc/...')
+#5 /home/afriposc/test1.afripos.co.ke/controllers/template.controller.php(6): include('/home/afriposc/...')
+#6 /home/afriposc/test1.afripos.co.ke/index.php(38): templateController::ctrTemplate()
+#7 {main}
+  thrown in /home/afriposc/test1.afripos.co.ke/models/connection.php on line 7

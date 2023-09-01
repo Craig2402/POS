@@ -1,13 +1,10 @@
-
-
-
-  // Get the input fields for new password and repeat password
-  // var userId = document.querySelector(".userId");
-  var oldPasswordInput = document.querySelector(".oldpass");
-  var newPasswordInput = document.querySelector(".newpass");
-  var repeatPasswordInput = document.querySelector('.rnewpass');
-  var oldpasswordMismatchWarning = document.getElementById('oldpasswordMismatchWarning');
-  var emptyFieldWarning = document.getElementById('emptyFieldWarning');
+// Get the input fields for new password and repeat password
+// var userId = document.querySelector(".userId");
+var oldPasswordInput = document.querySelector(".oldpass");
+var newPasswordInput = document.querySelector(".newpass");
+var repeatPasswordInput = document.querySelector('.rnewpass');
+var oldpasswordMismatchWarning = document.getElementById('oldpasswordMismatchWarning');
+var emptyFieldWarning = document.getElementById('emptyFieldWarning');
 // Variable to keep track of ongoing AJAX request for old password check
 var checkingOldPassword = false;
 

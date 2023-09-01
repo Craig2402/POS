@@ -54,6 +54,36 @@
     // Retrieve the count and total amount
     $invoicePaidCount = $paymentInvoiceResult['invoicePaidCount'];
     $totalPaidInvoiceAmount = $paymentInvoiceResult['totalPaidInvoiceAmount'];
+
+    $table = 'customers';
+    $item = 'organizationcode';
+    $value = $_SESSION['organizationcode'];
+    
+    $package = packagevalidateController::ctrshowpackage($table, $value);
+
+     // Prepare the SQL statement to get monthly revenue (total payments - expenses - orders) for the current year
+     $monthlyRevenue = $pdo->prepare("
+     SELECT
+         m.month,
+         COALESCE(SUM(p.amount - COALESCE(e.amount, 0) - COALESCE(o.total, 0)), 0) AS revenue
+     FROM (
+         SELECT 1 AS month UNION SELECT 2 AS month UNION SELECT 3 AS month UNION SELECT 4 AS month UNION
+         SELECT 5 AS month UNION SELECT 6 AS month UNION SELECT 7 AS month UNION SELECT 8 AS month UNION
+         SELECT 9 AS month UNION SELECT 10 AS month UNION SELECT 11 AS month UNION SELECT 12 AS month
+     ) m
+     LEFT JOIN payments p ON MONTH(p.date) = m.month AND YEAR(p.date) = :year " . ($storeid ? "AND p.store_id = :store_id" : "") . "
+     LEFT JOIN expenses e ON m.month = MONTH(e.date) AND YEAR(p.date) = YEAR(e.date)
+     LEFT JOIN orders o ON m.month = MONTH(o.date) AND YEAR(p.date) = YEAR(o.date)
+     GROUP BY m.month
+ ");
+ $monthlyRevenue->bindParam(':year', $currentYear);
+ if ($storeid) {
+     $monthlyRevenue->bindParam(':store_id', $storeid, PDO::PARAM_STR);
+ }
+ $monthlyRevenue->execute();
+
+ // Fetch the results
+ $monthlyRevenueData = $monthlyRevenue->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <style>
@@ -116,12 +146,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Admin Dashboard</h1>
+                    <h1 class="m-0">Finance Dashboard</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
-                        <li class="breadcrumb-item active">Admin Dashboard </li>
+                        <li class="breadcrumb-item active">Finance Dashboard </li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -195,38 +225,92 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-    <!-- Main content -->
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6">
-                  <?php
-                    include 'finance-graphs/invoices-period.php';
-                  ?>
+
+
+    <?php 
+       // var_dump($package);
+       if ($package == 'Standard') {
+           ?>
+           <div class="content">
+             <div class="container-fluid">
+               <div class="row">
+                 <div class="col-lg-12">
+       
+                   <div class="card card-primary card-outline">
+                     <div class="card-header">
+                       <h5 class="m-0">Monthly Revenue</h5>
+                     </div>
+                     <div class="card-body">
+                       <table id="example1" class="table-striped tables display" style="width:100%">
+                         <thead>
+                           <tr>
+                             <th>#</th>
+                             <th>Month</th>
+                             <th>Revenue</th>
+                           </tr>
+                         </thead>
+                         <tbody>';
+       <?php
+           foreach ($monthlyRevenueData as $index => $row) {
+               $month = date('F', mktime(0, 0, 0, $row['month'], 1));
+               echo "<tr>";
+               echo "<td>" . ($index + 1) . "</td>";
+               echo "<td>$month</td>";
+               echo "<td>Kshs " . number_format($row['revenue'], 2) . "</td>";
+               echo "</tr>";
+           }
+       ?>
+                         </tbody>
+                       </table>
+                     </div>
+                   </div>
+           
+                 </div>
+               </div>
+             </div>
+           </div>';
+     <?php
+        }else{
+        ?>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">
+                    <?php
+                        include 'finance-graphs/invoices-period.php';
+                    ?>
+                    </div>
+                    <div class="col-lg-6">
+                    <?php
+                        include 'finance-graphs/payments-period.php';
+                    ?>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                  <?php
-                    include 'finance-graphs/payments-period.php';
-                  ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                  <?php
-                    include 'finance-graphs/revenue.php';
-                  ?>
-                </div>
-                <div class="col-lg-6">
-                  <?php
-                    include 'finance-graphs/daily-monthly.php';
-                  ?>
+                <div class="row">
+                    <div class="col-lg-6">
+                    <?php
+                        include 'finance-graphs/revenue.php';
+                    ?>
+                    </div>
+                    <div class="col-lg-6">
+                    <?php
+                        include 'finance-graphs/daily-monthly.php';
+                    ?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- /.content-wrapper -->
 <?php
-    // $ 
-    //  
+}
 ?>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+
+
+<?php
+
+?>
+
