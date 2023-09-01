@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Inventory | System</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="views/img/company/afripos-logo.jpg" type="image/x-icon">
     
     <!-- Include jQuery via CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -99,7 +99,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                     $_GET['route'] == "category" ||
                     $_GET['route'] == "printbarcode" ||
                     $_GET['route'] == "viewproduct" ||
-                    $_GET['route'] == "taxdis" ||
+                    $_GET['route'] == "tax" ||
                     $_GET['route'] == "pos" ||
                     $_GET['route']=="transactions" ||
                     $_GET['route'] == "discount" ||
@@ -145,7 +145,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                 $_GET['route'] == "category" ||
                 $_GET['route'] == "printbarcode" ||
                 $_GET['route'] == "viewproduct" ||
-                $_GET['route'] == "taxdis" ||
+                $_GET['route'] == "tax" ||
                 $_GET['route'] == "pos" ||
                 $_GET['route']=="transactions" ||
                 $_GET['route'] == "discount" ||
@@ -241,7 +241,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/user.js"></script>
 <script src="views/js/categories.js"></script>
 <script src="views/js/product.js"></script>
-<script src="views/js/taxdis.js"></script>
+<script src="views/js/tax.js"></script>
 <script src="views/js/pos.js"></script>
 <script src="views/js/discount.js"></script>
 <script src="views/js/invoices.js"></script>
