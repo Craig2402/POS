@@ -1,7 +1,9 @@
 <?php
 
 require_once "../controllers/payments.controller.php";
+require_once "../controllers/packagevalidate.controller.php";
 require_once "../models/payment.model.php";
+require_once "../models/packagevalidate.model.php";
 
 class AjaxInvoices{
 
@@ -13,6 +15,7 @@ class AjaxInvoices{
 	public $invoiceid;
 	public $receiptNumber;
 	public $paymentid;
+	public $organizationcode;
 
 	public function ajaxAddPayment(){
 
@@ -48,6 +51,19 @@ class AjaxInvoices{
 
 	}
 
+	public function ajaxFetchCustomerdetails(){
+
+		$element = "paymentvalidation";
+		$table = "customers";
+		$countAll = null;
+		$organisationcode = $this->organizationcode;
+
+		$answer = packagevalidateController::ctrPackageValidate($element, $table, $countAll, $organisationcode);
+
+		echo json_encode($answer);
+
+	}
+
 
 }
 
@@ -76,6 +92,14 @@ if(isset($_POST["receiptNumber"])){
     $fetchPayment = new AjaxInvoices();
     $fetchPayment -> receiptNumber = $_POST["receiptNumber"];
     $fetchPayment -> ajaxFetchPayment();
+  
+}
+
+if(isset($_POST["organizationcode"])){
+
+    $fetchCustomerDets = new AjaxInvoices();
+    $fetchCustomerDets -> organizationcode = $_POST["organizationcode"];
+    $fetchCustomerDets -> ajaxFetchCustomerdetails();
   
 }
 

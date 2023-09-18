@@ -261,7 +261,7 @@ else {
 <script src="views/js/user.js"></script>
 <script src="views/js/categories.js"></script>
 <script src="views/js/product.js"></script>
-<script src="views/js/taxdis.js"></script>
+<script src="views/js/tax.js"></script>
 <script src="views/js/pos.js"></script>
 <script src="views/js/discount.js"></script>
 <script src="views/js/invoices.js"></script>

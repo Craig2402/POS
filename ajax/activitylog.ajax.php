@@ -5,16 +5,18 @@
 
     class AjaxActivityLog {
         public function ajaxCreateLog($barcodeProduct, $productName) {
-            // Create an array with the data for the activity log entry
-            $logData = array(
-                'UserID' => $_SESSION['userId'],
-                'ActivityType' => 'Product',
-                'ActivityDescription' => 'User ' . $_SESSION['username'] . ' viewed product ' . $productName . '.',
-                'itemID' => $barcodeProduct
-            );
+            if ($_SESSION['userId'] != 404) {
+                // Create an array with the data for the activity log entry
+                $logData = array(
+                    'UserID' => $_SESSION['userId'],
+                    'ActivityType' => 'Product',
+                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' viewed product ' . $productName . '.',
+                    'itemID' => $barcodeProduct
+                );
 
-            // Call the ctrCreateActivityLog() function
-            $answer = activitylogController::ctrCreateActivityLog($logData);
+                // Call the ctrCreateActivityLog() function
+                $answer = activitylogController::ctrCreateActivityLog($logData);
+            }
 
             echo json_encode($answer);
         }

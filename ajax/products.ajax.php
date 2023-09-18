@@ -39,6 +39,7 @@ class AjaxProducts{
 	
 		echo json_encode($answer);
 	}
+
 	public function ajaxShowproducts(){
 		// Get product by id
         $item = $this->data['item'];
@@ -74,57 +75,57 @@ EDIT PRODUCT
 	
 	}
 
-	?>
-	<?php
 	// ajax-fetch-data.php
-	
-	// Fetch sales data from the database
-	$salesData = productController::fetchSalesData(); // Implement the function to fetch sales data
-	
-	// Get the selected year and month from the AJAX request
-	$selectedYear = $_POST['selectedYear'];
-	$selectedMonth = $_POST['selectedMonth'];
-	
-	// Initialize variables to keep track of product quantities and cash amounts
-	$productQuantities = array();
-	$productCashAmounts = array();
-	
-	// Filter data for the selected year and month
-	$filteredData = array_filter($salesData, function ($row) use ($selectedYear, $selectedMonth) {
-		$startDate = strtotime($row['startdate']);
-		return date('Y', $startDate) == $selectedYear && date('n', $startDate) == $selectedMonth;
-	});
-	
-	foreach ($filteredData as $index => $row) {
-		$productName = $row['productName'];
-		$quantity = $row['Quantity'];
-		$salePrice = $row['salePrice'];
-		$discount = $row['Discount'];
-	
-		// Calculate the total quantity sold and total cash amount for each product
-		if (!isset($productQuantities[$productName])) {
-			$productQuantities[$productName] = 0;
-			$productCashAmounts[$productName] = 0;
+	if (isset($_POST['selectedYear']) && isset($_POST['selectedMonth'])) {
+			// Fetch sales data from the database
+		$salesData = productController::fetchSalesData(); // Implement the function to fetch sales data
+		
+		// Get the selected year and month from the AJAX request
+		$selectedYear = $_POST['selectedYear'];
+		$selectedMonth = $_POST['selectedMonth'];
+		
+		// Initialize variables to keep track of product quantities and cash amounts
+		$productQuantities = array();
+		$productCashAmounts = array();
+		
+		// Filter data for the selected year and month
+		$filteredData = array_filter($salesData, function ($row) use ($selectedYear, $selectedMonth) {
+			$startDate = strtotime($row['startdate']);
+			return date('Y', $startDate) == $selectedYear && date('n', $startDate) == $selectedMonth;
+		});
+		
+		foreach ($filteredData as $index => $row) {
+			$productName = $row['productName'];
+			$quantity = $row['Quantity'];
+			$salePrice = $row['salePrice'];
+			$discount = $row['Discount'];
+		
+			// Calculate the total quantity sold and total cash amount for each product
+			if (!isset($productQuantities[$productName])) {
+				$productQuantities[$productName] = 0;
+				$productCashAmounts[$productName] = 0;
+			}
+			$productQuantities[$productName] += $quantity;
+			$productCashAmounts[$productName] += ($quantity * $salePrice) - $discount;
 		}
-		$productQuantities[$productName] += $quantity;
-		$productCashAmounts[$productName] += ($quantity * $salePrice) - $discount;
+		
+		// Prepare the updated table rows
+		$tableRows = "";
+		$counter = 1;
+		foreach ($productQuantities as $productName => $totalQuantity) {
+			$totalCashAmount = $productCashAmounts[$productName];
+			$tableRows .= "<tr>";
+			$tableRows .= "<td>" . $counter . "</td>";
+			$tableRows .= "<td>" . date("F", mktime(0, 0, 0, $selectedMonth, 1)) . " $selectedYear</td>";
+			$tableRows .= "<td>" . $productName . "</td>";
+			$tableRows .= "<td>" . $totalQuantity . "</td>";
+			$tableRows .= "<td>" . number_format($totalCashAmount) ."</td>";
+			$tableRows .= "</tr>";
+			$counter++;
+		}
+		
+		echo $tableRows;
 	}
 	
-	// Prepare the updated table rows
-	$tableRows = "";
-	$counter = 1;
-	foreach ($productQuantities as $productName => $totalQuantity) {
-		$totalCashAmount = $productCashAmounts[$productName];
-		$tableRows .= "<tr>";
-		$tableRows .= "<td>" . $counter . "</td>";
-		$tableRows .= "<td>" . date("F", mktime(0, 0, 0, $selectedMonth, 1)) . " $selectedYear</td>";
-		$tableRows .= "<td>" . $productName . "</td>";
-		$tableRows .= "<td>" . $totalQuantity . "</td>";
-		$tableRows .= "<td>" . number_format($totalCashAmount) ."</td>";
-		$tableRows .= "</tr>";
-		$counter++;
-	}
-	
-	echo $tableRows;
 ?>
 	

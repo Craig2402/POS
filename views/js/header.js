@@ -316,6 +316,24 @@ $('#fetchidnumber').on('change', function() {
   }
 });
 
+// Listen for changes in the "Activate Loyalty Points" checkbox
+$('#fetchname').on('change', function() {
+  var item = "CustomerName";
+  if (this.checked) {
+    // Checkbox is checked
+    // console.log("Loyalty Points activated");
+    var value = 1;
+    settingsAjax(item, value);
+    // Perform your action here
+  } else {
+    // Checkbox is unchecked
+    // console.log("Loyalty Points deactivated");
+    var value = 0;
+    settingsAjax(item, value);
+    // Perform your action here
+  }
+});
+
 // Function to check the strength of a password
 function checkPasswordStrength(password) {
   // Define a regular expression pattern for a strong password

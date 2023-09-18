@@ -317,7 +317,7 @@ function calculateSubtotal() {
   $("#txtsubtotal_id").val(subTotal.toFixed(2));
   $("#txttaxtotal_id").val(tax.toFixed(2));
   $("#txttotal_id").val(total.toFixed(2));
-  $("#txtdue_id").val(totaldue.toFixed(2));
+  $("#txtdue_id").val(totaldue.toFixed(0));
   $("#taxabletotal_id").val(taxableAmt.toFixed(2));
   $("#nontaxabletotal_id").val(nontaxableAmt.toFixed(2));
   $("#taxablesubtotal_id").val(taxablesubTotal.toFixed(2));
@@ -373,52 +373,11 @@ $(document).ready(function() {
     var due = paid - total; // Calculate the due amount
 
     // Set the due amount value in the input field
-    dueInput.val(due.toFixed(2));
+    dueInput.val(due.toFixed(0));
   }
 
 });
 
-$(document).ready(function() {
-  $('#submitButton').click(function() {
-    var dueAmount = parseFloat($('#txtdue_id').val());
-    var redeemedPointsInput = document.getElementById("redeemedpoints");
-
-    $.ajax({
-      type: "GET",
-      url: "ajax/settings.ajax.php",
-      cache: false,
-      success: function(settingsData) {
-        var settingsArray = JSON.parse(settingsData);  
-        var idNumberValue = (settingsArray.find(setting => setting.SettingName === "IDnumber") || {}).SettingValue;
-        var dueid = document.getElementById("txtdue_id").value;
-        if (idNumberValue != 0 && dueid < 0) {
-          $('.IDnumber').show();
-        } else {
-          $('.IDnumber').hide();
-        }
-      }
-    });
-    
-    if (dueAmount < 0 && $('#additionalInputs').is(':hidden') && redeemedPointsInput.value === "") {
-      $('#additionalInputs, .loyaltyPoints').show();
-      if ($('.points').is(':hidden')) {
-        $(".loyaltyPoints").hide();
-      } else{
-        $(".loyaltyPoints").show();
-      }
-      return false; // Prevent form submission
-    }  else if (dueAmount === 0) {
-      // Submit the form if the loyaltyPoints div is visible
-      if ($(".loyaltyPoints").is(":hidden") && redeemedPointsInput.value === "" && $('.points').is(':visible')) {
-        $(".loyaltyPoints").show();
-        return false; // Prevent form submission
-      }else{
-        $('form').submit();
-      }
-    }
-
-  });
-});
 
   // check if the mpesa radio button is checked
   $(document).ready(function() {
@@ -553,11 +512,12 @@ function updateArray() {
 
 
 $(function() {
-  $('#posForm').on('submit', function(event) {
+  $('#posForm').on('submit', function() {
     // check if a payment method is selected
     var radios = document.getElementsByName("r3");
     var selected = false;
     
+
     for (var i = 0; i < radios.length; i++) {
       if (radios[i].checked) {
         selected = true;
@@ -576,76 +536,71 @@ $(function() {
       });
       return false; // Prevent form submission
     }
+    // Get the values of the inputs
+    var cname = document.getElementById("cname").value;
+    var phone = document.getElementById("phone").value;
+    var cid = document.getElementById("cid").value;
 
-    // Check      if additionalInputs div is visible
-    var additionalInputs = document.getElementById("additionalInputs");
-    if (additionalInputs.style.display !== "none") {
-      // Get the values of the inputs
-      var cname = document.getElementById("cname").value;
-      var phone = document.getElementById("phone").value;
-      var cid = document.getElementById("cid").value;
+    // Check if any input is empty
+    if ((cname.trim() === "" && cname !== null) || (phone.trim() === "" && phone !== null)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Empty Fields",
+        text: "Please fill in all the required fields.",
+        timer:2000,
+        showConfirmButton:false,
+      });
+      return false; // Prevent form submission
+    }
 
-      // Check if any input is empty
-      if (cname.trim() === "" || phone.trim() === "") {
-        Swal.fire({
-          icon: "warning",
-          title: "Empty Fields",
-          text: "Please fill in all the required fields.",
-          timer:2000,
-          showConfirmButton:false,
-        });
-        return false; // Prevent form submission
-      }
-
-      // Check phone length and prefix
-      if (phone.startsWith("254")) {
-        // Phone starts with 254, should have a minimum and maximum of 12 characters
-        if (phone.length < 12 || phone.length > 12) {
-          Swal.fire({
-            icon: "warning",
-            title: "Invalid Phone Number",
-            text: "Phone number should have exactly 12 digits when starting with 254.",
-            timer:2000,
-            showConfirmButton:false,
-          });
-          return false; // Prevent form submission
-        }
-      } else if (phone.startsWith("01") || phone.startsWith("07")) {
-        // Phone starts with 01 or 07, should have a minimum and maximum of 10 characters
-        if (phone.length < 10 || phone.length > 10) {
-          Swal.fire({
-            icon: "warning",
-            title: "Invalid Phone Number",
-            text: "Phone number should have exactly 10 digits when starting with 01 or 07.",
-            timer:2000,
-            showConfirmButton:false,
-          });
-          return false; // Prevent form submission
-        }
-      } else {
-        // Phone has an invalid prefix
+    // Check phone length and prefix
+    if (phone.startsWith("254") && phone !== null) {
+      // Phone starts with 254, should have a minimum and maximum of 12 characters
+      if (phone.length < 12 || phone.length > 12) {
         Swal.fire({
           icon: "warning",
           title: "Invalid Phone Number",
-          text: "Phone number should start with 254, 01, or 07.",
+          text: "Phone number should have exactly 12 digits when starting with 254.",
           timer:2000,
           showConfirmButton:false,
         });
         return false; // Prevent form submission
       }
+    } else if (phone.startsWith("01") || phone.startsWith("07")) {
+      // Phone starts with 01 or 07, should have a minimum and maximum of 10 characters
+      if (phone.length < 10 || phone.length > 10) {
+        Swal.fire({
+          icon: "warning",
+          title: "Invalid Phone Number",
+          text: "Phone number should have exactly 10 digits when starting with 01 or 07.",
+          timer:2000,
+          showConfirmButton:false,
+        });
+        return false; // Prevent form submission
+      }
+    } else {
+      // Phone has an invalid prefix
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid Phone Number",
+        text: "Phone number should start with 254, 01, or 07.",
+        timer:2000,
+        showConfirmButton:false,
+      });
+      return false; // Prevent form submission
+    }
 
-      if (("#cid").is(":visible")) {
-        // Check cid length
-        if (cid.length < 8 || cid.length > 8) {
-          Swal.fire({
-            icon: "warning",
-            title: "Invalid Identification Number",
-            text: "Identification number should have exactly 8 characters.",
-            timer:2000,
-            showConfirmButton:false,
-          });
-          return false; // Prevent form submission
-        }
+    if (cid !== null) {
+      // Check cid length
+      if (cid.length < 8 || cid.length > 8) {
+        Swal.fire({
+          icon: "warning",
+          title: "Invalid Identification Number",
+          text: "Identification number should have exactly 8 characters.",
+          timer:2000,
+          showConfirmButton:false,
+        });
+        return false; // Prevent form submission
       }
     }
 

@@ -101,22 +101,35 @@ class PaymentController {
                 $future_date = date("Y-m-d", strtotime($currentDate . " +15 days"));
 
                 // Convert 'dueamount' to a float
-                $dueAmount = floatval($_POST['dueamount']);
+                $dueAmount = $_POST['dueamount'];
 
-                if ($dueAmount > 0) {
+                if ($dueAmount >= 0) {
                     $invoiceDueAmount = 0;
                     $invoiceBalace = $_POST['dueamount'];
                 } elseif ($dueAmount < 0) {
                     $invoiceDueAmount = $_POST['dueamount'];
                     $invoiceBalace = 0;
                 } 
+                if ($_POST['cid']) {
+                    $invoiceIdNumber = $_POST['cid'];
+                } else {
+                    $invoiceIdNumber = "";
+                }
+                if ($_POST['phone']) {
+                    $invoicePhone = $_POST['phone'];
+                } else {
+                    $invoicePhone = "";
+                }
+                if ($_POST['cname']) {
+                    $invoiceCustomerName = $_POST['cname'];
+                } else {
+                    $invoiceCustomerName = "";
+                }
+                
 
                 $productsList = $_POST['productsList'];
                 $invoiceStartDate = $currentDate;
                 $invoiceDueDate = $future_date;
-                $invoiceCustomerName = $_POST['cname'];
-                $invoicePhone = $_POST['phone'];
-                $invoiceIdNumber = $_POST['cid'];
                 $invoiceTotalTax = $_POST['totaltax'];
                 $invoiceSubtotal = $_POST['subtotal'];
                 $invoiceTotal = $_POST['total'];

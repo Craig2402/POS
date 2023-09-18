@@ -13,7 +13,7 @@ class AjaxStore{
 		$value = $this->Storeid;
 		$answer = storeController::ctrShowStores($item, $value);
 	
-		echo json_encode($answer);
+		echo json_encode($answer[0]);
 	}
 
 }

@@ -175,37 +175,59 @@
                                             <span class="input-group-text">Kshs</span>
                                         </div>
                                     </div>
-                                    <!-- Input fields to be added conditionally -->
-                                    <div id="additionalInputs" style="display: none;">
-                                        <hr style="height:2px; border-width:0; color:black; background-color:black;">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Customer Name</span>
-                                            </div>
-                                            <input type="text" class="form-control" id="cname" name="cname">
-                                        </div>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Phone Number</span>
-                                            </div>
-                                            <input type="text" class="form-control" id="phone" name="phone">
-                                        </div>
-                                    </div>
-                                    <div class="input-group IDnumber" style="display: none;">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Identification Number</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="cid" name="cid">
-                                    </div>
 
-                                    <div class="loyaltyPoints" style="display: none;">
-                                        <hr style="height:2px; border-width:0; color:black; background-color:black;">
-                                        <label for="floatingInput">Loyalty Points</label>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control gphone" id="floatingInput" name="gphone">
-                                            <label for="floatingInput">Enter Phone Number</label>
-                                        </div>
-                                    </div>
+                                    <?php
+                                        // Fetch loyalty settings
+                                        $stmt = connection::connect()->prepare("SELECT * FROM loyaltysettings");
+
+                                        $stmt->execute();
+                                        
+                                        $setting = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        
+                                        $customerNameSettingValue = $setting[5]['SettingValue'];
+                                        $IDnumberValue = $setting[4]['SettingValue'];
+                                        $LoyaltypointsValue = $setting[3]['SettingValue'];
+                                        if ($customerNameSettingValue == 1){
+                                            echo '
+                                            <hr style="height:2px; border-width:0; color:black; background-color:black;">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Customer Name</span>
+                                                </div>
+                                                <input type="text" class="form-control" id="cname" name="cname">
+                                            </div>
+
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Phone Number</span>
+                                                </div>
+                                                <input type="text" class="form-control" id="phone" name="phone">
+                                            </div>
+                                            ';
+                                        }
+                                        if ($IDnumberValue == 1) {
+                                            echo '
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Identification Number</span>
+                                                </div>
+                                                <input type="text" class="form-control" id="cid" name="cid">
+                                            </div>
+                                            ';
+                                        }
+                                        if ($LoyaltypointsValue == 1) {
+                                            echo '
+                                            <div class="loyaltyPoints">
+                                                <hr style="height:2px; border-width:0; color:black; background-color:black;">
+                                                <label for="floatingInput">Loyalty Points</label>
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control gphone" id="floatingInput" name="gphone">
+                                                    <label for="floatingInput">Enter Phone Number</label>
+                                                </div>
+                                            </div>
+                                            ';
+                                        }
+                                    ?>
                                 </div>
                                 <div class="points-plat" style="display: none;">
                                     <div class="form-floating mb-3">

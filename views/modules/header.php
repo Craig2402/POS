@@ -253,6 +253,10 @@
             <input class="form-check-input" type="checkbox" role="switch" id="fetchidnumber">
             <label class="form-check-label" for="fetchidnumber">Fetch ID number</label>
           </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="fetchname">
+            <label class="form-check-label" for="fetchname">Fetch Customer name</label>
+          </div>
           
         </div>
         <form action="" method="post" enctype="multipart/form-data">
