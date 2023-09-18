@@ -248,14 +248,9 @@
           
           <!-- <div class="my-4"></div> -->
           <label class="" for="">Customer Details</label>
-          <!-- <hr style="height:1px; border-width:0; color:black; background-color:black;"> -->
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="fetchidnumber">
-            <label class="form-check-label" for="fetchidnumber">Fetch ID number</label>
-          </div>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="fetchname">
-            <label class="form-check-label" for="fetchname">Fetch Customer name</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="fetchdetails">
+            <label class="form-check-label" for="fetchdetails">Fetch Customer Details</label>
           </div>
           
         </div>

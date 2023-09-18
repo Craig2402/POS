@@ -184,10 +184,9 @@
                                         
                                         $setting = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         
-                                        $customerNameSettingValue = $setting[5]['SettingValue'];
-                                        $IDnumberValue = $setting[4]['SettingValue'];
+                                        $CustomerDetailsValue = $setting[4]['SettingValue'];
                                         $LoyaltypointsValue = $setting[3]['SettingValue'];
-                                        if ($customerNameSettingValue == 1){
+                                        if ($CustomerDetailsValue == 1){
                                             echo '
                                             <hr style="height:2px; border-width:0; color:black; background-color:black;">
                                             <div class="input-group">
@@ -203,10 +202,7 @@
                                                 </div>
                                                 <input type="text" class="form-control" id="phone" name="phone">
                                             </div>
-                                            ';
-                                        }
-                                        if ($IDnumberValue == 1) {
-                                            echo '
+
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">Identification Number</span>

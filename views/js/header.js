@@ -229,22 +229,22 @@ $(".settings").on("click", function() {
       var LoyaltyPointValue = settingsData.find(setting => setting.SettingName === "LoyaltyPointValue");
       var LoyaltyValueConversion = settingsData.find(setting => setting.SettingName === "LoyaltyValueConversion");
       var loyaltyPointsSetting = settingsData.find(setting => setting.SettingName === "Loyaltypoints");
-      var idnumberSetting = settingsData.find(setting => setting.SettingName === "IDnumber");
+      var CustomerDetailsSetting = settingsData.find(setting => setting.SettingName === "CustomerDetails");
 
       // Set values for form fields
       $('#loyaltyPointValue').val(LoyaltyPointValue.SettingValue);
       $('#loyaltyValueConversion').val(LoyaltyValueConversion.SettingValue);
   
       // Check if both settings have SettingValue of "1"
-      if (idnumberSetting && loyaltyPointsSetting) {
-        if (idnumberSetting.SettingValue === "1" && loyaltyPointsSetting.SettingValue === "1") {  
+      if (CustomerDetailsSetting && loyaltyPointsSetting) {
+        if (CustomerDetailsSetting.SettingValue === "1" && loyaltyPointsSetting.SettingValue === "1") {  
           // Check both checkboxes
           $('#loyaltyPoints').prop('checked', true);
-          $('#fetchidnumber').prop('checked', true);
+          $('#fetchdetails').prop('checked', true);
         } else {          
           // Check a checkbox based on the condition
-          if (idnumberSetting.SettingValue === "1") {
-            $('#fetchidnumber').prop('checked', true);
+          if (CustomerDetailsSetting.SettingValue === "1") {
+            $('#fetchdetails').prop('checked', true);
           } else if (loyaltyPointsSetting.SettingValue === "1") {
             $('#loyaltyPoints').prop('checked', true);
           }
@@ -299,8 +299,8 @@ $('#loyaltyPoints').on('change', function() {
 });
 
 // Listen for changes in the "Activate Loyalty Points" checkbox
-$('#fetchidnumber').on('change', function() {
-  var item = "IDnumber";
+$('#fetchdetails').on('change', function() {
+  var item = "CustomerDetails";
   if (this.checked) {
     // Checkbox is checked
     // console.log("Loyalty Points activated");
@@ -316,23 +316,7 @@ $('#fetchidnumber').on('change', function() {
   }
 });
 
-// Listen for changes in the "Activate Loyalty Points" checkbox
-$('#fetchname').on('change', function() {
-  var item = "CustomerName";
-  if (this.checked) {
-    // Checkbox is checked
-    // console.log("Loyalty Points activated");
-    var value = 1;
-    settingsAjax(item, value);
-    // Perform your action here
-  } else {
-    // Checkbox is unchecked
-    // console.log("Loyalty Points deactivated");
-    var value = 0;
-    settingsAjax(item, value);
-    // Perform your action here
-  }
-});
+
 
 // Function to check the strength of a password
 function checkPasswordStrength(password) {
