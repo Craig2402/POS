@@ -66,16 +66,19 @@
 
 						if($answer == 'ok'){
 			
-							// Create an array with the data for the activity log entry
-							$logdata = array(
-								'UserID' => $_SESSION['userId'],
-								'ActivityType' => 'Category',
-								'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' . $data['category'] . '.',
-								'storeid' => self::$storeid
-							);
-			
-							// Call the ctrCreateActivityLog() function
-							activitylogController::ctrCreateActivityLog($logdata);
+							
+							if ($_SESSION['userId'] != 404) {
+								// Create an array with the data for the activity log entry
+								$logdata = array(
+									'UserID' => $_SESSION['userId'],
+									'ActivityType' => 'Category',
+									'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' . $data['category'] . '.',
+									'storeid' => self::$storeid
+								);
+				
+								// Call the ctrCreateActivityLog() function
+								activitylogController::ctrCreateActivityLog($logdata);
+							}
 
 							echo '<script>
 									Swal.fire({
@@ -192,16 +195,19 @@
 			$answer = CategoriesModel::mdlEditCategory($table, $data);
 
 			if($answer == "ok" && !empty($changedInfo)){
-				// Create an array with the data for the activity log entry
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Category',
-					'ActivityDescription' => $logMessage,
-                	'itemID' => $value,
-					'storeid' => self::$storeid
-				);
-				// Call the ctrCreateActivityLog() function
-				activitylogController::ctrCreateActivityLog($logdata);
+				
+				if ($_SESSION['userId'] != 404) {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Category',
+						'ActivityDescription' => $logMessage,
+						'itemID' => $value,
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 
 				echo'<script>
 						Swal.fire({
@@ -217,16 +223,18 @@
 
 			}else {
 
-				// Create an array with the data for the activity log entry
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Category',
-					'ActivityDescription' => $logMessage,
-                	'itemID' => $value,
-					'storeid' => self::$storeid
-				);
-				// Call the ctrCreateActivityLog() function
-				activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Category',
+						'ActivityDescription' => $logMessage,
+						'itemID' => $value,
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 
 				echo'<script>
 						Swal.fire({
@@ -291,16 +299,18 @@
 
 				if($answer == "ok"){
 					
-					// Create an array with the data for the activity log entry
-					$logdata = array(
-						'UserID' => $_SESSION['userId'],
-						'ActivityType' => 'Category',
-						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted category ' .$category. '.',
-						'itemID' => $value,
-						'storeid' => self::$storeid
-					);
-					// Call the ctrCreateActivityLog() function
-					activitylogController::ctrCreateActivityLog($logdata);
+					if ($_SESSION['userId'] != 404) {
+						// Create an array with the data for the activity log entry
+						$logdata = array(
+							'UserID' => $_SESSION['userId'],
+							'ActivityType' => 'Category',
+							'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted category ' .$category. '.',
+							'itemID' => $value,
+							'storeid' => self::$storeid
+						);
+						// Call the ctrCreateActivityLog() function
+						activitylogController::ctrCreateActivityLog($logdata);
+					}
 
 					echo'<script>
 

@@ -5,6 +5,6 @@
       POS v1
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2023  <a href="https://adminlte.io">Mungacodes</a>.</strong> All rights reserved.
+    <strong>All Rights Reserved &copy; 2023  <a class="link" href="https://afripos.co.ke" target="_blank">AfriPOS</a>.</strong>
   </footer>
 

@@ -128,56 +128,13 @@ require_once 'models/connection.php';
                                                         <td>' . $value["dueamount"] . '</td>';
 
                                                     if ($value["dueamount"] != 0) {
-                                                        echo '<td><button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s downloadinvoice"><i class="fa-solid fa-file-pdf"></i></button>
-                                                                <button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s viewInvoice"><i class="fa-solid fa-eye"></i></button>
+                                                        echo '<td><button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s viewInvoice" data-toggle="modal" data-target="#viewInvoiceModal"><i class="fa-solid fa-eye"></i></button>
                                                                 <button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s addPayment"><i class="fa-solid fa-check"></i></button></td>';
                                                     } else {
-                                                        echo '<td><button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s downloadinvoice"><i class="fa-solid fa-file-pdf"></i></button>
-                                                            <button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s viewInvoice" data-toggle="modal" data-target="#viewInvoiceModal"><i class="fa-solid fa-eye"></i></button></td>';
+                                                        echo '<td><button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s viewInvoice" data-toggle="modal" data-target="#viewInvoiceModal"><i class="fa-solid fa-eye"></i></button></td>';
                                                     }
 
                                                     echo '</tr>';
-
-                                                    // $select = $pdo->prepare('SELECT * FROM payments WHERE invoiceId = ?');
-                                                    // $select->bindParam(1, $value['invoiceId'], PDO::PARAM_STR);
-                                                    // $select->execute();
-                                                    // $paymentResult = $select->fetchAll();
-
-                                                    // if (count($paymentResult) > 0) {
-                                                    //     echo '<tr class="expandable-body">
-                                                    //             <td colspan="13">
-                                                    //                 <p>
-                                                    //                     <table class="table table-hover">
-                                                    //                         <thead>
-                                                    //                             <tr>
-                                                    //                                 <th>#</th>
-                                                    //                                 <th>Amount</th>
-                                                    //                                 <th>Date</th>
-                                                    //                                 <th>Payment Method</th>
-                                                    //                                 <th>actions</th>
-                                                    //                             </tr>
-                                                    //                         </thead>
-                                                    //                         <tbody>';
-
-                                                    //     foreach ($paymentResult as $paymentKey => $paymentVal) {
-                                                    //         if ($paymentVal['amount'] > 0) {
-                                                    //             echo '<tr>
-                                                    //                     <td>' . ($paymentKey + 1) . '</td>
-                                                    //                     <td>' . $paymentVal["amount"] . '</td>
-                                                    //                     <td>' . $paymentVal["date"] . '</td>
-                                                    //                     <td>' . $paymentVal["paymentmethod"] . '</td>
-                                                    //                     <td><button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s download-reciept"><i class="fa-solid fa-file-pdf"></i></button>
-                                                    //                     <button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s view-receipt"><i class="fa-solid fa-eye"></i></button></td>
-                                                    //                 </tr>';
-                                                    //         }
-                                                    //     }
-
-                                                    //     echo '</tbody>
-                                                    //                     </table>
-                                                    //                 </p>
-                                                    //             </td>
-                                                    //         </tr>';
-                                                    // }
                                                 }
                                                 ?>
                                             </tbody>

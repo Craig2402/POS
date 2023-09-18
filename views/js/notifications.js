@@ -17,12 +17,11 @@ function MarkReadNotification(session, notificationId) {
         processData: false,
         dataType: "json",
         success: function(answer) {
-            console.log("notificaiton id has been read id: " + notificationId);
-            // Handle the AJAX success response here
-            
 
+        } ,error: function(xhr, status, error) {
+          console.error("AJAX request error:", error);
         }
-
+        
     });
 }
 
@@ -47,6 +46,8 @@ function MarkReadNotificationRejected(type, session, status, user, answer) {
         success: function(answer) {
             // Handle the AJAX success response here
 
+        } ,error: function(xhr, status, error) {
+          console.error("AJAX request error:", error);
         }
 
     });
@@ -123,6 +124,8 @@ function fetchNotification() {
 
           var rowCountSpanHeader = document.getElementById('rowCountSpanHeader');
           rowCountSpanHeader.textContent = unreadNotificationCounter + " Notifications";
+        } ,error: function(xhr, status, error) {
+          console.error("AJAX request error:", error);
         }
 
       });
@@ -217,6 +220,8 @@ function createNotification(notification) {
               <i class="fa-solid fa-sitemap"></i> ${name} wants to delete the ${answer.Category} category<br>
               <span class="float-right text-muted text-sm">${timeDifferenceString}</span><br>
             `;
+          } ,error: function(xhr, status, error) {
+            console.error("AJAX request error:", error);
           }
         });
       } else if (notificationType === 'Admin feedback' && notification.viewUser === sessionStorage.username) {
@@ -277,6 +282,8 @@ function createNotification(notification) {
                   MarkReadNotification(session, notificationId);
                 }
               });
+            } ,error: function(xhr, status, error) {
+              console.error("AJAX request error:", error);
             }
           });
         } else if (notificationType === 'Admin feedback') {
@@ -315,9 +322,8 @@ function getSessionInfo(callback) {
     dataType: "json",
     success: function (data) {
       callback(data); // Invoke the callback with the retrieved data
-    },
-    error: function () {
-      callback(null); // Invoke the callback with null if an error occurs
+    } ,error: function(xhr, status, error) {
+      console.error("AJAX request error:", error);
     }
   });
 }

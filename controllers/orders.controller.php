@@ -62,15 +62,17 @@ class orderController{
 		    $supplier = supplierModel::mdlShowSuppliers($suppliertable, $item, $value);
             
             if($answer == 'ok'){
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Order',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created an order to supplier ' .$supplier['name']. ' for the following products; ' . $data['products'] . '.',
-                    'storeid' => self::$storeid
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Order',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created an order to supplier ' .$supplier['name']. ' for the following products; ' . $data['products'] . '.',
+                        'storeid' => self::$storeid
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
+                }
 
                 echo '<script>
                     
@@ -128,16 +130,18 @@ class orderController{
             
     
             if($answer == "ok"){
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Order',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed the status of order ' .$data['id']. ' to ' . $status . '.',
-                    'itemID' => $data['id'],
-                    'storeid' => self::$storeid
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Order',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed the status of order ' .$data['id']. ' to ' . $status . '.',
+                        'itemID' => $data['id'],
+                        'storeid' => self::$storeid
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
+                }
     
                 echo'<script>
     

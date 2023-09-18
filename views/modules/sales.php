@@ -82,45 +82,4 @@
   </div>
   <!-- /.content-wrapper -->
  
-
-
-
-  <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-          <!-- /.col-md-6 -->
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Product List</h5>
-              </div>
-              <div class="card-body">
-              <table id="example1" class="table-striped tables display" style="width:100%">
-                  <thead>
-           
-                    <tr>
-                      
-                      <th>#</th>
-                      <th>Product</th>
-                      <th>Quantity</th>
-                      <th>Total</th>
-                    </tr> 
-                    </thead>
-                    <tbody>
-                    
-                    </tbody>
-                </table>
-              </div>
-            </div>
-    
-          </div>
-          <!-- /.col-md-6 -->
-        </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
   

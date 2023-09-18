@@ -40,14 +40,16 @@
     $update->bindParam(':pass',$newpassword,PDO::PARAM_STR);
     $update->bindParam(':username',$username,PDO::PARAM_STR);
     if($update->execute()){
-      // Create an array with the data for the activity log entry
-      $logdata = array(
-          'UserID' => $_SESSION['userId'],
-          'ActivityType' => 'Password Change',
-          'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed password.'
-      );
-      // Call the ctrCreateActivityLog() function
-      activitylogController::ctrCreateActivityLog($logdata);
+      if ($_SESSION['userId'] != 404) {
+        // Create an array with the data for the activity log entry
+        $logdata = array(
+            'UserID' => $_SESSION['userId'],
+            'ActivityType' => 'Password Change',
+            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed password.'
+        );
+        // Call the ctrCreateActivityLog() function
+        activitylogController::ctrCreateActivityLog($logdata);
+      }
 
       $_SESSION['status']="Password changed";
       $_SESSION['status_code']="success";
@@ -83,17 +85,11 @@
         </a>
       </li>
       <!-- Notifications Dropdown Menu -->
-    
       <li class="nav-item">
         <a href="#" class="btn position-relative nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
           <i class="fa fa-bell" id="bellIcon"></i>
           <span class="badge bg-warning rounded-pill position-absolute top-0 start-100 translate-middle"  id="rowCountSpan"></span>
         </a>
-        <!-- <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <div class="dropdown-header" id="rowCountSpanHeader"></div>
-          <div class="dropdown-divider"></div>
-          <div class="notificationItems"></div>
-        </div> -->
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -104,12 +100,12 @@
             echo '<a href="#" class="dropdown-item view-profile-link" userid="'.$_SESSION['userId'].'">Profile</a>';
           ?>
           <?php
-            if ($_SESSION['role'] == "Administrator") {
+            if ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == 404) {
               echo '<a href="logs" class="dropdown-item">Logs</a>';
               echo '<a href="#" class="dropdown-item settings" data-toggle="modal" data-target="#settingsModal">Settings</a>';
               echo '<a href="#" class="dropdown-item" data-toggle="modal" data-target="#switchStoreModal">Switch Store</a>';
             }
-            if ($_SESSION['storeid'] !== null && $_SESSION['role'] == "Administrator") {
+            if ($_SESSION['storeid'] !== null && $_SESSION['role'] == "Administrator" || $_SESSION['storeid'] !== null && $_SESSION['role'] == 404) {
               echo '<a href="#" id="exit_store" value="'.$_SESSION['storeid'].'" class="dropdown-item">Exit store</a>';
             }
           ?>
@@ -161,7 +157,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="userProfileModalLabel">User Profile</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -187,16 +183,20 @@
             <form class="form-horizontal" id="passwordChangeForm" action="" method="post">
               <div class="card-body">
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control oldpass" id="floatingInput" name="oldpass">
+                  <input type="password" class="form-control oldpass" name="oldpass">
                   <input type="hidden" class="userId" value="<?php echo $_SESSION['userId'] ?>">
                   <label for="floatingInput">Old Password</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control newpass" id="floatingInput" name="newpass">
+                  <input type="password" class="form-control newpass" name="newpass">
                   <label for="floatingInput">New Password</label>
                 </div>
+                <div class="progress">
+                  <div id="passwordStrengthMeter" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div id="passwordStrengthText"></div>
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control rnewpass" id="floatingInput" name="rnewpass">
+                  <input type="password" class="form-control rnewpass" name="rnewpass">
                   <label for="floatingInput">Repeat New Password</label>
                 </div>
                 
@@ -207,7 +207,7 @@
               <!-- /.card-body -->
               <!-- /.card -->
               <div class="modal-footer justify-content-between updatePasswordFooter2" style="display: none;">
-                <button type="button" class="btn btn-secondary closeBtn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary closeBtn" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" name="btnupdate">Update password</button>
               </div>
             </form>
@@ -215,7 +215,7 @@
         </div>
       </div>
       <div class="modal-footer justify-content-between updatePasswordFooter1">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary changePasswordButton">Change password</button>
       </div>
     </div>
@@ -239,18 +239,13 @@
         </div>
         <div class="form-group">
 
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="lipaMdogo">
-            <label class="form-check-label" for="lipaMdogo">Activate Lipa Mdogo Mdogo</label>
-          </div>
+          <label class="" for="">Loyalty Platform</label>
           
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="loyaltyPoints">
             <label class="form-check-label" for="loyaltyPoints">Activate Loyalty Points</label>
           </div>
           
-<<<<<<< Updated upstream
-=======
           <!-- <div class="my-4"></div> -->
           <label class="" for="">Customer Details</label>
           <!-- <hr style="height:1px; border-width:0; color:black; background-color:black;"> -->
@@ -258,12 +253,7 @@
             <input class="form-check-input" type="checkbox" role="switch" id="fetchidnumber">
             <label class="form-check-label" for="fetchidnumber">Fetch ID number</label>
           </div>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="fetchname">
-            <label class="form-check-label" for="fetchname">Fetch Customer name</label>
-          </div>
           
->>>>>>> Stashed changes
         </div>
         <form action="" method="post" enctype="multipart/form-data">
           <div class="form-group">

@@ -9,7 +9,12 @@ class productController {
     static private $storeid;
 
 	public static function initialize() {
-		if ($_SESSION['storeid'] != null) {
+		// Start a session if it hasn't already been started
+		if (session_status() == PHP_SESSION_NONE) {
+			session_start();
+		}
+	
+		if (isset($_SESSION['storeid']) && $_SESSION['storeid'] != null) {
 			self::$storeid = $_SESSION['storeid'];
 		} else {
 			echo "<script>
@@ -155,15 +160,17 @@ class productController {
 						$answer = productModel::mdlAddProduct($table, $data);
 					}
 					if($answer == "ok"){
-						// Create an array with the data for the activity log entry
-						$logdata = array(
-							'UserID' => $_SESSION['userId'],
-							'ActivityType' => 'Product',
-							'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added product ' .$data['product']. '.',
-							'storeid' => self::$storeid
-						);
-						// Call the ctrCreateActivityLog() function
-						activitylogController::ctrCreateActivityLog($logdata);
+						if ($_SESSION['userId'] != 404) {
+							// Create an array with the data for the activity log entry
+							$logdata = array(
+								'UserID' => $_SESSION['userId'],
+								'ActivityType' => 'Product',
+								'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added product ' .$data['product']. '.',
+								'storeid' => self::$storeid
+							);
+							// Call the ctrCreateActivityLog() function
+							activitylogController::ctrCreateActivityLog($logdata);
+						}
 
 						echo'<script>
 
@@ -334,13 +341,14 @@ class productController {
 				$table = "products";
 				$status = 0;
 
-				$data = array("barcode" => $_POST["editbarcode"],
+				$data = array("idCategory" => $_POST["editcategory"],
+							   "barcode" => $_POST["editbarcode"],
 							   "product" => $_POST["editproductname"],
-							   "idCategory" => $_POST["editcategory"],
                                "description" => $_POST["editdescription"],
 							   "stock" => $_POST["editstock"],
 							   "purchaseprice" => $_POST["editpurchaseprice"],
 							   "saleprice" => $_POST["editsaleprice"],
+							   "taxcat" => $_POST["edittaxcat"],
 							   "image" => $route,
 							   "status" => $status,
 							   'storeid' => self::$storeid);
@@ -369,16 +377,18 @@ class productController {
 
 				if($answer == "ok" && !empty($changedInfo)){
 					
-					// Create an array with the data for the activity log entry
-					$data = array(
-						'UserID' => $_SESSION['userId'],
-						'ActivityType' => 'Product',
-						'ActivityDescription' => $logMessage,
-                        'itemID' => $barcode,
-						'storeid' => self::$storeid
-					);
-					// Call the ctrCreateActivityLog() function
-					activitylogController::ctrCreateActivityLog($data);
+					if ($_SESSION['userId'] != 404) {
+						// Create an array with the data for the activity log entry
+						$data = array(
+							'UserID' => $_SESSION['userId'],
+							'ActivityType' => 'Product',
+							'ActivityDescription' => $logMessage,
+							'itemID' => $barcode,
+							'storeid' => self::$storeid
+						);
+						// Call the ctrCreateActivityLog() function
+						activitylogController::ctrCreateActivityLog($data);
+					}
 
 					echo'<script>
 
@@ -396,16 +406,18 @@ class productController {
 
 				}else {
 
-					// Create an array with the data for the activity log entry
-					$logdata = array(
-						'UserID' => $_SESSION['userId'],
-						'ActivityType' => 'Category',
-						'ActivityDescription' => $logMessage,
-						'itemID' => $value,
-						'storeid' => self::$storeid
-					);
-					// Call the ctrCreateActivityLog() function
-					activitylogController::ctrCreateActivityLog($logdata);
+					if ($_SESSION['userId'] != 404) {
+						// Create an array with the data for the activity log entry
+						$logdata = array(
+							'UserID' => $_SESSION['userId'],
+							'ActivityType' => 'Category',
+							'ActivityDescription' => $logMessage,
+							'itemID' => $value,
+							'storeid' => self::$storeid
+						);
+						// Call the ctrCreateActivityLog() function
+						activitylogController::ctrCreateActivityLog($logdata);
+					}
 	
 					echo'<script>
 							Swal.fire({
@@ -415,7 +427,7 @@ class productController {
 								timer: 2000 // Timer set to 2 seconds (2000 milliseconds)
 							}).then(function () {
 								// Code to execute when the alert is closed (after 2 seconds)
-								window.location = "category";
+								window.location = "products";
 							});
 					</script>';
 					
@@ -482,16 +494,18 @@ class productController {
 			$answer = productModel::mdlDeleteProduct($table, $data);
 
 			if($answer == "ok"){
-				// Create an array with the data for the activity log entry
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Product',
-					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted product ' .$product. '.',
-					'itemID' => $value,
-					'storeid' => self::$storeid
-				);
-				// Call the ctrCreateActivityLog() function
-				activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Product',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted product ' .$product. '.',
+						'itemID' => $value,
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 
 				echo'<script>
 
@@ -556,16 +570,18 @@ class productController {
 			$answer = productModel::mdlAddingStock($table, $quantity, $barcode);
 	
 			if ($answer == "ok"){
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Product',
-                    'ActivityDescription' =>  'User ' . $_SESSION['username'] . ' added ' .$quantity. ' units to a product\'s stock.',
-                    'itemID' => $barcode,
-					'storeid' => self::$storeid
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Product',
+						'ActivityDescription' =>  'User ' . $_SESSION['username'] . ' added ' .$quantity. ' units to a product\'s stock.',
+						'itemID' => $barcode,
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 
 				echo '<script>
 				Swal.fire({
@@ -585,12 +601,15 @@ class productController {
 	}
 
 	public static function fetchSalesData() {
+		self::initialize();
 		$pdo = connection::connect();
-		
+		$store=self::$storeid;
 		// Prepare and execute the SQL query to fetch sales data
-		$query = "SELECT startdate, products FROM invoices";
+		$query = "SELECT startdate, products FROM invoices WHERE store_id = :store";
 		$statement = $pdo->prepare($query);
+		$statement->bindParam(':store', $store, PDO::PARAM_STR);
 		$statement->execute();
+		
 		
 		$salesData = array();
 		

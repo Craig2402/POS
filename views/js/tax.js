@@ -25,7 +25,9 @@ $(".tables").on("click", ".btnEdittax", function(){
      		 $("#editVAT").val(answer["VAT"]);
      		 $("#editdiscount").val(answer["VATName"]);
 
-     	}
+     	}, error: function() {
+			Swal.fire("Error", "Failed to retrieve tax data from the server.", "error");
+		}
 
 	})
 

@@ -75,15 +75,17 @@ class ReturnProductController {
 
                         if ($response == "ok") {
 
-                            // Create an array with the data for the activity log entry
-                            $logdata = array(
-                                'UserID' => $_SESSION['userId'],
-                                'ActivityType' => 'Category',
-                                'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created a return proccess of ' .$data['quantity']. ' product(s) of product with barcode ' .$data['product']. '.',
-                                'storeid' => self::$storeid
-                            );
-                            // Call the ctrCreateActivityLog() function
-                            activitylogController::ctrCreateActivityLog($logdata);
+                            if ($_SESSION['userId'] != 404) {
+                                // Create an array with the data for the activity log entry
+                                $logdata = array(
+                                    'UserID' => $_SESSION['userId'],
+                                    'ActivityType' => 'Category',
+                                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created a return proccess of ' .$data['quantity']. ' product(s) of product with barcode ' .$data['product']. '.',
+                                    'storeid' => self::$storeid
+                                );
+                                // Call the ctrCreateActivityLog() function
+                                activitylogController::ctrCreateActivityLog($logdata);
+                            }
                             
                             $message = "Return product added successfully.";
                             // Display Swal.fire success message

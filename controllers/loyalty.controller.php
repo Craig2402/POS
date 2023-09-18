@@ -78,14 +78,16 @@
                 $answer = LoyaltyModel::mdlchangeLoyaltySettings($table, $data);
 
                 if($answer == 'ok'){
-                    // Create an array with the data for the activity log entry
-                    $logdata = array(
-                        'UserID' => $_SESSION['userId'],
-                        'ActivityType' => 'Settings',
-                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed loyalty settings.'
-                    );
-                    // Call the ctrCreateActivityLog() function
-                    activitylogController::ctrCreateActivityLog($logdata);
+                    if ($_SESSION['userId'] != 404) {
+                        // Create an array with the data for the activity log entry
+                        $logdata = array(
+                            'UserID' => $_SESSION['userId'],
+                            'ActivityType' => 'Settings',
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed loyalty settings.'
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($logdata);
+                    }
     
                     echo '<script>
                         

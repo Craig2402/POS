@@ -27,7 +27,7 @@
 ?>
 <aside class="main-sidebar custom-sidebar">
     <a href="#" class="brand-link link">
-        <img src="./img/store/959.jpg" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src=<?php echo $organizationData['organizationlogo'] ?> class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light" ><?php echo $organizationData['organizationname'] ?></span>
     </a>
 
@@ -41,10 +41,10 @@
         <?php if ($_SESSION['storeid'] !== null) { ?>
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="<?php echo $store['logo']; ?>" class="img-circle elevation-2" alt="User Image">
+                <img src="<?php echo $store[0]['logo']; ?>" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <div class="d-block link"><?php echo $store['store_name']; ?></div>
+                <div class="d-block link"><?php echo $store[0]['store_name']; ?></div>
             </div>
         </div>
     <?php } ?>

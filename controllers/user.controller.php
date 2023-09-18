@@ -33,7 +33,7 @@ class userController{
 						$_SESSION["email"] = $answer["email"];
 						$_SESSION["role"] = $answer["role"];
 						$_SESSION["organizationcode"] = $answer["organizationcode"];
-						if ($answer["role"] == "Administrator"){
+						if ($answer["role"] == "Administrator" || $answer["role"] == 404){
 							$_SESSION['storeid'] = null;
 						}else{
 							$_SESSION['storeid'] = $answer["store_id"];
@@ -60,15 +60,43 @@ class userController{
 						
 						if ($lastlogin == "ok") {
 							// Create an array with the data for the activity log entry
-							$data = array(
-								'UserID' => $_SESSION['userId'],
-								'ActivityType' => 'Login',
-								'ActivityDescription' => 'User ' . $_SESSION['username'] . ' logged in.'
-							);
-							// Call the ctrCreateActivityLog() function
-							activitylogController::ctrCreateActivityLog($data);
+							
+							if ($_SESSION['userId'] != 404) {
+								$data = array(
+									'UserID' => $_SESSION['userId'],
+									'ActivityType' => 'Login',
+									'ActivityDescription' => 'User ' . $_SESSION['username'] . ' logged in.'
+								);
+								// Call the ctrCreateActivityLog() function
+								activitylogController::ctrCreateActivityLog($data);
 
-							if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Supervisor") {
+								echo '<script>
+
+									const Toast = Swal.mixin({
+										toast: true,
+										position: "top-end",
+										showConfirmButton: false,
+										timer: 2000,
+										timerProgressBar: false,
+										didOpen: (toast) => {
+										toast.addEventListener("mouseenter", Swal.stopTimer)
+										toast.addEventListener("mouseleave", Swal.resumeTimer)
+										}
+									})
+									
+									Toast.fire({
+										icon: "success",
+										title: "Signed in successfully"
+									}).then(function () {
+										// Code to execute after the alert is closed
+										window.location = "dashboard";
+									});
+									
+								</script>';
+
+							}
+
+							if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Supervisor" || $_SESSION['role'] == 404) {
 								echo '<script>
 									window.location = "dashboard"; // Set the route for the Administrator and Supervisor
 								</script>';
@@ -85,17 +113,28 @@ class userController{
 						
 
 					}else{
-						
+                    
 						echo '<script>
-					
-                        Swal.fire({
-                            icon: "error",
-                            title: "User deactivated",
-                            showConfirmButton: true,
-                            confirmButtonText: "Close"
-                            });
-                        
-                    </script>';
+	
+						const Toast = Swal.mixin({
+							toast: true,
+							position: "top-end",
+							showConfirmButton: false,
+							timer: 2000,
+							timerProgressBar: false,
+							didOpen: (toast) => {
+							toast.addEventListener("mouseenter", Swal.stopTimer)
+							toast.addEventListener("mouseleave", Swal.resumeTimer)
+							}
+						})
+						
+						Toast.fire({
+							icon: "error",
+							title: "User deactivated"
+						})
+						
+						
+					</script>';
 					
 					}
 
@@ -103,14 +142,24 @@ class userController{
 
 					echo '<script>
 					
-                    Swal.fire({
-                        icon: "error",
-                        title: "Incorrect email or password",
-                        showConfirmButton: true,
-                        confirmButtonText: "Close"
-                        });
-                    
-                </script>';
+						const Toast = Swal.mixin({
+							toast: true,
+							position: "top-end",
+							showConfirmButton: false,
+							timer: 2000,
+							timerProgressBar: false,
+							didOpen: (toast) => {
+							toast.addEventListener("mouseenter", Swal.stopTimer)
+							toast.addEventListener("mouseleave", Swal.resumeTimer)
+							}
+						})
+						
+						Toast.fire({
+							icon: "error",
+							title: "Incorrect email or password"
+						})
+					
+					</script>';
 				
 				}
 			
@@ -207,14 +256,20 @@ class userController{
 					$table = 'users';
 	
 					$encryptpass = crypt($_POST["userpassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-	
+					
+					if ($_SESSION['role'] == 'Administrator') {
+						$store = $_POST['Selectstore'];
+					}else {
+						$store = $_SESSION['storeid'];
+					}
+
 					$data = array('name' => $_POST["name"],
 								  'username' => $_POST["username"],
 									'userpassword' => $encryptpass,
 									'role' => $_POST["roleOptions"],
 									'email' => $_POST["email"],
 									'userphoto' => $photo,
-									'store_id' => $_POST['Selectstore'],
+									'store_id' => $store,
 									'email' => $_POST['email'],
 									'organizationcode' => $_SESSION['organizationcode'],
 									'deleted' => 0);
@@ -231,15 +286,17 @@ class userController{
 					}
 	
 					if ($answer == 'ok') {
-						// Create an array with the data for the activity log entry
-						$logdata = array(
-							'UserID' => $_SESSION['userId'],
-							'ActivityType' => 'User',
-							'ActivityDescription' => 'User ' . $_SESSION['username'] . ' creates user ' .$data['username']. '.',
-							'itemID' => $data['username']
-						);
-						// Call the ctrCreateActivityLog() function
-						activitylogController::ctrCreateActivityLog($logdata);
+						if ($_SESSION['userId'] != 404) {
+							// Create an array with the data for the activity log entry
+							$logdata = array(
+								'UserID' => $_SESSION['userId'],
+								'ActivityType' => 'User',
+								'ActivityDescription' => 'User ' . $_SESSION['username'] . ' creates user ' .$data['username']. '.',
+								'itemID' => $data['username']
+							);
+							// Call the ctrCreateActivityLog() function
+							activitylogController::ctrCreateActivityLog($logdata);
+						}
 	
 							echo '<script>
 							
@@ -499,15 +556,17 @@ class userController{
 				$answer = userModel::mdlEditUser($table, $data);
 
 				if ($answer == 'ok') {
-					// Create an array with the data for the activity log entry
-					$logdata = array(
-						'UserID' => $_SESSION['userId'],
-						'ActivityType' => 'User',
-						'ActivityDescription' => $logMessage,
-						'itemID' => $data['username']
-					);
-					// Call the ctrCreateActivityLog() function
-					activitylogController::ctrCreateActivityLog($logdata);
+					if ($_SESSION['userId'] != 404) {
+						// Create an array with the data for the activity log entry
+						$logdata = array(
+							'UserID' => $_SESSION['userId'],
+							'ActivityType' => 'User',
+							'ActivityDescription' => $logMessage,
+							'itemID' => $data['username']
+						);
+						// Call the ctrCreateActivityLog() function
+						activitylogController::ctrCreateActivityLog($logdata);
+					}
 					
 					echo '<script>
 					
@@ -583,15 +642,17 @@ class userController{
 			$answer = userModel::mdlDeleteUser($table, $data);
 
 			if($answer == "ok"){
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'User',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted user ' .$user['username']. '.',
-                    'itemID' => $userid
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'User',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted user ' .$user['username']. '.',
+						'itemID' => $userid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 
 				echo'<script>
 

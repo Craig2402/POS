@@ -151,7 +151,7 @@ function displayTopPerformingStores(data) {
             .attr('href', '#')
             .attr('id', 'store_id')
             .attr('value', store.store_id)
-            .addClass('store-link');
+            .addClass('store-link link');
 
         const storeImage = $('<img>')
             .attr('src', store.logo)

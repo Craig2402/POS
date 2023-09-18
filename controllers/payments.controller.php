@@ -1,7 +1,5 @@
 <?php
 
-// include_once "ajax/pos2.ajax.php";
-
 class PaymentController {
 
 	/*=============================================
@@ -76,7 +74,6 @@ class PaymentController {
                         $table = "products";
                         $stock = productModel::mdlFetchProducts($table, $item, $valueProductId, $order);
                         if ($stock && $stock["stock"] <= 15) {
-                            echo "stock is low";
                             $currentDateTime = date('Y-m-d H:i:s');
                             // $storeid = self::$storeid;
                             $data = array(
@@ -87,13 +84,32 @@ class PaymentController {
                                 "storeid" => self::$storeid,
                                 "userid" => $_SESSION['userId'],
                             );
-                            $notification = notificationController::ctrCreateNotification($data);
+                            $element = "others";
+                            $table = "customers";
+                            $countAll = null;
+                            $organisationcode = $_SESSION['organizationcode'];
+                            $package = packagevalidateController::ctrPackageValidate($element, $table, $countAll, $organisationcode);
+                            if ($package) {
+                                $notification = notificationController::ctrCreateNotification($data);
+                            }
+                            
                         }
                     }
                 }
                 
                 $currentDate = date('Y-m-d');
                 $future_date = date("Y-m-d", strtotime($currentDate . " +15 days"));
+
+                // Convert 'dueamount' to a float
+                $dueAmount = floatval($_POST['dueamount']);
+
+                if ($dueAmount > 0) {
+                    $invoiceDueAmount = 0;
+                    $invoiceBalace = $_POST['dueamount'];
+                } elseif ($dueAmount < 0) {
+                    $invoiceDueAmount = $_POST['dueamount'];
+                    $invoiceBalace = 0;
+                } 
 
                 $productsList = $_POST['productsList'];
                 $invoiceStartDate = $currentDate;
@@ -105,7 +121,6 @@ class PaymentController {
                 $invoiceSubtotal = $_POST['subtotal'];
                 $invoiceTotal = $_POST['total'];
                 $invoiceDiscount = $_POST['totaldiscount'];
-                $invoiceDueAmount = $_POST['dueamount'];
                 $invoiceUserId = $_SESSION['userId'];
                 $storeid = self::$storeid;
                 $datecreated = date('Y-m-d H:i:s');
@@ -116,7 +131,7 @@ class PaymentController {
                 $invoiceId = "INVC-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
                 
                 // Insert invoice data into the invoices table, linking it with the payment
-                $invoiceModel->insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal,  $invoiceTotal, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid, $datecreated);
+                $invoiceModel->insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal,  $invoiceTotal, $invoiceBalace, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid, $datecreated);
 
                 // Retrieve payment data from the form or request parameters
                 $amount = $_POST['txtpaid'];
@@ -152,7 +167,15 @@ class PaymentController {
                         "PointsRedeemed" => $PointsRedeemed
                     );
 
-                    $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
+                    $element = "others";
+                    $table = "customers";
+                    $countAll = null;
+                    $organisationcode = $_SESSION['organizationcode'];
+                    $package = packagevalidateController::ctrPackageValidate($element, $table, $countAll, $organisationcode);
+                    if ($package) {
+                        $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
+                    }     
+                    
                 }
 
                 // $nextNumericPart = $paymentModel->getNextPaymentNumericPart(); // Implement this method in PaymentModel to get the next available numeric part
@@ -216,6 +239,7 @@ class PaymentController {
                         $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
                         $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
                         $paymentId = "CASH-" . $randomNumber . "-" . $current_time_formatted;
+                        $loyaltyid = null;
 
                         
                         // Insert payment data into the payments table
@@ -240,15 +264,17 @@ class PaymentController {
                 // create an activitylog of the payment
                 if($paymentModel == true){
 
-                    // Create an array with the data for the activity log entry
-                    $data = array(
-                        'UserID' => $_SESSION['userId'],
-                        'ActivityType' => 'Sale',
-                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$paymentId.'.',
-                        'itemID' => $paymentId
-                    );
-                    // Call the ctrCreateActivityLog() function
-                    activitylogController::ctrCreateActivityLog($data);
+                    if ($_SESSION['userId'] != 404) {
+                        // Create an array with the data for the activity log entry
+                        $data = array(
+                            'UserID' => $_SESSION['userId'],
+                            'ActivityType' => 'Sale',
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$paymentId.'.',
+                            'itemID' => $paymentId
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($data);
+                    }
                 }
                     
                 
@@ -397,15 +423,17 @@ class PaymentController {
 
                     if($answer == "ok"){
                         
-                        // Create an array with the data for the activity log entry
-                        $data = array(
-                            'UserID' => $_SESSION['userId'],
-                            'ActivityType' => 'Sale',
-                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$data['invoiceid'].'.',
-                            'itemID' => $invoiceId
-                        );
-                        // Call the ctrCreateActivityLog() function
-                        activitylogController::ctrCreateActivityLog($data);
+				        if ($_SESSION['userId'] != 404) {
+                            // Create an array with the data for the activity log entry
+                            $data = array(
+                                'UserID' => $_SESSION['userId'],
+                                'ActivityType' => 'Sale',
+                                'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$data['invoiceid'].'.',
+                                'itemID' => $invoiceId
+                            );
+                            // Call the ctrCreateActivityLog() function
+                            activitylogController::ctrCreateActivityLog($data);
+                        }
 
                         echo "
                         <script>
@@ -748,15 +776,17 @@ class PaymentController {
 
             if($answer == "ok"){
                 
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Sale',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted transaction '.$data.'.',
-                    'itemID' => $data
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Sale',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted transaction '.$data.'.',
+                        'itemID' => $data
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
+                }
 
 				echo'<script>
 

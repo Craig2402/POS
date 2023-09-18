@@ -24,7 +24,9 @@ $(".tables").on("click", ".btnEditCategory", function(){
 			$("#editCategory").val(answer["Category"]);
 			$("#idCategory").val(answer["id"]);
 
-     	}
+     	}, error: function() {
+			Swal.fire("Error", "Failed to retrieve category data from the server.", "error");
+		}
 
 	})
 
@@ -80,7 +82,9 @@ $(".tables").on("click", ".askDeleteCategory", function(){
 
 			$("#id").val(answer["id"]);
 
-     	}
+     	}, error: function() {
+			Swal.fire("Error", "Failed to retrieve category data from the server.", "error");
+		}
 
 	})
 

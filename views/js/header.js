@@ -38,6 +38,8 @@ function checkOldPassword() {
       } else {
         oldpasswordMismatchWarning.style.display = 'none';
       }
+    } ,error: function(xhr, status, error) {
+      console.error("AJAX request error:", error);
     }
 
   });
@@ -78,6 +80,8 @@ repeatPasswordInput.addEventListener('input', checkPasswordMatch);
 
   // Add an event listener to the "Update password" button
   $(".updatePasswordFooter2 .btn-primary").on("click", function(event) {
+    
+    var newPassword = document.querySelector('.newpass').value;
     // Check if old password is being checked through AJAX request
     if (checkingOldPassword) {
       event.preventDefault();
@@ -95,6 +99,21 @@ repeatPasswordInput.addEventListener('input', checkPasswordMatch);
       event.preventDefault();
       return;
     }
+    
+    // Check if the new password is strong enough
+    if (!checkPasswordStrength(newPassword)) {
+      // Display a message to the user indicating that the password is not strong enough
+      // alert("Password is not strong enough. It should contain at least 8 characters, including at least one lowercase letter, one uppercase letter, one digit, and one special character.");
+      
+      Swal.fire(
+        'Password not changed',
+        'Password is not strong enough. It should contain at least 8 characters, including at least one lowercase letter, one uppercase letter, one digit, and one special character.',
+        'error'
+      )
+      // Prevent form submission
+      event.preventDefault();
+      return;
+  }
 
     // If all checks pass, submit the form
     $("#passwordChangeForm").submit();
@@ -117,6 +136,8 @@ $(document).on("click", "#store_id", function(){
       dataType: "json",
       success: function(answer) {
         window.location = "dashboard"
+      } ,error: function(xhr, status, error) {
+        console.error("AJAX request error:", error);
       }
     });
 });
@@ -137,6 +158,8 @@ $.ajax({
     dataType: "json",
     success: function(answer) {
       window.location = "dashboard"
+    } ,error: function(xhr, status, error) {
+      console.error("AJAX request error:", error);
     }
   });
 });
@@ -205,23 +228,23 @@ $(".settings").on("click", function() {
       // Find the objects with SettingName "LoyaltyPointValue" and "LoyaltyValueConversion"
       var LoyaltyPointValue = settingsData.find(setting => setting.SettingName === "LoyaltyPointValue");
       var LoyaltyValueConversion = settingsData.find(setting => setting.SettingName === "LoyaltyValueConversion");
-      var lipaMdogoSetting = settingsData.find(setting => setting.SettingName === "Lipamdogomdogo");
       var loyaltyPointsSetting = settingsData.find(setting => setting.SettingName === "Loyaltypoints");
+      var idnumberSetting = settingsData.find(setting => setting.SettingName === "IDnumber");
 
       // Set values for form fields
       $('#loyaltyPointValue').val(LoyaltyPointValue.SettingValue);
       $('#loyaltyValueConversion').val(LoyaltyValueConversion.SettingValue);
   
       // Check if both settings have SettingValue of "1"
-      if (lipaMdogoSetting && loyaltyPointsSetting) {
-        if (lipaMdogoSetting.SettingValue === "1" && loyaltyPointsSetting.SettingValue === "1") {  
+      if (idnumberSetting && loyaltyPointsSetting) {
+        if (idnumberSetting.SettingValue === "1" && loyaltyPointsSetting.SettingValue === "1") {  
           // Check both checkboxes
-          $('#lipaMdogo').prop('checked', true);
           $('#loyaltyPoints').prop('checked', true);
+          $('#fetchidnumber').prop('checked', true);
         } else {          
           // Check a checkbox based on the condition
-          if (lipaMdogoSetting.SettingValue === "1") {
-            $('#lipaMdogo').prop('checked', true);
+          if (idnumberSetting.SettingValue === "1") {
+            $('#fetchidnumber').prop('checked', true);
           } else if (loyaltyPointsSetting.SettingValue === "1") {
             $('#loyaltyPoints').prop('checked', true);
           }
@@ -250,54 +273,16 @@ function settingsAjax(item, value) {
     caches:false,
     processData:false,
     dataType: "json",
-    success: function(answer) {
-      console.log(answer);
-    },
     error: function(xhr, status, error) {
       console.error("AJAX request error:", error);
     }
   });
 }
 
-// Listen for changes in the "Activate Lipa Mdogo Mdogo" checkbox
-$('#lipaMdogo').on('change', function() {
-  var item = "Lipamdogomdogo";
-  if (this.checked) {
-    // Checkbox is checked
-    console.log("Lipa Mdogo Mdogo activated");
-    var value = 1;
-    settingsAjax(item, value);
-    // Perform your action here
-  } else {
-    // Checkbox is unchecked
-    console.log("Lipa Mdogo Mdogo deactivated");
-    var value = 0;
-    settingsAjax(item, value);
-    // Perform your action here
-  }
-});
 
 // Listen for changes in the "Activate Loyalty Points" checkbox
 $('#loyaltyPoints').on('change', function() {
   var item = "Loyaltypoints";
-  if (this.checked) {
-    // Checkbox is checked
-    console.log("Loyalty Points activated");
-    var value = 1;
-    settingsAjax(item, value);
-    // Perform your action here
-  } else {
-    // Checkbox is unchecked
-    console.log("Loyalty Points deactivated");
-    var value = 0;
-    settingsAjax(item, value);
-    // Perform your action here
-  }
-});
-
-// Listen for changes in the "Activate Loyalty Points" checkbox
-$('#fetchidnumber').on('change', function() {
-  var item = "IDnumber";
   if (this.checked) {
     // Checkbox is checked
     // console.log("Loyalty Points activated");
@@ -314,8 +299,8 @@ $('#fetchidnumber').on('change', function() {
 });
 
 // Listen for changes in the "Activate Loyalty Points" checkbox
-$('#fetchname').on('change', function() {
-  var item = "CustomerName";
+$('#fetchidnumber').on('change', function() {
+  var item = "IDnumber";
   if (this.checked) {
     // Checkbox is checked
     // console.log("Loyalty Points activated");
@@ -403,6 +388,5 @@ document.querySelector('.newpass').addEventListener('input', updatePasswordStren
 
 // Add an event listener to the form to trigger the password strength check on form submission
 // document.getElementById('passwordChangeForm').addEventListener('submit', validatePasswordChangeForm);
-
 
 

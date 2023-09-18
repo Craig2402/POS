@@ -5,127 +5,157 @@ class storeController{
     ADD STORE
     =============================================*/
     static public function ctrCreateStore(){
+        
+        $table = "store";
+        $item = null;
+        $value = null;
+        $Allstores = storeModel::mdlShowStores($table, $item, $value);
+
+		// Count the number of products array
+		$numAllproducts = count($Allstores);
+		$validatetable = "customers";
+		$element = "stores";
+		$organisationcode = $_SESSION['organizationcode'];
+		$response = packagevalidateController::ctrPackageValidate($element, $validatetable, $numAllproducts, $organisationcode);
 
         if(isset($_POST['addStore'])){
+			if ($response) {
 
-            $route = "views/img/store/default/store.png";
+                $route = "views/img/store/default/store.png";
 
-            $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
-            $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
-            $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
-            $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
-            $storeId = "STORE-" . $randomNumber . "-" . $current_time_formatted;
+                $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
+                $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+                $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+                $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+                $storeId = "STORE-" . $randomNumber . "-" . $current_time_formatted;
 
-            if(isset($_FILES["storeLogo"]["tmp_name"])){
+                if(isset($_FILES["storeLogo"]["tmp_name"])){
 
-                list($width, $height) = getimagesize($_FILES["storeLogo"]["tmp_name"]);
+                    list($width, $height) = getimagesize($_FILES["storeLogo"]["tmp_name"]);
 
-                $newWidth = 500;
-                $newHeight = 500;
-
-                /*=============================================
-                we create the folder to save the picture
-                =============================================*/
-
-                $folder = "views/img/store/".$storeId;
-
-                mkdir($folder, 0755);
-
-                /*=============================================
-                WE APPLY DEFAULT PHP FUNCTIONS ACCORDING TO THE IMAGE FORMAT
-                =============================================*/
-
-                if($_FILES["storeLogo"]["type"] == "image/jpeg"){
+                    $newWidth = 500;
+                    $newHeight = 500;
 
                     /*=============================================
-                    WE SAVE THE IMAGE IN THE FOLDER
+                    we create the folder to save the picture
                     =============================================*/
 
-                    $random = mt_rand(100,999);
+                    $folder = "views/img/store/".$storeId;
 
-                    $route = "views/img/store/".$storeId."/".$random.".jpg";
-
-                    $origin = imagecreatefromjpeg($_FILES["storeLogo"]["tmp_name"]);						
-
-                    $destiny = imagecreatetruecolor($newWidth, $newHeight);
-
-                    imagecopyresized($destiny, $origin, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-
-                    imagejpeg($destiny, $route);
-
-                }
-
-                if($_FILES["storeLogo"]["type"] == "image/png"){
+                    mkdir($folder, 0755);
 
                     /*=============================================
-                    WE SAVE THE IMAGE IN THE FOLDER
+                    WE APPLY DEFAULT PHP FUNCTIONS ACCORDING TO THE IMAGE FORMAT
                     =============================================*/
 
-                    $random = mt_rand(100,999);
+                    if($_FILES["storeLogo"]["type"] == "image/jpeg"){
 
-                    $route = "views/img/store/".$storeId."/".$random.".png";
+                        /*=============================================
+                        WE SAVE THE IMAGE IN THE FOLDER
+                        =============================================*/
 
-                    $origin = imagecreatefrompng($_FILES["storeLogo"]["tmp_name"]);						
+                        $random = mt_rand(100,999);
 
-                    $destiny = imagecreatetruecolor($newWidth, $newHeight);
+                        $route = "views/img/store/".$storeId."/".$random.".jpg";
 
-                    imagecopyresized($destiny, $origin, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+                        $origin = imagecreatefromjpeg($_FILES["storeLogo"]["tmp_name"]);						
 
-                    imagepng($destiny, $route);
+                        $destiny = imagecreatetruecolor($newWidth, $newHeight);
+
+                        imagecopyresized($destiny, $origin, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+                        imagejpeg($destiny, $route);
+
+                    }
+
+                    if($_FILES["storeLogo"]["type"] == "image/png"){
+
+                        /*=============================================
+                        WE SAVE THE IMAGE IN THE FOLDER
+                        =============================================*/
+
+                        $random = mt_rand(100,999);
+
+                        $route = "views/img/store/".$storeId."/".$random.".png";
+
+                        $origin = imagecreatefrompng($_FILES["storeLogo"]["tmp_name"]);						
+
+                        $destiny = imagecreatetruecolor($newWidth, $newHeight);
+
+                        imagecopyresized($destiny, $origin, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+                        imagepng($destiny, $route);
+
+                    }
 
                 }
+                    // Set the desired time zone
+                    date_default_timezone_set('Africa/Nairobi');
 
-            }
-                // Set the desired time zone
-                date_default_timezone_set('Africa/Nairobi');
-
-                // Get the current time and date
-                $currentDateTime = date('Y-m-d H:i:s');
-                $data = array(
-                "store_id" => $storeId,
-                "store_name" => $_POST["storeName"],
-                "store_address" => $_POST["storeAddress"],
-                "contact_number" => $_POST["contactNumber"],
-                "email" => $_POST["storeEmail"],
-                "store_manager" => $_POST["storeManager"],
-                "opening" => $_POST["openingTime"],
-                "closing" => $_POST["closingTime"],
-                "logo" => $route,
-                "created_at" => $currentDateTime
-            );
-            
-            
-            $table = "store";
-            $answer = storeModel::mdlAddstore($table, $data);
-
-            if($answer == "ok"){
-                // Create an array with the data for the activity log entry
-                $data = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Store',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created store ' .$_POST['storeName']. '.'
+                    // Get the current time and date
+                    $currentDateTime = date('Y-m-d H:i:s');
+                    $data = array(
+                    "store_id" => $storeId,
+                    "store_name" => $_POST["storeName"],
+                    "store_address" => $_POST["storeAddress"],
+                    "contact_number" => $_POST["contactNumber"],
+                    "email" => $_POST["storeEmail"],
+                    "store_manager" => $_POST["storeManager"],
+                    "opening" => $_POST["openingTime"],
+                    "closing" => $_POST["closingTime"],
+                    "logo" => $route,
+                    "created_at" => $currentDateTime
                 );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($data);
+                
+                
+                $table = "store";
+                $answer = storeModel::mdlAddstore($table, $data);
 
-                echo'<script>
+                if($answer == "ok"){
+                    if ($_SESSION['userId'] != 404) {
+                        // Create an array with the data for the activity log entry
+                        $data = array(
+                            'UserID' => $_SESSION['userId'],
+                            'ActivityType' => 'Store',
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created store ' .$_POST['storeName']. '.'
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($data);
+                    }
 
-                Swal.fire({
-                        icon: "success",
-                        title: "Store '.$_POST['storeName'].' has been created",
-                        showConfirmButton: true,
-                        confirmButtonText: "Close"
-                        }).then(function(result){
-                                    if (result.value) {
+                    echo'<script>
 
-                                    window.location = "manage-stores";
+                    Swal.fire({
+                            icon: "success",
+                            title: "Store '.$_POST['storeName'].' has been created",
+                            showConfirmButton: true,
+                            confirmButtonText: "Close"
+                            }).then(function(result){
+                                        if (result.value) {
 
-                                    }
-                                })
+                                        window.location = "manage-stores";
 
-                    </script>';
+                                        }
+                                    })
 
-            }
+                        </script>';
+
+                }
+
+            } else {
+
+				echo'<script>
+				
+				Swal.fire({
+					icon: "warning",
+					title: "Cannot Add Store",
+					text: "You cannot add more stores with your current package. Consider upgrading your package.",
+					button: "OK"
+				});
+
+				</script>';
+
+			}
 
         }
 
@@ -252,15 +282,17 @@ class storeController{
 
             if($answer == "ok"){
                 
-                // Create an array with the data for the activity log entry
-                $data = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Store',
-                    'ActivityDescription' => $logMessage,
-                    'itemID' => $store
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($data);
+				if ($_SESSION['userId'] != 404) {
+                    // Create an array with the data for the activity log entry
+                    $data = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Store',
+                        'ActivityDescription' => $logMessage,
+                        'itemID' => $store
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($data);
+                }
 
                 echo'<script>
 
@@ -318,12 +350,12 @@ class storeController{
                 }
         
                 // Check if the store ID is referenced in the current table
-                $stmt = Connection::connect()->prepare("SHOW COLUMNS FROM $table LIKE 'store_id'");
+                $stmt = Connection::connect()->prepare("SHOW COLUMNS FROM `$table` LIKE 'store_id'");
                 $stmt->execute();
                 $columnExists = $stmt->rowCount() > 0;
         
                 if ($columnExists) {
-                    $stmt = Connection::connect()->prepare("SELECT COUNT(*) FROM $table WHERE store_id = :store_id");
+                    $stmt = Connection::connect()->prepare("SELECT COUNT(*) FROM `$table` WHERE store_id = :store_id");
                     $stmt->bindParam(":store_id", $storeId, PDO::PARAM_STR);
                     $stmt->execute();
                     $count = $stmt->fetchColumn();
@@ -346,19 +378,21 @@ class storeController{
             $item = "store_id";
             $value = $_GET["id"];
             $loganswer = storeModel::mdlShowStores($table, $item, $value);
-            $store = $loganswer['store_name'];
+            $store = $loganswer[0]['store_name'];
 
             if ($referenced) {
                 
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'store',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' tried to delete store ' .$store. '.',
-                    'itemID' => $value
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'store',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' tried to delete store ' .$store. '.',
+                        'itemID' => $value
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
+                }
 
                 echo'<script>
     
@@ -367,6 +401,12 @@ class storeController{
                     title: "The store is in use",
                     showConfirmButton: true,
                     confirmButtonText: "Close"
+                    }).then(function(result){
+                        if (result.value) {
+
+                        window.location = "manage-stores";
+
+                        }
                     })
     
                 </script>';
@@ -385,15 +425,17 @@ class storeController{
                 $answer = storeModel::mdlDeleteStore($table, $data);
 
                 if($answer == "ok"){
-                    // Create an array with the data for the activity log entry
-                    $logdata = array(
-                        'UserID' => $_SESSION['userId'],
-                        'ActivityType' => 'store',
-                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted store ' .$store. '.',
-                        'itemID' => $value
-                    );
-                    // Call the ctrCreateActivityLog() function
-                    activitylogController::ctrCreateActivityLog($logdata);
+                    if ($_SESSION['userId'] != 404) {
+                        // Create an array with the data for the activity log entry
+                        $logdata = array(
+                            'UserID' => $_SESSION['userId'],
+                            'ActivityType' => 'store',
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted store ' .$store. '.',
+                            'itemID' => $value
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($logdata);
+                    }
 
                     echo'<script>
 
@@ -421,6 +463,3 @@ class storeController{
 	}
 
 }
-
-
-

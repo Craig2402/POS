@@ -105,10 +105,17 @@
 
                             <td>
 
-                                <div class="btn-group">
-
-                                  <button class="btn btnPrintProductBarcode"  idProduct="'.$val["id"].'" image="'.$val["image"].'"><i class="fa fa-barcode"></i></button>
-
+                                <div class="btn-group">';
+                                
+                              $element = "others";
+                              $table = "customers";
+                              $countAll = null;
+                              $organisationcode = $_SESSION['organizationcode'];
+                              $package = packagevalidateController::ctrPackageValidate($element, $table, $countAll, $organisationcode);
+                              if ($package) {
+                                  echo'<button class="btn btnPrintProductBarcode"  idProduct="'.$val["id"].'" image="'.$val["image"].'"><i class="fa fa-barcode"></i></button>';
+                              }                                  
+                              echo'
                                   <button class="btn btnViewProduct"  idProduct="'.$val["id"].'" image="'.$val["image"].'"><i class="fa fa-eye"></i></button>';
 
                                   // if (isset($_SESSION['role']) && ($_SESSION['role'] == "Administrator" || $_SESSION['role'] == "Store")) {
@@ -144,7 +151,7 @@
   <div class="modal-dialog modal-lg">
     <!-- Modal content-->
     <div class="modal-content">
-      <form role="form" method="POST">
+      <form role="form" method="POST" enctype="multipart/form-data">
         <div class="modal-header">
           <h4 class="modal-title">Edit product</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -172,7 +179,7 @@
                       $categories = categoriesController::ctrShowCategories($item, $value1);
 
                       foreach ($categories as $key => $value) {
-                        echo '<option value="'.$value["id"].'" '.$selected.'>'.$value["Category"].'</option>';
+                        echo '<option value="'.$value["id"].'">'.$value["Category"].'</option>';
                       }
                       
 
@@ -182,7 +189,7 @@
                 <div class="form-group">
                   <label for="txttaxcat">Tax type</label>
                   <select name="edittaxcat" id="edittaxcat" class="form-control">
-                    <option value="">Select a Tax type</option>
+                    <option value="" disabled>Select a Tax type</option>
                     <?php
                     
                       $item = null;
@@ -192,7 +199,7 @@
                       
                       foreach ($tax as $key => $value) {
                           
-                        echo '<option value="'.$value["VAT"].'">'.$value["VAT"].'</option>';
+                        echo '<option value="'.$value["VAT"].'">'.$value["VATName"].'</option>';
                       }
 
                     ?>

@@ -67,15 +67,17 @@ class expenseController{
                     $answer = ExpenseModel::mdlAddExpense($table, $data);
     
                     if ($answer == "ok") {
-                        // Create an array with the data for the activity log entry
-                        $logdata = array(
-                        	'UserID' => $_SESSION['userId'],
-                        	'ActivityType' => 'Expense',
-                        	'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense ' .$data['expense']. '.',
-                            'storeid' => self::$storeid
-                        );
-                        // Call the ctrCreateActivityLog() function
-                        activitylogController::ctrCreateActivityLog($logdata);
+                        if ($_SESSION['userId'] != 404) {
+                            // Create an array with the data for the activity log entry
+                            $logdata = array(
+                                'UserID' => $_SESSION['userId'],
+                                'ActivityType' => 'Expense',
+                                'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense ' .$data['expense']. '.',
+                                'storeid' => self::$storeid
+                            );
+                            // Call the ctrCreateActivityLog() function
+                            activitylogController::ctrCreateActivityLog($logdata);
+                        }
 
                         echo '<script>
                             Swal.fire({
@@ -176,15 +178,17 @@ class expenseController{
                     $answer = ExpenseModel::mdlEditExpense($table, $data, $expenseId);
 
                     if ($answer == "ok") {
-                        // Create an array with the data for the activity log entry
-                        $logdata = array(
-                        	'UserID' => $_SESSION['userId'],
-                        	'ActivityType' => 'Expense',
-                        	'ActivityDescription' => $logMessage,
-                            'storeid' => self::$storeid
-                        );
-                        // Call the ctrCreateActivityLog() function
-                        activitylogController::ctrCreateActivityLog($logdata);
+                        if ($_SESSION['userId'] != 404) {
+                            // Create an array with the data for the activity log entry
+                            $logdata = array(
+                                'UserID' => $_SESSION['userId'],
+                                'ActivityType' => 'Expense',
+                                'ActivityDescription' => $logMessage,
+                                'storeid' => self::$storeid
+                            );
+                            // Call the ctrCreateActivityLog() function
+                            activitylogController::ctrCreateActivityLog($logdata);
+                        }
                         
                         // Delete the file
                         if (file_exists($existingFilePath)) {
@@ -237,16 +241,18 @@ class expenseController{
                 $answer = ExpenseModel::mdlEditExpense($table, $data, $expenseId);
 
                 if ($answer == "ok") {
-                    // Create an array with the data for the activity log entry
-                    $logdata = array(
-                        'UserID' => $_SESSION['userId'],
-                        'ActivityType' => 'Expense',
-                        'ActivityDescription' => $logMessage,
-                        'itemID' => $expenseId,
-						'storeid' => self::$storeid
-                    );
-                    // Call the ctrCreateActivityLog() function
-                    activitylogController::ctrCreateActivityLog($logdata);
+                    if ($_SESSION['userId'] != 404) {
+                        // Create an array with the data for the activity log entry
+                        $logdata = array(
+                            'UserID' => $_SESSION['userId'],
+                            'ActivityType' => 'Expense',
+                            'ActivityDescription' => $logMessage,
+                            'itemID' => $expenseId,
+                            'storeid' => self::$storeid
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($logdata);
+                    }
 
                     echo '<script>
                         Swal.fire({
@@ -287,16 +293,18 @@ class expenseController{
             $answer = ExpenseModel::mdlDeleteExpense($table, $expenseId);
 
             if ($answer == "ok") {
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Expense',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted expense ' .$expenses['expense']. ' of type ' . $expenses['expense_type'] . '.',
-                    'itemID' => $value,
-                    'storeid' => self::$storeid
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Expense',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted expense ' .$expenses['expense']. ' of type ' . $expenses['expense_type'] . '.',
+                        'itemID' => $value,
+                        'storeid' => self::$storeid
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
+                }
 
                 // Delete the file
                 if (file_exists($filename)) {
@@ -351,14 +359,16 @@ class expenseController{
 
             if ($answer == "ok") {
 
-                // Create an array with the data for the activity log entry
-                $logdata = array(
-                    'UserID' => $_SESSION['userId'],
-                    'ActivityType' => 'Expense',
-                    'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense type ' .$expenseType. '.'
-                );
-                // Call the ctrCreateActivityLog() function
-                activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+                    // Create an array with the data for the activity log entry
+                    $logdata = array(
+                        'UserID' => $_SESSION['userId'],
+                        'ActivityType' => 'Expense',
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense type ' .$expenseType. '.'
+                    );
+                    // Call the ctrCreateActivityLog() function
+                    activitylogController::ctrCreateActivityLog($logdata);
+                }
 
                 echo '<script>
                     Swal.fire({

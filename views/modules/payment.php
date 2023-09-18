@@ -60,24 +60,29 @@
                         </div>  
 
                         <div class="form-group clearfix" name="paymentmethod">
-                            <div class="icheck-primary d-inline">
+                            <!-- <div class="icheck-primary d-inline">
                                 <input type="radio" name="r3" id="radioSuccess1" value="Cash">
                                 <label for="radioSuccess1">
                                     Cash
                                 </label>
+                            </div> -->
+                            <div class="icheck-success form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="r3" id="radioSuccess1" value="Cash">
+                              <label class="form-check-label" for="radioSuccess1">Cash</label>
                             </div>
-                            <div class="icheck-danger d-inline">
-                                <input type="radio" name="r3" id="radioSuccess2"  value="card">
-                                <label for="radioSuccess2">
-                                    Card
-                                </label>
-                            </div>
-                            <div class="icheck-success d-inline">
-                                <input type="radio" name="r3" id="radioSuccess3"  value="cheque">
-                                <label for="radioSuccess3">
-                                    Cheque
-                                </label>
-                            </div>
+                            <?php
+                              $element = "others";
+                              $table = "customers";
+                              $countAll = null;
+                              $organisationcode = $_SESSION['organizationcode'];
+                              $package = packagevalidateController::ctrPackageValidate($element, $table, $countAll, $organisationcode);
+                              if ($package) {
+                                  echo'<div class="icheck-success form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="r3" id="radioSuccess3" value="M-pesa">
+                                          <label class="form-check-label" for="radioSuccess3">M-pesa</label>
+                                      </div>';
+                              }     
+                            ?>
                         </div>
                         
                         <div class="form-group">

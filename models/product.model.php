@@ -96,7 +96,7 @@ class productModel{
 			$stmt = null;
 			
 		}
-		
+
 	}
 	static public function mdlFetchProducts($table, $item, $value, $order) {
 
@@ -197,7 +197,7 @@ class productModel{
 	=============================================*/
 	static public function mdlEditProduct($table, $data){
 
-		$stmt = connection::connect()->prepare("UPDATE $table SET idCategory = :idCategory, product= :product, description = :description, image = :image, stock = :stock, purchaseprice = :purchaseprice, saleprice = :saleprice, status = :status WHERE barcode = :barcode  AND store_id = :store_id");
+		$stmt = connection::connect()->prepare("UPDATE $table SET idCategory = :idCategory, product= :product, description = :description, image = :image, stock = :stock, purchaseprice = :purchaseprice, saleprice = :saleprice, status = :status, taxId = :taxId WHERE barcode = :barcode  AND store_id = :store_id");
 
 		$stmt->bindParam(":idCategory", $data["idCategory"], PDO::PARAM_INT);
 		$stmt->bindParam(":barcode", $data["barcode"], PDO::PARAM_STR);
@@ -209,6 +209,7 @@ class productModel{
         $stmt->bindParam(":image", $data["image"],PDO::PARAM_STR);
         $stmt->bindParam(":status", $data["status"],PDO::PARAM_INT);
 		$stmt -> bindParam(":store_id", $data['storeid'], PDO::PARAM_STR);
+		$stmt -> bindParam(":taxId", $data['taxcat'], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 

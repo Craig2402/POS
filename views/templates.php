@@ -1,6 +1,8 @@
 <?php
     session_start();
     require_once 'controllers/activitylog.controller.php';
+    require_once 'controllers/packagevalidate.controller.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -9,8 +11,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Inventory | System</title>
-    <link rel="shortcut icon" href="views/img/company/afripos-logo.jpg" type="image/x-icon">
     
+    <link rel="shortcut icon" href="views\img\company\afripos-logo.jpg" type="image/x-icon">
+
     <!-- Include jQuery via CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -19,6 +22,8 @@
     =============================================  -->
     <!-- custom stylesheet -->
     <link rel="stylesheet" href="views/css/custom.css">
+    <link rel="stylesheet" href="views/css/main.css">
+    <link rel="stylesheet" href="views/css/util.css">
 
     <!-- Theme style -->
     <link rel="stylesheet" href="views/dist/css/adminlte.min.css">
@@ -85,10 +90,68 @@
 <body class="hold-transition sidebar-mini">
 <?php
 if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
-        if (isset($_SESSION['role']) && $_SESSION['role'] == "Administrator") {
+    
+    $element="paymentvalidation";
+    $table= "customers";
+    $countAll=null;
+    $organisationcode=$_SESSION["organizationcode"];
+
+    $days=packagevalidateController::ctrPackageValidate($element, $table, $countAll, $organisationcode);
+
+    if($days<=0){
+        include 'modules/renewal.php';
+    }else{
+            if (isset($_SESSION['role']) && $_SESSION['role'] == "Administrator" || $_SESSION['role'] == 404) {
+                include 'modules/header.php';
+                include 'modules/main-menu.php';
+        
+                if (isset($_GET['route'])) {
+                    // Check if the requested route is valid for the Administrator role
+                    if ($_GET['route'] == "dashboard" ||
+                        $_GET['route'] == "renewal" ||
+                        $_GET['route'] == "registration" ||
+                        $_GET['route'] == "addproduct"||
+                        $_GET['route'] == "products" ||
+                        $_GET['route'] == "changepassword" ||
+                        $_GET['route'] == "category" ||
+                        $_GET['route'] == "printbarcode" ||
+                        $_GET['route'] == "viewproduct" ||
+                        $_GET['route'] == "tax" ||
+                        $_GET['route'] == "pos" ||
+                        $_GET['route']=="transactions" ||
+                        $_GET['route'] == "discount" ||
+                        $_GET['route'] == "invoices" ||
+                        $_GET['route'] == "payment" ||
+                        $_GET['route'] == "sales" ||
+                        $_GET['route'] == "sales-reports" ||
+                        $_GET['route'] == "stock" ||
+                        $_GET['route'] == "suppliers" ||
+                        $_GET['route'] == "expenses" ||
+                        $_GET['route'] == "orders" ||
+                        $_GET['route'] == "returns" ||
+                        $_GET['route'] == "vieworders" ||
+                        $_GET['route'] == "stores" ||
+                        $_GET['route'] == "manage-stores" ||
+                        $_GET['route'] == "view-returned" ||
+                        $_GET['route'] == "finance-dashboard" ||
+                        $_GET['route'] == "logs"||
+                        $_GET['route'] == "logout"
+                    ) {
+                        include "modules/" . $_GET['route'] . ".php";
+                    } else {
+                        include "modules/404.php";
+                    }
+                } else {
+                    include "modules/dashboard.php"; // Default page for Administrator
+                }
+                include 'modules/footer.php';
+                echo '</div>';
+
+
+            }elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Supervisor") {
             include 'modules/header.php';
             include 'modules/main-menu.php';
-    
+
             if (isset($_GET['route'])) {
                 // Check if the requested route is valid for the Administrator role
                 if ($_GET['route'] == "dashboard" ||
@@ -106,7 +169,6 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                     $_GET['route'] == "invoices" ||
                     $_GET['route'] == "payment" ||
                     $_GET['route'] == "sales" ||
-                    $_GET['route'] == "sales-reports" ||
                     $_GET['route'] == "stock" ||
                     $_GET['route'] == "suppliers" ||
                     $_GET['route'] == "expenses" ||
@@ -117,7 +179,6 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                     $_GET['route'] == "manage-stores" ||
                     $_GET['route'] == "view-returned" ||
                     $_GET['route'] == "finance-dashboard" ||
-                    $_GET['route'] == "logs"||
                     $_GET['route'] == "logout"
                 ) {
                     include "modules/" . $_GET['route'] . ".php";
@@ -125,110 +186,69 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                     include "modules/404.php";
                 }
             } else {
-                include "modules/dashboard.php"; // Default page for Administrator
+                include "modules/dashboard.php"; // Default page for supervisor
             }
             include 'modules/footer.php';
             echo '</div>';
-
-
-        }elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Supervisor") {
-        include 'modules/header.php';
-        include 'modules/main-menu.php';
+        } elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Seller") {
+            include 'modules/header.php';
+            include 'modules/seller-menu.php';
 
         if (isset($_GET['route'])) {
-            // Check if the requested route is valid for the Administrator role
+            // Check if the requested route is valid for the Seller role
             if ($_GET['route'] == "dashboard" ||
-                $_GET['route'] == "registration" ||
-                $_GET['route'] == "addproduct"||
                 $_GET['route'] == "products" ||
                 $_GET['route'] == "changepassword" ||
-                $_GET['route'] == "category" ||
-                $_GET['route'] == "printbarcode" ||
                 $_GET['route'] == "viewproduct" ||
-                $_GET['route'] == "tax" ||
                 $_GET['route'] == "pos" ||
-                $_GET['route']=="transactions" ||
-                $_GET['route'] == "discount" ||
                 $_GET['route'] == "invoices" ||
+                $_GET['route'] == "stk_initiate" ||
                 $_GET['route'] == "payment" ||
-                $_GET['route'] == "sales" ||
-                $_GET['route'] == "stock" ||
-                $_GET['route'] == "suppliers" ||
-                $_GET['route'] == "expenses" ||
-                $_GET['route'] == "orders" ||
-                $_GET['route'] == "returns" ||
-                $_GET['route'] == "vieworders" ||
-                $_GET['route'] == "stores" ||
-                $_GET['route'] == "manage-stores" ||
-                $_GET['route'] == "view-returned" ||
-                $_GET['route'] == "finance-dashboard" ||
                 $_GET['route'] == "logout"
             ) {
-                include "modules/" . $_GET['route'] . ".php";
+            include "modules/" . $_GET['route'] . ".php";
             } else {
-                include "modules/404.php";
+            include "modules/404.php";
             }
         } else {
-            include "modules/dashboard.php"; // Default page for supervisor
+            include "modules/pos.php"; // Default page for Seller
         }
         include 'modules/footer.php';
         echo '</div>';
-    } elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Seller") {
+        } else {
         include 'modules/header.php';
-        include 'modules/seller-menu.php';
+        include 'modules/store-menu.php';
 
-    if (isset($_GET['route'])) {
-        // Check if the requested route is valid for the Seller role
-        if ($_GET['route'] == "dashboard" ||
-            $_GET['route'] == "products" ||
-            $_GET['route'] == "changepassword" ||
-            $_GET['route'] == "viewproduct" ||
-            $_GET['route'] == "pos" ||
-            $_GET['route'] == "invoices" ||
-            $_GET['route'] == "stk_initiate" ||
-            $_GET['route'] == "payment" ||
-            $_GET['route'] == "logout"
-        ) {
-        include "modules/" . $_GET['route'] . ".php";
+        if (isset($_GET['route'])) {
+            // Check if the requested route is valid for the Store role
+            if ($_GET['route'] == "products" ||
+                $_GET['route'] == "changepassword" ||
+                $_GET['route'] == "category" ||
+                $_GET['route'] == "addproduct"||
+                $_GET['route'] == "viewproduct" ||
+                $_GET['route'] == "printbarcode" ||
+                $_GET['route'] == "stock" ||
+                $_GET['route'] == "discount" ||
+                $_GET['route'] == "logout"
+            ) {
+            include "modules/" . $_GET['route'] . ".php";
+            } else {
+            include "modules/404.php";
+            }
         } else {
-        include "modules/404.php";
+            include "modules/stock.php"; // Default page for Store
         }
-    } else {
-        include "modules/pos.php"; // Default page for Seller
-    }
-    include 'modules/footer.php';
-    echo '</div>';
-    } else {
-    include 'modules/header.php';
-    include 'modules/store-menu.php';
-
-    if (isset($_GET['route'])) {
-        // Check if the requested route is valid for the Store role
-        if ($_GET['route'] == "products" ||
-            $_GET['route'] == "changepassword" ||
-            $_GET['route'] == "category" ||
-            $_GET['route'] == "addproduct"||
-            $_GET['route'] == "viewproduct" ||
-            $_GET['route'] == "printbarcode" ||
-            $_GET['route'] == "stock" ||
-            $_GET['route'] == "discount" ||
-            $_GET['route'] == "logout"
-        ) {
-        include "modules/" . $_GET['route'] . ".php";
-        } else {
-        include "modules/404.php";
+        include 'modules/footer.php';
+        echo '</div>';
         }
-    } else {
-        include "modules/stock.php"; // Default page for Store
     }
-    include 'modules/footer.php';
-    echo '</div>';
-    }
-} else {
+}
+else {
   echo '<div class="login-page">';
   include 'modules/login.php';
   echo '</div>';
 }
+
 ?>
 
 </div>
@@ -241,7 +261,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/user.js"></script>
 <script src="views/js/categories.js"></script>
 <script src="views/js/product.js"></script>
-<script src="views/js/tax.js"></script>
+<script src="views/js/taxdis.js"></script>
 <script src="views/js/pos.js"></script>
 <script src="views/js/discount.js"></script>
 <script src="views/js/invoices.js"></script>
@@ -255,6 +275,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
 <script src="views/js/store.js"></script>
 <script src="views/js/graphs.js"></script>
 <script src="views/js/header.js"></script>
+<script src="views/js/main.js"></script>
 
 
 

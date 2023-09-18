@@ -56,15 +56,17 @@
 	
 			if($answer == "ok"){
 				
-				// Create an array with the data for the activity log entry
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Taxes',
-					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created tax type '.$data['discount'].'.',
-					'storeid' => self::$storeid
-				);
-				// Call the ctrCreateActivityLog() function
-				activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Taxes',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created tax type '.$data['discount'].'.',
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 	
 				echo '<script>
 					
@@ -136,16 +138,18 @@
 
 			if($answer == "ok"){
 				
-				// Create an array with the data for the activity log entry
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Taxes',
-					'ActivityDescription' => $logMessage,
-					'itemID' => $taxid,
-					'storeid' => self::$storeid
-				);
-				// Call the ctrCreateActivityLog() function
-				activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Taxes',
+						'ActivityDescription' => $logMessage,
+						'itemID' => $taxid,
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 
 				echo'<script>
 
@@ -185,16 +189,18 @@
 
 			if($answer == "ok"){
 					
-				// Create an array with the data for the activity log entry
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Taxes',
-					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted tax type '.$tax['VATName'].'.',
-					'itemID' => $data,
-					'storeid' => self::$storeid
-				);
-				// Call the ctrCreateActivityLog() function
-				activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Taxes',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted tax type '.$tax['VATName'].'.',
+						'itemID' => $data,
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 
 				echo'<script>
 

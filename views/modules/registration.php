@@ -72,19 +72,7 @@
                                     echo '<option value="'.$value["store_id"].'">'.$value["store_name"].'</option>';
                                   }
                                   echo '</select>';
-                                } else {
-                                  echo '<label for="Selectstore" hidden>Store</label>
-                                  <select class="form-control" name="Selectstore" id="Selectstore" hidden required>
-                                  <option value="" disabled selected>Select a store</option>';
-                                  $item = null;
-                                  $value = null;
-                                  $stores = storeController::ctrShowStores($item, $value);
-                                  var_dump($stores);
-                                  foreach ($stores as $key => $value) {
-                                    echo '<option value="'.$value["store_id"].'">'.$value["store_name"].'</option>';
-                                  }
-                                  echo '</select>';                                  
-                                }
+                                } 
                               ?>
                             </div>
                           <?php
@@ -264,7 +252,7 @@
             </div>
             <div class="form-group">
                 <label for="editUsername">Username</label>
-                <input type="text" class="form-control" name="editUsername" id="editUsername" value="" readonly>
+                <input type="text" class="form-control" name="editUsername" id="editUsername" value="" readonly>selectstore
             </div>
             <div class="form-group">
                 <label for="editemail">Email</label>

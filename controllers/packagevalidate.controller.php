@@ -57,6 +57,18 @@ class packagevalidateController {
                 return false;
             }
             
+        }elseif($element=="mpesa"){
+            
+            $details=array(
+                "phone"=>$organisation[0]["phone"],
+                "price"=>$package["price"],         
+            );
+            return $details;
+
+        } elseif($element="paymentvalidation"){
+
+            return $organisation[0]["remaining_days"];
+
         }
 
     }

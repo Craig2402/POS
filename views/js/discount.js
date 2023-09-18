@@ -23,37 +23,41 @@ $(".tables").on("click", ".btnEditDiscount", function(){
      		// console.log("answer", answer);
              datum.append("barcodeProduct",answer["product"]);
 
-             $.ajax({
+            $.ajax({
         
-              url:"ajax/products.ajax.php",
-              method: "POST",
-              data: datum,
-              cache: false,
-              contentType: false,
-              processData: false,
-              dataType:"json",
-              success:function(answer){
+                url:"ajax/products.ajax.php",
+                method: "POST",
+                data: datum,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType:"json",
+                success:function(answer){
 
-                $("#editproduct").val(answer["product"]);
+                    $("#editproduct").val(answer["product"]);
 
-              }
+                }, error: function() {
+                    Swal.fire("Error", "Failed to retrieve product data from the server.", "error");
+                }
               
             });
         
 
-        $("#editdiscountname").val(answer["discount"]);
-    
-        $("#editdiscountamount").val(answer["amount"]);
+            $("#editdiscountname").val(answer["discount"]);
+        
+            $("#editdiscountamount").val(answer["amount"]);
 
-        $("#editstartdate").val(answer["startdate"]);
+            $("#editstartdate").val(answer["startdate"]);
 
-        $("#editenddate").val(answer["enddate"]);
+            $("#editenddate").val(answer["enddate"]);
 
-        $("#barcode").val(answer["product"]);
+            $("#barcode").val(answer["product"]);
 
-        $("#discountid").val(answer["disId"]);
+            $("#discountid").val(answer["disId"]);
 
-     	}
+     	}, error: function() {
+			Swal.fire("Error", "Failed to retrieve discount data from the server.", "error");
+		}
 
 	});
 

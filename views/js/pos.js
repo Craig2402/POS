@@ -97,10 +97,9 @@ $(function() {
           Swal.fire("Error", "The product does not exist in the database.", "error");
           $("#scanbarcode").val("");
         }
-      },
-      error: function() {
-        Swal.fire("Error", "Failed to retrieve product data from the server.", "error");
-      }
+      } ,error: function(xhr, status, error) {
+      console.error("AJAX request error:", error);
+    }
     });
 
   });
@@ -243,10 +242,12 @@ $(function() {
                   '<td style="text-align:left; vertical-align:middle;"><center><name="remove" class="btnremove" data-id="' + id + '"><span class="fas fa-trash" style="color:red;"></span></center></td>' +
                   '</tr>';
               
-                $('.details').append(tr);
-              
-                calculateSubtotal();
+                  $('.details').append(tr);
+                
+                  calculateSubtotal();
 
+                } ,error: function(xhr, status, error) {
+                  console.error("AJAX request error:", error);
                 }
               });
             
@@ -276,6 +277,7 @@ function calculateSubtotal() {
   var taxablesubTotal = 0;
   var totalDiscount = 0;
   var discountedPrice = 0;
+  var totaldue = 0;
 
   $(".details tr").each(function() {
     var tr = $(this);
@@ -289,6 +291,7 @@ function calculateSubtotal() {
     discountedPrice=saleprice-totalDis;
     
     total += discountedPrice;
+    totaldue = -total;
 
     if (taxId > 0) {
       taxableAmt += discountedPrice;
@@ -314,7 +317,7 @@ function calculateSubtotal() {
   $("#txtsubtotal_id").val(subTotal.toFixed(2));
   $("#txttaxtotal_id").val(tax.toFixed(2));
   $("#txttotal_id").val(total.toFixed(2));
-  $("#txtdue_id").val(total.toFixed(2));
+  $("#txtdue_id").val(totaldue.toFixed(2));
   $("#taxabletotal_id").val(taxableAmt.toFixed(2));
   $("#nontaxabletotal_id").val(nontaxableAmt.toFixed(2));
   $("#taxablesubtotal_id").val(taxablesubTotal.toFixed(2));
@@ -331,22 +334,28 @@ $(document).ready(function() {
   $(document).ready(function() {
     // Listen for changes in the radio button selection
     $('input[name="r3"]').on('change', function() {
-      var selectedOption = $(this).val();
+      var selectedOption = $(this);
+      var optionValue = selectedOption.val();
       
-      // Show the modal if "Cheque" option is selected
-      if (selectedOption === 'M-pesa') {
+      // Show the modal if "M-pesa" option is selected
+      if (optionValue === 'M-pesa') {
         Swal.fire({
           icon: "warning",
           title: "Coming soon.",
           showConfirmButton: false,
           timer: 2000 // Auto close after 2 seconds
-        })
-        // $('#exampleModal').modal('show');
+        }).then(function(result) {
+          if (result.dismiss === Swal.DismissReason.timer) {
+            // Timer expired, unselect the radio button
+            selectedOption.prop('checked', false);
+          }
+        });
       } else {
         $('#exampleModal').modal('hide');
       }
     });
   });
+  
 
   // Get the total and paid input fields
   var totalInput = $('#txttotal_id');
@@ -373,6 +382,22 @@ $(document).ready(function() {
   $('#submitButton').click(function() {
     var dueAmount = parseFloat($('#txtdue_id').val());
     var redeemedPointsInput = document.getElementById("redeemedpoints");
+
+    $.ajax({
+      type: "GET",
+      url: "ajax/settings.ajax.php",
+      cache: false,
+      success: function(settingsData) {
+        var settingsArray = JSON.parse(settingsData);  
+        var idNumberValue = (settingsArray.find(setting => setting.SettingName === "IDnumber") || {}).SettingValue;
+        var dueid = document.getElementById("txtdue_id").value;
+        if (idNumberValue != 0 && dueid < 0) {
+          $('.IDnumber').show();
+        } else {
+          $('.IDnumber').hide();
+        }
+      }
+    });
     
     if (dueAmount < 0 && $('#additionalInputs').is(':hidden') && redeemedPointsInput.value === "") {
       $('#additionalInputs, .loyaltyPoints').show();
@@ -509,9 +534,13 @@ $(document).on("keyup", ".pphone", function() {
                 $("#rphone").val(phoneNumber);
               });
             }
+          } ,error: function(xhr, status, error) {
+            console.error("AJAX request error:", error);
           }
         });
       }
+    } ,error: function(xhr, status, error) {
+      console.error("AJAX request error:", error);
     }
   });
 });
@@ -557,7 +586,7 @@ $(function() {
       var cid = document.getElementById("cid").value;
 
       // Check if any input is empty
-      if (cname.trim() === "" || phone.trim() === "" || cid.trim() === "") {
+      if (cname.trim() === "" || phone.trim() === "") {
         Swal.fire({
           icon: "warning",
           title: "Empty Fields",
@@ -605,16 +634,18 @@ $(function() {
         return false; // Prevent form submission
       }
 
-      // Check cid length
-      if (cid.length < 8 || cid.length > 8) {
-        Swal.fire({
-          icon: "warning",
-          title: "Invalid Identification Number",
-          text: "Identification number should have exactly 8 characters.",
-          timer:2000,
-          showConfirmButton:false,
-        });
-        return false; // Prevent form submission
+      if (("#cid").is(":visible")) {
+        // Check cid length
+        if (cid.length < 8 || cid.length > 8) {
+          Swal.fire({
+            icon: "warning",
+            title: "Invalid Identification Number",
+            text: "Identification number should have exactly 8 characters.",
+            timer:2000,
+            showConfirmButton:false,
+          });
+          return false; // Prevent form submission
+        }
       }
     }
 
@@ -644,7 +675,6 @@ $.ajax({
   url: "ajax/settings.ajax.php",
   cache: false,
   success: function(settingsData) {
-    console.log(settingsData);
     
     // Parse the JSON response
     try {
@@ -672,8 +702,7 @@ $.ajax({
         }
       }
     }
-  },
-  error: function(xhr, status, error) {
+  } ,error: function(xhr, status, error) {
     console.error("AJAX request error:", error);
   }
 });

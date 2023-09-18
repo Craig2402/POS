@@ -19,13 +19,10 @@ $(".tables tbody").on("click", "button.addPayment", function(){
         processData: false,
         dataType:"json",
         success:function(answer){
-
             const productList = JSON.parse(answer['products']);
-
             const productDetails = productList.map(product => {
                 return `${product.productName} (Quantity: ${product.Quantity})`;
             }).join(', ');
-
             localStorage.setItem('customerName', answer['customername']);
             localStorage.setItem('Products', productDetails);
             localStorage.setItem('Total', answer['total']);
@@ -113,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Swal.fire({
                 icon: "warning",
                 title: "Oops...",
-                text: "Please select a payment method before submitting the form!",
+                text: "Please select a payment method before proceding with the transaction!",
                 timer:2000,
                 showConfirmButton:false,
             });
@@ -419,7 +416,9 @@ function openPaymentModal(receiptNumber, customername, invoiceid, duedate) {
             // Add the new row to the table body
             tbody.appendChild(newRow);
 
-        }
+        }, error: function() {
+			Swal.fire("Error", "Failed to retrieve paymenmt data from the server.", "error");
+		}
 
     });
 }
@@ -629,3 +628,127 @@ $(".tables tbody").on("click", "button.delete-Transaction", function(){
         window.open('views/pdfs/bill-a4.php', '_blank');
     }
 
+
+/*=============================================
+RENEW SERVICE
+=============================================*/
+$(".payment").on("click", function(){
+    
+    var stopFlag = false; // Flag to stop further requests
+
+    // Function to toggle between "Pay" and the loading spinner
+    function toggleButtonState() {
+        if (stopFlag) {
+            // Revert the button text when stopping requests
+            $(".payment").text("Pay");
+        } else {
+            // Replace button text with the loading spinner
+            $(".payment").html('<div class="loading-spinner"></div> Processing...');
+        }
+    }
+
+    // Initial state: show "Pay" on the button
+    toggleButtonState();
+
+    function makeAjaxRequest() {
+        if (stopFlag) {
+            // Hide the loading spinner when stopping requests
+            $(".loading-spinner").hide();
+            return; // Stop making requests if the flag is set to true
+        }
+        var organizationcode = $(".payment").attr("organizationcode");
+    
+        var datum = new FormData();
+        datum.append("organizationcode", organizationcode);
+    
+        // Create an AJAX request
+        $.ajax({
+            url:"ajax/payment.ajax.php",
+            method: "POST",
+            data: datum,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType:"json",
+            success:function(answer){
+                console.log("AJAX request successful:", answer);
+                $(".check-phone").show();
+                if (answer <= 0) {
+                    // If data is greater than 0, schedule another request
+                    setTimeout(makeAjaxRequest, 1000); // Wait for 1 second before making the next request
+                } else{
+                    
+                    $(".transaction-success").show();
+
+                    // Hide the success message after 3 seconds (adjust the time as needed)
+                    setTimeout(function() {
+                        $(".transaction-success").hide();
+                        // Reload the current page
+                        location.reload();
+                    }, 5000); // 5 seconds
+
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle other types of errors here
+                console.log("AJAX request error:", status, error);
+            }
+        });
+    }
+    
+    // Start the recursive AJAX request
+    makeAjaxRequest();
+
+    // Schedule a stop after 60 seconds (60,000 milliseconds)
+    setTimeout(function() {
+        
+        console.log("Stopping after 60 seconds");
+
+        $(".transaction-failed").show();
+
+        // Hide the success message after 3 seconds (adjust the time as needed)
+        setTimeout(function() {
+            $(".transaction-failed").hide();
+            $(".check-phone").hide();
+        }, 5000); // 5 seconds
+
+        stopFlag = true; // Set the flag to stop further requests
+        // Revert the button text after 60 seconds
+        toggleButtonState();
+    }, 60000);
+
+});
+
+
+/*=============================================
+
+=============================================*/
+
+// Handle form submission
+const form = $("#renewalForm");
+const payButton = form.find(".payment");
+
+payButton.click(function (event) {
+    
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    // Serialize the form data
+    const formData = form.serialize();
+
+    // Send an AJAX request to your server
+    $.ajax({
+        type: "POST",
+        url: "ajax/renewal.ajax.php", // Replace with the path to your PHP script
+        data: formData,
+        dataType: "json", // Specify JSON as the expected data type
+        success: function (response) {
+            // Handle the success response here
+            console.log(response);
+            // You can update the UI or perform other actions based on the response
+        },
+        error: function (xhr, status, error) {
+            // Handle errors here
+            console.error(xhr.responseText);
+        }
+    });
+});

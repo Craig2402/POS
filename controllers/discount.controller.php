@@ -55,15 +55,17 @@
             // var_dump($answer);
 
             if($answer == 'ok'){
-				// Create an array with the data for the activity log entry
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Discount',
-					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created discount ' .$data['discount']. ' with sum ' .$data['amount']. ' for product ' .$data['product']. '.',
-					'storeid' => self::$storeid
-				);
-				// Call the ctrCreateActivityLog() function
-				activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					// Create an array with the data for the activity log entry
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Discount',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created discount ' .$data['discount']. ' with sum ' .$data['amount']. ' for product ' .$data['product']. '.',
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 
                 echo '<script>
                     
@@ -135,15 +137,17 @@
 			$answer = DiscountModel::mdlEditDiscount($table, $data);
 			
 			if ($answer == "ok") {
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Discounts',
-					'ActivityDescription' => $logMessage,
-                    'itemID' => $discountId,
-					'storeid' => self::$storeid
-				);
-				// Call the method to create the activity log in the model or any other appropriate function
-				activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Discounts',
+						'ActivityDescription' => $logMessage,
+						'itemID' => $discountId,
+						'storeid' => self::$storeid
+					);
+					// Call the method to create the activity log in the model or any other appropriate function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 				echo '<script>
 					Swal.fire({
 						icon: "success",
@@ -181,15 +185,17 @@
 			$answer = DiscountModel::mdlDeleteDiscount($table, $data);
 
 			if($answer == "ok"){
-				$logdata = array(
-					'UserID' => $_SESSION['userId'],
-					'ActivityType' => 'Discounts',
-					'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted discount ' .$discountname.' for product ' .$discountproductcode. '.'. '.',
-                    'itemID' => $value,
-					'storeid' => self::$storeid
-				);
-				// Call the ctrCreateActivityLog() function
-				activitylogController::ctrCreateActivityLog($logdata);
+				if ($_SESSION['userId'] != 404) {
+					$logdata = array(
+						'UserID' => $_SESSION['userId'],
+						'ActivityType' => 'Discounts',
+						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted discount ' .$discountname.' for product ' .$discountproductcode. '.'. '.',
+						'itemID' => $value,
+						'storeid' => self::$storeid
+					);
+					// Call the ctrCreateActivityLog() function
+					activitylogController::ctrCreateActivityLog($logdata);
+				}
 
 				echo'<script>
 

@@ -66,7 +66,6 @@ $(".txtproductimage").change(function(){
 /*=============================================
 EDIT PRODUCT
 =============================================*/
-
 $(".tables tbody").on("click", "button.btnEditProduct", function(){
 
 	var barcodeProduct = $(this).attr("idProduct");
@@ -76,66 +75,69 @@ $(".tables tbody").on("click", "button.btnEditProduct", function(){
 
      $.ajax({
 
-      url:"ajax/products.ajax.php",
-      method: "POST",
-      data: datum,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType:"json",
-      success:function(answer){
-          console.log(answer);
-        var categoryData = new FormData();
-        categoryData.append("idCategory",answer["idCategory"]);
+		url:"ajax/products.ajax.php",
+		method: "POST",
+		data: datum,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType:"json",
+		success:function(answer){
+			var categoryData = new FormData();
+			categoryData.append("idCategory",answer["idCategory"]);
 
 
-         $.ajax({
+			$.ajax({
 
-            url:"ajax/categories.ajax.php",
-            method: "POST",
-            data: categoryData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType:"json",
-            success:function(answer){
+				url:"ajax/categories.ajax.php",
+				method: "POST",
+				data: categoryData,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType:"json",
+				success:function(answer){
 
-				// console.log(answer);
-                
-                $("#editcategory").val(answer["id"]);
-                $("#editcategory").html(answer["Category"]);
+					// console.log(answer);
+					
+					$("#editcategory").val(answer["id"]);
+					$("#editcategory").html(answer["Category"]);
 
-            }
+				}, error: function() {
+					Swal.fire("Error", "Failed to retrieve category data from the server.", "error");
+				}
 
-        })
+			})
 
-		$("#editbarcode").val(answer["barcode"]);
+			$("#editbarcode").val(answer["barcode"]);
 
-		$("#editproductname").val(answer["product"]);
+			$("#editproductname").val(answer["product"]);
 
-		$("#editcategory").val(answer["Category"]);
+			$("#editcategory").val(answer["Category"]);
 
-		$("#editdescription").val(answer["description"]);
+			$("#editdescription").val(answer["description"]);
 
-		$("#editstock").val(answer["stock"]);
+			$("#editstock").val(answer["stock"]);
 
-		$("#editpurchaseprice").val(answer["purchaseprice"]);
+			$("#editpurchaseprice").val(answer["purchaseprice"]);
 
-		$("#editsaleprice").val(answer["saleprice"]);
+			$("#editsaleprice").val(answer["saleprice"]);
 
-		$("#edittaxcat").val(answer["taxId"]);
+			$("#edittaxcat").val(answer["taxId"]);
 
-		if(answer["image"] != ""){
+			if(answer["image"] != ""){
 
-			  $("#currentImage").val(answer["image"]);
+				$("#currentImage").val(answer["image"]);
 
-			  $(".preview").attr("src",  answer["image"]);
+				$(".preview").attr("src",  answer["image"]);
 
+			}
+
+		}, error: function() {
+			Swal.fire("Error", "Failed to retrieve product data from the server.", "error");
 		}
 
-      }
-
-  })
+  	})
 
 })
 
@@ -208,10 +210,14 @@ $(".tables tbody").on("click", "button.btnViewProduct", function(){
 				dataType:"json",
 				success: function(response) {
 					window.location = "index.php?route=viewproduct&product-id=" + barcodeProduct + "&image=" + image;
+				}, error: function() {
+					Swal.fire("Error", "Failed to update logs to the server.", "error");
 				}
 
 			});
 
+		}, error: function() {
+			Swal.fire("Error", "Failed to retrieve product data from the server.", "error");
 		}
 
 	});
@@ -229,12 +235,17 @@ $(".tables tbody").on("click", "button.btnPrintProductBarcode", function(){
 })
 
 
-$(document).ready(function() {
-	$('#stock').change(function() {
-		var selectedProduct = $('#stock option:selected').text();
-		$('#sproduct').val(selectedProduct);
 
-		
+
+/*==================================================
+CHECK FOR CHANGE IN THE SELECT PRODUCT MENU TO ADD STOCK
+====================================================*/
+$('#stock').change(function() {
+
+	var selectedProduct = $('#stock option:selected').text();
+	$('#sproduct').val(selectedProduct);
+
+	
 	var barcode = $('#stock').val();
 
 	// Fetch the product data
@@ -251,10 +262,14 @@ $(document).ready(function() {
 				// Set the product image
 				$('#productImage').attr('src', response.image);
 				$("#cstock").val(response.stock);
+		}, error: function() {
+			Swal.fire("Error", "Failed to retrieve product data from the server.", "error");
 		}
+
 	});
+
 });
-});
+
 
 
 // check if the product exists in the db

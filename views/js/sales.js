@@ -116,9 +116,8 @@ $('#daterange-btn2').daterangepicker(
             },
             success: function(data) {
                 $("#tableBody").html(data);
-            },
-            error: function() {
-                alert("An error occurred while fetching data.");
+            } ,error: function(xhr, status, error) {
+                console.error("AJAX request error:", error);
             }
         });
     }

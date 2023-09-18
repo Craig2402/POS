@@ -65,7 +65,9 @@ $('#product').on('change', function() {
                 });
             }
 
-        }
+        }, error: function() {
+			Swal.fire("Error", "Failed to retrieve product data from the server.", "error");
+		}
 
     });
 

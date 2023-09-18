@@ -10,30 +10,30 @@ $(".tables tbody").on("click", "button.btnEditSupplier", function(){
 	var datum = new FormData();
     datum.append("Supplier", Supplier);
 
-     $.ajax({
+    $.ajax({
 
-      url:"ajax/supplier.ajax.php",
-      method: "POST",
-      data: datum,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType:"json",
-      success:function(answer){
-        
-        //  console.log("answer", answer);
+        url:"ajax/supplier.ajax.php",
+        method: "POST",
+        data: datum,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(answer){
 
-         $("#supplierId").val(answer["supplierid"]);
+        $("#supplierId").val(answer["supplierid"]);
 
-		$("#newSupplier").val(answer["name"]);
+        $("#newSupplier").val(answer["name"]);
 
-		$("#newAddress").val(answer["address"]);
+        $("#newAddress").val(answer["address"]);
 
-		$("#newEmail").val(answer["email"]);
+        $("#newEmail").val(answer["email"]);
 
-		$("#newContact").val(answer["contact"]);
+        $("#newContact").val(answer["contact"]);
 
-      }
+    }, error: function() {
+        Swal.fire("Error", "Failed to retrieve supplier data from the server.", "error");
+    }
 
   })
 

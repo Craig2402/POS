@@ -124,20 +124,22 @@ $(".tables").on("click", "button.btnEditExpense", function(){
 		processData: false,
 		dataType: "json",
 		success: function(answer) {
-		  console.log("answer", answer);
-		  $("#editExpenseId").val(answer["id"]);
-		  $("#editExpense").val(answer["expense"]);
-		  $("#editDate").val(answer["date"]);
-		  $("#editAmount").val(answer["amount"]);
-		  $("#editExpenseType").val(answer["expense_type"]);
-	  
-		  if (answer["receipt"].toLowerCase().endsWith(".pdf")) {
-			$(".editrecieptthumb").attr("src", "views/expenses/defaults/pdf.png");
-		  } else {
-			$(".editrecieptthumb").attr("src", answer["receipt"]);
-		  }
-	  
-		  $("input[name='existingFilePath']").val(answer["receipt"]); // Set existing file path
+			console.log("answer", answer);
+			$("#editExpenseId").val(answer["id"]);
+			$("#editExpense").val(answer["expense"]);
+			$("#editDate").val(answer["date"]);
+			$("#editAmount").val(answer["amount"]);
+			$("#editExpenseType").val(answer["expense_type"]);
+		
+			if (answer["receipt"].toLowerCase().endsWith(".pdf")) {
+				$(".editrecieptthumb").attr("src", "views/expenses/defaults/pdf.png");
+			} else {
+				$(".editrecieptthumb").attr("src", answer["receipt"]);
+			}
+		
+			$("input[name='existingFilePath']").val(answer["receipt"]); // Set existing file path
+		}, error: function() {
+			Swal.fire("Error", "Failed to retrieve expense data from the server.", "error");
 		}
 
 	});

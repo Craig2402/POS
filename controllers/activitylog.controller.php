@@ -8,7 +8,7 @@ class activitylogController {
     public static function ctrCreateActivityLog($data){
         if ($data) {
 
-            $table = "UserActivityLog";
+            $table = "useractivitylog";
 
             $answer = activitylogModel::mdlCreateActivityLog($table, $data);
 
@@ -22,7 +22,7 @@ class activitylogController {
     =============================================*/
     public static function ctrFetchActivityLog($item, $value){
         
-        $table = "UserActivityLog";
+        $table = "useractivitylog";
 
         $answer = activitylogModel::mdlFetchActivityLog($table, $item, $value);
 

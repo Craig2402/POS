@@ -142,7 +142,3 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-<?php
-    $ 
-    $markRead -> ctrMarkNotificationsRead();
-?>

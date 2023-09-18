@@ -94,6 +94,8 @@ $(".tables tbody").on("click", "button.btnEditStore", function(){
 	
 			}
 			
+		}, error: function() {
+			Swal.fire("Error", "Failed to retrieve store data from the server.", "error");
 		}
 
 	});

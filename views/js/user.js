@@ -109,7 +109,9 @@ $(document).on("click", ".btnEditUser", function(){
 
  			}
 
- 		}
+ 		}, error: function() {
+			Swal.fire("Error", "Failed to retrieve user data from the server.", "error");
+		}
 
  	});
 
@@ -130,34 +132,36 @@ $(document).on("click", ".btnActivate", function(){
 
   	$.ajax({
 
-	  url:"ajax/user.ajax.php",
-	  method: "POST",
-	  data: datum,
-	  cache: false,
-      contentType: false,
-      processData: false,
-      success: function(answer){
-      	
-      	// console.log("answer", answer);
-
-      	if(window.matchMedia("(max-width:767px)").matches){
+		url:"ajax/user.ajax.php",
+		method: "POST",
+		data: datum,
+		cache: false,
+		contentType: false,
+		processData: false,
+		success: function(answer){
 		
-			Swal.fire({
-				title: "The user status has been updated",
-				icon: "success",
-				confirmButtonColor: '#0069d9',
-				confirmButtonText: "Close"	
-			}).then(function(result) {
+		// console.log("answer", answer);
 
-				if (result.value) {
-					window.location = "registration";
-				}
+			if(window.matchMedia("(max-width:767px)").matches){
+			
+				Swal.fire({
+					title: "The user status has been updated",
+					icon: "success",
+					confirmButtonColor: '#0069d9',
+					confirmButtonText: "Close"	
+				}).then(function(result) {
 
-			})
+					if (result.value) {
+						window.location = "registration";
+					}
 
+				})
+
+			}
+		
+		}, error: function() {
+			Swal.fire("Error", "Failed to retrieve user data from the server.", "error");
 		}
-		
-      }
 
   	})
 
@@ -195,25 +199,27 @@ $("#username").change(function(){
 
   	$.ajax({
 
-	  url:"ajax/user.ajax.php",
-	  method: "POST",
-	  data: data,
-	  cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function(answer){ 
+		url:"ajax/user.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function(answer){ 
 
-      	//console.log("answer", answer);
+			//console.log("answer", answer);
 
-      	if(answer){
+			if(answer){
 
-      		$("#username").parent().after('<div class="alert alert-warning">This user is already taken</div>');
-      		
-      		$("#username").val('');
-      	}
+				$("#username").parent().after('<div class="alert alert-warning">This user is already taken</div>');
+				
+				$("#username").val('');
+			}
 
-      }
+		}, error: function() {
+			Swal.fire("Error", "Failed to retrieve user data from the server.", "error");
+		}
 
     });
 
@@ -234,25 +240,27 @@ $("#email").change(function(){
 
   	$.ajax({
 
-	  url:"ajax/user.ajax.php",
-	  method: "POST",
-	  data: data,
-	  cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function(answer){ 
+		url:"ajax/user.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function(answer){ 
 
-      	//console.log("answer", answer);
+			//console.log("answer", answer);
 
-      	if(answer){
+			if(answer){
 
-      		$("#email").parent().after('<div class="alert alert-warning">This email already exists in the system</div>');
-      		
-      		$("#email").val('');
-      	}
+				$("#email").parent().after('<div class="alert alert-warning">This email already exists in the system</div>');
+				
+				$("#email").val('');
+			}
 
-      }
+		}, error: function() {
+			Swal.fire("Error", "Failed to retrieve user data from the server.", "error");
+		}
 
     });
 
@@ -331,11 +339,9 @@ $(document).ready(function() {
 
                 // Show the modal
                 $("#userProfileModal").modal("show");
-            },
-            error: function(xhr, status, error) {
-                // Handle any errors that occurred during the AJAX request
-                console.error(error);
-            }
+            }, error: function() {
+				Swal.fire("Error", "Failed to retrieve user data from the server.", "error");
+			}
         });
     });
 });
