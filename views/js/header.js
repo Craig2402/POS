@@ -295,4 +295,114 @@ $('#loyaltyPoints').on('change', function() {
   }
 });
 
+// Listen for changes in the "Activate Loyalty Points" checkbox
+$('#fetchidnumber').on('change', function() {
+  var item = "IDnumber";
+  if (this.checked) {
+    // Checkbox is checked
+    // console.log("Loyalty Points activated");
+    var value = 1;
+    settingsAjax(item, value);
+    // Perform your action here
+  } else {
+    // Checkbox is unchecked
+    // console.log("Loyalty Points deactivated");
+    var value = 0;
+    settingsAjax(item, value);
+    // Perform your action here
+  }
+});
+
+// Listen for changes in the "Activate Loyalty Points" checkbox
+$('#fetchname').on('change', function() {
+  var item = "CustomerName";
+  if (this.checked) {
+    // Checkbox is checked
+    // console.log("Loyalty Points activated");
+    var value = 1;
+    settingsAjax(item, value);
+    // Perform your action here
+  } else {
+    // Checkbox is unchecked
+    // console.log("Loyalty Points deactivated");
+    var value = 0;
+    settingsAjax(item, value);
+    // Perform your action here
+  }
+});
+
+// Function to check the strength of a password
+function checkPasswordStrength(password) {
+  // Define a regular expression pattern for a strong password
+  var strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  // Test the password against the pattern
+  return strongPasswordPattern.test(password);
+}
+
+// Function to update the password strength meter and text
+function updatePasswordStrength() {
+  var passwordInput = document.querySelector('.newpass');
+  var passwordStrengthMeter = document.getElementById('passwordStrengthMeter');
+  var passwordStrengthText = document.getElementById('passwordStrengthText');
+
+  var password = passwordInput.value;
+  var strength = 0;
+
+  if (password.length >= 8) strength += 25;
+  if (/[a-z]/.test(password)) strength += 25;
+  if (/[A-Z]/.test(password)) strength += 25;
+  if (/[0-9]/.test(password)) strength += 25;
+
+  passwordStrengthMeter.style.width = strength + '%';
+  passwordStrengthMeter.setAttribute('aria-valuenow', strength);
+
+  if (strength === 0) {
+    passwordStrengthMeter.classList.remove('bg-danger', 'bg-warning', 'bg-info', 'bg-success');
+    passwordStrengthText.innerHTML = '';
+  } else if (strength <= 25) {
+    passwordStrengthMeter.classList.add('bg-danger');
+    passwordStrengthMeter.classList.remove('bg-warning', 'bg-info', 'bg-success');
+    passwordStrengthText.innerHTML = 'Weak';
+  } else if (strength <= 50) {
+    passwordStrengthMeter.classList.add('bg-warning');
+    passwordStrengthMeter.classList.remove('bg-danger', 'bg-info', 'bg-success');
+    passwordStrengthText.innerHTML = 'Moderate';
+  } else if (strength <= 75) {
+    passwordStrengthMeter.classList.add('bg-info');
+    passwordStrengthMeter.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+    passwordStrengthText.innerHTML = 'Strong';
+  } else {
+    passwordStrengthMeter.classList.add('bg-success');
+    passwordStrengthMeter.classList.remove('bg-danger', 'bg-warning', 'bg-info');
+    passwordStrengthText.innerHTML = 'Very Strong';
+  }
+}
+
+// Function to handle the form submission
+function validatePasswordChangeForm(event) {
+  var newPassword = document.querySelector('.newpass').value;
+
+  // Check if the new password is strong enough
+  if (!checkPasswordStrength(newPassword)) {
+    // Display a message to the user indicating that the password is not strong enough
+    // alert("Password is not strong enough. It should contain at least 8 characters, including at least one lowercase letter, one uppercase letter, one digit, and one special character.");
+    
+    Swal.fire(
+      'Password not changed',
+      'Password is not strong enough. It should contain at least 8 characters, including at least one lowercase letter, one uppercase letter, one digit, and one special character.',
+      'error'
+    )
+    // Prevent form submission
+    event.preventDefault();
+  }
+}
+
+// Add an event listener to the password input field to update the strength meter as the user types
+document.querySelector('.newpass').addEventListener('input', updatePasswordStrength);
+
+// Add an event listener to the form to trigger the password strength check on form submission
+// document.getElementById('passwordChangeForm').addEventListener('submit', validatePasswordChangeForm);
+
+
 

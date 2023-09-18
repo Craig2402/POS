@@ -249,6 +249,21 @@
             <label class="form-check-label" for="loyaltyPoints">Activate Loyalty Points</label>
           </div>
           
+<<<<<<< Updated upstream
+=======
+          <!-- <div class="my-4"></div> -->
+          <label class="" for="">Customer Details</label>
+          <!-- <hr style="height:1px; border-width:0; color:black; background-color:black;"> -->
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="fetchidnumber">
+            <label class="form-check-label" for="fetchidnumber">Fetch ID number</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="fetchname">
+            <label class="form-check-label" for="fetchname">Fetch Customer name</label>
+          </div>
+          
+>>>>>>> Stashed changes
         </div>
         <form action="" method="post" enctype="multipart/form-data">
           <div class="form-group">
