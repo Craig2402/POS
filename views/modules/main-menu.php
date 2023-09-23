@@ -281,8 +281,16 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="customers" class="nav-link">
+                        <i class="fa-solid fa-users"></i>
+                        <p>
+                            Customers
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="registration" class="nav-link">
-                        <i class="fa-solid fa-users nav-icon"></i>
+                        <i class="fa-solid fa-user-tie nav-icon"></i>
                         <p>
                             Registration
                         </p>

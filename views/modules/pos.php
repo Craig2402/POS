@@ -64,7 +64,7 @@
                                 <div class="form-group">
                                 <label>Product name</label>
                                     <select class="form-control select2" data-dropdown-css-class="select2-purple" style="width: 100%;" id="pos-select">
-                                        <option value="">Select or search</option><?php echo fillProducts();?>
+                                        <option value="">-- Select or search --</option><?php echo fillProducts();?>
                                     </select>
                                 </div>
                                 <div class="tableFixHead">
@@ -170,7 +170,6 @@
                                         <input type="text" class="form-control form-control-lg total" id="txtpaid_id" name="txtpaid" readonly>
                                         <input type="hidden" class="form-control form-control-lg redeemedpoints" id="redeemedpoints" name="redeemedpoints">
                                         <input type="hidden" class="form-control form-control-lg pointamountvalue" id="pointamountvalue" name="pointamountvalue">
-                                        <input type="hidden" class="form-control form-control-lg rphone" id="rphone" name="rphone">
                                         <div class="input-group-append">
                                             <span class="input-group-text">Kshs</span>
                                         </div>
@@ -188,57 +187,73 @@
                                         $LoyaltypointsValue = $setting[3]['SettingValue'];
                                         if ($CustomerDetailsValue == 1){
                                             echo '
+                                            <div class="form-group">
                                             <hr style="height:2px; border-width:0; color:black; background-color:black;">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">Customer Name</span>
-                                                </div>
-                                                <input type="text" class="form-control" id="cname" name="cname">
-                                            </div>
-
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">Phone Number</span>
-                                                </div>
-                                                <input type="text" class="form-control" id="phone" name="phone">
-                                            </div>
-
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">Identification Number</span>
-                                                </div>
-                                                <input type="text" class="form-control" id="cid" name="cid">
-                                            </div>
-                                            ';
-                                        }
-                                        if ($LoyaltypointsValue == 1) {
-                                            echo '
-                                            <div class="loyaltyPoints">
-                                                <hr style="height:2px; border-width:0; color:black; background-color:black;">
-                                                <label for="floatingInput">Loyalty Points</label>
-                                                <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control gphone" id="floatingInput" name="gphone">
-                                                    <label for="floatingInput">Enter Phone Number</label>
-                                                </div>
-                                            </div>
+                                            <select class="form-control select2" data-dropdown-css-class="select2-purple" name="selectcustomer" id="selectcustomer">
+                                                <option selected disabled  value="">--Select or Search Customer--</option>';
+    
+                                                    $item = null;
+                                                    $value =null;
+    
+                                                    $customers = customerController::ctrShowCustomers($item, $value);
+    
+                                                    foreach ($customers as $key => $value) {
+                                                        
+                                                        echo '<option value="'.$value["customer_id"].'">'.$value["name"].'</option>';
+    
+                                                    }
+    
+                                                    echo '
+                                            </select>
+                                        </div>
                                             ';
                                         }
                                     ?>
                                 </div>
                                 <div class="points-plat" style="display: none;">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control pphone" id="floatingPPhoneInput" name="pphone" placeholder="Enter Phone Number">
-                                        <label for="floatingPPhoneInput">Enter Phone Number</label>
+                                    <div class="form-group">
+                                        <select class="form-control select2" data-dropdown-css-class="select2-purple" name="pselectcustomer" id="pselectcustomer">
+                                            <option selected disabled  value="">--Select or Search Customer--</option>
+
+                                                <?php
+                                                $item = null;
+                                                $value =null;
+
+                                                $customers = customerController::ctrShowCustomers($item, $value);
+
+                                                foreach ($customers as $key => $value) {
+                                                    
+                                                    echo '<option value="'.$value["customer_id"].'">'.$value["name"].'</option>';
+
+                                                }
+
+                                                ?>
+                                        </select>
                                     </div>
-                                    <div class="alert alert-danger" id="lesspoints" role="alert" style="display: none;">Points not enough to make purchase!<br>Select a payment method to topup.</div>
-                                    <div class="alert alert-danger" id="nophone" role="alert" style="display: none;">The phone number does not exist.</div>
+                                    <div class="alert alert-danger" id="lesspoints" role="alert" style="display: none;">Points not enough to make purchase!<br>Select another payment method to topup.</div>
+                                    <div class="alert alert-danger" id="nophone" role="alert" style="display: none;">The customer is not in the loyalty program or does not exist.</div>
+                                    <div class="alert alert-success" id="eligible" role="alert" style="display: none;">The customer is eligible.</div>
                                     <div class="payment-methods" style="display: none;">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control top-up" id="floatingtop-upInput" name="top-up" placeholder="Topup amount">
+                                            <input type="text" class="form-control top-up" id="floatingtop-upInput" name="topUpamount" placeholder="Topup amount">
                                             <label for="floatingtop-upInput">Topup amount</label>
                                         </div>
-                                        <button type="button" class="btn btn-primary topupCash">Cash</button>
-                                        <button type="button" class="btn btn-success topupMpesa">Mpesa</button>
+                                        <!-- <button type="button" class="btn btn-primary topupCash">Cash</button> -->
+                                        
+                                    <!-- <div class="icheck-primary form-check form-check-inline" >
+                                        <input class="form-check-input topupCash" type="radio" name="r3" id="radioSuccess4" value="topupCash">
+                                        <label class="form-check-label" for="radioSuccess4">Cash</label>
+                                    </div> -->
+                                    
+                                    <div class="icheck-primary form-check form-check-inline">
+                                        <input class="form-check-input topupCash" type="radio" id="topupCash" name="topup" value="topupCash">
+                                        <label class="form-check-label" for="topupCash">Cash</label>
+                                    </div>
+                                    <div class="icheck-success form-check form-check-inline">
+                                        <input class="form-check-input topupMpesa" type="radio" id="topupMpesa" name="topup" value="topupM-pesa">
+                                        <label class="form-check-label" for="topupMpesa">M-pesa</label>
+                                    </div>
+                                        <!-- <button type="button" class="btn btn-success topupMpesa">Mpesa</button> -->
                                     </div>
                                 </div>
                                 <!-- End of additional inputs -->

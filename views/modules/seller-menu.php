@@ -102,6 +102,14 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="customers" class="nav-link">
+                        <i class="fa-solid fa-users"></i>
+                        <p>
+                            Customers
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

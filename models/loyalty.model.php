@@ -27,10 +27,10 @@ class LoyaltyModel{
 
 	static public function mdlAddLoyaltyPoints($table, $data){
 
-        $stmt = connection::connect()->prepare("INSERT INTO `$table` (pointId, Phone, PointsEarned, PointsRedeemed) VALUES (:loyaltyid, :Phone, :PointsEarned, :PointsRedeemed)");
+        $stmt = connection::connect()->prepare("INSERT INTO `$table` (pointId, customer_id, PointsEarned, PointsRedeemed) VALUES (:loyaltyid, :customer_id, :PointsEarned, :PointsRedeemed)");
 
         $stmt->bindParam(':loyaltyid', $data['loyaltyid']);
-        $stmt->bindParam(':Phone', $data['Phone']);
+        $stmt->bindParam(':customer_id', $data['customer_id']);
         $stmt->bindParam(':PointsEarned', $data['PointsEarned']);
         $stmt->bindParam(':PointsRedeemed', $data['PointsRedeemed']);
 

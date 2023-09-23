@@ -28,6 +28,8 @@
           <p>
             We could not find the page you were looking for.
             Meanwhile, you may <a href="dashboard">return to dashboard</a></p>
+          <p>If you think this is a mistake, please reach us through the below contacts:
+              Email: info@afripos.co.ke</p>
         </div>
         <!-- /.error-content -->
       </div>

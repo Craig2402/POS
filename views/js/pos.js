@@ -324,37 +324,47 @@ function calculateSubtotal() {
   $("#txtdiscounttotal_id").val(totalDiscount.toFixed(2));
 }
 
-$(document).ready(function() {
-  $('input[name="r3"]').on('change', function() {
-    var isChecked = $('#radioSuccess1').is(':checked');
-    $('#txtpaid_id').prop('readonly', !isChecked);
-  });
+/*=============================================
+CHECK FOR CHANGE IN THE CASH RADIO BUTTON
+=============================================*/	
+// Get a reference to the radio button element
+var radio = document.getElementById("radioSuccess1");
 
-  // check if the mpesa radio button is checked
-  $(document).ready(function() {
-    // Listen for changes in the radio button selection
-    $('input[name="r3"]').on('change', function() {
-      var selectedOption = $(this);
-      var optionValue = selectedOption.val();
-      
-      // Show the modal if "M-pesa" option is selected
-      if (optionValue === 'M-pesa') {
-        Swal.fire({
-          icon: "warning",
-          title: "Coming soon.",
-          showConfirmButton: false,
-          timer: 2000 // Auto close after 2 seconds
-        }).then(function(result) {
-          if (result.dismiss === Swal.DismissReason.timer) {
-            // Timer expired, unselect the radio button
-            selectedOption.prop('checked', false);
-          }
-        });
-      } else {
-        $('#exampleModal').modal('hide');
+// Add an event listener to the radio button to detect changes in its checked status
+radio.addEventListener("change", function() {
+    // Check if the radio button is checked
+    var isChecked = radio.checked;
+
+    // Make the element with ID "txtpaid_id" readonly based on the checked status
+    $('#txtpaid_id').prop('readonly', !isChecked);
+});
+
+
+
+/*=============================================
+// check if the mpesa radio button is checked
+=============================================*/	
+// Listen for changes in the radio button selection
+$('input[name="r3"]').on('change', function() {
+  var selectedOption = $(this);
+  var optionValue = selectedOption.val();
+  
+  // Show the modal if "M-pesa" option is selected
+  if (optionValue === 'M-pesa') {
+    Swal.fire({
+      icon: "warning",
+      title: "Coming soon.",
+      showConfirmButton: false,
+      timer: 2000 // Auto close after 2 seconds
+    }).then(function(result) {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        // Timer expired, unselect the radio button
+        selectedOption.prop('checked', false);
       }
     });
-  });
+  } else {
+    $('#exampleModal').modal('hide');
+  }
   
 
   // Get the total and paid input fields
@@ -377,30 +387,27 @@ $(document).ready(function() {
   }
 
 });
+// Get a reference to the radio button element
+var radio = document.getElementById("topupMpesa");
 
+// Add an event listener to the radio button to detect changes in its checked status
+radio.addEventListener("change", function() {
+    // Check if the radio button is checked
+    var isChecked = radio.checked;
 
-  // check if the mpesa radio button is checked
-  $(document).ready(function() {
-    // Listen for changes in the radio button selection
-    $('input[name="r3"]').on('change', function() {
-      var selectedOption = $(this).val();
-      
-      // Show the modal if "Cheque" option is selected
-      if (selectedOption === 'mdogo') {
-        Swal.fire({
-          icon: "warning",
-          title: "Coming soon.",
-          showConfirmButton: false,
-          timer: 2000 // Auto close after 2 seconds
-        })
-        // $('#additionalInputs').show();
-      return false; // Prevent form submission
-      }else{
-        $('#additionalInputs').hide();
-        return false; // Prevent form submission
+    // Make the element with ID "txtpaid_id" readonly based on the checked status
+    Swal.fire({
+      icon: "warning",
+      title: "Coming soon.",
+      showConfirmButton: false,
+      timer: 2000 // Auto close after 2 seconds
+    }).then(function(result) {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        // Timer expired, uncheck the radio button
+        radio.checked = false;
       }
     });
-  });
+});
 
 
 // Listen for changes in the points radio button selection
@@ -422,12 +429,12 @@ $('input[name="r3"]').on('change', function() {
 
 
 // validate the enterd phone number and fetch the availlable points
-$(document).on("keyup", ".pphone", function() {
+$(document).on("change", "#pselectcustomer", function() {
   totalAmount = parseFloat($('#txttotal_id').val());
-  phoneNumber = $(this).val();
+  customer_id = $(this).val();
   
   var data = new FormData();
-  data.append("phoneNumber", phoneNumber);
+  data.append("customer_id", customer_id);
   
   // fetch points linked to the entered phone number
   $.ajax({
@@ -439,6 +446,7 @@ $(document).on("keyup", ".pphone", function() {
     processData: false,
     dataType: "json",
     success: function(answer) {
+      // answer = answer[0]
       // Check if the list is empty or not
       if (Array.isArray(answer) && answer.length === 0) {
         $('#nophone').show();
@@ -482,16 +490,14 @@ $(document).on("keyup", ".pphone", function() {
               $('#lesspoints').show();
               $('.payment-methods').show();
               $('.topupCash').click(function() {
-                document.getElementById("radioSuccess1").checked = true;
-                $('.total').show();
-                $('.save-order').show();
-                $('.points-plat').hide();
-                $("#txtpaid_id").val(TopUpAmount).trigger('change');
-                $("#txtdue_id").val("0.00");
                 $("#redeemedpoints").val(totalPoints);
                 $("#pointamountvalue").val(convertedValue);
-                $("#rphone").val(phoneNumber);
               });
+            } else{
+              var redeemedpoints = totalAmount/conversionValue
+              $("#redeemedpoints").val(redeemedpoints);
+              $("#pointamountvalue").val(convertedValue);
+              $('#eligible').show();
             }
           } ,error: function(xhr, status, error) {
             console.error("AJAX request error:", error);

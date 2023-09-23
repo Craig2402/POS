@@ -97,6 +97,10 @@ class PaymentController {
                     }
                 }
                 
+                $loyaltySetting = loyaltyController::ctrShowLoyaltyValue();
+                $CustomerDetailsValue = $loyaltySetting[4]['SettingValue'];
+                $LoyaltypointsValue = $loyaltySetting[3]['SettingValue'];
+
                 $currentDate = date('Y-m-d');
                 $future_date = date("Y-m-d", strtotime($currentDate . " +15 days"));
 
@@ -109,23 +113,18 @@ class PaymentController {
                 } elseif ($dueAmount < 0) {
                     $invoiceDueAmount = $_POST['dueamount'];
                     $invoiceBalace = 0;
-                } 
-                if ($_POST['cid']) {
-                    $invoiceIdNumber = $_POST['cid'];
-                } else {
-                    $invoiceIdNumber = "";
-                }
-                if ($_POST['phone']) {
-                    $invoicePhone = $_POST['phone'];
-                } else {
-                    $invoicePhone = "";
-                }
-                if ($_POST['cname']) {
-                    $invoiceCustomerName = $_POST['cname'];
-                } else {
-                    $invoiceCustomerName = "";
                 }
                 
+                $paymentMethod = $_POST['r3'];
+                if ($CustomerDetailsValue == 1){
+                    if ($paymentMethod == "Cash") {
+                        $invoiceCustomerid = $_POST['selectcustomer'];
+                    } elseif ($paymentMethod == "points") {
+                        $invoiceCustomerid = $_POST['pselectcustomer'];
+                    }
+                } else {
+                    $invoiceCustomerid = 0;
+                }
 
                 $productsList = $_POST['productsList'];
                 $invoiceStartDate = $currentDate;
@@ -144,107 +143,148 @@ class PaymentController {
                 $invoiceId = "INVC-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
                 
                 // Insert invoice data into the invoices table, linking it with the payment
-                $invoiceModel->insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal,  $invoiceTotal, $invoiceBalace, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid, $datecreated);
+                $invoiceModel->insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerid, $invoiceTotalTax, $invoiceSubtotal,  $invoiceTotal, $invoiceBalace, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid, $datecreated);
 
                 // Retrieve payment data from the form or request parameters
                 $amount = $_POST['txtpaid'];
-                $paymentMethod = $_POST['r3'];
-                $phoneNumber = $_POST['gphone'];
+                // $topupPaymentMethod = $_POST['topup'];
                 $PointsRedeemed = 0;
                 
                 // Create an instance of the PaymentModel
                 $paymentModel = new PaymentModel();
 
-                $item = "SettingName";
-                $value = "Loyaltypoints";
-                $loyaltySetting = loyaltyController::ctrShowLoyaltyPointConversionValue($item, $value);
-                if ($_POST['gphone'] != "" && $loyaltySetting['SettingValue'] == 1) {
-
-                    $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
-                    $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
-                    $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
-                    $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
-                    $loyaltyid = $randomNumber . $current_time_formatted;
-
-                    // fetch the loyalty value
-                    $table = "loyaltysettings";
-                    $loyaltyvalue = LoyaltyModel::mdlShowLoyaltyValue($table);
-                    // var_dump($loyaltyvalue);
-
-                    $LoyaltyPointsAwarded = $invoiceTotal / $loyaltyvalue[0]['SettingValue'];
-
-                    $loyaltydata = array(
-                        "loyaltyid" => $loyaltyid,
-                        "Phone" => $phoneNumber,
-                        "PointsEarned" => $LoyaltyPointsAwarded,
-                        "PointsRedeemed" => $PointsRedeemed
-                    );
-
-                    $element = "others";
-                    $table = "customers";
-                    $countAll = null;
-                    $organisationcode = $_SESSION['organizationcode'];
-                    $package = packagevalidateController::ctrPackageValidate($element, $table, $countAll, $organisationcode);
-                    if ($package) {
-                        $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
-                    }     
-                    
-                }
-
-                // $nextNumericPart = $paymentModel->getNextPaymentNumericPart(); // Implement this method in PaymentModel to get the next available numeric part
-                // $paymentId = "CASH-" . str_pad($nextNumericPart, 8, '0', STR_PAD_LEFT);
-                if ($loyaltySetting['SettingValue'] == 1) {
-                    
-                    if ($_POST['redeemedpoints'] != "") {
-                        $totalForPoints = $_POST['txtpaid'];
-                        $paymentMethod1 =  $_POST['r3'];
-                        $paymentMethod2 = "points";
-                        $PointsRedeemed = $_POST['redeemedpoints'];
-                        $phoneNumber = $_POST['rphone'];
-                        
+                $element = "others";
+                $table = "customers";
+                $countAll = null;
+                $organisationcode = $_SESSION['organizationcode'];
+                $package = packagevalidateController::ctrPackageValidate($element, $table, $countAll, $organisationcode);
+                
+                if ($LoyaltypointsValue == 1 && $package) {
+                    if ($paymentMethod == "Cash") {
                         $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
                         $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
                         $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
                         $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
-                        $loyaltyid1 = $randomNumber . $current_time_formatted;
-                        $loyaltyid2 = null;
+                        $loyaltyid = $randomNumber . $current_time_formatted;
 
                         // fetch the loyalty value
                         $table = "loyaltysettings";
                         $loyaltyvalue = LoyaltyModel::mdlShowLoyaltyValue($table);
-                        // var_dump($loyaltyvalue);
-
-                        $LoyaltyPointsAwarded = $totalForPoints / $loyaltyvalue[0]['SettingValue'];
+                        
+                        $LoyaltyPointsAwarded = $invoiceTotal / intval($loyaltyvalue[0]['SettingValue']);
+                        $customer_id = $_POST['selectcustomer'];
 
                         $loyaltydata = array(
-                            "loyaltyid" => $loyaltyid1,
-                            "Phone" => $phoneNumber,
+                            "loyaltyid" => $loyaltyid,
+                            "customer_id" => $customer_id,
                             "PointsEarned" => $LoyaltyPointsAwarded,
                             "PointsRedeemed" => $PointsRedeemed
                         );
 
-                        $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
 
-                        // First payment method
-                        $randomNumber1 = mt_rand(1000, 9999); // Generate a random 4-digit number for the first payment
+                        $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
+                        
+                        // Generate the payment ID manually
+                        $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
                         $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
                         $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
                         $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
-                        $paymentId = "CASH-" . $randomNumber1 . "-" . $current_time_formatted;
-
-                        // Insert data for the first payment method into the payments table
-                        $paymentModel->insertPayment($paymentId, $amount, $paymentMethod1, $invoiceId, $storeid, $loyaltyid1);
-
-                        // Second payment method
-                        $randomNumber2 = mt_rand(1000, 9999); // Generate a random 4-digit number for the second payment
-                        $current_time = new DateTime("now", $timezone); // Get the current time again for the second payment
-                        $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
-                        $paymentId2 = "POINT-" . $randomNumber2 . "-" . $current_time_formatted;
-
-                        // Insert data for the second payment method into the payments table
-                        $paymentModel->insertPayment($paymentId2, $amount, $paymentMethod2, $invoiceId, $storeid, $loyaltyid2);
+                        $paymentId = "CASH-" . $randomNumber . "-" . $current_time_formatted;
 
                         
+                        // Insert payment data into the payments table
+                        $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid, $loyaltyid);
+
+                    } elseif ($paymentMethod == "points") {
+                        if (isset($_POST['topup'])) {
+                            if ($_POST['topup'] == "topupCash") {
+                                $totalForPoints = $_POST['topUpamount'];
+                                $paymentMethod2 = "points";
+                                $PointsRedeemed = $_POST['redeemedpoints'];
+                                
+                                $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
+                                $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+                                $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+                                $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+                                $loyaltyid = $randomNumber . $current_time_formatted;
+                                $loyaltyid2 = null;
+
+                                // fetch the loyalty value
+                                $table = "loyaltysettings";
+                                $loyaltyvalue = LoyaltyModel::mdlShowLoyaltyValue($table);
+                                // var_dump($loyaltyvalue);
+
+                                $LoyaltyPointsAwarded = $totalForPoints / $loyaltyvalue[0]['SettingValue'];
+                                $customer_id = $_POST['pselectcustomer'];
+
+                                $loyaltydata = array(
+                                    "loyaltyid" => $loyaltyid,
+                                    "customer_id" => $customer_id,
+                                    "PointsEarned" => $LoyaltyPointsAwarded,
+                                    "PointsRedeemed" => $PointsRedeemed
+                                );
+
+                                $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
+
+                                // First payment method
+                                $randomNumber1 = mt_rand(1000, 9999); // Generate a random 4-digit number for the first payment
+                                $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+                                $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+                                $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+                                $paymentId = "CASH-" . $randomNumber1 . "-" . $current_time_formatted;
+
+                                // Insert data for the first payment method into the payments table
+                                $paymentModel->insertPayment($paymentId, $amount, $_POST['topup'], $invoiceId, $storeid, $loyaltyid);
+
+                                // Second payment method
+                                $randomNumber2 = mt_rand(1000, 9999); // Generate a random 4-digit number for the second payment
+                                $current_time = new DateTime("now", $timezone); // Get the current time again for the second payment
+                                $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+                                $paymentId2 = "POINT-" . $randomNumber2 . "-" . $current_time_formatted;
+
+                                // Insert data for the second payment method into the payments table
+                                $paymentModel->insertPayment($paymentId2, $amount, $paymentMethod2, $invoiceId, $storeid, $loyaltyid2);
+                            } elseif ($_POST['topup'] == "topupM-pesa") {
+
+                            }
+                        } else {
+                            $totalForPoints = $_POST['topUpamount'];
+                            $paymentMethod2 = "points";
+                            $PointsRedeemed = $_POST['redeemedpoints'];
+                            
+                            $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
+                            $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+                            $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+                            $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+                            $loyaltyid = $randomNumber . $current_time_formatted;
+
+                            // fetch the loyalty value
+                            $table = "loyaltysettings";
+                            $loyaltyvalue = LoyaltyModel::mdlShowLoyaltyValue($table);
+                            // var_dump($loyaltyvalue);
+
+                            $LoyaltyPointsAwarded = 0;
+                            $customer_id = $_POST['pselectcustomer'];
+
+                            $loyaltydata = array(
+                                "loyaltyid" => $loyaltyid,
+                                "customer_id" => $customer_id,
+                                "PointsEarned" => $LoyaltyPointsAwarded,
+                                "PointsRedeemed" => $PointsRedeemed
+                            );
+
+                            $loyaltyPoint = loyaltyController::ctrAddLoyaltyPoints($loyaltydata);
+
+                            // Second payment method
+                            $randomNumber2 = mt_rand(1000, 9999); // Generate a random 4-digit number for the second payment
+                            $current_time = new DateTime("now", $timezone); // Get the current time again for the second payment
+                            $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
+                            $paymentId = "POINT-" . $randomNumber2 . "-" . $current_time_formatted;
+
+                            // Insert data for the second payment method into the payments table
+                            $paymentModel->insertPayment($paymentId, $amount, $paymentMethod2, $invoiceId, $storeid, $loyaltyid);
+                            
+                        }
                     } else {
                         // Generate the payment ID manually
                         $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
@@ -257,23 +297,9 @@ class PaymentController {
                         
                         // Insert payment data into the payments table
                         $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid, $loyaltyid);
+                        
                     }
-                    
-                }else {
-                    // Generate the payment ID manually
-                    $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
-                    $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
-                    $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
-                    $current_time_formatted = $current_time->format("His"); // Format the current time in hours, minutes, and seconds
-                    $paymentId = "CASH-" . $randomNumber . "-" . $current_time_formatted;
-                    $loyaltyid = null;
-
-                    
-                    // Insert payment data into the payments table
-                    $paymentModel->insertPayment($paymentId, $amount, $paymentMethod, $invoiceId, $storeid, $loyaltyid);
-                    
                 }
-
                 // create an activitylog of the payment
                 if($paymentModel == true){
 

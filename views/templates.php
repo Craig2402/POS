@@ -132,6 +132,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                         $_GET['route'] == "vieworders" ||
                         $_GET['route'] == "stores" ||
                         $_GET['route'] == "manage-stores" ||
+                        $_GET['route'] == "customers" ||
                         $_GET['route'] == "view-returned" ||
                         $_GET['route'] == "finance-dashboard" ||
                         $_GET['route'] == "logs"||
@@ -177,6 +178,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                     $_GET['route'] == "vieworders" ||
                     $_GET['route'] == "stores" ||
                     $_GET['route'] == "manage-stores" ||
+                    $_GET['route'] == "customers" ||
                     $_GET['route'] == "view-returned" ||
                     $_GET['route'] == "finance-dashboard" ||
                     $_GET['route'] == "logout"
@@ -202,6 +204,7 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                 $_GET['route'] == "viewproduct" ||
                 $_GET['route'] == "pos" ||
                 $_GET['route'] == "invoices" ||
+                $_GET['route'] == "customers" ||
                 $_GET['route'] == "stk_initiate" ||
                 $_GET['route'] == "payment" ||
                 $_GET['route'] == "logout"
@@ -229,6 +232,11 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                 $_GET['route'] == "printbarcode" ||
                 $_GET['route'] == "stock" ||
                 $_GET['route'] == "discount" ||
+                $_GET['route'] == "suppliers" ||
+                $_GET['route'] == "orders" ||
+                $_GET['route'] == "returns" ||
+                $_GET['route'] == "vieworders" ||
+                $_GET['route'] == "view-returned" ||
                 $_GET['route'] == "logout"
             ) {
             include "modules/" . $_GET['route'] . ".php";
@@ -276,6 +284,7 @@ else {
 <script src="views/js/graphs.js"></script>
 <script src="views/js/header.js"></script>
 <script src="views/js/main.js"></script>
+<script src="views/js/customer.js"></script>
 
 
 

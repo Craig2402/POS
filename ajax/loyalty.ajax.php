@@ -4,14 +4,14 @@ require_once "../controllers/loyalty.controller.php";
 require_once "../models/loyalty.model.php";
 
 class AjaxLoyalty{
-    public $phoneNumber;
+    public $customer_id;
     public $LoyaltyConversionName;
 
     public function ajaxFetchPoints(){
-        $phoneNumber = $this->phoneNumber;
-        $item = "Phone";
+        $customer_id = $this->customer_id;
+        $item = "customer_id";
 
-        $answer = loyaltyController::ctrShowLoyaltyPoints($item, $phoneNumber, true);
+        $answer = loyaltyController::ctrShowLoyaltyPoints($item, $customer_id, true);
 
 		echo json_encode($answer);
     }
@@ -26,10 +26,10 @@ class AjaxLoyalty{
     }
 
 }
-	if(isset($_POST["phoneNumber"])){
+	if(isset($_POST["customer_id"])){
 
 		$loyalty = new AjaxLoyalty();
-		$loyalty -> phoneNumber = $_POST["phoneNumber"];
+		$loyalty -> customer_id = $_POST["customer_id"];
 		$loyalty -> ajaxFetchPoints();
 
 	}

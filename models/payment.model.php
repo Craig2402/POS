@@ -231,8 +231,8 @@ class InvoiceModel{
  	/*=============================================
 	CREATE INVOICE
 	=============================================*/
-    public function insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerName, $invoicePhone, $invoiceIdNumber, $invoiceTotalTax, $invoiceSubtotal, $invoiceTotal, $invoiceBalace, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid, $datecreated){
-        $query = "INSERT INTO invoices (invoiceId, products, startdate, duedate, customername, phone, idnumber, totaltax, subtotal, total, balance, discount, dueamount, userId, store_id, datecreated) VALUES (:invoiceId, :products, :startdate, :duedate, :customername, :phone, :idnumber, :totaltax, :subtotal, :total, :balance, :discount, :dueamount, :userId, :store_id, :datecreated)";
+    public function insertInvoice($invoiceId, $productsList, $invoiceStartDate, $invoiceDueDate, $invoiceCustomerid, $invoiceTotalTax, $invoiceSubtotal, $invoiceTotal, $invoiceBalace, $invoiceDiscount, $invoiceDueAmount, $invoiceUserId, $storeid, $datecreated){
+        $query = "INSERT INTO invoices (invoiceId, products, startdate, duedate, customer_id, totaltax, subtotal, total, balance, discount, dueamount, userId, store_id, datecreated) VALUES (:invoiceId, :products, :startdate, :duedate, :customer_id, :totaltax, :subtotal, :total, :balance, :discount, :dueamount, :userId, :store_id, :datecreated)";
 
         // Prepare the query
         $stmt = $this->db->prepare($query);
@@ -243,9 +243,7 @@ class InvoiceModel{
         $stmt->bindParam(':products', $productsList);
         $stmt->bindParam(':startdate', $invoiceStartDate);
         $stmt->bindParam(':duedate', $invoiceDueDate);
-        $stmt->bindParam(':customername', $invoiceCustomerName);
-        $stmt->bindParam(':phone', $invoicePhone);
-        $stmt->bindParam(':idnumber', $invoiceIdNumber);
+        $stmt->bindParam(':customer_id', $invoiceCustomerid);
         $stmt->bindParam(':totaltax', $invoiceTotalTax);
         $stmt->bindParam(':subtotal', $invoiceSubtotal);
         $stmt->bindParam(':total', $invoiceTotal);
