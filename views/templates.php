@@ -42,14 +42,13 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     
     <!-- Select2 -->
-    <link rel="stylesheet" href="views/plugins/select2/css/select2.min.css">
-    <link rel="stylesheet" href="views/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
     <!-- daterange picker -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="views/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/icheck-bootstrap@3.0.1/icheck-bootstrap.min.css">
     
 
     
@@ -71,7 +70,7 @@
     <script src="views/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     
     <!-- Select2 -->
-    <script src="views/plugins/select2/js/select2.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- daterange picker -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -84,8 +83,6 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
-    
-
 </head>
 <body class="hold-transition sidebar-mini">
 <?php
@@ -256,16 +253,8 @@ else {
   include 'modules/login.php';
   echo '</div>';
 }
-
 ?>
-
 </div>
-<!-- ./wrapper -->
-
-
-
-
-
 <script src="views/js/user.js"></script>
 <script src="views/js/categories.js"></script>
 <script src="views/js/product.js"></script>
@@ -285,28 +274,11 @@ else {
 <script src="views/js/header.js"></script>
 <script src="views/js/main.js"></script>
 <script src="views/js/customer.js"></script>
-
-
-
-<!-- datatable js -->
 <script>
-//   $(function () {
-//       //DataTable initialization
-//       $("#example1").DataTable({
-//           "responsive": true,
-//           "lengthChange": false,
-//           "autoWidth": false
-//       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-//   });  
-  
-    //Initialize Select2 Elements
-    $('.select2').select2()
-
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-
+// In your Javascript (external .js resource or <script> tag)
+$(".select2").select2({
+  theme: "classic"
+});
 
 $('#example1').DataTable({
     pagingType: 'full_numbers',

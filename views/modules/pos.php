@@ -189,7 +189,7 @@
                                             echo '
                                             <div class="form-group">
                                             <hr style="height:2px; border-width:0; color:black; background-color:black;">
-                                            <select class="form-control select2" data-dropdown-css-class="select2-purple" name="selectcustomer" id="selectcustomer">
+                                            <select class="form-control select2" data-dropdown-css-class="select2-purple" style="width: 100%;" name="selectcustomer" id="selectcustomer">
                                                 <option selected disabled  value="">--Select or Search Customer--</option>';
     
                                                     $item = null;
@@ -212,7 +212,7 @@
                                 </div>
                                 <div class="points-plat" style="display: none;">
                                     <div class="form-group">
-                                        <select class="form-control select2" data-dropdown-css-class="select2-purple" name="pselectcustomer" id="pselectcustomer">
+                                        <select class="form-control select2" data-dropdown-css-class="select2-purple" style="width: 100%;" name="pselectcustomer" id="pselectcustomer">
                                             <option selected disabled  value="">--Select or Search Customer--</option>
 
                                                 <?php

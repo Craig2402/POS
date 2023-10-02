@@ -199,16 +199,6 @@ $("#profilePictureInput").change(function () {
     
 });
 
-// Reset the settings modal content when the modal is closed
-// $('#settingsModal').on('hidden.bs.modal', function () {
-//   // Clear the checkboxes and form fields
-//   $('#lipaMdogo').prop('checked', false);
-//   $('#loyaltyPoints').prop('checked', false);
-//   $('#logoInput').val('');
-//   $('#loyaltyValueConversion').val('');
-//   $('#loyaltyPointValue').val('');
-// });
-
 // fetch settings data
 $(".settings").on("click", function() {
 
