@@ -644,21 +644,25 @@ $.ajax({
       console.error("Error parsing JSON response:", error);
       return;
     }
-    var lipaMdogoSetting = settingsData.find(setting => setting.SettingName === "Lipamdogomdogo");
+    var CustomerDetailsSetting = settingsData.find(setting => setting.SettingName === "CustomerDetails");
     var loyaltyPointsSetting = settingsData.find(setting => setting.SettingName === "Loyaltypoints");
+    
+    // Convert to integers
+    var customerDetailsValue = parseInt(CustomerDetailsSetting.SettingValue, 10);
+    var loyaltyPointsValue = parseInt(loyaltyPointsSetting.SettingValue, 10);
 
-    if (lipaMdogoSetting && loyaltyPointsSetting) {
-      if (lipaMdogoSetting.SettingValue === "1" && loyaltyPointsSetting.SettingValue === "1") {
-        $('.mdogo').show();
+    if (customerDetailsValue && loyaltyPointsValue) {
+      if (customerDetailsValue === 1 && loyaltyPointsValue === 1) {
+        $('.pselectcustomer').show();
         $('.points').show();
       } else {          
         // Check a checkbox based on the condition
-        if (lipaMdogoSetting.SettingValue === "1") {
-          $('.mdogo').show();
-        } else if (loyaltyPointsSetting.SettingValue === "1") {
+        if (customerDetailsValue === 1) {
+          $('.pselectcustomer').show();
+        } else if (loyaltyPointsValue === 1) {
           $('.points').show();
         } else{
-          $('.mdogo').hide();
+          $('.pselectcustomer').hide();
           $('.points').hide();
         }
       }
@@ -667,4 +671,3 @@ $.ajax({
     console.error("AJAX request error:", error);
   }
 });
-

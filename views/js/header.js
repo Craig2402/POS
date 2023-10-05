@@ -207,6 +207,8 @@ $(".settings").on("click", function() {
     url: "ajax/settings.ajax.php",
     cache: false,
     success: function(settingsData) {
+      
+    console.log(settingsData);
       // Parse the JSON response
       try {
         settingsData = JSON.parse(settingsData);
@@ -215,27 +217,33 @@ $(".settings").on("click", function() {
         return;
       }
   
-      // Find the objects with SettingName "LoyaltyPointValue" and "LoyaltyValueConversion"
+      // Find the objects with SettingName
       var LoyaltyPointValue = settingsData.find(setting => setting.SettingName === "LoyaltyPointValue");
       var LoyaltyValueConversion = settingsData.find(setting => setting.SettingName === "LoyaltyValueConversion");
       var loyaltyPointsSetting = settingsData.find(setting => setting.SettingName === "Loyaltypoints");
       var CustomerDetailsSetting = settingsData.find(setting => setting.SettingName === "CustomerDetails");
 
+      // Convert values to integers
+      var loyaltyPointValueInt = parseInt(LoyaltyPointValue.SettingValue, 10);
+      var loyaltyValueConversionInt = parseInt(LoyaltyValueConversion.SettingValue, 10);
+      var loyaltyPointsSettingInt = parseInt(loyaltyPointsSetting.SettingValue, 10);
+      var customerDetailsValueInt = parseInt(CustomerDetailsSetting.SettingValue, 10);
+
       // Set values for form fields
-      $('#loyaltyPointValue').val(LoyaltyPointValue.SettingValue);
-      $('#loyaltyValueConversion').val(LoyaltyValueConversion.SettingValue);
+      $('#loyaltyPointValue').val(loyaltyPointValueInt);
+      $('#loyaltyValueConversion').val(loyaltyValueConversionInt);
   
       // Check if both settings have SettingValue of "1"
       if (CustomerDetailsSetting && loyaltyPointsSetting) {
-        if (CustomerDetailsSetting.SettingValue === "1" && loyaltyPointsSetting.SettingValue === "1") {  
+        if (customerDetailsValueInt === 1 && loyaltyPointsSettingInt === 1) {  
           // Check both checkboxes
           $('#loyaltyPoints').prop('checked', true);
           $('#fetchdetails').prop('checked', true);
         } else {          
           // Check a checkbox based on the condition
-          if (CustomerDetailsSetting.SettingValue === "1") {
+          if (customerDetailsValueInt === 1) {
             $('#fetchdetails').prop('checked', true);
-          } else if (loyaltyPointsSetting.SettingValue === "1") {
+          } else if (loyaltyPointsSettingInt === 1) {
             $('#loyaltyPoints').prop('checked', true);
           }
         }
