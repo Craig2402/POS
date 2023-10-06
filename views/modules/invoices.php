@@ -107,10 +107,16 @@ require_once 'models/connection.php';
                                                         $quantity = $data[$i]['Quantity'];
                                                         echo $productName . ' (' . $quantity . ')' . " , ";
                                                     }
+                                                    
+                                                    $item = "customer_id";
+                                                    $value1 = $value["customer_id"];
+                                                    $customer = customerController::ctrShowCustomers($item, $value1);
+                                                    // var_dump($customer);
 
-                                                    echo '</td>
-                                                        <td>' . $value["customername"] . '</td>
-                                                        <td>' . $value["phone"] . '</td>
+
+                                                    echo '
+                                                        <td>' . $customer["name"] . '</td>
+                                                        <td>' . $customer["phone"] . '</td>
                                                         <td>' . $value["startdate"] . '</td>
                                                         <td>' . $value["duedate"] . '</td>';
 

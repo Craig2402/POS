@@ -1,13 +1,25 @@
 <?php
+session_start();
 // require_once('tcpdf/tcpdf.php');
 require_once "../../controllers/payments.controller.php";
 require_once "../../models/payment.model.php";
 require_once "../../controllers/product.controller.php";
 require_once "../../models/product.model.php";
+require_once '../../controllers/customer.controller.php';
+require_once '../../models/customer.model.php';
+require_once '../../models/packagevalidate.model.php';
 $item = 'invoiceId';
 $value = $_GET['invoiceId'];
 
 $invoices = PaymentController::ctrShowInvoices($item, $value);
+
+$item = "customer_id";
+$value = $invoices["customer_id"];
+$customer = customerController::ctrShowCustomers($item, $value);
+
+$table = "customers";
+$organizationcode = $_SESSION['organizationcode'];
+$customerdets = packagevalidateModel::mdlfetchCustomerDetails($table, $organizationcode);
 
 require "../../vendor/autoload.php";
 // Create a new TCPDF instance
@@ -16,14 +28,14 @@ require "../../vendor/autoload.php";
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
 
 // Set document information
-$pdf->SetCreator('Your Company');
-$pdf->SetAuthor('Your Name');
-$pdf->SetTitle('Invoice');
-$pdf->SetSubject('Invoice');
-$pdf->SetKeywords('Invoice, TCPDF, PHP');
+// $pdf->SetCreator('Your Company');
+// $pdf->SetAuthor('Your Name');
+$pdf->SetTitle('View Invoice');
+// $pdf->SetSubject('Invoice');
+// $pdf->SetKeywords('Invoice, TCPDF, PHP');
 
 // Set default header data
-$pdf->SetHeaderData('', 0, 'Invoice', 'Invoice', array(0, 0, 0), array(255, 255, 255));
+$pdf->SetHeaderData('', 0, $customerdets[0]['organizationname'], 'Invoice', array(0, 0, 0), array(255, 255, 255));
 $pdf->setHeaderFont(array('helvetica', '', 12));
 $pdf->setFooterFont(array('helvetica', '', 10));
 $pdf->setPrintFooter(false); // Disable printing footer
@@ -53,35 +65,49 @@ $pdf->SetFont('helvetica', 'B', 14);
 // $pdf->Cell(0, 10, 'Invoice', 0, 1, 'C');
 
 // Invoice details
+$pdf->SetFont('helvetica', 'b', 12);
+$pdf->Cell(0, 8, 'Invoice# ' . $invoices['invoiceId'], 0, 1, 'R');
 $pdf->SetFont('helvetica', '', 10);
-$pdf->Cell(0, 8, 'Number: ' . $invoices['invoiceId'], 0, 1, 'R');
-$pdf->Cell(0, 8, 'Date: ' . $invoices['startdate'], 0, 1, 'R');
-$pdf->Cell(0, 8, 'Due Date: ' . $invoices['duedate'], 0, 1, 'R');
+// Format 'Issued' date as 'Month Day, Year'
+$issuedDate = date('F j, Y', strtotime($invoices['startdate']));
+$pdf->Cell(0, 8, 'Issued: ' . $issuedDate, 0, 1, 'R');
+
+// Format 'Payment Due' date as 'Month Day, Year'
+$dueDate = date('F j, Y', strtotime($invoices['duedate']));
+$pdf->Cell(0, 8, 'Payment Due: ' . $dueDate, 0, 1, 'R');
+
+$pdf->SetFont('helvetica', 'b', 15);
 $pdf->Cell(0, 8, 'Total due: Ksh ' . $invoices['total'], 0, 1, 'R');
 $pdf->Ln(10);
 
-// Set font styles for addresses
-$pdf->SetFont('helvetica', '', 10);
+
+// Add a header for Company Info
+$pdf->SetFont('helvetica', 'B', 12); // Set font, style, and size for the header
+$pdf->Cell(0, 10, 'Company Info', 0, 1, 'L'); // Add the header text with line break
 
 // Company Address
 $companyAddress = '
-Your Company
-123 Company Street
-City, State, ZIP
-Country
-Phone: 123-456-7890
-Email: info@company.com
+'.$customerdets[0]['organizationname'].'
+'.$customerdets[0]['address'].'
+'.$customerdets[0]['phone'].'
+'.$customerdets[0]['email'].'
 ';
-$pdf->MultiCell(0, 10, $companyAddress, 0, 'L');
+$pdf->SetFont('helvetica', '', 10); // Set font and size for the address
+$pdf->MultiCell(0, 10, $companyAddress, 0, 'L'); // Add the company address
+
+// Add a header for Customer Details
+$pdf->SetFont('helvetica', 'B', 12); // Set font, style, and size for the header
+$pdf->Cell(0, 10, 'Customer Details', 0, 1, 'R'); // Add the header text with line break
 
 // Customer Address
 $customerAddress = '
-'.$invoices['customername'].'
-'.$invoices['phone'].'
-City, State, ZIP
-Country
+'.$customer['name'].'
+'.$customer['phone'].'
+'.$customer['address'].'
 ';
-$pdf->MultiCell(0, 10, $customerAddress, 0, 'R');
+$pdf->SetFont('helvetica', '', 10); // Set font and size for the address
+$pdf->MultiCell(0, 10, $customerAddress, 0, 'R'); // Add the customer address
+
 
 // Set font styles for table header
 $pdf->SetFont('helvetica', 'B', 12);
@@ -122,7 +148,7 @@ for ($i = 0; $i < count($data); $i++) {
 
     // Set background color for striped effect
     if ($isEvenRow) {
-        $pdf->SetFillColor(239, 239, 239);
+        $pdf->SetFillColor(245, 245, 245);
     } else {
         $pdf->SetFillColor(255, 255, 255);
     }

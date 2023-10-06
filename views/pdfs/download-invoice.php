@@ -4,10 +4,17 @@ require_once "../../controllers/payments.controller.php";
 require_once "../../models/payment.model.php";
 require_once "../../controllers/product.controller.php";
 require_once "../../models/product.model.php";
+require_once '../../controllers/customer.controller.php';
+require_once '../../models/customer.model.php';
+
 $item = 'invoiceId';
 $value = $_GET['invoiceId'];
 
 $invoices = PaymentController::ctrShowInvoices($item, $value);
+
+$item = "customer_id";
+$value1 = $invoices["customer_id"];
+$customer = customerController::ctrShowCustomers($item, $value1);
 
 require "../../vendor/autoload.php";
 // Create a new TCPDF instance
@@ -16,11 +23,11 @@ require "../../vendor/autoload.php";
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
 
 // Set document information
-$pdf->SetCreator('Your Company');
-$pdf->SetAuthor('Your Name');
-$pdf->SetTitle('Invoice');
-$pdf->SetSubject('Invoice');
-$pdf->SetKeywords('Invoice, TCPDF, PHP');
+// $pdf->SetCreator('Your Company');
+// $pdf->SetAuthor('Your Name');
+$pdf->SetTitle('Download Invoice');
+// $pdf->SetSubject('Invoice');
+// $pdf->SetKeywords('Invoice, TCPDF, PHP');
 
 // Set default header data
 $pdf->SetHeaderData('', 0, 'Invoice', 'Invoice', array(0, 0, 0), array(255, 255, 255));
@@ -76,10 +83,9 @@ $pdf->MultiCell(0, 10, $companyAddress, 0, 'L');
 
 // Customer Address
 $customerAddress = '
-'.$invoices['customername'].'
-'.$invoices['phone'].'
-City, State, ZIP
-Country
+'.$customer['name'].'
+'.$customer['phone'].'
+'.$customer['address'].'
 ';
 $pdf->MultiCell(0, 10, $customerAddress, 0, 'R');
 
