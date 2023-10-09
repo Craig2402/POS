@@ -38,8 +38,15 @@
         self::initialize();
 
 		if(isset($_POST['adddiscount'])){
-
-
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+			
             $table = 'discount';
 
 			$data = array("product" => $_POST["discountproduct"],
@@ -61,7 +68,8 @@
 						'UserID' => $_SESSION['userId'],
 						'ActivityType' => 'Discount',
 						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created discount ' .$data['discount']. ' with sum ' .$data['amount']. ' for product ' .$data['product']. '.',
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);
@@ -106,6 +114,15 @@
         self::initialize();
 
 		if (isset($_POST["editdiscount"])) {
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+						
 			$table = "discount";
 			$discountId = $_POST["discountid"];
 			$oldItem = DiscountModel::mdlShowDiscount($table, "disId", $discountId); // Get the old discount details
@@ -143,7 +160,8 @@
 						'ActivityType' => 'Discounts',
 						'ActivityDescription' => $logMessage,
 						'itemID' => $discountId,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the method to create the activity log in the model or any other appropriate function
 					activitylogController::ctrCreateActivityLog($logdata);
@@ -171,7 +189,15 @@
         self::initialize();
 
 		if(isset($_GET["idDiscount"])){
-
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+			
 			$table ="discount";
 			$data = $_GET["idDiscount"];
 
@@ -191,7 +217,8 @@
 						'ActivityType' => 'Discounts',
 						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted discount ' .$discountname.' for product ' .$discountproductcode. '.'. '.',
 						'itemID' => $value,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);

@@ -31,6 +31,15 @@
    
    
 <?php
+  // Set the default timezone to Nairobi
+  date_default_timezone_set('Africa/Nairobi');
+
+  // Create a DateTime object with the current date and time in Nairobi timezone
+  $dateTime = new DateTime();
+
+  // Format the DateTime as a string
+  $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+
   // check if button is pressed
   $username=$_SESSION['username'];
   $pdo=connection::connect();
@@ -45,7 +54,8 @@
         $logdata = array(
             'UserID' => $_SESSION['userId'],
             'ActivityType' => 'Password Change',
-            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed password.'
+            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed password.',
+            'TimeStamp' => $dateTimeStr
         );
         // Call the ctrCreateActivityLog() function
         activitylogController::ctrCreateActivityLog($logdata);

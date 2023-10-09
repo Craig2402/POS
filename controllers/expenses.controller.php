@@ -36,6 +36,15 @@ class expenseController{
         self::initialize();
 
         if (isset($_POST['addExpense'])) {
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+                        
             $table = "expenses";
             $targetDirectory = "views/expenses/reciepts/";
     
@@ -73,7 +82,8 @@ class expenseController{
                                 'UserID' => $_SESSION['userId'],
                                 'ActivityType' => 'Expense',
                                 'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense ' .$data['expense']. '.',
-                                'storeid' => self::$storeid
+                                'storeid' => self::$storeid,
+                                'TimeStamp' => $dateTimeStr
                             );
                             // Call the ctrCreateActivityLog() function
                             activitylogController::ctrCreateActivityLog($logdata);
@@ -127,6 +137,16 @@ class expenseController{
         self::initialize();
 
         if (isset($_POST['updateExpense'])) {
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+            
+            
 
             $targetDirectory = "views/expenses/reciepts/";
             $table = "expenses";
@@ -184,7 +204,8 @@ class expenseController{
                                 'UserID' => $_SESSION['userId'],
                                 'ActivityType' => 'Expense',
                                 'ActivityDescription' => $logMessage,
-                                'storeid' => self::$storeid
+                                'storeid' => self::$storeid,
+                                'TimeStamp' => $dateTimeStr
                             );
                             // Call the ctrCreateActivityLog() function
                             activitylogController::ctrCreateActivityLog($logdata);
@@ -248,7 +269,8 @@ class expenseController{
                             'ActivityType' => 'Expense',
                             'ActivityDescription' => $logMessage,
                             'itemID' => $expenseId,
-                            'storeid' => self::$storeid
+                            'storeid' => self::$storeid,
+                            'TimeStamp' => $dateTimeStr
                         );
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($logdata);
@@ -280,6 +302,15 @@ class expenseController{
         self::initialize();
 
         if (isset($_GET["deleteExpenseId"])) {
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+                        
             $table = "expenses";
             $expenseId = $_GET["deleteExpenseId"];
             
@@ -300,7 +331,8 @@ class expenseController{
                         'ActivityType' => 'Expense',
                         'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted expense ' .$expenses['expense']. ' of type ' . $expenses['expense_type'] . '.',
                         'itemID' => $value,
-                        'storeid' => self::$storeid
+                        'storeid' => self::$storeid,
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);
@@ -345,6 +377,16 @@ class expenseController{
     public function ctrAddExpenseType() {
 
         if (isset($_POST['addExpenseType'])) {
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+            
+            
 
             $table = "expensecat";
             $expenseType = $_POST["expenseType"];
@@ -364,7 +406,8 @@ class expenseController{
                     $logdata = array(
                         'UserID' => $_SESSION['userId'],
                         'ActivityType' => 'Expense',
-                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense type ' .$expenseType. '.'
+                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added expense type ' .$expenseType. '.',
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);

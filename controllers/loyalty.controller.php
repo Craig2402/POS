@@ -68,7 +68,15 @@
         static public function ctrchangeLoyaltySettings(){
 
             if (isset($_POST['saveSetting'])) {
+                // Set the default timezone to Nairobi
+                date_default_timezone_set('Africa/Nairobi');
                 
+                // Create a DateTime object with the current date and time in Nairobi timezone
+                $dateTime = new DateTime();
+                
+                // Format the DateTime as a string
+                $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+                                
                 $table = "loyaltysettings";
                 $data = array(
                     "LoyaltyPointValue" => $_POST['loyaltyPointValue'],
@@ -83,7 +91,8 @@
                         $logdata = array(
                             'UserID' => $_SESSION['userId'],
                             'ActivityType' => 'Settings',
-                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed loyalty settings.'
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed loyalty settings.',
+                            'TimeStamp' => $dateTimeStr
                         );
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($logdata);

@@ -49,6 +49,14 @@ class customerController{
 		$response = packagevalidateController::ctrPackageValidate($element, $validatetable, $numAllcategories, $organisationcode);
 
 		if(isset($_POST['addCustomer'])){
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 
 			if ($response) {
 				if (!empty(self::$storeid)) {
@@ -72,7 +80,8 @@ class customerController{
                                 'UserID' => $_SESSION['userId'],
                                 'ActivityType' => 'Customer',
                                 'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created customer ' . $data['category'] . '.',
-                                'storeid' => self::$storeid
+                                'storeid' => self::$storeid,
+								'TimeStamp' => $dateTimeStr
                             );
             
                             // Call the ctrCreateActivityLog() function
@@ -138,7 +147,15 @@ class customerController{
         self::initialize();
 
 		if(isset($_POST["editcustomer"])){
-
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+			
 			$table = "customers";
 
 			$data = array(
@@ -179,7 +196,8 @@ class customerController{
 						'ActivityType' => 'Customer',
 						'ActivityDescription' => $logMessage,
 						'itemID' => $value,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);
@@ -206,7 +224,8 @@ class customerController{
 						'ActivityType' => 'Customer',
 						'ActivityDescription' => $logMessage,
 						'itemID' => $value,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);

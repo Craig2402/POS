@@ -38,6 +38,14 @@
         self::initialize();
 
 		if (isset($_POST['addTax'])) {
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 				
 			$table = 'taxes';
 				
@@ -62,7 +70,8 @@
 						'UserID' => $_SESSION['userId'],
 						'ActivityType' => 'Taxes',
 						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created tax type '.$data['discount'].'.',
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);
@@ -107,6 +116,14 @@
 	static public function ctrEditTax(){
 
 		if(isset($_POST["edittax"])){
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 
 			$table = "taxes";
 
@@ -145,7 +162,8 @@
 						'ActivityType' => 'Taxes',
 						'ActivityDescription' => $logMessage,
 						'itemID' => $taxid,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);
@@ -177,6 +195,14 @@
 	static public function ctrDeleteTax(){
 
 		if(isset($_GET["idtax"])){
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 
 			$table ="taxes";
 			$data = $_GET["idtax"];
@@ -196,7 +222,8 @@
 						'ActivityType' => 'Taxes',
 						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted tax type '.$tax['VATName'].'.',
 						'itemID' => $data,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);

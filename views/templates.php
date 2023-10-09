@@ -83,6 +83,7 @@
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
+    
 </head>
 <body class="hold-transition sidebar-mini">
 <?php
@@ -99,8 +100,6 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
         include 'modules/renewal.php';
     }else{
             if (isset($_SESSION['role']) && $_SESSION['role'] == "Administrator" || $_SESSION['role'] == 404) {
-                include 'modules/header.php';
-                include 'modules/main-menu.php';
         
                 if (isset($_GET['route'])) {
                     // Check if the requested route is valid for the Administrator role
@@ -135,21 +134,20 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                         $_GET['route'] == "logs"||
                         $_GET['route'] == "logout"
                     ) {
+                        include 'modules/header.php';
+                        include 'modules/main-menu.php';
                         include "modules/" . $_GET['route'] . ".php";
+                        include 'modules/footer.php';
                     } else {
                         include "modules/404.php";
                     }
                 } else {
+                    include 'modules/header.php';
+                    include 'modules/main-menu.php';
                     include "modules/dashboard.php"; // Default page for Administrator
+                    include 'modules/footer.php';
                 }
-                include 'modules/footer.php';
-                echo '</div>';
-
-
             }elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Supervisor") {
-            include 'modules/header.php';
-            include 'modules/main-menu.php';
-
             if (isset($_GET['route'])) {
                 // Check if the requested route is valid for the Administrator role
                 if ($_GET['route'] == "dashboard" ||
@@ -180,19 +178,20 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                     $_GET['route'] == "finance-dashboard" ||
                     $_GET['route'] == "logout"
                 ) {
+                    include 'modules/header.php';
+                    include 'modules/main-menu.php';
                     include "modules/" . $_GET['route'] . ".php";
+                    include 'modules/footer.php';
                 } else {
                     include "modules/404.php";
                 }
             } else {
-                include "modules/dashboard.php"; // Default page for supervisor
+                include 'modules/header.php';
+                include 'modules/main-menu.php';
+                include "modules/dashboard.php"; // Default page for Administrator
+                include 'modules/footer.php';
             }
-            include 'modules/footer.php';
-            echo '</div>';
         } elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Seller") {
-            include 'modules/header.php';
-            include 'modules/seller-menu.php';
-
         if (isset($_GET['route'])) {
             // Check if the requested route is valid for the Seller role
             if ($_GET['route'] == "dashboard" ||
@@ -206,19 +205,20 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                 $_GET['route'] == "payment" ||
                 $_GET['route'] == "logout"
             ) {
-            include "modules/" . $_GET['route'] . ".php";
+                include 'modules/header.php';
+                include 'modules/seller-menu.php';
+                include "modules/" . $_GET['route'] . ".php";
+                include 'modules/footer.php';
             } else {
-            include "modules/404.php";
+                include "modules/404.php";
             }
         } else {
-            include "modules/pos.php"; // Default page for Seller
+            include 'modules/header.php';
+            include 'modules/seller-menu.php';
+            include "modules/dashboard.php"; // Default page for Administrator
+            include 'modules/footer.php';
         }
-        include 'modules/footer.php';
-        echo '</div>';
         } else {
-        include 'modules/header.php';
-        include 'modules/store-menu.php';
-
         if (isset($_GET['route'])) {
             // Check if the requested route is valid for the Store role
             if ($_GET['route'] == "products" ||
@@ -236,15 +236,19 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                 $_GET['route'] == "view-returned" ||
                 $_GET['route'] == "logout"
             ) {
-            include "modules/" . $_GET['route'] . ".php";
+                include 'modules/header.php';
+                include 'modules/store-menu.php';
+                include "modules/" . $_GET['route'] . ".php";
+                include 'modules/footer.php';
             } else {
-            include "modules/404.php";
+                include "modules/404.php";
             }
         } else {
-            include "modules/stock.php"; // Default page for Store
+            include 'modules/header.php';
+            include 'modules/store-menu.php';
+            include "modules/dashboard.php"; // Default page for Administrator
+            include 'modules/footer.php';
         }
-        include 'modules/footer.php';
-        echo '</div>';
         }
     }
 }

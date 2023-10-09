@@ -8,13 +8,14 @@ class activitylogModel{
     =============================================*/
     public static function mdlCreateActivityLog($table, $data){
 
-		$stmt = connection::connect()->prepare("INSERT INTO $table(UserID, ActivityType, ActivityDescription, itemID, store_id) VALUES (:UserID, :ActivityType, :ActivityDescription, :itemID, :storeid)");
+		$stmt = connection::connect()->prepare("INSERT INTO $table(UserID, ActivityType, ActivityDescription, itemID, store_id, TimeStamp) VALUES (:UserID, :ActivityType, :ActivityDescription, :itemID, :storeid, :TimeStamp)");
 
 		$stmt -> bindParam(":UserID", $data['UserID'], PDO::PARAM_STR);
 		$stmt -> bindParam(":ActivityType", $data['ActivityType'], PDO::PARAM_STR);
 		$stmt -> bindParam(":ActivityDescription", $data['ActivityDescription'], PDO::PARAM_STR);
 		$stmt -> bindParam(":itemID", $data['itemID'], PDO::PARAM_STR);
 		$stmt -> bindParam(":storeid", $data['storeid'], PDO::PARAM_STR);
+		$stmt -> bindParam(":TimeStamp", $data['TimeStamp'], PDO::PARAM_STR);
 
 		if ($stmt->execute()) {
 

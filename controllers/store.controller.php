@@ -19,6 +19,15 @@ class storeController{
 		$response = packagevalidateController::ctrPackageValidate($element, $validatetable, $numAllproducts, $organisationcode);
 
         if(isset($_POST['addStore'])){
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+                        
 			if ($response) {
 
                 $route = "views/img/store/default/store.png";
@@ -117,7 +126,8 @@ class storeController{
                         $data = array(
                             'UserID' => $_SESSION['userId'],
                             'ActivityType' => 'Store',
-                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created store ' .$_POST['storeName']. '.'
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created store ' .$_POST['storeName']. '.',
+                            'TimeStamp' => $dateTimeStr
                         );
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($data);
@@ -168,6 +178,14 @@ class storeController{
 	static public function ctrEditStore(){
 
         if(isset($_POST['editStore'])){
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');            
 
             $route = $_POST["currentImage"];
             $storeId = $_POST["editstoreId"];
@@ -288,7 +306,8 @@ class storeController{
                         'UserID' => $_SESSION['userId'],
                         'ActivityType' => 'Store',
                         'ActivityDescription' => $logMessage,
-                        'itemID' => $store
+                        'itemID' => $store,
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($data);
@@ -334,6 +353,14 @@ class storeController{
 	DELETE STORE
 	=============================================*/
 	static public function ctrDeleteStore(){
+        // Set the default timezone to Nairobi
+        date_default_timezone_set('Africa/Nairobi');
+        
+        // Create a DateTime object with the current date and time in Nairobi timezone
+        $dateTime = new DateTime();
+        
+        // Format the DateTime as a string
+        $dateTimeStr = $dateTime->format('Y-m-d H:i:s');        
 
         function isStoreIdReferenced($storeId, $exemptTable) {
             $referenced = false;
@@ -388,7 +415,8 @@ class storeController{
                         'UserID' => $_SESSION['userId'],
                         'ActivityType' => 'store',
                         'ActivityDescription' => 'User ' . $_SESSION['username'] . ' tried to delete store ' .$store. '.',
-                        'itemID' => $value
+                        'itemID' => $value,
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);
@@ -431,7 +459,8 @@ class storeController{
                             'UserID' => $_SESSION['userId'],
                             'ActivityType' => 'store',
                             'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted store ' .$store. '.',
-                            'itemID' => $value
+                            'itemID' => $value,
+                            'TimeStamp' => $dateTimeStr
                         );
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($logdata);

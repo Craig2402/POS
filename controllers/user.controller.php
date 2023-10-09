@@ -9,6 +9,14 @@ class userController{
 	static public function ctrUserLogin(){
 
 		if (isset($_POST["btn_login"])) {
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 
 				$encryptpass = crypt($_POST["txt_password"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 				
@@ -65,7 +73,8 @@ class userController{
 								$data = array(
 									'UserID' => $_SESSION['userId'],
 									'ActivityType' => 'Login',
-									'ActivityDescription' => 'User ' . $_SESSION['username'] . ' logged in.'
+									'ActivityDescription' => 'User ' . $_SESSION['username'] . ' logged in.',
+									'TimeStamp' => $dateTimeStr
 								);
 								// Call the ctrCreateActivityLog() function
 								activitylogController::ctrCreateActivityLog($data);
@@ -190,6 +199,14 @@ class userController{
 		$response = packagevalidateController::ctrPackageValidate($element, $validatetable, $numAllusers, $organisationcode);
 
 		if (isset($_POST["username"])) {
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 
 			if ($response) {
 			
@@ -292,7 +309,8 @@ class userController{
 								'UserID' => $_SESSION['userId'],
 								'ActivityType' => 'User',
 								'ActivityDescription' => 'User ' . $_SESSION['username'] . ' creates user ' .$data['username']. '.',
-								'itemID' => $data['username']
+								'itemID' => $data['username'],
+								'TimeStamp' => $dateTimeStr
 							);
 							// Call the ctrCreateActivityLog() function
 							activitylogController::ctrCreateActivityLog($logdata);
@@ -396,6 +414,14 @@ class userController{
 	static public function ctrEditUser(){
 
 		if (isset($_POST["editName"])) {
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 			
 			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editName"])){
 
@@ -562,7 +588,8 @@ class userController{
 							'UserID' => $_SESSION['userId'],
 							'ActivityType' => 'User',
 							'ActivityDescription' => $logMessage,
-							'itemID' => $data['username']
+							'itemID' => $data['username'],
+							'TimeStamp' => $dateTimeStr
 						);
 						// Call the ctrCreateActivityLog() function
 						activitylogController::ctrCreateActivityLog($logdata);
@@ -621,6 +648,14 @@ class userController{
 	static public function ctrDeleteUser(){
 
 		if(isset($_GET["userId"])){
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 
 			$table ="users";
 			$userid = $_GET["userId"];
@@ -648,7 +683,8 @@ class userController{
 						'UserID' => $_SESSION['userId'],
 						'ActivityType' => 'User',
 						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted user ' .$user['username']. '.',
-						'itemID' => $userid
+						'itemID' => $userid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);

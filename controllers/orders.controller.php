@@ -38,7 +38,15 @@ class orderController{
         self::initialize();
 
         if(isset($_POST['addproducts'])){
-
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+        
             $table = 'orders';
 				
             $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
@@ -68,7 +76,8 @@ class orderController{
                         'UserID' => $_SESSION['userId'],
                         'ActivityType' => 'Order',
                         'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created an order to supplier ' .$supplier['name']. ' for the following products; ' . $data['products'] . '.',
-                        'storeid' => self::$storeid
+                        'storeid' => self::$storeid,
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);
@@ -113,8 +122,16 @@ class orderController{
     static public function ctrEditOrders(){
         self::initialize();
         
-        if (isset($_POST["editStatus"])){ 
-
+        if (isset($_POST["editStatus"])){
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+            
             $table = 'orders';
 
             $data = array("status" => $_POST["status"],
@@ -137,7 +154,8 @@ class orderController{
                         'ActivityType' => 'Order',
                         'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed the status of order ' .$data['id']. ' to ' . $status . '.',
                         'itemID' => $data['id'],
-                        'storeid' => self::$storeid
+                        'storeid' => self::$storeid,
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);

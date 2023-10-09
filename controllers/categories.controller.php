@@ -51,6 +51,15 @@
 
 		if(isset($_POST['newCategory'])){
 
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+			
 			if ($response) {
 				if (!empty(self::$storeid)) {
 
@@ -73,7 +82,8 @@
 									'UserID' => $_SESSION['userId'],
 									'ActivityType' => 'Category',
 									'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created category ' . $data['category'] . '.',
-									'storeid' => self::$storeid
+									'storeid' => self::$storeid,
+									'TimeStamp' => $dateTimeStr
 								);
 				
 								// Call the ctrCreateActivityLog() function
@@ -164,6 +174,16 @@
 	=============================================*/
 
 	static public function ctrEditCategory(){
+		// Set the default timezone to Nairobi
+		date_default_timezone_set('Africa/Nairobi');
+		
+		// Create a DateTime object with the current date and time in Nairobi timezone
+		$dateTime = new DateTime();
+		
+		// Format the DateTime as a string
+		$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+		
+		
         self::initialize();
 
 		if(isset($_POST["editCategory"])){
@@ -203,7 +223,8 @@
 						'ActivityType' => 'Category',
 						'ActivityDescription' => $logMessage,
 						'itemID' => $value,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);
@@ -230,7 +251,8 @@
 						'ActivityType' => 'Category',
 						'ActivityDescription' => $logMessage,
 						'itemID' => $value,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);
@@ -262,6 +284,16 @@
         self::initialize();
 
 		if(isset($_GET["idCategory"])){
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+			
+			
 
 			$table ="categories";
 			$data = $_GET["idCategory"];
@@ -306,7 +338,8 @@
 							'ActivityType' => 'Category',
 							'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted category ' .$category. '.',
 							'itemID' => $value,
-							'storeid' => self::$storeid
+							'storeid' => self::$storeid,
+							'TimeStamp' => $dateTimeStr
 						);
 						// Call the ctrCreateActivityLog() function
 						activitylogController::ctrCreateActivityLog($logdata);

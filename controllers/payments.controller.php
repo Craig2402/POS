@@ -36,6 +36,15 @@ class PaymentController {
     public function addPayment() {
         self::initialize();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+                    
             if (isset($_POST['saveorder'])) {
                 date_default_timezone_set('africa/nairobi');
 
@@ -309,7 +318,8 @@ class PaymentController {
                             'UserID' => $_SESSION['userId'],
                             'ActivityType' => 'Sale',
                             'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$paymentId.'.',
-                            'itemID' => $paymentId
+                            'itemID' => $paymentId,
+                            'TimeStamp' => $dateTimeStr
                         );
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($data);
@@ -401,6 +411,15 @@ class PaymentController {
     public function makePayment() {
         self::initialize();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+                        
             if (isset($_POST['makePayment']) && isset($_POST['r3'])) {
 
                 // Retrieve payment data from the form or request parameters
@@ -468,7 +487,8 @@ class PaymentController {
                                 'UserID' => $_SESSION['userId'],
                                 'ActivityType' => 'Sale',
                                 'ActivityDescription' => 'User ' . $_SESSION['username'] . ' Processed transaction '.$data['invoiceid'].'.',
-                                'itemID' => $invoiceId
+                                'itemID' => $invoiceId,
+                                'TimeStamp' => $dateTimeStr
                             );
                             // Call the ctrCreateActivityLog() function
                             activitylogController::ctrCreateActivityLog($data);
@@ -807,6 +827,14 @@ class PaymentController {
 	static public function ctrDeleteTransaction(){
 
 		if(isset($_GET["reciept"])){
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
 
 			$table ="payments";
 			$data = $_GET["reciept"];
@@ -821,7 +849,8 @@ class PaymentController {
                         'UserID' => $_SESSION['userId'],
                         'ActivityType' => 'Sale',
                         'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted transaction '.$data.'.',
-                        'itemID' => $data
+                        'itemID' => $data,
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);

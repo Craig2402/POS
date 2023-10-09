@@ -56,6 +56,15 @@ class productController {
 		$response = packagevalidateController::ctrPackageValidate($element, $validatetable, $numAllproducts, $organisationcode);
 		
 		if(isset($_POST['addproduct'])){
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+						
 			if ($response) {
 
 				if(preg_match('/^[0-9]+$/', $_POST["txtstock"]) &&	
@@ -166,7 +175,8 @@ class productController {
 								'UserID' => $_SESSION['userId'],
 								'ActivityType' => 'Product',
 								'ActivityDescription' => 'User ' . $_SESSION['username'] . ' added product ' .$data['product']. '.',
-								'storeid' => self::$storeid
+								'storeid' => self::$storeid,
+								'TimeStamp' => $dateTimeStr
 							);
 							// Call the ctrCreateActivityLog() function
 							activitylogController::ctrCreateActivityLog($logdata);
@@ -254,7 +264,15 @@ class productController {
         self::initialize();
 
 		if(isset($_POST["editbarcode"])){
-
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+			
 			if(preg_match('/^[0-9]+$/', $_POST["editstock"]) &&	
 			   preg_match('/^[0-9.]+$/', $_POST["editpurchaseprice"]) &&
 			   preg_match('/^[0-9.]+$/', $_POST["editsaleprice"])){
@@ -384,7 +402,8 @@ class productController {
 							'ActivityType' => 'Product',
 							'ActivityDescription' => $logMessage,
 							'itemID' => $barcode,
-							'storeid' => self::$storeid
+							'storeid' => self::$storeid,
+							'TimeStamp' => $dateTimeStr
 						);
 						// Call the ctrCreateActivityLog() function
 						activitylogController::ctrCreateActivityLog($data);
@@ -413,7 +432,8 @@ class productController {
 							'ActivityType' => 'Category',
 							'ActivityDescription' => $logMessage,
 							'itemID' => $value,
-							'storeid' => self::$storeid
+							'storeid' => self::$storeid,
+							'TimeStamp' => $dateTimeStr
 						);
 						// Call the ctrCreateActivityLog() function
 						activitylogController::ctrCreateActivityLog($logdata);
@@ -462,6 +482,14 @@ class productController {
         self::initialize();
 
 		if(isset($_GET["product-id"])){
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 
 			$table ="products";
 			$barcode = $_GET['product-id'];
@@ -501,7 +529,8 @@ class productController {
 						'ActivityType' => 'Product',
 						'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted product ' .$product. '.',
 						'itemID' => $value,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);
@@ -550,6 +579,16 @@ class productController {
         self::initialize();
 
 		if (isset($_POST["addStock"])) {
+			// Set the default timezone to Nairobi
+			date_default_timezone_set('Africa/Nairobi');
+			
+			// Create a DateTime object with the current date and time in Nairobi timezone
+			$dateTime = new DateTime();
+			
+			// Format the DateTime as a string
+			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+			
+			
 	
 			$table = "products";
 			$quantity = $_POST['astock'] ?? '';
@@ -577,7 +616,8 @@ class productController {
 						'ActivityType' => 'Product',
 						'ActivityDescription' =>  'User ' . $_SESSION['username'] . ' added ' .$quantity. ' units to a product\'s stock.',
 						'itemID' => $barcode,
-						'storeid' => self::$storeid
+						'storeid' => self::$storeid,
+						'TimeStamp' => $dateTimeStr
 					);
 					// Call the ctrCreateActivityLog() function
 					activitylogController::ctrCreateActivityLog($logdata);

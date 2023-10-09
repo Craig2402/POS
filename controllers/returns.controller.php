@@ -35,6 +35,15 @@ class ReturnProductController {
     static public function ctrAddReturnProduct() {
         self::initialize();
         if (isset($_POST['btnschedule'])) {
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+                        
             $barcode = $_POST['selectProduct'];
             $supplier = $_POST['selectSupplier'];
             $quantity = $_POST['quantity'];
@@ -81,7 +90,8 @@ class ReturnProductController {
                                     'UserID' => $_SESSION['userId'],
                                     'ActivityType' => 'Category',
                                     'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created a return proccess of ' .$data['quantity']. ' product(s) of product with barcode ' .$data['product']. '.',
-                                    'storeid' => self::$storeid
+                                    'storeid' => self::$storeid,
+                                    'TimeStamp' => $dateTimeStr
                                 );
                                 // Call the ctrCreateActivityLog() function
                                 activitylogController::ctrCreateActivityLog($logdata);

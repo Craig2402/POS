@@ -38,6 +38,16 @@
         self::initialize();
 
 		if(isset($_POST['addSupplier'])){
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');
+            
+            
 
 			if (!empty(self::$storeid)) {
 
@@ -58,7 +68,8 @@
                             'UserID' => $_SESSION['userId'],
                             'ActivityType' => 'Supplier',
                             'ActivityDescription' => 'User ' . $_SESSION['username'] . ' creates supplier ' .$data['name']. '.',
-                            'storeid' => self::$storeid
+                            'storeid' => self::$storeid,
+                            'TimeStamp' => $dateTimeStr
                         );
                         // Call the ctrCreateActivityLog() function
                         activitylogController::ctrCreateActivityLog($logdata);
@@ -119,6 +130,14 @@
         self::initialize();
 
 		if(isset($_POST["editsupplier"])){
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');            
 
             $table = "suppliers";
 
@@ -160,7 +179,8 @@
                         'ActivityType' => 'Supplier',
                         'ActivityDescription' => $logMessage,
                         'itemID' => $supplierid,
-                        'storeid' => self::$storeid
+                        'storeid' => self::$storeid,
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);
@@ -188,7 +208,8 @@
                         'ActivityType' => 'Supplier',
                         'ActivityDescription' => $logMessage,
                         'itemID' => $supplierid,
-                        'storeid' => self::$storeid
+                        'storeid' => self::$storeid,
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);
@@ -219,6 +240,14 @@
         self::initialize();
 
 		if(isset($_GET["id"])){
+            // Set the default timezone to Nairobi
+            date_default_timezone_set('Africa/Nairobi');
+            
+            // Create a DateTime object with the current date and time in Nairobi timezone
+            $dateTime = new DateTime();
+            
+            // Format the DateTime as a string
+            $dateTimeStr = $dateTime->format('Y-m-d H:i:s');            
 
 			$table ="suppliers";
 			$data = $_GET["id"];
@@ -237,7 +266,8 @@
                         'ActivityType' => 'Supplier',
                         'ActivityDescription' => 'User ' . $_SESSION['username'] . ' deleted supplier ' .$oldItem['name']. '.',
                         'itemID' => $supplierid,
-                        'storeid' => self::$storeid
+                        'storeid' => self::$storeid,
+                        'TimeStamp' => $dateTimeStr
                     );
                     // Call the ctrCreateActivityLog() function
                     activitylogController::ctrCreateActivityLog($logdata);
