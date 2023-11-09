@@ -9,6 +9,7 @@ class userController{
 	static public function ctrUserLogin(){
 
 		if (isset($_POST["btn_login"])) {
+
 			// Set the default timezone to Nairobi
 			date_default_timezone_set('Africa/Nairobi');
 			
@@ -18,16 +19,31 @@ class userController{
 			// Format the DateTime as a string
 			$dateTimeStr = $dateTime->format('Y-m-d H:i:s');			
 
-				$encryptpass = crypt($_POST["txt_password"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
-				
-				$table = 'users';
+			$encryptpass = crypt($_POST["txt_password"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+			
+			$table = 'users';
 
-				$item = 'email';
-				$value = $_POST["txt_user"];
+			$item = 'email';
+			$value = $_POST["txt_user"];
 
-				$answer = userModel::mdlShowUser($table, $item, $value);
+			$answer = userModel::mdlShowUser($table, $item, $value);
+			var_dump($encryptpass);
+			
 
-				 //var_dump($answer);
+			$timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+			$current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+			$current_time_formatted = $current_time->format("H:i:s"); // Format the current time in hours, minutes, and seconds
+
+			$item3 = "store_id";
+			$value3= $answer['store_id'];
+			$stores = storeController::ctrShowStores($item3, $value3);
+			// var_dump($stores);
+			// var_dump('opening ' .$stores[0]['opening']);
+			// var_dump('closing ' .$stores[0]['closing']);
+			// var_dump($current_time_formatted);
+			// var_dump($current_time_formatted >= $stores[0]['opening']);
+			// var_dump($current_time_formatted <= $stores[0]['closing']);
+			if (($current_time_formatted >= $stores[0]['opening'] && $current_time_formatted <= $stores[0]['closing']) || $answer["role"] ==  "Administrator" || $answer["role"] == "Supervisor" || $answer["role"] == 404) {
 
 				if($answer && $answer["email"] == $value && $answer["userpassword"] == $encryptpass ){
 
@@ -35,17 +51,18 @@ class userController{
 
 						$_SESSION["beginSession"] = "ok";
 						$_SESSION["userId"] = $answer["userId"];
+						$_SESSION["role"] = $answer["role"];
 						$_SESSION["name"] = $answer["name"];
 						$_SESSION["username"] = $answer["username"];
 						$_SESSION["userphoto"] = $answer["userphoto"];
 						$_SESSION["email"] = $answer["email"];
-						$_SESSION["role"] = $answer["role"];
 						$_SESSION["organizationcode"] = $answer["organizationcode"];
 						if ($answer["role"] == "Administrator" || $answer["role"] == 404){
 							$_SESSION['storeid'] = null;
 						}else{
 							$_SESSION['storeid'] = $answer["store_id"];
 						}
+    
 
 						/*=============================================
 						Register date to know last_login
@@ -79,6 +96,8 @@ class userController{
 								// Call the ctrCreateActivityLog() function
 								activitylogController::ctrCreateActivityLog($data);
 
+							}
+							if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Supervisor" || $_SESSION['role'] == 404) {
 								echo '<script>
 
 									const Toast = Swal.mixin({
@@ -102,13 +121,9 @@ class userController{
 									});
 									
 								</script>';
-
-							}
-
-							if ($_SESSION["role"] == "Administrator" || $_SESSION["role"] == "Supervisor" || $_SESSION['role'] == 404) {
-								echo '<script>
-									window.location = "dashboard"; // Set the route for the Administrator and Supervisor
-								</script>';
+								// echo '<script>
+								// 	window.location = "dashboard"; // Set the route for the Administrator and Supervisor
+								// </script>';
 							} elseif ($_SESSION["role"] == "Seller") {
 								echo '<script>
 									window.location = "pos"; // Set the route for the Seller
@@ -147,7 +162,7 @@ class userController{
 					
 					}
 
-				}else{
+				} else{
 
 					echo '<script>
 					
@@ -171,9 +186,29 @@ class userController{
 					</script>';
 				
 				}
-			
-			
-		
+
+			} else {
+				echo '<script>
+
+					const Toast = Swal.mixin({
+						toast: true,
+						position: "top-end",
+						showConfirmButton: false,
+						timer: 2000,
+						timerProgressBar: false,
+						didOpen: (toast) => {
+						toast.addEventListener("mouseenter", Swal.stopTimer)
+						toast.addEventListener("mouseleave", Swal.resumeTimer)
+						}
+					})
+					
+					Toast.fire({
+						icon: "error",
+						title: "Your shift is over, try again later!!!"
+					})
+				</script>';
+			}
+
 		}
 	
 	}

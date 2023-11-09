@@ -331,12 +331,12 @@ CHECK FOR CHANGE IN THE CASH RADIO BUTTON
 var radio = document.getElementById("radioSuccess1");
 
 // Add an event listener to the radio button to detect changes in its checked status
-radio.addEventListener("change", function() {
-    // Check if the radio button is checked
-    var isChecked = radio.checked;
+$("#radioSuccess1").change(function() {
+  // Check if the radio button is checked
+  var isChecked = $(this).prop("checked");
 
-    // Make the element with ID "txtpaid_id" readonly based on the checked status
-    $('#txtpaid_id').prop('readonly', !isChecked);
+  // Make the element with ID "txtpaid_id" readonly based on the checked status
+  $("#txtpaid_id").prop("readonly", !isChecked);
 });
 
 

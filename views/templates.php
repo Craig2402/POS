@@ -2,6 +2,7 @@
     session_start();
     require_once 'controllers/activitylog.controller.php';
     require_once 'controllers/packagevalidate.controller.php';
+    require_once 'controllers/store.controller.php';
 
 ?>
 
@@ -87,8 +88,27 @@
 </head>
 <body class="hold-transition sidebar-mini">
 <?php
-if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
-    
+
+if ((isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok')) {
+
+    if ($_SESSION && $_SESSION["storeid"] != null) {
+        
+        $timezone = new DateTimeZone("Africa/Nairobi"); // Replace "Your_Timezone" with the desired timezone identifier, such as "America/New_York"
+        $current_time = new DateTime("now", $timezone); // Get the current time in the specified timezone
+        $current_time_formatted = $current_time->format("H:i:s"); // Format the current time in hours, minutes, and seconds
+
+        $item = "store_id";
+        $value = $_SESSION['storeid'];
+        $stores = storeController::ctrShowStores($item, $value);
+
+    //     var_dump($stores);
+    //     var_dump('opening ' .$stores[0]['opening']);
+    //     var_dump('closing ' .$stores[0]['closing']);
+    //     var_dump($current_time_formatted);
+    //     var_dump($current_time_formatted >= $stores[0]['opening']);
+    //     var_dump($current_time_formatted <= $stores[0]['closing']);
+    }
+
     $element="paymentvalidation";
     $table= "customers";
     $countAll=null;
@@ -192,70 +212,75 @@ if (isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok') {
                 include 'modules/footer.php';
             }
         } elseif (isset($_SESSION['role']) && $_SESSION['role'] == "Seller") {
-        if (isset($_GET['route'])) {
-            // Check if the requested route is valid for the Seller role
-            if ($_GET['route'] == "dashboard" ||
-                $_GET['route'] == "products" ||
-                $_GET['route'] == "changepassword" ||
-                $_GET['route'] == "viewproduct" ||
-                $_GET['route'] == "pos" ||
-                $_GET['route'] == "invoices" ||
-                $_GET['route'] == "customers" ||
-                $_GET['route'] == "stk_initiate" ||
-                $_GET['route'] == "payment" ||
-                $_GET['route'] == "logout"
-            ) {
-                include 'modules/header.php';
-                include 'modules/seller-menu.php';
-                include "modules/" . $_GET['route'] . ".php";
-                include 'modules/footer.php';
-            } else {
-                include "modules/404.php";
-            }
+            // if ($current_time_formatted >= $stores[0]['opening'] && $current_time_formatted <= $stores[0]['closing']) {
+                if (isset($_GET['route'])) {
+                    // Check if the requested route is valid for the Seller role
+                    if ($_GET['route'] == "dashboard" ||
+                        $_GET['route'] == "products" ||
+                        $_GET['route'] == "changepassword" ||
+                        $_GET['route'] == "viewproduct" ||
+                        $_GET['route'] == "pos" ||
+                        $_GET['route'] == "invoices" ||
+                        $_GET['route'] == "customers" ||
+                        $_GET['route'] == "stk_initiate" ||
+                        $_GET['route'] == "payment" ||
+                        $_GET['route'] == "logout"
+                    ) {
+                        include 'modules/header.php';
+                        include 'modules/seller-menu.php';
+                        include "modules/" . $_GET['route'] . ".php";
+                        include 'modules/footer.php';
+                    } else {
+                        include "modules/404.php";
+                    }
+                } else {
+                    include 'modules/header.php';
+                    include 'modules/seller-menu.php';
+                    include "modules/dashboard.php"; // Default page for Administrator
+                    include 'modules/footer.php';
+                }
+            // } else {
+            //     include 'modules/logout.php';
+            // }
         } else {
-            include 'modules/header.php';
-            include 'modules/seller-menu.php';
-            include "modules/dashboard.php"; // Default page for Administrator
-            include 'modules/footer.php';
-        }
-        } else {
-        if (isset($_GET['route'])) {
-            // Check if the requested route is valid for the Store role
-            if ($_GET['route'] == "products" ||
-                $_GET['route'] == "changepassword" ||
-                $_GET['route'] == "category" ||
-                $_GET['route'] == "addproduct"||
-                $_GET['route'] == "viewproduct" ||
-                $_GET['route'] == "printbarcode" ||
-                $_GET['route'] == "stock" ||
-                $_GET['route'] == "discount" ||
-                $_GET['route'] == "suppliers" ||
-                $_GET['route'] == "orders" ||
-                $_GET['route'] == "returns" ||
-                $_GET['route'] == "vieworders" ||
-                $_GET['route'] == "view-returned" ||
-                $_GET['route'] == "logout"
-            ) {
-                include 'modules/header.php';
-                include 'modules/store-menu.php';
-                include "modules/" . $_GET['route'] . ".php";
-                include 'modules/footer.php';
-            } else {
-                include "modules/404.php";
-            }
-        } else {
-            include 'modules/header.php';
-            include 'modules/store-menu.php';
-            include "modules/dashboard.php"; // Default page for Administrator
-            include 'modules/footer.php';
-        }
+            // if ($current_time_formatted >= $stores[0]['opening'] && $current_time_formatted <= $stores[0]['closing']) {
+                if (isset($_GET['route'])) {
+                    // Check if the requested route is valid for the Store role
+                    if ($_GET['route'] == "products" ||
+                        $_GET['route'] == "changepassword" ||
+                        $_GET['route'] == "category" ||
+                        $_GET['route'] == "addproduct"||
+                        $_GET['route'] == "viewproduct" ||
+                        $_GET['route'] == "printbarcode" ||
+                        $_GET['route'] == "stock" ||
+                        $_GET['route'] == "discount" ||
+                        $_GET['route'] == "suppliers" ||
+                        $_GET['route'] == "orders" ||
+                        $_GET['route'] == "returns" ||
+                        $_GET['route'] == "vieworders" ||
+                        $_GET['route'] == "view-returned" ||
+                        $_GET['route'] == "logout"
+                    ) {
+                        include 'modules/header.php';
+                        include 'modules/store-menu.php';
+                        include "modules/" . $_GET['route'] . ".php";
+                        include 'modules/footer.php';
+                    } else {
+                        include "modules/404.php";
+                    }
+                } else {
+                    include 'modules/header.php';
+                    include 'modules/store-menu.php';
+                    include "modules/dashboard.php"; // Default page for Administrator
+                    include 'modules/footer.php';
+                }
+            // } else {
+            //     include 'modules/logout.php';
+            // }
         }
     }
-}
-else {
-  echo '<div class="login-page">';
+} else {
   include 'modules/login.php';
-  echo '</div>';
 }
 ?>
 </div>
@@ -279,6 +304,77 @@ else {
 <script src="views/js/main.js"></script>
 <script src="views/js/customer.js"></script>
 <script>
+
+// Get the closing time and user role from PHP variables
+const closingTime = "<?php echo $stores[0]['closing']; ?>"; // Make sure it's in the format "HH:MM:SS"
+const userRole = "<?php echo $_SESSION['role']; ?>";
+
+const oneHourLeftNotificationKey = "oneHourLeftNotificationShown";
+const logoutNotificationKey = "logoutNotificationShown";
+const currentDateKey = "currentDate";
+
+function checkTimeAndNotify() {
+    if (userRole === "Seller" || userRole === "Store") {
+        const currentTime = new Date();
+        const currentHour = currentTime.getHours();
+        const currentMinute = currentTime.getMinutes();
+        const currentSecond = currentTime.getSeconds();
+
+        const closingHour = parseInt(closingTime.split(":")[0]);
+        const closingMinute = parseInt(closingTime.split(":")[1]);
+        const closingSecond = parseInt(closingTime.split(":")[2]);
+
+        // Calculate the time difference in seconds
+        const timeDiffSeconds = (closingHour * 3600 + closingMinute * 60 + closingSecond) - (currentHour * 3600 + currentMinute * 60 + currentSecond);
+
+        // Check if the current date is different from the stored date
+        const storedDate = localStorage.getItem(currentDateKey);
+        const currentDate = currentTime.toDateString();
+        if (storedDate !== currentDate) {
+            // Clear the storage keys for the notifications
+            localStorage.removeItem(oneHourLeftNotificationKey);
+            localStorage.removeItem(logoutNotificationKey);
+            // Update the stored date
+            localStorage.setItem(currentDateKey, currentDate);
+        }
+
+        if (timeDiffSeconds <= 3600 && timeDiffSeconds > 0 && !localStorage.getItem(oneHourLeftNotificationKey)) {
+            const remainingHours = Math.floor(timeDiffSeconds / 3600);
+            const remainingMinutes = Math.floor((timeDiffSeconds % 3600) / 60);
+            const remainingSeconds = timeDiffSeconds % 60;
+            // Notify the user one hour (3600 seconds) left until closing time
+            Swal.fire({
+                title: `${remainingMinutes} minutes, ${remainingSeconds} seconds left until closing time!`,
+                text: `The website will log you out at ${closingTime}.`,
+                icon: "warning"
+            });
+            localStorage.setItem(oneHourLeftNotificationKey, "true");
+        }
+
+        if (timeDiffSeconds <= 0 && !localStorage.getItem(logoutNotificationKey)) {
+            // Log the user out when closing time is reached
+            Swal.fire({
+                title: "Closing time is now!",
+                text: "You have been logged out.",
+                icon: "warning"
+            }).then(function(result){
+                // Make an AJAX request to the logout module
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", "views/modules/logout2.php", true);
+                xhr.send();
+                window.location = "login";
+            });
+            localStorage.setItem(logoutNotificationKey, "true");
+            clearInterval(timer); // Stop checking the time when the user is logged out
+        }
+    }
+}
+
+// Check the time every second
+const timer = setInterval(checkTimeAndNotify, 1000);
+
+
+
 // In your Javascript (external .js resource or <script> tag)
 $(".select2").select2({
   theme: "classic"
