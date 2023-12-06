@@ -8,7 +8,7 @@
     $currentYear = date('Y');
 
     // Prepare the SQL statement
-    $payments = $pdo->prepare("SELECT COUNT(*) AS paymentCount, SUM(amount) AS totalAmount FROM payments WHERE MONTH(date) = :month AND YEAR(date) = :year " . ($storeid ? "AND store_id = :store_id" : "") . "");
+    $payments = $pdo->prepare("SELECT COUNT(*) AS paymentCount, SUM(amount) AS totalAmount FROM payments WHERE MONTH(PaymentDate) = :month AND YEAR(PaymentDate) = :year " . ($storeid ? "AND StoreID = :store_id" : "") . "");
     $payments->bindParam(':month', $currentMonth);
     $payments->bindParam(':year', $currentYear);
     if ($storeid) {
@@ -24,7 +24,7 @@
     $totalAmount = $paymentResult['totalAmount'];
 
     // Prepare the SQL statement
-    $invoices = $pdo->prepare("SELECT COUNT(*) AS invoicePaymentCount, SUM(total) AS totalInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year " . ($storeid ? "AND store_id = :store_id" : "") . "");
+    $invoices = $pdo->prepare("SELECT COUNT(*) AS invoicePaymentCount, SUM(TotalAmount) AS totalInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year " . ($storeid ? "AND StoreID = :store_id" : "") . "");
     $invoices->bindParam(':month', $currentMonth);
     $invoices->bindParam(':year', $currentYear);
     if ($storeid) {
@@ -40,7 +40,7 @@
     $totalInvoiceAmount = $paymentInvoiceResult['totalInvoiceAmount'];
 
     // Prepare the SQL statement
-    $paidinvoices = $pdo->prepare("SELECT COUNT(*) AS invoicePaidCount, SUM(total) AS totalPaidInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year AND dueamount = 0 " . ($storeid ? "AND store_id = :store_id" : "") . "");
+    $paidinvoices = $pdo->prepare("SELECT COUNT(*) AS invoicePaidCount, SUM(TotalAmount) AS totalPaidInvoiceAmount FROM invoices WHERE MONTH(datecreated) = :month AND YEAR(datecreated) = :year AND dueamount = 0 " . ($storeid ? "AND StoreID = :store_id" : "") . "");
     $paidinvoices->bindParam(':month', $currentMonth);
     $paidinvoices->bindParam(':year', $currentYear);
     if ($storeid) {
@@ -71,9 +71,9 @@
          SELECT 5 AS month UNION SELECT 6 AS month UNION SELECT 7 AS month UNION SELECT 8 AS month UNION
          SELECT 9 AS month UNION SELECT 10 AS month UNION SELECT 11 AS month UNION SELECT 12 AS month
      ) m
-     LEFT JOIN payments p ON MONTH(p.date) = m.month AND YEAR(p.date) = :year " . ($storeid ? "AND p.store_id = :store_id" : "") . "
-     LEFT JOIN expenses e ON m.month = MONTH(e.date) AND YEAR(p.date) = YEAR(e.date)
-     LEFT JOIN orders o ON m.month = MONTH(o.date) AND YEAR(p.date) = YEAR(o.date)
+     LEFT JOIN payments p ON MONTH(p.PaymentDate) = m.month AND YEAR(p.PaymentDate) = :year " . ($storeid ? "AND p.StoreID = :store_id" : "") . "
+     LEFT JOIN expenses e ON m.month = MONTH(e.date) AND YEAR(p.PaymentDate) = YEAR(e.date)
+     LEFT JOIN orders o ON m.month = MONTH(o.date) AND YEAR(p.PaymentDate) = YEAR(o.date)
      GROUP BY m.month
  ");
  $monthlyRevenue->bindParam(':year', $currentYear);

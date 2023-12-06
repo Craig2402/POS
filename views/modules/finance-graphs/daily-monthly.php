@@ -11,10 +11,10 @@ $lastMonth = date('m', strtotime('-1 month'));
 
 // Prepare the SQL query to fetch and group the data for the current month
 $currentMonthStmt = $pdo->prepare("
-    SELECT DATE(date) AS paymentdate, paymentmethod, SUM(amount) AS totalamount
+    SELECT DATE(PaymentDate) AS paymentdate, paymentmethod, SUM(Amount) AS totalamount
     FROM payments
-    WHERE MONTH(date) = :currentMonth
-    AND store_id = :storeid
+    WHERE MONTH(PaymentDate) = :currentMonth
+    AND StoreID = :storeid
     GROUP BY paymentdate, paymentmethod
     ORDER BY paymentdate
 ");
@@ -25,10 +25,10 @@ $currentMonthPaymentsData = $currentMonthStmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Prepare the SQL query to fetch and group the data for the last month
 $lastMonthStmt = $pdo->prepare("
-    SELECT DATE(date) AS paymentdate, paymentmethod, SUM(amount) AS totalamount
+    SELECT DATE(PaymentDate) AS paymentdate, paymentmethod, SUM(Amount) AS totalamount
     FROM payments
-    WHERE MONTH(date) = :lastMonth
-    AND store_id = :storeid
+    WHERE MONTH(PaymentDate) = :lastMonth
+    AND StoreID = :storeid
     GROUP BY paymentdate, paymentmethod
     ORDER BY paymentdate
 ");

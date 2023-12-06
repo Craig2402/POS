@@ -69,35 +69,56 @@ class orderController{
             $value = $data['supplier'];
 		    $supplier = supplierModel::mdlShowSuppliers($suppliertable, $item, $value);
             
-            if($answer == 'ok'){
-				if ($_SESSION['userId'] != 404) {
-                    // Create an array with the data for the activity log entry
-                    $logdata = array(
-                        'UserID' => $_SESSION['userId'],
-                        'ActivityType' => 'Order',
-                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created an order to supplier ' .$supplier['name']. ' for the following products; ' . $data['products'] . '.',
-                        'storeid' => self::$storeid,
-                        'TimeStamp' => $dateTimeStr
+            if($answer){
+                $jsonData = $_POST["products"];
+                $dataArray = json_decode($jsonData, true);
+                
+                $table = "order_items";
+                $orderId = $answer; // Assuming $answer holds the order ID
+                
+                foreach ($dataArray as $product) {
+                    $productId = $product['id'];
+                    $quantity = $product['Quantity'];
+                    
+                    $data = array(
+                        "order_id" => $orderId,
+                        "product_id" => $productId,
+                        "quantity" => $quantity
                     );
-                    // Call the ctrCreateActivityLog() function
-                    activitylogController::ctrCreateActivityLog($logdata);
+                
+                    $order = OrdersModel::mdlOrderitems($table, $data);
                 }
+                if ($order == "ok") {
+                    if ($_SESSION['userId'] != 404) {
+                        // Create an array with the data for the activity log entry
+                        $logdata = array(
+                            'UserID' => $_SESSION['userId'],
+                            'ActivityType' => 'Order',
+                            'ActivityDescription' => 'User ' . $_SESSION['username'] . ' created an order to supplier ' .$supplier['name']. ' for the following products; ' . $_POST['products'] . '.',
+                            'storeid' => self::$storeid,
+                            'TimeStamp' => $dateTimeStr
+                        );
+                        // Call the ctrCreateActivityLog() function
+                        activitylogController::ctrCreateActivityLog($logdata);
+                    }
 
-                echo '<script>
+                    echo '<script>
+                        
+                    Swal.fire({
+                        icon: "success",
+                        title: "Order has been successfully made.",
+                        showConfirmButton: false, // Hide the confirm button
+                        timer: 2000, // Set the timer to 2000 milliseconds (2 seconds)
                     
-                Swal.fire({
-                    icon: "success",
-                    title: "Order has been successfully made.",
-                    showConfirmButton: false, // Hide the confirm button
-                    timer: 2000, // Set the timer to 2000 milliseconds (2 seconds)
-                
-                }).then(function (result) {
-                    // This part will be triggered after the Swal is automatically closed
-                    window.location = "orders";
-                });
-                
+                    }).then(function (result) {
+                        // This part will be triggered after the Swal is automatically closed
+                        window.location = "orders";
+                    });
                     
-                </script>';
+                        
+                    </script>';
+                }
+    
             }
 
         }
@@ -143,40 +164,94 @@ class orderController{
                 $status = "Canceled";
             }
     
-            $answer = OrdersModel::mdlEditOrder($table, $data);
+            
+            $item = "orderid";
+            $value = $_POST["order_id"];
+
+            $orders = orderController::ctrShowOrders($item, $value);
+
+            $table = "order_items";
+            $item = "order_id";
+            $value = $_POST["order_id"];
+            $fetchAll=true;
+
+            $orderitems = OrdersModel::mdlShowOrderitems($table, $item, $value, $fetchAll);
+            var_dump($orderitems);
+            
+            foreach ($orderitems[0] as $order) {
+                // Accessing manufacturing and expiring dates from each row
+                // $manufacturingDate = $order['manufacturing_date'];
+                // $expiringDate = $order['expiring_date'];
+                
+                // Your other code here...
+
+                // Adding JavaScript for Sweet Alert
+                echo "
+                    <script>
+                        // Assuming you've included Sweet Alert script in your project
+
+                        // Function to show Sweet Alert and collect dates
+                        function showDateAlert() {
+                            Swal.fire({
+                                title: 'Enter Manufacturing and Expiring Dates',
+                                html: `<label for='manufacturingDate'>Manufacturing Date</label>
+                                    <input type='date' id='manufacturingDate' class='swal2-input'>
+                                    <label for='expiringDate'>Expiring Date</label>
+                                    <input type='date' id='expiringDate' class='swal2-input'>`,
+                                confirmButtonText: 'Save',
+                                preConfirm: () => {
+                                    // Accessing user input
+                                    const manufacturingDateInput = document.getElementById('manufacturingDate').value;
+                                    const expiringDateInput = document.getElementById('expiringDate').value;
+
+                                    // You can send this data back to the server using AJAX or handle it as needed
+                                    // For now, let's just log the values
+                                    console.log('Manufacturing Date:', manufacturingDateInput);
+                                    console.log('Expiring Date:', expiringDateInput);
+                                }
+                            });
+                        }
+
+                        // Call the function when needed, for example, on button click
+                        // You can customize this based on your UI
+                        showDateAlert();
+                    </script>
+                ";
+            }
+            // $answer = OrdersModel::mdlEditOrder($table, $data);
             
     
-            if($answer == "ok"){
-				if ($_SESSION['userId'] != 404) {
-                    // Create an array with the data for the activity log entry
-                    $logdata = array(
-                        'UserID' => $_SESSION['userId'],
-                        'ActivityType' => 'Order',
-                        'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed the status of order ' .$data['id']. ' to ' . $status . '.',
-                        'itemID' => $data['id'],
-                        'storeid' => self::$storeid,
-                        'TimeStamp' => $dateTimeStr
-                    );
-                    // Call the ctrCreateActivityLog() function
-                    activitylogController::ctrCreateActivityLog($logdata);
-                }
+            // if($answer == "ok"){
+			// 	if ($_SESSION['userId'] != 404) {
+            //         // Create an array with the data for the activity log entry
+            //         $logdata = array(
+            //             'UserID' => $_SESSION['userId'],
+            //             'ActivityType' => 'Order',
+            //             'ActivityDescription' => 'User ' . $_SESSION['username'] . ' changed the status of order ' .$data['id']. ' to ' . $status . '.',
+            //             'itemID' => $data['id'],
+            //             'storeid' => self::$storeid,
+            //             'TimeStamp' => $dateTimeStr
+            //         );
+            //         // Call the ctrCreateActivityLog() function
+            //         activitylogController::ctrCreateActivityLog($logdata);
+            //     }
     
-                echo'<script>
+            //     echo'<script>
     
-                Swal.fire({
-                            icon: "success",
-                            title: "Status changed to ' . $status . ' for order number <br/>" + \'' . $data['id'] . '\',
-                            showConfirmButton: false, // Hide the confirm button
-                            timer: 2000, // Set the timer to 2000 milliseconds (2 seconds)
+            //     Swal.fire({
+            //                 icon: "success",
+            //                 title: "Status changed to ' . $status . ' for order number <br/>" + \'' . $data['id'] . '\',
+            //                 showConfirmButton: false, // Hide the confirm button
+            //                 timer: 2000, // Set the timer to 2000 milliseconds (2 seconds)
                         
-                        }).then(function (result) {
-                            // This part will be triggered after the Swal is automatically closed
-                            window.location = "vieworders";
-                        });
+            //             }).then(function (result) {
+            //                 // This part will be triggered after the Swal is automatically closed
+            //                 window.location = "vieworders";
+            //             });
     
-                    </script>';
+            //         </script>';
     
-            }
+            // }
 
         }
 

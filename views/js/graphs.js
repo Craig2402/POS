@@ -10,6 +10,7 @@ function fetchData() {
         cache: false,
         dataType: 'json',
         success: function (graphdata) {
+            // console.log(graphdata);
             //--------------------
             // - DASHBOARD TABS -
             //--------------------
@@ -232,3 +233,24 @@ function formatCurrency(value) {
 function formatNumber(value) {
     return parseFloat(value).toLocaleString();
 }
+
+// function to create a pdf out of html elements
+function Extracthtmlpdf(bodyid, filename) {
+    // Create an HTML element containing your product list
+    const productListContainer = document.getElementById(bodyid); // Replace with your actual container ID
+    const productListHTML = productListContainer.innerHTML;
+
+        // Generate a filename with the current date
+        const currentDate = new Date();
+        const dateString = currentDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        const finalfilename = `${filename}-${dateString}.pdf`;
+
+    // Use html2pdf to generate and download the PDF
+    html2pdf(productListHTML, {
+      margin: 10,
+      filename: finalfilename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    });
+  }

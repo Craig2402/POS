@@ -105,7 +105,7 @@ class productModel{
 			$status = 0; // Set the status value to 0
 
 			$stmt = connection::connect()->prepare("SELECT * FROM $table WHERE status = :status AND $item = :value  ORDER BY $order DESC");
-
+			
 			$stmt->bindValue(":value", $value, PDO::PARAM_INT);
 			$stmt->bindValue(":status", $status, PDO::PARAM_INT);
 

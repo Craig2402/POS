@@ -51,6 +51,8 @@
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/icheck-bootstrap@3.0.1/icheck-bootstrap.min.css">
     
+    <!-- Date range picker -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> -->
 
     
     <!-- =============================================
@@ -58,6 +60,9 @@
     =============================================  -->
     <!-- Include Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Date range picker -->
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
     
     <!-- DataTables & Plugins -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -74,7 +79,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- daterange picker -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     
     <!-- chart js -->
@@ -85,6 +90,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.js"></script>
     
+    <!-- Add this in the head of your HTML file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>   
 </head>
 <body class="hold-transition sidebar-mini">
 <?php
@@ -152,6 +159,8 @@ if ((isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok')) {
                         $_GET['route'] == "view-returned" ||
                         $_GET['route'] == "finance-dashboard" ||
                         $_GET['route'] == "logs"||
+                        $_GET['route'] == "reports"||
+                        $_GET['route'] == "order-delivery" ||
                         $_GET['route'] == "logout"
                     ) {
                         include 'modules/header.php';
@@ -196,6 +205,8 @@ if ((isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok')) {
                     $_GET['route'] == "customers" ||
                     $_GET['route'] == "view-returned" ||
                     $_GET['route'] == "finance-dashboard" ||
+                    $_GET['route'] == "reports"||
+                    $_GET['route'] == "order-delivery" ||
                     $_GET['route'] == "logout"
                 ) {
                     include 'modules/header.php';
@@ -259,6 +270,7 @@ if ((isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok')) {
                         $_GET['route'] == "returns" ||
                         $_GET['route'] == "vieworders" ||
                         $_GET['route'] == "view-returned" ||
+                        $_GET['route'] == "order-delivery" ||
                         $_GET['route'] == "logout"
                     ) {
                         include 'modules/header.php';
@@ -303,6 +315,7 @@ if ((isset($_SESSION['beginSession']) && $_SESSION['beginSession'] == 'ok')) {
 <script src="views/js/header.js"></script>
 <script src="views/js/main.js"></script>
 <script src="views/js/customer.js"></script>
+<script src="views/js/reports.js"></script>
 <script>
 
 // Get the closing time and user role from PHP variables

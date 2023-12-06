@@ -236,7 +236,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fa-brands fa-sellsy"></i>
                         <p>Sales
@@ -257,7 +257,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fa-solid fa-warehouse"></i>
@@ -279,6 +279,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="reports" class="nav-link">
+                        <i class="fa-solid fa-chart-line nav-icon"></i>
+                        <p>
+                            Reports
+                        </p>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="customers" class="nav-link">

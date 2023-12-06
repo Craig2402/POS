@@ -3,6 +3,7 @@ $item = "store_id";
 $value = $_SESSION['storeid'];
 $order = 'id';
 $product = productController::ctrShowProducts($item, $value, $order, true);
+
 ?>
  <style>
   .link  {
@@ -14,13 +15,16 @@ $product = productController::ctrShowProducts($item, $value, $order, true);
   <div class="card-header">
     <h3 class="card-title">Recently Added Products</h3>
     <div class="card-tools">
+      <button id="recentproductsPdf" class="btn btn-tool btn-sm" onclick="Extracthtmlpdf('recentproductList', 'recent-product-list')">
+        <i class="fas fa-download"></i>
+      </button>
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
         <i class="fas fa-minus"></i>
       </button>
     </div>
   </div>
   <!-- /.card-header -->
-  <div class="card-body p-0">
+  <div id="recentproductList" class="card-body p-0">
     <ul class="products-list product-list-in-card pl-2 pr-2">
       <?php
       $productCount = count($product); // Get the number of products

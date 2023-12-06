@@ -7,7 +7,7 @@ PAYMENTS HANDLER
 $storeid = $_SESSION['storeid'];
 
 // Prepare the query to fetch payments
-$paymentsQuery = $pdo->prepare('SELECT paymentmethod, SUM(amount) AS total_amount, MONTH(date) AS month, YEAR(date) AS year FROM payments WHERE store_id = :storeid GROUP BY paymentmethod, MONTH(date)');
+$paymentsQuery = $pdo->prepare('SELECT paymentmethod, SUM(Amount) AS total_amount, MONTH(PaymentDate) AS month, YEAR(PaymentDate) AS year FROM payments WHERE StoreID = :storeid GROUP BY PaymentMethod, MONTH(PaymentDate)');
 $paymentsQuery->bindParam(':storeid', $storeid);
 $paymentsQuery->execute();
 $paymentData = $paymentsQuery->fetchAll(PDO::FETCH_ASSOC);

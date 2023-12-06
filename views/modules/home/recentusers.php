@@ -1,6 +1,6 @@
 <?php
 $pdo = connection::connect();
-$usersQuery = $pdo->prepare("SELECT * FROM users WHERE role != 'Administrator' AND  role != 404 ORDER BY userId DESC LIMIT 5");
+$usersQuery = $pdo->prepare("SELECT * FROM users WHERE date >= CURDATE() - INTERVAL 2 WEEK AND role != 'Administrator' AND  role != 404 ORDER BY userId DESC LIMIT 5");
 $usersQuery->execute();
 $usersData = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -23,7 +23,8 @@ $usersData = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
   <div class="card-body p-0">
     <ul class="products-list product-list-in-card pl-2 pr-2">
         <?php
-        foreach ($usersData as $user) {
+        if ($usersData) {
+          foreach ($usersData as $user) {
             echo '
             <li class="item">
                 <div class="product-img">
@@ -39,7 +40,15 @@ $usersData = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
                     </span>
                 </div>
             </li>';
+          }
+        } else {
+          echo '
+          <li class="item text-center">
+            <p>No data to display</p>
+          </li>';
         }
+        
+
         ?>
     </ul>
 </div>

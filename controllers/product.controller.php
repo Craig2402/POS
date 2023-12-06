@@ -640,40 +640,40 @@ class productController {
 
 	}
 
-	public static function fetchSalesData() {
-		self::initialize();
-		$pdo = connection::connect();
-		$store=self::$storeid;
-		// Prepare and execute the SQL query to fetch sales data
-		$query = "SELECT startdate, products FROM invoices WHERE store_id = :store";
-		$statement = $pdo->prepare($query);
-		$statement->bindParam(':store', $store, PDO::PARAM_STR);
-		$statement->execute();
+	// public static function fetchSalesData() {
+	// 	self::initialize();
+	// 	$pdo = connection::connect();
+	// 	$store=self::$storeid;
+	// 	// Prepare and execute the SQL query to fetch sales data
+	// 	$query = "SELECT DateCreated, products FROM invoices WHERE store_id = :store";
+	// 	$statement = $pdo->prepare($query);
+	// 	$statement->bindParam(':store', $store, PDO::PARAM_STR);
+	// 	$statement->execute();
 		
 		
-		$salesData = array();
+	// 	$salesData = array();
 		
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-			$startDate = $row['startdate'];
-			$productsJson = $row['products'];
+	// 	while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+	// 		$startDate = $row['startdate'];
+	// 		$productsJson = $row['products'];
 			
-			// Decode the JSON data
-			$products = json_decode($productsJson, true);
+	// 		// Decode the JSON data
+	// 		$products = json_decode($productsJson, true);
 			
-			// Loop through products in the invoice and add them to the sales data array
-			foreach ($products as $product) {
-				$salesData[] = array(
-					'startdate' => $startDate,
-					'productName' => $product['productName'],
-					'Quantity' => $product['Quantity'],
-					'salePrice' => $product['salePrice'],
-					'Discount' => $product['Discount'],
-				);
-			}
-		}
+	// 		// Loop through products in the invoice and add them to the sales data array
+	// 		foreach ($products as $product) {
+	// 			$salesData[] = array(
+	// 				'startdate' => $startDate,
+	// 				'productName' => $product['productName'],
+	// 				'Quantity' => $product['Quantity'],
+	// 				'salePrice' => $product['salePrice'],
+	// 				'Discount' => $product['Discount'],
+	// 			);
+	// 		}
+	// 	}
 		
-		return $salesData;
-	}
+	// 	return $salesData;
+	// }
 
 }
 ?>

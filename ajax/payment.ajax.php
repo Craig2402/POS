@@ -31,7 +31,7 @@ class AjaxInvoices{
 
 	public function ajaxFetchPayments(){
 
-		$item = "invoiceId";
+		$item = "InvoiceID";
 		$value = $this->invoiceid;
 
 		$answer = PaymentController::ctrfetchGroupedPayments($item, $value);

@@ -29,6 +29,7 @@ class AjaxProducts{
 
   	public $barcodeProduct;
 	public $data;
+	public $productid;
 	
 	public function ajaxEditProduct(){
 		// Get product by id
@@ -50,11 +51,25 @@ class AjaxProducts{
         echo json_encode($answer);
 	}
 
+	public function ajaxFetchProduct(){
+        $item = "id";
+        $value = $this->productid;
+        $order= "id";
+		$product = productController::ctrShowProducts($item, $value, $order, false);
+        echo json_encode($product);
+	}
+
 }
 
 /*=============================================
 EDIT PRODUCT
 =============================================*/ 
+
+	if (isset($_POST['productId'])) {
+		$fetchProduct = new AjaxProducts();
+		$fetchProduct -> productid = $_POST["productId"];
+		$fetchProduct -> ajaxFetchProduct();
+	}
 
     if (isset($_POST["item"]) && isset($_POST["value"]) && isset($_POST["order"])) {
 

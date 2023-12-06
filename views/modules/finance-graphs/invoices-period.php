@@ -24,9 +24,9 @@ $yearlyUnpaidData = array();
 $yearlyPartiallyPaidData = array();
 
 foreach ($answer as $row) {
-    $date = $row['startdate'];
-    $total = $row['total'];
-    $dueAmount = $row['dueamount'];
+    $date = $row['DateCreated'];
+    $total = $row['TotalAmount'];
+    $dueAmount = $row['DueAmount'];
     $formattedMonth = date('F', strtotime($date));
     $formattedYear = date('Y', strtotime($date));
 

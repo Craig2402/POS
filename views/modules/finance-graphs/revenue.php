@@ -15,7 +15,7 @@ for ($month = 1; $month <= 12; $month++) {
 }
 
 // Fetch monthly/yearly revenue data from the database
-$sql = "SELECT DATE_FORMAT(date, '%Y-%m') AS payment_month, SUM(amount) AS total_amount FROM payments WHERE store_id = :storeid GROUP BY DATE_FORMAT(date, '%Y-%m')";
+$sql = "SELECT DATE_FORMAT(PaymentDate, '%Y-%m') AS payment_month, SUM(Amount) AS total_amount FROM payments WHERE StoreID = :storeid GROUP BY DATE_FORMAT(PaymentDate, '%Y-%m')";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':storeid', $storeid);
 $stmt->execute();
@@ -57,7 +57,7 @@ function yearlyRevenue() {
     var years = [];
     var yearlyRevenueData = [];
     <?php
-    $sql = "SELECT DATE_FORMAT(date, '%Y') AS payment_year, SUM(amount) AS total_amount FROM payments WHERE store_id = :storeid GROUP BY DATE_FORMAT(date, '%Y')";
+    $sql = "SELECT DATE_FORMAT(PaymentDate, '%Y') AS payment_year, SUM(Amount) AS total_amount FROM payments WHERE StoreID = :storeid GROUP BY DATE_FORMAT(PaymentDate, '%Y')";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':storeid', $storeid);
     $stmt->execute();

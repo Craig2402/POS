@@ -111,7 +111,8 @@
                                             </tr>
                                         </thead>
                                         <tbody class="orders" id="itemtable">
-                                            <input type="hidden" name="products" id="products">
+                                            <!-- <input type="hidden" name="products" id="products"> -->
+                                            <textarea name="products" id="products" cols="30" rows="10"></textarea>
                                         </tbody>
                                     </table>
                                 </div>

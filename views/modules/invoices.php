@@ -67,7 +67,6 @@ require_once 'models/connection.php';
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Product(s)</th>
                                                     <th>Customer Name</th>
                                                     <th>Phone Number</th>
                                                     <th>Date</th>
@@ -95,21 +94,13 @@ require_once 'models/connection.php';
                                                 // var_dump($invoices);
 
                                                 foreach ($invoices as $key => $value) {
-                                                    $jsonArray = $value["products"];
-                                                    $data = json_decode($jsonArray, true);
 
                                                     echo '
                                                     <tr data-widget="expandable-table" aria-expanded="false">
-                                                        <td>' . ($key + 1) . '</td>
-                                                        <td>';
-                                                    for ($i = 0; $i < count($data); $i++) {
-                                                        $productName = $data[$i]['productName'];
-                                                        $quantity = $data[$i]['Quantity'];
-                                                        echo $productName . ' (' . $quantity . ')' . " , ";
-                                                    }
+                                                        <td>' . ($key + 1) . '</td>';
                                                     
                                                     $item = "customer_id";
-                                                    $value1 = $value["customer_id"];
+                                                    $value1 = $value["CustomerID"];
                                                     $customer = customerController::ctrShowCustomers($item, $value1);
                                                     // var_dump($customer);
 
@@ -117,27 +108,27 @@ require_once 'models/connection.php';
                                                     echo '
                                                         <td>' . $customer["name"] . '</td>
                                                         <td>' . $customer["phone"] . '</td>
-                                                        <td>' . $value["startdate"] . '</td>
-                                                        <td>' . $value["duedate"] . '</td>';
+                                                        <td>' . $value["DateCreated"] . '</td>
+                                                        <td>' . $value["DueDate"] . '</td>';
 
-                                                    if ($value["dueamount"] == 0) {
+                                                    if ($value["DueAmount"] == 0) {
                                                         echo '<td><button class="btn btn-success btn-sm">Paid</button></td>';
-                                                    } elseif ($value["total"] == abs($value['dueamount'])) {
+                                                    } elseif ($value["TotalAmount"] == abs($value['DueAmount'])) {
                                                         echo '<td><button class="btn btn-danger btn-sm">Unpaid</button></td>';
                                                     } else {
                                                         echo '<td><button class="btn btn-warning btn-sm">Partially Paid</button></td>';
                                                     }
 
-                                                    echo '<td>' . $value["totaltax"] . '</td>
-                                                        <td>' . $value["total"] . '</td>
-                                                        <td>' . $value["discount"] . '</td>
-                                                        <td>' . $value["dueamount"] . '</td>';
+                                                    echo '<td>' . $value["TotalTax"] . '</td>
+                                                        <td>' . $value["TotalAmount"] . '</td>
+                                                        <td>' . $value["Discount"] . '</td>
+                                                        <td>' . $value["DueAmount"] . '</td>';
 
-                                                    if ($value["dueamount"] != 0) {
-                                                        echo '<td><button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s viewInvoice" data-toggle="modal" data-target="#viewInvoiceModal"><i class="fa-solid fa-eye"></i></button>
-                                                                <button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s addPayment"><i class="fa-solid fa-check"></i></button></td>';
+                                                    if ($value["DueAmount"] != 0) {
+                                                        echo '<td><button idInvoice="' . $value['InvoiceID'] . '" class="btn btn-s viewInvoice" data-toggle="modal" data-target="#viewInvoiceModal"><i class="fa-solid fa-eye"></i></button>
+                                                                <button idInvoice="' . $value['InvoiceID'] . '" class="btn btn-s addPayment"><i class="fa-solid fa-check"></i></button></td>';
                                                     } else {
-                                                        echo '<td><button idInvoice="' . $value['invoiceId'] . '" class="btn btn-s viewInvoice" data-toggle="modal" data-target="#viewInvoiceModal"><i class="fa-solid fa-eye"></i></button></td>';
+                                                        echo '<td><button idInvoice="' . $value['InvoiceID'] . '" class="btn btn-s viewInvoice" data-toggle="modal" data-target="#viewInvoiceModal"><i class="fa-solid fa-eye"></i></button></td>';
                                                     }
 
                                                     echo '</tr>';
@@ -197,7 +188,6 @@ require_once 'models/connection.php';
                             <table id="invoice-table" class="w-100">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>Product</th>
                                         <th>Barcode</th>
                                         <th>Qty</th>
@@ -299,6 +289,30 @@ require_once 'models/connection.php';
                         <li><a id="download-pdf-link" class="dropdown-item" href="#">Download PDF</a></li>
                     </ul>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- View Invoice Modal -->
+<div id="viewInvoiceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewInvoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <!-- Modal content-->
+        <div class="modal-content">
+        <form role="form" method="POST">
+            <div class="modal-header">
+                <h4 class="modal-title">View Invoice</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-secondary">Make Payment</button>
             </div>
         </div>
     </div>

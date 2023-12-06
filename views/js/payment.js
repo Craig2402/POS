@@ -147,6 +147,25 @@ $(document).on("keyup change", "#payment", function() {
 VIEW INVOICE MODAL
 =============================================*/
 
+function customajaxRequest(file, variable, value, callback){
+    var data = new FormData();
+    data.append(variable, value);
+
+    $.ajax({
+        url: `ajax/${file}.ajax.php`,
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+            callback(data); // Invoke the callback with the retrieved data
+        } ,error: function(xhr, status, error) {
+            console.error("AJAX request error:", error);
+        }
+    });
+}
 
 $(".tables tbody").on("click", "button.viewInvoice", function(){
 
@@ -175,6 +194,10 @@ function openInvoiceModal(idInvoice) {
     var payment_datum = new FormData();
     payment_datum.append("invoiceid", idInvoice);
 
+    
+    var file = "payment";
+    var variable = "idInvoice"
+    var value = idInvoice;
     $.ajax({
   
         url:"ajax/payment.ajax.php",
@@ -185,89 +208,93 @@ function openInvoiceModal(idInvoice) {
         processData: false,
         dataType:"json",
         success:function(answer){
-            const customername = answer.customername
-            const invoiceid = answer.invoiceId
-            const duedate = answer.duedate
             
-            // invoice header
-            if (answer.customername == "") {
-                $(".invoice-name-number").html("Null <br>" + answer.invoiceId + "<br>");
-            } else {
-                $(".invoice-name-number").html(answer.customername + "<br>" + answer.invoiceId + "<br>");
-            }            
-
-            $(".invoice-dates").html(answer.startdate + "<br>" + answer.duedate);
+            var file = "sales";
+            var variable = "customerid"
+            var value = answer.CustomerID;
+            customajaxRequest(file, variable, value, function(response) {
+                // console.log(response.name);
+                // const customername = response
+                // invoice header
+                if (response[0].name == "") {
+                    $(".invoice-name-number").html("Null <br>" + answer.InvoiceID + "<br>");
+                } else {
+                    $(".invoice-name-number").html(response[0].name + "<br>" + answer.InvoiceID + "<br>");
+                }
+            });
+            const invoiceid = answer.InvoiceID
+            const duedate = answer.DueDate
             
-            // invoice table
-            const productArray = JSON.parse(answer.products);
+     
 
-            productArray.map((product, index) => {
-                var barcodeProduct = product.id;
-                
-                var datum = new FormData();
-                datum.append("barcodeProduct", barcodeProduct);
+            $(".invoice-dates").html(answer.DateCreated + "<br>" + answer.DueDate);
+            
+            // invoice table                
+            var datum = new FormData();
+            datum.append("InvoiceID", answer.InvoiceID);
 
-                $.ajax({
+            $.ajax({
 
-                    url:"ajax/products.ajax.php",
-                    method: "POST",
-                    data: datum,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    dataType:"json",
-                    success:function(answer){
-                        // Get the table body
-                        var tbody = document.querySelector('#invoice-table tbody');
-                        
+                url:"ajax/sales.ajax.php",
+                method: "POST",
+                data: datum,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType:"json",
+                success:function(answer){
+                    // console.log(answer);
+                    // Get the table body
+                    var tbody = document.querySelector('#invoice-table tbody');
+                    
+                    for (var i = 0; i < answer.length; i++) {
                         // Create a new table row
                         var newRow = document.createElement('tr');
 
-                        var Cell1 = document.createElement('td');
-                        Cell1.textContent = index + 1;
-                        newRow.appendChild(Cell1);
+                        // var Cell1 = document.createElement('td');
+                        // Cell1.textContent = index + 1;
+                        // newRow.appendChild(Cell1);
                         
                         var Cell2 = document.createElement('td');
-                        Cell2.textContent = product.productName;
+                        Cell2.textContent = answer[i].product;
                         newRow.appendChild(Cell2);
                         
                         var Cell3 = document.createElement('td');
-                        Cell3.textContent = answer.barcode;
+                        Cell3.textContent = answer[i].barcode;
                         newRow.appendChild(Cell3);
                         
                         var Cell4 = document.createElement('td');
-                        Cell4.textContent = product.Quantity;
+                        Cell4.textContent = answer[i].Quantity;
                         newRow.appendChild(Cell4);
                         
                         var Cell5 = document.createElement('td');
-                        Cell5.textContent = product.salePrice;
+                        Cell5.textContent = answer[i].saleprice;
                         newRow.appendChild(Cell5);
                         
                         var Cell6 = document.createElement('td');
-                        Cell6.textContent = product.salePrice * product.Quantity;
+                        Cell6.textContent = answer[i].saleprice * answer[i].Quantity;
                         newRow.appendChild(Cell6);
                         
                         // Add the new row to the table body
                         tbody.appendChild(newRow);
-
-                    }, error: function() {
-                        Swal.fire("Error", "Failed to retrieve product data for the invoice from the server.", "error");
                     }
 
-                });
+                }, error: function() {
+                    Swal.fire("Error", "Failed to retrieve product data for the invoice from the server.", "error");
+                }
 
             });
 
             // invoice sums
-            $(".subtotal").text("Ksh " + formatCurrency(answer.subtotal));
-            $(".vat").text("Ksh " + formatCurrency(answer.totaltax));
-            $(".discount").text("Ksh " + formatCurrency(answer.discount));
-            $(".total").text("Ksh " + formatCurrency(answer.total));
-            $(".due").text("Ksh " + formatCurrency(answer.dueamount));
+            $(".subtotal").text("Ksh " + formatCurrency(answer.Subtotal));
+            $(".vat").text("Ksh " + formatCurrency(answer.TotalTax));
+            $(".discount").text("Ksh " + formatCurrency(answer.Discount));
+            $(".total").text("Ksh " + formatCurrency(answer.TotalTax));
+            $(".due").text("Ksh " + formatCurrency(answer.DueAmount));
 
             // var invoiceid = answer.invoiceId
             var payment_datum = new FormData();
-            payment_datum.append("invoiceid", answer.invoiceId);
+            payment_datum.append("invoiceid", answer.InvoiceID);
             $.ajax({
         
                 url:"ajax/payment.ajax.php",
@@ -278,6 +305,7 @@ function openInvoiceModal(idInvoice) {
                 processData: false,
                 dataType:"json",
                 success:function(answer){
+                    console.log(answer);
                     // Get the table body
                     var tbody = document.querySelector('#payment-table tbody');
                     
@@ -287,7 +315,7 @@ function openInvoiceModal(idInvoice) {
                         if (answer.hasOwnProperty(data)) {
                             const payment = answer[data];
 
-                            const amount = parseFloat(payment.amount); // Convert amount to a number
+                            const amount = parseFloat(payment.Amount); // Convert amount to a number
         
                             if (!isNaN(amount)) {
                                 totalAmount += amount;
@@ -297,19 +325,19 @@ function openInvoiceModal(idInvoice) {
                             var newRow = document.createElement('tr');
 
                             var Cell1 = document.createElement('td');
-                            var paymentButton = document.createElement('button');
+                            var paymentButton = document.createElement('div');
                             paymentButton.className = 'btn btn-sm btn-success';
-                            paymentButton.textContent = payment.paymentmethod;
+                            paymentButton.textContent = payment.PaymentMethod;
                             Cell1.appendChild(paymentButton);
                             newRow.appendChild(Cell1);
                             
                             var Cell2 = document.createElement('td');
-                            Cell2.textContent = payment.receiptNumber;
+                            Cell2.textContent = payment.ReceiptNumber;
                             newRow.appendChild(Cell2);
                             
 
                             var Cell3 = document.createElement('td');
-                            Cell3.textContent =  "Ksh " + formatCurrency(payment.amount);
+                            Cell3.textContent =  "Ksh " + formatCurrency(payment.Amount);
                             newRow.appendChild(Cell3);
                             
                             // Add the new row to the table body
@@ -347,7 +375,7 @@ function openInvoiceModal(idInvoice) {
     });
     
 }
-function openPaymentModal(receiptNumber, customername, invoiceid, duedate) {
+function openPaymentModal(receiptNumber, invoiceid, duedate) {
     // open the payment modal
     // $('#viewPaymentModal').modal('show');
     // Create a button element
@@ -382,13 +410,18 @@ function openPaymentModal(receiptNumber, customername, invoiceid, duedate) {
         dataType:"json",
         success:function(answer){
 
-            if (customername == "") {
-                $(".payment-col1").html("Null <br>" + invoiceid + "<br>" + answer.paymentmethod);
-            } else {
-                $(".payment-col1").html(customername + "<br>" + invoiceid + "<br>" +answer.paymentmethod);
-            }        
+            var file = "sales";
+            var variable = "customerid"
+            var value = answer.CustomerID;
+            customajaxRequest(file, variable, value, function(response) {
+                if (response[0].name == "") {
+                    $(".payment-col1").html("Null <br>" + answer.InvoiceID + "<br>" + answer.PaymentMethod);
+                } else {
+                    $(".payment-col1").html(response[0].name + "<br>" + answer.InvoiceID + "<br>" +answer.PaymentMethod);
+                }  
+            });     
 
-            $(".payment-col2").html(answer.amount + "<br>" + receiptNumber + "<br>" + duedate);
+            $(".payment-col2").html(answer.Amount + "<br>" + receiptNumber + "<br>" + duedate);
 
                         
             // Get the table body
@@ -410,7 +443,7 @@ function openPaymentModal(receiptNumber, customername, invoiceid, duedate) {
             
 
             var Cell3 = document.createElement('td');
-            Cell3.textContent =  "Ksh " + formatCurrency(answer.amount);
+            Cell3.textContent =  "Ksh " + formatCurrency(answer.Amount);
             newRow.appendChild(Cell3);
             
             // Add the new row to the table body
@@ -479,14 +512,11 @@ $(".tables tbody").on("click", "button.view-receipt", function(){
         processData: false,
         dataType:"json",
         success:function(answer){
-
-            const receiptNumber = answer.receiptNumber;
-            var customername = answer.customername;
-            const idInvoice = answer.invoiceId;
+            const receiptNumber = answer.ReceiptNumber;
+            const idInvoice = answer.InvoiceID;
             if (!customername) {
                 customername = "Null"
             }
-            console.log(customername);
         
             var payment_data = new FormData();
             payment_data.append("idInvoice", idInvoice);
@@ -502,7 +532,7 @@ $(".tables tbody").on("click", "button.view-receipt", function(){
                 dataType:"json",
                 success:function(answer){
 
-                    const duedate = answer.duedate;
+                    const duedate = answer.DueDate;
 
                     // $('#viewPaymentModal').modal('show');
                     // Create a button element
@@ -523,11 +553,11 @@ $(".tables tbody").on("click", "button.view-receipt", function(){
                     // Trigger a click event on the button
                     button.click();
                     
-                    openPaymentModal(receiptNumber, customername, idInvoice, duedate)
+                    openPaymentModal(receiptNumber, idInvoice, duedate)
         
                 }
                 
-            });
+            });            
 
         }
         

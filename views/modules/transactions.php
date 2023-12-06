@@ -50,22 +50,22 @@ require_once 'models/connection.php';
                         <?php
                         $pdo = connection::connect();
                         $storeid = $_SESSION['storeid'];
-                        $select = $pdo->prepare('SELECT * FROM payments WHERE store_id = :storeid');
+                        $select = $pdo->prepare('SELECT * FROM payments WHERE StoreID = :storeid');
                         $select->bindParam(':storeid', $storeid);
                         $select->execute();
                         $paymentResult = $select->fetchAll();
                         foreach ($paymentResult as $paymentKey => $paymentVal) {
-                            if ($paymentVal['amount'] > 0) {
+                            if ($paymentVal['Amount'] > 0) {
 
                                 echo '<tr>
                                         <td>' . ($paymentKey + 1) . '</td>
-                                        <td>' . $paymentVal["paymentid"] . '</td>
-                                        <td>' . $paymentVal["amount"] . '</td> 
-                                        <td>' . $paymentVal["paymentmethod"] . '</td>
-                                        <td>' . $paymentVal["date"] . '</td>
-                                        <td><button receipt="' . $paymentVal['receiptNumber'] . '" class="btn btn-s download-reciept"><i class="fa-solid fa-file-pdf"></i></button>
-                                        <button receipt="' . $paymentVal['receiptNumber'] . '" class="btn btn-s view-receipt"><i class="fa-solid fa-eye"></i></button>
-                                        <button receipt="' . $paymentVal['paymentid'] . '" class="btn btn-s delete-Transaction"><i class="fa-solid fa-trash"></i></button></td>
+                                        <td>' . $paymentVal["PaymentID"] . '</td>
+                                        <td>' . $paymentVal["Amount"] . '</td> 
+                                        <td>' . $paymentVal["PaymentMethod"] . '</td>
+                                        <td>' . $paymentVal["PaymentDate"] . '</td>
+                                        <td><button receipt="' . $paymentVal['ReceiptNumber'] . '" class="btn btn-s download-reciept"><i class="fa-solid fa-file-pdf"></i></button>
+                                        <button receipt="' . $paymentVal['ReceiptNumber'] . '" class="btn btn-s view-receipt"><i class="fa-solid fa-eye"></i></button>
+                                        <button receipt="' . $paymentVal['PaymentID'] . '" class="btn btn-s delete-Transaction"><i class="fa-solid fa-trash"></i></button></td>
                                     </tr>';
                             }
                         }
